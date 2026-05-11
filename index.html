@@ -18,6 +18,101 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+      :root {
+        --white-color: #ffffff;
+        --heading-color: #050505;
+        --body-color: #283248;
+        --accent-color: #ff6a1a;
+        --gray-color: #eef3ff;
+        --border-color: #d7e0ff;
+        --brand-blue: #356ff4;
+        --brand-blue-dark: #274fca;
+        --brand-black: #050505;
+        --brand-orange: #ff6a1a;
+      }
+
+      body {
+        background-color: #f6f8ff;
+      }
+
+      .td_site_header.td_style_1.td_type_3 {
+        background: linear-gradient(135deg, rgba(53, 111, 244, 0.96), rgba(39, 79, 202, 0.96));
+      }
+
+      .td_site_header.td_style_1.td_type_3.td_gescout_sticky {
+        background: rgba(5, 5, 5, 0.92);
+        backdrop-filter: blur(14px);
+      }
+
+      .td_site_header.td_style_1.td_type_3 .td_nav .td_nav_list > li > a,
+      .td_site_header.td_style_1.td_type_3 .td_header_dropdown_btn {
+        color: #fff;
+      }
+
+      .td_site_header.td_style_1.td_type_3 .td_main_header_left .td_site_branding {
+        display: inline-block !important;
+      }
+
+      .td_site_branding img {
+        max-height: 56px;
+        width: auto;
+      }
+
+      .td_heading_bg {
+        background-color: var(--brand-black);
+      }
+
+      .td_accent_bg {
+        background-color: var(--brand-orange);
+      }
+
+      .td_accent_color {
+        color: var(--brand-orange);
+      }
+
+      .td_hero.td_style_1 .td_hero_title span {
+        background-color: var(--brand-orange);
+        color: #fff;
+      }
+
+      .td_hero.td_style_1 {
+        background: linear-gradient(180deg, var(--brand-blue) 0%, #315fe7 55%, var(--brand-blue-dark) 100%) !important;
+      }
+
+      .td_hero.td_style_1::before {
+        background: rgba(5, 5, 5, 0.85);
+        filter: blur(220px);
+      }
+
+      .td_hero_btn_group::before {
+        background: linear-gradient(90deg, rgba(5, 5, 5, 0.14), rgba(255, 106, 26, 0.28));
+      }
+
+      .td_btn.td_style_1 .td_btn_in.td_accent_bg,
+      .td_btn.td_style_1 .td_btn_in {
+        background-color: var(--brand-orange);
+      }
+
+      .td_btn.td_style_1:hover .td_btn_in {
+        background-color: #e85c10;
+      }
+
+      .td_footer.td_style_1 {
+        background: linear-gradient(180deg, #0d0d0d 0%, #050505 100%);
+      }
+
+      .td_footer_bottom {
+        background-color: rgba(255, 255, 255, 0.04);
+      }
+
+      .td_gray_bg,
+      .td_gray_bg_4,
+      .td_gray_bg_5,
+      .td_gray_bg_6 {
+        background-color: #eef3ff;
+      }
+    </style>
   </head>
   <body>
     <!-- Start Preloader -->
@@ -34,115 +129,27 @@
         <div class="container-fluid">
           <div class="td_main_header_in">
             <div class="td_main_header_left">
-              <a class="td_site_branding" href="index.html">
-                <img src="assets/img/logo.svg" alt="Logo">
+              <a class="td_site_branding" href="index.html" style="display:inline-block;">
+                <img src="assets/images/logo/englishta.png" alt="Englishta Logo" style="max-height:56px; width:auto;">
               </a>
-              <div class="td_header_social_btns">
-                <a href="#" class="td_center">
-                  <i class="fa-brands fa-facebook-f"></i>
-                </a>
-                <a href="#" class="td_center">
-                  <i class="fa-brands fa-x-twitter"></i>
-                </a>
-                <a href="#" class="td_center">
-                  <i class="fa-brands fa-instagram"></i>
-                </a>
-                <a href="#" class="td_center">
-                  <i class="fa-brands fa-pinterest-p"></i>
-                </a>
-              </div>
             </div>
             <div class="td_main_header_center">
               <nav class="td_nav">
                 <div class="td_nav_list_wrap">
                   <div class="td_nav_list_wrap_in">
                     <ul class="td_nav_list">
-                      <li class="menu-item-has-children">
-                        <a href="index.html">Home</a>
-                        <ul>
-                          <li><a href="index.html">University</a></li>
-                          <li><a href="home-v2.html">Online Educations</a></li>
-                          <li><a href="home-v3.html">Education</a></li>
-                          <li><a href="home-v4.html">Kindergarten</a></li>
-                          <li><a href="home-v5.html">Modern Language</a></li>
-                          <li><a href="home-v6.html">Al-Quran Learning</a></li>
-                          <li><a href="home-v7.html">Motivation Speaker</a></li>
-                          <li><a href="home-v8.html">Kitchen Coach</a></li>
-                        </ul>
-                      </li>
-                      <li class="menu-item-has-children">
-                        <a href="products.html">Courses</a>
-                        <ul>
-                          <li><a href="courses-grid-view.html">Courses Grid View</a></li>
-                          <li><a href="courses-list-view.html">Courses List View</a></li>
-                          <li><a href="courses-grid-with-sidebar.html">Courses Grid With Sidebar</a></li>
-                          <li><a href="course-details.html">Course Details</a></li>
-                        </ul>
-                      </li>
-                      <li><a href="about.html">About</a></li>
-                    </ul>
-                    <a class="td_site_branding" href="index.html">
-                      <img src="assets/img/logo.svg" alt="Logo">
-                    </a>
-                    <ul class="td_nav_list">
-                      <li class="menu-item-has-children td_mega_menu">
-                        <a href="#">Pages</a>
-                        <ul class="td_mega_wrapper">
-                          <li class="menu-item-has-children">
-                            <h4>Inner Pages</h4>
-                            <ul>
-                              <li><a href="event.html">Upcoming Event</a></li>
-                              <li><a href="event-details.html">Event Details</a></li>
-                              <li><a href="team-members.html">Team Members</a></li>
-                              <li><a href="team-member-details.html">Team Details</a></li>
-                            </ul>
-                          </li>
-                          <li class="menu-item-has-children">
-                            <h4>Inner Pages</h4>
-                            <ul>
-                              <li><a href="students-registrations.html">Students Registrations</a></li>
-                              <li><a href="instructor-registrations.html">Instructor Registrations</a></li>
-                              <li><a href="signup.html">Signup</a></li>
-                              <li><a href="signin.html">Signin</a></li>
-                            </ul>
-                          </li>
-                          <li class="menu-item-has-children">
-                            <h4>Shop Pages</h4>
-                            <ul>
-                              <li><a href="faqs.html">Faqs</a></li>
-                              <li><a href="cart.html">Cart</a></li>
-                              <li><a href="checkout.html">Checkout</a></li>
-                              <li><a href="error.html">Error</a></li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-                      <li class="menu-item-has-children">
-                        <a href="#">Blogs</a>
-                        <ul>
-                          <li><a href="blog.html">Blogs</a></li>
-                          <li><a href="blog-with-sidebar.html">Blog With Sidebar</a></li>
-                          <li><a href="blog-details.html">Blog Details</a></li>
-                        </ul>
-                      </li>
-                      <li><a href="contact.html">Contact</a></li>
+                      <li><a href="index.html">Home</a></li>
+                      <li><a href="about.html">About Us</a></li>
+                      <li><a href="courses-grid-view.html">Courses</a></li>
+                      <li><a href="event.html">Webinar</a></li>
+                      <li><a href="contact.html">Contact Us</a></li>
                     </ul>
                   </div>
                 </div>
               </nav>
             </div>
             <div class="td_main_header_right">
-              <div class="position-relative td_language_wrap">
-                <button class="td_header_dropdown_btn td_medium td_heading_color">
-                  <span>English</span>  
-                  <img src="assets/img/icons/world.svg" alt="" class="td_header_dropdown_btn_icon">             
-                </button>
-                <ul class="td_header_dropdown_list td_mp_0">
-                  <li><a href="#">English</a></li>
-                  <li><a href="#">Spanish</a></li>
-                  <li><a href="#">Russian</a></li>
-                </ul>
-              </div>
+              
               <div class="position-relative">
                 <button class="td_circle_btn td_center td_search_tobble_btn" type="button">
                   <img src="assets/img/icons/search_2.svg" alt="">                                     
