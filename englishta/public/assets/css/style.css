@@ -14736,3 +14736,159 @@ button.td_icon_btn:hover {
 .td_video_showcase .td_card:hover {
   transform: rotate(0deg) translateY(-6px);
 }
+
+/* Englishta contact page */
+.englishta-contact-page {
+  background: #fff;
+}
+
+.englishta-contact-hero {
+  padding: 170px 0 90px;
+  background:
+    linear-gradient(rgba(10, 8, 0, 0.78), rgba(10, 8, 0, 0.78)),
+    url("https://picsum.photos/seed/englishta-contact/1600/900") center/cover;
+}
+
+.englishta-contact-hero h1 {
+  max-width: 850px;
+  color: #fff;
+  font-size: 58px;
+  line-height: 1.12;
+  margin-bottom: 22px;
+}
+
+.englishta-contact-hero p:last-child {
+  max-width: 720px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 19px;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.englishta-contact-section {
+  padding: 100px 0;
+}
+
+.englishta-contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(360px, 1.15fr);
+  gap: 44px;
+  align-items: start;
+}
+
+.englishta-contact-info {
+  display: grid;
+  gap: 18px;
+}
+
+.englishta-contact-card,
+.englishta-contact-note,
+.englishta-contact-form {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.06);
+}
+
+.englishta-contact-card {
+  display: flex;
+  gap: 18px;
+  padding: 24px;
+}
+
+.englishta-contact-card i {
+  width: 48px;
+  height: 48px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  color: #111;
+  background: var(--accent-color);
+}
+
+.englishta-contact-card h2 {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+
+.englishta-contact-card p,
+.englishta-contact-card a {
+  margin: 0;
+  color: var(--body-color);
+  font-size: 16px;
+}
+
+.englishta-contact-note {
+  padding: 26px;
+  background: #161100;
+}
+
+.englishta-contact-note h3 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.englishta-contact-note p {
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 0;
+}
+
+.englishta-contact-form {
+  padding: 34px;
+}
+
+.englishta-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.englishta-contact-form label {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+  color: var(--heading-color);
+  font-weight: 600;
+}
+
+.englishta-contact-form input,
+.englishta-contact-form select,
+.englishta-contact-form textarea {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: #fbfbfb;
+  color: var(--heading-color);
+  font: inherit;
+}
+
+.englishta-contact-form textarea {
+  resize: vertical;
+}
+
+@media (max-width: 991px) {
+  .englishta-contact-hero {
+    padding: 135px 0 70px;
+  }
+
+  .englishta-contact-hero h1 {
+    font-size: 42px;
+  }
+
+  .englishta-contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 575px) {
+  .englishta-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .englishta-contact-form {
+    padding: 24px;
+  }
+}
