@@ -36,10 +36,6 @@
     return $(selector).length > 0;
   };
 
-  $(window).on('load', function () {
-    preloader();
-  });
-
   $(function () {
     mainNav();
     stickyHeader();
@@ -63,14 +59,6 @@
   $(window).on('scroll', function () {
     showScrollUp();
   });
-
-  /*--------------------------------------------------------------
-    1. Preloader
-  --------------------------------------------------------------*/
-  function preloader() {
-    $('.td_preloader').fadeOut();
-    $('td_preloader_in').delay(150).fadeOut('slow');
-  }
 
   /*--------------------------------------------------------------
     2. Mobile Menu

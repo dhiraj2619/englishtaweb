@@ -96,7 +96,7 @@
   --white-color: #fff;
   --heading-color: #00001b;
   --body-color: #555;
-  --accent-color: #890c25;
+  --accent-color: #feb60c;
   --gray-color: #f4f3ef;
   --border-color: #d9d9d9;
   --heading-font: "Euclid Circular A", sans-serif;
@@ -237,7 +237,13 @@ a {
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
-
+.branddarkenglishta{
+  background-color: #241b0a;
+}
+.logomain{
+  height: 92px;
+  width: auto;
+}
 button {
   color: inherit;
   -webkit-transition: all 0.3s ease;
@@ -14694,3 +14700,39 @@ button.td_icon_btn:hover {
     font-size: 250px;
   }
 }/*# sourceMappingURL=style.css.map */
+/* Englishta video showcase */
+.td_video_showcase .td_video_thumb {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.td_video_showcase .td_video_thumb iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.td_video_showcase .td_card_info {
+  display: none;
+}
+
+.td_video_showcase .td_tilt_left {
+  transform: rotate(-2.5deg);
+}
+
+.td_video_showcase .td_tilt_right {
+  transform: rotate(2deg);
+}
+
+.td_video_showcase .td_tilt_soft_right {
+  transform: rotate(1.5deg);
+}
+
+.td_video_showcase .td_tilt_soft_left {
+  transform: rotate(-1.8deg);
+}
+
+.td_video_showcase .td_card:hover {
+  transform: rotate(0deg) translateY(-6px);
+}
