@@ -2126,12 +2126,46 @@ const Preloader = () => {
   );
 };
 
+const HomeBanner = () => {
+  return (
+    <section className="englishtaHeroShade" aria-label="Online English speaking course">
+      <div className="englishtaHeroShade__inner">
+        <div className="englishtaHeroShade__copy">
+          <p className="englishtaHeroShade__eyebrow">Online English Speaking Course</p>
+          <h1>
+            Speak English
+            <span> Confidently.</span>
+            <strong>Anytime. Anywhere.</strong>
+          </h1>
+          <p className="englishtaHeroShade__text">
+            Master English speaking with India&apos;s trusted platform. Practical learning, real-life results.
+          </p>
+          <div className="englishtaHeroShade__actions">
+            <a href="/contact-us" className="englishtaHeroShade__primary">
+              Join Free Demo Class
+            </a>
+            <a href="/courses" className="englishtaHeroShade__secondary">
+              Explore Courses
+            </a>
+          </div>
+        </div>
+
+        {/* <div className="englishtaHeroShade__visual">
+          <div className="englishtaHeroShade__circle" />
+          <img src="/assets/images/rightsidebanner1.png" alt="Student learning English online" />
+        </div> */}
+      </div>
+    </section>
+  );
+};
+
 const Home = () => {
   return (
     <>
       <Preloader />
       <Navbar />
-      <div dangerouslySetInnerHTML={{ __html: pageHtml }} />
+      <HomeBanner />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: pageHtml }} />
       <Footer />
     </>
   );

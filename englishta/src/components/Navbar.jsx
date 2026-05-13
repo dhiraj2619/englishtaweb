@@ -1,4 +1,8 @@
-const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky_header td_medium td_heading_color">
+"use client";
+
+import { useEffect, useState } from "react";
+
+const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky_header td_medium">
       <div class="td_main_header">
         <div class="container-fluid">
           <div class="td_main_header_in">
@@ -124,7 +128,25 @@ const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky
     </div>`;
 
 export default function Navbar() {
-  return <div dangerouslySetInnerHTML={{ __html: navbarHtml }} />;
+  const [hasScrolledPastThreshold, setHasScrolledPastThreshold] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHasScrolledPastThreshold(window.scrollY > 700);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div
+      className={hasScrolledPastThreshold ? "englishtaNavbar englishtaNavbar--scrolled" : "englishtaNavbar"}
+      dangerouslySetInnerHTML={{ __html: navbarHtml }}
+    />
+  );
 }
 
 
