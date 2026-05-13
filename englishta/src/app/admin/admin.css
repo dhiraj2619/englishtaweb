@@ -183,6 +183,46 @@
   resize: vertical;
 }
 
+.adminRichText {
+  border: 1px solid #d9deea;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.adminRichTextToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid #edf0f5;
+  background: #f8fafc;
+}
+
+.adminRichTextToolbar .adminButton {
+  min-height: 34px;
+  padding: 6px 11px;
+}
+
+.adminRichTextEditor {
+  min-height: 180px;
+  padding: 12px;
+  outline: none;
+}
+
+.adminRichTextEditor:focus {
+  background: #fffef8;
+}
+
+.adminRichTextEditor h1,
+.adminRichTextEditor h2,
+.adminRichTextEditor h3,
+.adminRichTextEditor p,
+.adminRichTextEditor ul,
+.adminRichTextEditor ol {
+  margin-top: 0;
+}
+
 .adminFull {
   grid-column: 1 / -1;
 }

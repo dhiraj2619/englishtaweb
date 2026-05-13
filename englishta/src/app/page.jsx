@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const pageHtml = `
+const rawPageHtml = `
     <section class="td_hero td_style_1 td_heading_bg td_center td_bg_filed" data-src="https://picsum.photos/seed/englishta-98/1600/900">
       <div class="container">
         <div class="td_hero_text wow fadeInRight" data-wow-duration="0.9s" data-wow-delay="0.35s">
@@ -2101,6 +2101,11 @@ const pageHtml = `
     </div>
     `;
 
+const pageHtml = rawPageHtml.replace(
+  /<section class="branddarkenglishta td_shape_section_1 td_video_showcase">[\s\S]*?<\/section>/,
+  "__ENGLISHTA_VIDEO_SECTION__",
+);
+
 const Preloader = () => {
   const [isVisible, setIsVisible] = useState(true);
 
@@ -2159,13 +2164,179 @@ const HomeBanner = () => {
   );
 };
 
+const videoCards = [
+  {
+    title: "Live One-to-One English Communication",
+    label: "Live",
+    channel: "Englishta",
+    image:
+      "https://images.unsplash.com/photo-1573496773905-f5b17e717f05?auto=format&fit=crop&w=1400&q=80",
+    className: "englishtaVideoShowcase__card--featured englishtaVideoShowcase__card--tiltLeft",
+  },
+  {
+    title: "Demo Class Highlights",
+    channel: "Englishta",
+    image:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
+    className: "englishtaVideoShowcase__card--tiltRight",
+  },
+  {
+    title: "Pronunciation Practice Sessions",
+    channel: "Englishta",
+    image:
+      "https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1400&q=80",
+    className: "englishtaVideoShowcase__card--tiltSoftLeft",
+  },
+  {
+    title: "Confident Speaking Drills",
+    channel: "Englishta",
+    image:
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80",
+    className: "englishtaVideoShowcase__card--tiltSoftRight",
+  },
+];
+
+const videoHighlights = [
+  {
+    icon: "fa-regular fa-calendar-check",
+    title: "Live & Recorded",
+    text: "Sessions",
+  },
+  {
+    icon: "fa-solid fa-language",
+    title: "Improve Speaking",
+    text: "Confidently",
+  },
+  {
+    icon: "fa-solid fa-users",
+    title: "Expert Trainers &",
+    text: "Real Practice",
+  },
+  {
+    icon: "fa-solid fa-chart-simple",
+    title: "Flexible Batches",
+    text: "For Everyone",
+  },
+];
+
+const VideoShowcase = () => {
+  return (
+    <section className="englishtaVideoShowcase" aria-label="Englishta training videos">
+      <div className="englishtaVideoShowcase__shell">
+        <div className="englishtaVideoShowcase__intro">
+          <div className="englishtaVideoShowcase__eyebrow">
+            <i className="fa-solid fa-play" />
+            <span>Live</span>
+            <span>Interactive</span>
+            <span>Result-Oriented</span>
+          </div>
+
+          <h2>
+            Watch Real
+            <span>English</span>
+            Training Sessions
+          </h2>
+
+          <p>
+            Watch practical Englishta lessons, demo classes, pronunciation tips, and speaking practice videos
+            designed for online English learners.
+          </p>
+
+          <div className="englishtaVideoShowcase__actions">
+            <a href="/courses" className="englishtaVideoShowcase__button">
+              <span className="englishtaVideoShowcase__buttonIcon">
+                <i className="fa-solid fa-play" />
+              </span>
+              <span>Explore Courses</span>
+              <i className="fa-solid fa-arrow-up-right-from-square" />
+            </a>
+
+            <div className="englishtaVideoShowcase__learners">
+              <span className="englishtaVideoShowcase__learnersIcon">
+                <i className="fa-solid fa-user-group" />
+              </span>
+              <div>
+                <strong>Join 10K+</strong>
+                <span>Happy Learners</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="englishtaVideoShowcase__miniBrand">
+            <span>EN</span>
+            <div>
+              <strong>English Better.</strong>
+              <small>Future Brighter.</small>
+            </div>
+          </div>
+        </div>
+
+        <div className="englishtaVideoShowcase__grid">
+          {videoCards.map((card) => (
+            <a href="/webinar" className={`englishtaVideoShowcase__card ${card.className ?? ""}`} key={card.title}>
+              <img src={card.image} alt={card.title} />
+              <div className="englishtaVideoShowcase__overlay" />
+              <div className="englishtaVideoShowcase__network" />
+              <div className="englishtaVideoShowcase__cardMeta">
+                <span className="englishtaVideoShowcase__avatar">
+                  {card.channel.slice(0, 1)}
+                </span>
+                <div>
+                  <strong>{card.channel}</strong>
+                  <span>{card.title}</span>
+                </div>
+              </div>
+              {card.label ? <span className="englishtaVideoShowcase__liveTag">{card.label}</span> : null}
+              <span className="englishtaVideoShowcase__play">
+                <i className="fa-brands fa-youtube" />
+              </span>
+              <div className="englishtaVideoShowcase__cardTitle">
+                <div className="englishtaVideoShowcase__cardTitleMain">
+                  <span className="englishtaVideoShowcase__miniPlay">
+                    <i className="fa-solid fa-play" />
+                  </span>
+                  <h3>{card.title}</h3>
+                </div>
+                <span>
+                  <i className="fa-solid fa-angle-right" />
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div className="englishtaVideoShowcase__featureBar">
+          {videoHighlights.map((item) => (
+            <div className="englishtaVideoShowcase__feature" key={item.title}>
+              <span className="englishtaVideoShowcase__featureIcon">
+                <i className={item.icon} />
+              </span>
+              <div>
+                <strong>{item.title}</strong>
+                <span>{item.text}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Home = () => {
+  const { beforeVideos, afterVideos } = useMemo(() => {
+    const [before = "", after = ""] = pageHtml.split("__ENGLISHTA_VIDEO_SECTION__");
+    return { beforeVideos: before, afterVideos: after };
+  }, []);
+
   return (
     <>
       <Preloader />
       <Navbar />
       <HomeBanner />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: pageHtml }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: beforeVideos }} />
+      <VideoShowcase />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: afterVideos }} />
       <Footer />
     </>
   );
