@@ -4,7 +4,7 @@ const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky
           <div class="td_main_header_in">
             <div class="td_main_header_left">
               <a class="td_site_branding" href="index.html">
-                <img src="https://picsum.photos/seed/englishta-100/900/600" alt="Logo">
+                <img src="/assets/images/logo/logoenglishta.png" style="height:80px" alt="Logo">
               </a>
               <div class="td_header_social_btns">
                 <a href="#" class="td_center">
@@ -120,8 +120,11 @@ const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky
             </a>
           </div>
         </div>
-      </div>`;
+      </div>
+    </div>`;
 
 export default function Navbar() {
   return <div dangerouslySetInnerHTML={{ __html: navbarHtml }} />;
 }
+
+
