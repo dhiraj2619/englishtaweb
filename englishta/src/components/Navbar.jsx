@@ -31,22 +31,22 @@ const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky
                   <div class="td_nav_list_wrap_in">
                     <ul class="td_nav_list">
                       <li><a href="/">Home</a></li>
-                      <li><a href="/about-us">About Us</a></li>
+                      <li><a href="/courses">Courses</a></li>
                     </ul>
                     <a class="td_site_branding" href="/">
                       <img src="/assets/images/logo/logoenglishta.png" class="logomain" alt="Logo">
                     </a>
                     <ul class="td_nav_list">
-                      <li><a href="/courses">Courses</a></li>
                       <li><a href="/webinar">Webinar</a></li>
+                      <li><a href="/about-us">About</a></li>
                       <li><a href="/contact-us">Contact Us</a></li>
+                     
                     </ul>
                   </div>
                 </div>
               </nav>
             </div>
             <div class="td_main_header_right">
-             
               <div class="position-relative">
                 <button class="td_circle_btn td_center td_search_tobble_btn" type="button">
                                                 

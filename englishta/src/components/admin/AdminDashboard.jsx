@@ -41,8 +41,7 @@ const emptyForms = {
   },
   videos: {
     title: "",
-    youtubeUrl: "",
-    category: "Learning",
+    youtubeIframe: "",
     visible: "Yes",
   },
   webinars: {
@@ -91,10 +90,10 @@ const starterData = {
   ],
   videos: [
     {
-      id: "video-1",
+      _id: "video-1",
       title: "English Speaking Demo Class",
-      youtubeUrl: "https://youtube.com/watch?v=demo",
-      category: "Demo",
+      youtubeIframe:
+        '<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="English Speaking Demo Class"></iframe>',
       visible: "Yes",
     },
   ],
@@ -135,8 +134,7 @@ const columns = {
   ],
   videos: [
     ["title", "Title"],
-    ["youtubeUrl", "YouTube URL"],
-    ["category", "Category"],
+    ["youtubeIframe", "YouTube Thumbnail"],
     ["visible", "Visible"],
   ],
   webinars: [
@@ -171,6 +169,8 @@ export default function AdminDashboard() {
   const [editingId, setEditingId] = useState(null);
   const [coursesLoading, setCoursesLoading] = useState(false);
   const [coursesError, setCoursesError] = useState("");
+  const [videosLoading, setVideosLoading] = useState(false);
+  const [videosError, setVideosError] = useState("");
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
   const [thumbnailUploadError, setThumbnailUploadError] = useState("");
   const activeConfig = modules.find((item) => item.key === activeModule);
@@ -193,6 +193,7 @@ export default function AdminDashboard() {
     setForm(emptyForms[moduleKey]);
     setEditingId(null);
     setThumbnailUploadError("");
+    setVideosError("");
   }
 
   async function fetchCourses() {
@@ -218,9 +219,33 @@ export default function AdminDashboard() {
     }
   }
 
+  async function fetchVideos() {
+    setVideosLoading(true);
+    setVideosError("");
+
+    try {
+      const response = await fetch("/api/youtube-videos", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load YouTube videos.");
+      }
+
+      setData((current) => ({
+        ...current,
+        videos: payload.data,
+      }));
+    } catch (error) {
+      setVideosError(error.message || "Failed to load YouTube videos.");
+    } finally {
+      setVideosLoading(false);
+    }
+  }
+
   useEffect(() => {
     const timerId = window.setTimeout(() => {
       fetchCourses();
+      fetchVideos();
     }, 0);
 
     return () => window.clearTimeout(timerId);
@@ -236,6 +261,7 @@ export default function AdminDashboard() {
     setForm(emptyForms[activeModule]);
     setEditingId(null);
     setThumbnailUploadError("");
+    setVideosError("");
   }
 
   async function uploadCourseThumbnail(file) {
@@ -314,6 +340,43 @@ export default function AdminDashboard() {
       return;
     }
 
+    if (activeModule === "videos") {
+      try {
+        setVideosError("");
+
+        const response = await fetch(editingId ? `/api/youtube-videos/${editingId}` : "/api/youtube-videos", {
+          method: editingId ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to save YouTube video.");
+        }
+
+        setData((current) => {
+          const list = current.videos ?? [];
+
+          return {
+            ...current,
+            videos: editingId
+              ? list.map((item) => ((item._id ?? item.id) === editingId ? payload.data : item))
+              : [payload.data, ...list],
+          };
+        });
+
+        resetForm();
+        await fetchVideos();
+      } catch (error) {
+        setVideosError(error.message || "Failed to save YouTube video.");
+      }
+
+      return;
+    }
+
     setData((current) => {
       const list = current[activeModule] ?? [];
       const nextItem = {
@@ -369,6 +432,42 @@ export default function AdminDashboard() {
         }
       } catch (error) {
         setCoursesError(error.message || "Failed to delete course.");
+      }
+
+      return;
+    }
+
+    if (activeModule === "videos") {
+      const confirmed = window.confirm("Delete this YouTube video?");
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        setVideosError("");
+
+        const response = await fetch(`/api/youtube-videos/${id}`, {
+          method: "DELETE",
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to delete YouTube video.");
+        }
+
+        setData((current) => ({
+          ...current,
+          videos: current.videos.filter((item) => (item._id ?? item.id) !== id),
+        }));
+
+        if (editingId === id) {
+          resetForm();
+        }
+
+        await fetchVideos();
+      } catch (error) {
+        setVideosError(error.message || "Failed to delete YouTube video.");
       }
 
       return;
@@ -438,7 +537,7 @@ export default function AdminDashboard() {
                 <p>{activeConfig.description}</p>
               </div>
               <button type="button" className="adminButton adminButtonAlt" onClick={resetForm}>
-                New {activeConfig.label.slice(0, -1)}
+                {activeModule === "videos" ? "New YouTube Video" : `New ${activeConfig.label.slice(0, -1)}`}
               </button>
             </div>
 
@@ -455,13 +554,14 @@ export default function AdminDashboard() {
             />
 
             {activeModule === "courses" && coursesError ? <div className="adminEmpty">{coursesError}</div> : null}
+            {activeModule === "videos" && videosError ? <div className="adminEmpty">{videosError}</div> : null}
 
             <AdminTable
               moduleKey={activeModule}
               items={data[activeModule] ?? []}
               onEdit={editItem}
               onDelete={deleteItem}
-              loading={activeModule === "courses" && coursesLoading}
+              loading={(activeModule === "courses" && coursesLoading) || (activeModule === "videos" && videosLoading)}
             />
           </section>
         </main>
@@ -508,8 +608,7 @@ function AdminForm({
     ],
     videos: [
       ["title", "Video Title", "input"],
-      ["youtubeUrl", "YouTube URL", "input"],
-      ["category", "Category", "select", ["Learning", "Demo", "Testimonial"]],
+      ["youtubeIframe", "YouTube Iframe Embed Code", "textarea", "adminFull"],
       ["visible", "Display on Website", "select", ["Yes", "No"]],
     ],
     webinars: [
@@ -692,6 +791,8 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                       alt={item.name ?? "Course thumbnail"}
                       style={{ width: "72px", height: "48px", objectFit: "cover", borderRadius: "8px" }}
                     />
+                  ) : key === "youtubeIframe" ? (
+                    <div className="adminYoutubePreview" dangerouslySetInnerHTML={{ __html: item[key] }} />
                   ) : ["allowBooking", "visible", "status", "type"].includes(key) ? (
                     <span className="adminBadge">{item[key]}</span>
                   ) : (

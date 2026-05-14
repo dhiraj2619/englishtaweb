@@ -1,18 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const rawPageHtml = `
-    <section class="td_hero td_style_1 td_heading_bg td_center td_bg_filed" data-src="https://picsum.photos/seed/englishta-98/1600/900">
-      <div class="container">
-        <div class="td_hero_text wow fadeInRight" data-wow-duration="0.9s" data-wow-delay="0.35s">
-          <p class="td_hero_subtitle_up td_fs_18 td_white_color td_spacing_1 td_semibold text-uppercase td_mb_10 td_opacity_9">Speak English With Confidence</p>
-          <h1 class="td_hero_title td_fs_64 td_white_color td_mb_12"><span>Englishta</span> - Online English Speaking Academy From Nashik </h1>
-          <p class="td_hero_subtitle td_fs_18 td_white_color td_opacity_7 td_mb_30">Learn spoken English online with practical conversation practice, pronunciation correction, grammar support, and confidence-building sessions led from Nashik.</p>
-          <a href="courses-grid-view.html" class="td_btn td_style_1 td_radius_10 td_medium">
-            <span class="td_btn_in td_white_color td_accent_bg">
+    <section className="td_hero td_style_1 td_heading_bg td_center td_bg_filed" data-src="https://picsum.photos/seed/englishta-98/1600/900">
+      <div className="container">
+        <div className="td_hero_text wow fadeInRight" data-wow-duration="0.9s" data-wow-delay="0.35s">
+          <p className="td_hero_subtitle_up td_fs_18 td_white_color td_spacing_1 td_semibold text-uppercase td_mb_10 td_opacity_9">Speak English With Confidence</p>
+          <h1 className="td_hero_title td_fs_64 td_white_color td_mb_12"><span>Englishta</span> - Online English Speaking Academy From Nashik </h1>
+          <p className="td_hero_subtitle td_fs_18 td_white_color td_opacity_7 td_mb_30">Learn spoken English online with practical conversation practice, pronunciation correction, grammar support, and confidence-building sessions led from Nashik.</p>
+          <a href="courses-grid-view.html" className="td_btn td_style_1 td_radius_10 td_medium">
+            <span className="td_btn_in td_white_color td_accent_bg">
               <span>Explore Courses</span>
               <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -22,17 +22,17 @@ const rawPageHtml = `
           </a>
         </div>
       </div>
-      <div class="td_lines">
+      <div className="td_lines">
         <span></span>
         <span></span>
         <span></span>
         <span></span>
       </div>
     </section>
-    <div class="container">
-      <div class="td_hero_btn_group">
-        <a href="courses-grid-view.html" class="td_btn td_style_1 td_radius_10 td_medium td_fs_20 wow fadeInUp" data-wow-duration="0.9s" data-wow-delay="0.35s">
-          <span class="td_btn_in td_white_color branddarkenglishta">
+    <div className="container">
+      <div className="td_hero_btn_group">
+        <a href="courses-grid-view.html" className="td_btn td_style_1 td_radius_10 td_medium td_fs_20 wow fadeInUp" data-wow-duration="0.9s" data-wow-delay="0.35s">
+          <span className="td_btn_in td_white_color branddarkenglishta">
             <span>Join Online Batch</span>
             <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -40,8 +40,8 @@ const rawPageHtml = `
             </svg> 
           </span>             
         </a>
-        <a href="signup.html" class="td_btn td_style_1 td_radius_10 td_medium td_fs_20 wow fadeInUp" data-wow-duration="0.9s" data-wow-delay="0.35s">
-          <span class="td_btn_in td_white_color branddarkenglishta">
+        <a href="signup.html" className="td_btn td_style_1 td_radius_10 td_medium td_fs_20 wow fadeInUp" data-wow-duration="0.9s" data-wow-delay="0.35s">
+          <span className="td_btn_in td_white_color branddarkenglishta">
             <span>Book Free Demo</span>
             <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.7945 12.2734H8.95703C8.74129 12.2734 8.56641 12.4484 8.56641 12.6641V14.768C8.56641 14.9837 8.74129 15.1587 8.95703 15.1587H10.7945C11.0102 15.1587 11.1851 14.9837 11.1851 14.768V12.6641C11.1851 12.4483 11.0102 12.2734 10.7945 12.2734ZM10.4038 14.3774H9.34766V13.0547H10.4038V14.3774Z" fill="currentColor"/>
@@ -50,11 +50,11 @@ const rawPageHtml = `
             </svg> 
           </span>             
         </a>
-        <a href="#" class="td_btn td_style_1 td_radius_10 td_medium td_fs_20 wow fadeInUp" data-wow-duration="0.9s" data-wow-delay="0.35s">
-          <span class="td_btn_in td_white_color branddarkenglishta">
+        <a href="#" className="td_btn td_style_1 td_radius_10 td_medium td_fs_20 wow fadeInUp" data-wow-duration="0.9s" data-wow-delay="0.35s">
+          <span className="td_btn_in td_white_color branddarkenglishta">
             <span>WhatsApp Us</span>
           <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_34_1694)">
+            <g clipPath="url(#clip0_34_1694)">
             <path d="M2.80635 15.5992C2.13805 15.5992 1.48514 15.4286 0.893423 15.0964C0.588974 14.9396 0.471056 14.5473 0.652933 14.2522C1.25723 13.2866 1.47544 12.1062 1.19876 10.9962C0.911987 9.84535 0.497046 8.87611 0.500016 7.65782C0.510313 3.38361 4.06791 -0.0814611 8.33776 0.0014578C12.4619 0.0845253 15.8608 3.55138 15.8609 7.67663C15.8609 13.0643 10.2146 16.8469 5.22991 14.7664C4.54285 15.3057 3.67925 15.5992 2.80635 15.5992ZM1.99429 14.2838C2.93328 14.5754 3.98934 14.3424 4.71344 13.6424C4.89185 13.4699 5.15872 13.4265 5.38258 13.5335C9.65016 15.5739 14.6728 12.3758 14.6727 7.67663C14.6727 4.17008 11.8201 1.2599 8.31385 1.1893C4.70047 1.11752 1.69682 4.04399 1.68811 7.66069C1.68529 8.81785 2.13676 9.74263 2.38349 10.8388C2.64343 11.994 2.50651 13.2155 1.99429 14.2838Z" fill="currentColor"/>
             <path d="M18.193 20.0027C17.3201 20.0027 16.4565 19.7092 15.7695 19.17C13.1186 20.2763 9.96528 19.7725 7.79172 17.8954C7.5434 17.6809 7.51598 17.3059 7.73038 17.0575C7.94483 16.8092 8.31992 16.7817 8.56823 16.9962C10.496 18.661 13.3193 19.0355 15.6168 17.9371C15.8406 17.83 16.1074 17.8735 16.2859 18.046C17.01 18.746 18.0661 18.9791 19.0051 18.6873C18.4008 17.427 18.3171 15.9831 18.7854 14.6464C18.7896 14.6344 18.7942 14.6225 18.7991 14.6108C19.1411 13.8046 19.3134 12.9478 19.3113 12.0642C19.3075 10.5065 18.7893 9.06544 17.8126 7.89691C17.6022 7.64513 17.6358 7.27053 17.8875 7.06014C18.1392 6.8497 18.5139 6.88326 18.7242 7.13499C19.8646 8.49937 20.495 10.2489 20.4994 12.0614C20.5019 13.0995 20.3005 14.107 19.9008 15.0563C19.4809 16.2718 19.674 17.5732 20.3464 18.6557C20.5284 18.9508 20.4104 19.3431 20.1058 19.5C19.5142 19.8321 18.8612 20.0027 18.193 20.0027Z" fill="currentColor"/>
             <path d="M8.18217 8.64459C8.7013 8.64459 9.12215 8.22397 9.12215 7.70511C9.12215 7.18625 8.7013 6.76562 8.18217 6.76562C7.66303 6.76562 7.24219 7.18625 7.24219 7.70511C7.24219 8.22397 7.66303 8.64459 8.18217 8.64459Z" fill="currentColor"/>
@@ -74,48 +74,48 @@ const rawPageHtml = `
     
     
     <section>
-      <div class="td_height_120 td_height_lg_80"></div>
-      <div class="td_about td_style_1">
-        <div class="container">
-          <div class="row align-items-center td_gap_y_40">
-            <div class="col-lg-6 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.25s">
-              <div class="td_about_thumb_wrap">
-                <div class="td_about_year text-uppercase td_fs_64 td_bold">ONLINE</div>
-                <div class="td_about_thumb_1">
+      <div className="td_height_120 td_height_lg_80"></div>
+      <div className="td_about td_style_1">
+        <div className="container">
+          <div className="row align-items-center td_gap_y_40">
+            <div className="col-lg-6 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.25s">
+              <div className="td_about_thumb_wrap">
+                <div className="td_about_year text-uppercase td_fs_64 td_bold">ONLINE</div>
+                <div className="td_about_thumb_1">
                   <img src="https://picsum.photos/seed/englishta-1/900/600" alt="">
                 </div>
-                <div class="td_about_thumb_2">
+                <div className="td_about_thumb_2">
                   <img src="https://picsum.photos/seed/englishta-2/900/600" alt="">
                 </div>
-                <a href="https://www.youtube.com/embed/rRid6GCJtgc" class="td_circle_text td_center td_video_open">
+                <a href="https://www.youtube.com/embed/rRid6GCJtgc" className="td_circle_text td_center td_video_open">
                   <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M14.086 8.63792C14.6603 9.03557 14.6603 9.88459 14.086 10.2822L2.54766 18.2711C1.88444 18.7303 0.978418 18.2557 0.978418 17.449L0.978418 1.47118C0.978418 0.664496 1.88444 0.189811 2.54767 0.649016L14.086 8.63792Z" fill="white"/>
                   </svg>   
-                  <img src="https://picsum.photos/seed/englishta-3/900/600" alt="" class="">                 
+                  <img src="https://picsum.photos/seed/englishta-3/900/600" alt="" className="">                 
                 </a>
-                <div class="td_circle_shape"></div>
+                <div className="td_circle_shape"></div>
               </div>
             </div>
-            <div class="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
-              <div class="td_section_heading td_style_1 td_mb_30">
-                <p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">About us</p>
-                <h2 class="td_section_title td_fs_48 mb-0">The largest & Most Diverse Universities in the United Emirates</h2>
-                <p class="td_section_subtitle td_fs_18 mb-0">Englishta helps learners from Nashik and beyond improve fluency through live online classes, daily speaking drills, vocabulary practice, and personal feedback. a large language ocean</p>
+            <div className="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
+              <div className="td_section_heading td_style_1 td_mb_30">
+                <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">About us</p>
+                <h2 className="td_section_title td_fs_48 mb-0">The largest & Most Diverse Universities in the United Emirates</h2>
+                <p className="td_section_subtitle td_fs_18 mb-0">Englishta helps learners from Nashik and beyond improve fluency through live online classes, daily speaking drills, vocabulary practice, and personal feedback. a large language ocean</p>
               </div>
-              <div class="td_mb_40">
-                <ul class="td_list td_style_5 td_mp_0">
+              <div className="td_mb_40">
+                <ul className="td_list td_style_5 td_mp_0">
                   <li>
-                    <h3 class="td_fs_24 td_mb_8">Spoken English Training</h3>
-                    <p class="td_fs_18 mb-0">Live practice for clear, confident communication</p>
+                    <h3 className="td_fs_24 td_mb_8">Spoken English Training</h3>
+                    <p className="td_fs_18 mb-0">Live practice for clear, confident communication</p>
                   </li>
                   <li>
-                    <h3 class="td_fs_24 td_mb_8">Interview English</h3>
-                    <p class="td_fs_18 mb-0">Live practice for clear, confident communication</p>
+                    <h3 className="td_fs_24 td_mb_8">Interview English</h3>
+                    <p className="td_fs_18 mb-0">Live practice for clear, confident communication</p>
                   </li>
                 </ul>
               </div>
-              <a href="courses-grid-view.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                <span class="td_btn_in td_white_color td_accent_bg">
+              <a href="courses-grid-view.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                <span className="td_btn_in td_white_color td_accent_bg">
                   <span>Know More</span>
                   <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -127,69 +127,69 @@ const rawPageHtml = `
           </div>
         </div>
       </div>
-      <div class="td_height_120 td_height_lg_80"></div>
+      <div className="td_height_120 td_height_lg_80"></div>
     </section>
     
     
-    <section class="td_gray_bg_3">
-      <div class="td_height_112 td_height_lg_75"></div>
-      <div class="container">
-        <div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
-          <p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Popular Courses</p>
-          <h2 class="td_section_title td_fs_48 mb-0">English Speaking Courses</h2>
+    <section className="td_gray_bg_3">
+      <div className="td_height_112 td_height_lg_75"></div>
+      <div className="container">
+        <div className="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
+          <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Popular Courses</p>
+          <h2 className="td_section_title td_fs_48 mb-0">English Speaking Courses</h2>
         </div>
-        <div class="td_height_30 td_height_lg_30"></div>
-        <div class="td_tabs">
-          <ul class="td_tab_links td_style_1 td_mp_0 td_fs_20 td_medium td_heading_color wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-            <li class="active"><a href="#tab_1">Speaking</a></li>
+        <div className="td_height_30 td_height_lg_30"></div>
+        <div className="td_tabs">
+          <ul className="td_tab_links td_style_1 td_mp_0 td_fs_20 td_medium td_heading_color wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+            <li className="active"><a href="#tab_1">Speaking</a></li>
             <li><a href="#tab_2">Interview</a></li>
             <li><a href="#tab_3">Online</a></li>
             <li><a href="#tab_4">Weekend Batch</a></li>
           </ul>
-          <div class="td_height_50 td_height_lg_50"></div>
-          <div class="td_tab_body">
-            <div class="td_tab active" id="tab_1">
-              <div class="row td_gap_y_24">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+          <div className="td_height_50 td_height_lg_50"></div>
+          <div className="td_tab_body">
+            <div className="td_tab active" id="tab_1">
+              <div className="row td_gap_y_24">
+                <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-4/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-5/900/600" alt="">
-                            <span class="td_opacity_7">Live Batch</span>
+                            <span className="td_opacity_7">Live Batch</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-6/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Data Analytics</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Starting Reputed Education & Build your Skills</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Build fluency with practical online speaking practice, trainer feedback, and simple daily exercises.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Data Analytics</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Starting Reputed Education & Build your Skills</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Build fluency with practical online speaking practice, trainer feedback, and simple daily exercises.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -198,46 +198,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-7/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-8/900/600" alt="">
-                            <span class="td_opacity_7">Small Group</span>
+                            <span className="td_opacity_7">Small Group</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-9/900/600" alt="">
-                            <span class="td_opacity_7">10 Weeks</span>
+                            <span className="td_opacity_7">10 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Software Engeneer</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Master Technology & Elevate Your Career</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Unlock the power of technology to drive your career forward.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Software Engeneer</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Master Technology & Elevate Your Career</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Unlock the power of technology to drive your career forward.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/10 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/10 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -246,46 +246,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-10/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-11/900/600" alt="">
-                            <span class="td_opacity_7">Online Mode</span>
+                            <span className="td_opacity_7">Online Mode</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-12/900/600" alt="">
-                            <span class="td_opacity_7">6 Weeks</span>
+                            <span className="td_opacity_7">6 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Bachelor Of Arts</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Boost Creativity & Expand Your Horizons</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Discover innovative techniques to enhance your creative thinking.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Bachelor Of Arts</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Boost Creativity & Expand Your Horizons</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Discover innovative techniques to enhance your creative thinking.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/12 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/12 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -294,46 +294,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-13/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-14/900/600" alt="">
-                            <span class="td_opacity_7">Practice Led</span>
+                            <span className="td_opacity_7">Practice Led</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-15/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Business Administrator</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Hone Leadership & Achieve Success</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Develop essential leadership skills to excel in any industry.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Business Administrator</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Hone Leadership & Achieve Success</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Develop essential leadership skills to excel in any industry.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/30 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/30 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -342,46 +342,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-16/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-17/900/600" alt="">
-                            <span class="td_opacity_7">1:1 Option</span>
+                            <span className="td_opacity_7">1:1 Option</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-18/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Fine of Arts</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Learn Coding & Advance Your Skills Up</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Practice useful English for daily conversations, interviews, meetings, and public speaking.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Fine of Arts</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Learn Coding & Advance Your Skills Up</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Practice useful English for daily conversations, interviews, meetings, and public speaking.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -390,46 +390,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-19/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-20/900/600" alt="">
-                            <span class="td_opacity_7">Weekend Batch</span>
+                            <span className="td_opacity_7">Weekend Batch</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-21/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Computer Science</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Explore Marketing & Build Your Brand</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Master marketing strategies to grow your personal or business brand.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Computer Science</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Explore Marketing & Build Your Brand</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Master marketing strategies to grow your personal or business brand.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/15 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/15 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -440,48 +440,48 @@ const rawPageHtml = `
                 </div>
               </div>
             </div>
-            <div class="td_tab" id="tab_2">
-              <div class="row td_gap_y_24">
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+            <div className="td_tab" id="tab_2">
+              <div className="row td_gap_y_24">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-22/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-23/900/600" alt="">
-                            <span class="td_opacity_7">Online Mode</span>
+                            <span className="td_opacity_7">Online Mode</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-24/900/600" alt="">
-                            <span class="td_opacity_7">6 Weeks</span>
+                            <span className="td_opacity_7">6 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Bachelor Of Arts</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Boost Creativity & Expand Your Horizons</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Discover innovative techniques to enhance your creative thinking.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Bachelor Of Arts</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Boost Creativity & Expand Your Horizons</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Discover innovative techniques to enhance your creative thinking.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/12 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/12 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -490,46 +490,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-25/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-26/900/600" alt="">
-                            <span class="td_opacity_7">Practice Led</span>
+                            <span className="td_opacity_7">Practice Led</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-27/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Business Administrator</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Hone Leadership & Achieve Success</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Develop essential leadership skills to excel in any industry.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Business Administrator</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Hone Leadership & Achieve Success</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Develop essential leadership skills to excel in any industry.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/30 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/30 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -538,46 +538,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-28/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-29/900/600" alt="">
-                            <span class="td_opacity_7">Live Batch</span>
+                            <span className="td_opacity_7">Live Batch</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-30/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Data Analytics</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Starting Reputed Education & Build your Skills</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Build fluency with practical online speaking practice, trainer feedback, and simple daily exercises.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Data Analytics</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Starting Reputed Education & Build your Skills</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Build fluency with practical online speaking practice, trainer feedback, and simple daily exercises.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -586,46 +586,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-31/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-32/900/600" alt="">
-                            <span class="td_opacity_7">Small Group</span>
+                            <span className="td_opacity_7">Small Group</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-33/900/600" alt="">
-                            <span class="td_opacity_7">10 Weeks</span>
+                            <span className="td_opacity_7">10 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Software Engeneer</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Master Technology & Elevate Your Career</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Unlock the power of technology to drive your career forward.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Software Engeneer</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Master Technology & Elevate Your Career</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Unlock the power of technology to drive your career forward.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/10 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/10 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -634,46 +634,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-34/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-35/900/600" alt="">
-                            <span class="td_opacity_7">1:1 Option</span>
+                            <span className="td_opacity_7">1:1 Option</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-36/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Fine of Arts</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Learn Coding & Advance Your Skills Up</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Practice useful English for daily conversations, interviews, meetings, and public speaking.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Fine of Arts</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Learn Coding & Advance Your Skills Up</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Practice useful English for daily conversations, interviews, meetings, and public speaking.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -682,46 +682,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-37/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-38/900/600" alt="">
-                            <span class="td_opacity_7">Weekend Batch</span>
+                            <span className="td_opacity_7">Weekend Batch</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-39/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Computer Science</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Explore Marketing & Build Your Brand</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Master marketing strategies to grow your personal or business brand.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Computer Science</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Explore Marketing & Build Your Brand</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Master marketing strategies to grow your personal or business brand.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/15 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/15 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -732,48 +732,48 @@ const rawPageHtml = `
                 </div>
               </div>
             </div>
-            <div class="td_tab" id="tab_3">
-              <div class="row td_gap_y_24">
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+            <div className="td_tab" id="tab_3">
+              <div className="row td_gap_y_24">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-40/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-41/900/600" alt="">
-                            <span class="td_opacity_7">Practice Led</span>
+                            <span className="td_opacity_7">Practice Led</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-42/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Business Administrator</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Hone Leadership & Achieve Success</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Develop essential leadership skills to excel in any industry.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Business Administrator</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Hone Leadership & Achieve Success</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Develop essential leadership skills to excel in any industry.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/30 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/30 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -782,46 +782,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-43/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-44/900/600" alt="">
-                            <span class="td_opacity_7">1:1 Option</span>
+                            <span className="td_opacity_7">1:1 Option</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-45/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Fine of Arts</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Learn Coding & Advance Your Skills Up</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Practice useful English for daily conversations, interviews, meetings, and public speaking.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Fine of Arts</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Learn Coding & Advance Your Skills Up</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Practice useful English for daily conversations, interviews, meetings, and public speaking.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -830,46 +830,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-46/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-47/900/600" alt="">
-                            <span class="td_opacity_7">Weekend Batch</span>
+                            <span className="td_opacity_7">Weekend Batch</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-48/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Computer Science</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Explore Marketing & Build Your Brand</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Master marketing strategies to grow your personal or business brand.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Computer Science</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Explore Marketing & Build Your Brand</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Master marketing strategies to grow your personal or business brand.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/15 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/15 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -878,46 +878,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-49/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-50/900/600" alt="">
-                            <span class="td_opacity_7">Live Batch</span>
+                            <span className="td_opacity_7">Live Batch</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-51/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Data Analytics</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Starting Reputed Education & Build your Skills</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Build fluency with practical online speaking practice, trainer feedback, and simple daily exercises.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Data Analytics</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Starting Reputed Education & Build your Skills</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Build fluency with practical online speaking practice, trainer feedback, and simple daily exercises.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -926,46 +926,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-52/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-53/900/600" alt="">
-                            <span class="td_opacity_7">Small Group</span>
+                            <span className="td_opacity_7">Small Group</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-54/900/600" alt="">
-                            <span class="td_opacity_7">10 Weeks</span>
+                            <span className="td_opacity_7">10 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Software Engeneer</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Master Technology & Elevate Your Career</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Unlock the power of technology to drive your career forward.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Software Engeneer</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Master Technology & Elevate Your Career</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Unlock the power of technology to drive your career forward.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/10 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/10 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -974,46 +974,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-55/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-56/900/600" alt="">
-                            <span class="td_opacity_7">Online Mode</span>
+                            <span className="td_opacity_7">Online Mode</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-57/900/600" alt="">
-                            <span class="td_opacity_7">6 Weeks</span>
+                            <span className="td_opacity_7">6 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Bachelor Of Arts</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Boost Creativity & Expand Your Horizons</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Discover innovative techniques to enhance your creative thinking.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Bachelor Of Arts</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Boost Creativity & Expand Your Horizons</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Discover innovative techniques to enhance your creative thinking.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/12 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/12 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -1024,48 +1024,48 @@ const rawPageHtml = `
                 </div>
               </div>
             </div>
-            <div class="td_tab" id="tab_4">
-              <div class="row td_gap_y_24">
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+            <div className="td_tab" id="tab_4">
+              <div className="row td_gap_y_24">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-58/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-59/900/600" alt="">
-                            <span class="td_opacity_7">Weekend Batch</span>
+                            <span className="td_opacity_7">Weekend Batch</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-60/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Computer Science</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Explore Marketing & Build Your Brand</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Master marketing strategies to grow your personal or business brand.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Computer Science</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Explore Marketing & Build Your Brand</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Master marketing strategies to grow your personal or business brand.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/15 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/15 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -1074,46 +1074,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-61/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-62/900/600" alt="">
-                            <span class="td_opacity_7">Practice Led</span>
+                            <span className="td_opacity_7">Practice Led</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-63/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Business Administrator</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Hone Leadership & Achieve Success</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Develop essential leadership skills to excel in any industry.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Business Administrator</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Hone Leadership & Achieve Success</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Develop essential leadership skills to excel in any industry.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/30 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/30 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -1122,46 +1122,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-64/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-65/900/600" alt="">
-                            <span class="td_opacity_7">Live Batch</span>
+                            <span className="td_opacity_7">Live Batch</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-66/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Data Analytics</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Starting Reputed Education & Build your Skills</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Build fluency with practical online speaking practice, trainer feedback, and simple daily exercises.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Data Analytics</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Starting Reputed Education & Build your Skills</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Build fluency with practical online speaking practice, trainer feedback, and simple daily exercises.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -1170,46 +1170,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-67/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-68/900/600" alt="">
-                            <span class="td_opacity_7">Small Group</span>
+                            <span className="td_opacity_7">Small Group</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-69/900/600" alt="">
-                            <span class="td_opacity_7">10 Weeks</span>
+                            <span className="td_opacity_7">10 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Software Engeneer</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Master Technology & Elevate Your Career</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Unlock the power of technology to drive your career forward.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Software Engeneer</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Master Technology & Elevate Your Career</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Unlock the power of technology to drive your career forward.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/10 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/10 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -1218,46 +1218,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-70/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-71/900/600" alt="">
-                            <span class="td_opacity_7">Online Mode</span>
+                            <span className="td_opacity_7">Online Mode</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-72/900/600" alt="">
-                            <span class="td_opacity_7">6 Weeks</span>
+                            <span className="td_opacity_7">6 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Bachelor Of Arts</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Boost Creativity & Expand Your Horizons</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Discover innovative techniques to enhance your creative thinking.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Bachelor Of Arts</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Boost Creativity & Expand Your Horizons</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Discover innovative techniques to enhance your creative thinking.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/12 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/12 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -1266,46 +1266,46 @@ const rawPageHtml = `
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                  <div class="td_card td_style_3 d-block td_radius_10">
-                    <a href="course-details.html" class="td_card_thumb">
+                <div className="col-lg-4 col-md-6">
+                  <div className="td_card td_style_3 d-block td_radius_10">
+                    <a href="course-details.html" className="td_card_thumb">
                       <img src="https://picsum.photos/seed/englishta-73/900/600" alt="">
                     </a>
-                    <div class="td_card_info td_white_bg">
-                      <div class="td_card_info_in">
-                        <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+                    <div className="td_card_info td_white_bg">
+                      <div className="td_card_info_in">
+                        <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                           <li>
                             <img src="https://picsum.photos/seed/englishta-74/900/600" alt="">
-                            <span class="td_opacity_7">1:1 Option</span>
+                            <span className="td_opacity_7">1:1 Option</span>
                           </li>
                           <li>
                             <img src="https://picsum.photos/seed/englishta-75/900/600" alt="">
-                            <span class="td_opacity_7">8 Weeks</span>
+                            <span className="td_opacity_7">8 Weeks</span>
                           </li>
                         </ul>
-                        <a href="courses-grid-with-sidebar.html" class="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Fine of Arts</span></a>
-                        <h2 class="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Learn Coding & Advance Your Skills Up</a></h2>
-                        <p class="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Practice useful English for daily conversations, interviews, meetings, and public speaking.</p>
-                        <div class="td_card_review">
-                          <div class="td_rating" data-rating="4.5">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <div class="td_rating_percentage">
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
-                              <i class="fa-solid fa-star fa-fw"></i>
+                        <a href="courses-grid-with-sidebar.html" className="td_card_category td_fs_14 td_bold td_heading_color td_mb_14"><span>Fine of Arts</span></a>
+                        <h2 className="td_card_title td_fs_24 td_mb_16"><a href="course-details.html">Learn Coding & Advance Your Skills Up</a></h2>
+                        <p className="td_card_subtitle td_heading_color td_opacity_7 td_mb_20">Practice useful English for daily conversations, interviews, meetings, and public speaking.</p>
+                        <div className="td_card_review">
+                          <div className="td_rating" data-rating="4.5">
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <i className="fa-regular fa-star"></i>
+                            <div className="td_rating_percentage">
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
+                              <i className="fa-solid fa-star fa-fw"></i>
                             </div>
                           </div>
-                          <span class="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
+                          <span className="td_heading_color td_opacity_5 td_medium">(5.0/5 Ratings)</span>
                         </div>
-                        <div class="td_card_btn">
-                          <a href="cart.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                            <span class="td_btn_in td_white_color td_accent_bg">
+                        <div className="td_card_btn">
+                          <a href="cart.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                            <span className="td_btn_in td_white_color td_accent_bg">
                               <span>Enroll Now</span>
                             </span>             
                           </a>
@@ -1319,26 +1319,26 @@ const rawPageHtml = `
           </div>
         </div>
       </div>
-      <div class="td_height_120 td_height_lg_80"></div>
+      <div className="td_height_120 td_height_lg_80"></div>
     </section>
     
     
     <section>
-      <div class="td_height_120 td_height_lg_80"></div>
-      <div class="container">
-        <div class="td_features td_style_1 td_hobble">
-          <div class="td_features_thumb">
-            <img src="https://picsum.photos/seed/englishta-76/900/600" alt="" class="td_radius_10 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+      <div className="td_height_120 td_height_lg_80"></div>
+      <div className="container">
+        <div className="td_features td_style_1 td_hobble">
+          <div className="td_features_thumb">
+            <img src="https://picsum.photos/seed/englishta-76/900/600" alt="" className="td_radius_10 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
           </div>
-          <div class="td_features_content td_white_bg td_radius_10 wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
-            <div class="td_section_heading td_style_1">
-              <p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">CAMPUS</p>
-              <h2 class="td_section_title td_fs_48 mb-0">Learn English From Anywhere</h2>
+          <div className="td_features_content td_white_bg td_radius_10 wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
+            <div className="td_section_heading td_style_1">
+              <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">CAMPUS</p>
+              <h2 className="td_section_title td_fs_48 mb-0">Learn English From Anywhere</h2>
             </div>
-            <div class="td_height_50 td_height_lg_50"></div>
-            <ul class="td_feature_list td_mp_0">
+            <div className="td_height_50 td_height_lg_50"></div>
+            <ul className="td_feature_list td_mp_0">
               <li>
-                <div class="td_feature_icon td_center">
+                <div className="td_feature_icon td_center">
                   <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22.0428 10.319C24.1549 8.21279 27.016 7.03003 29.9988 7.03003C32.9816 7.03003 35.8427 8.21279 37.9548 10.319C38.2209 10.5706 38.5746 10.7084 38.9408 10.7032C39.3069 10.6981 39.6566 10.5503 39.9155 10.2913C40.1744 10.0323 40.322 9.68251 40.327 9.31635C40.332 8.9502 40.194 8.59653 39.9423 8.33056C37.3026 5.69746 33.7263 4.21875 29.9979 4.21875C26.2694 4.21875 22.6932 5.69746 20.0534 8.33056C19.9169 8.45969 19.8075 8.61489 19.732 8.78699C19.6564 8.95909 19.6161 9.14459 19.6134 9.33254C19.6108 9.52048 19.6458 9.70705 19.7165 9.88122C19.7872 10.0554 19.892 10.2136 20.0249 10.3466C20.1578 10.4795 20.316 10.5844 20.4901 10.6552C20.6643 10.726 20.8508 10.7611 21.0388 10.7585C21.2267 10.756 21.4122 10.7157 21.5844 10.6403C21.7565 10.5648 21.9136 10.4555 22.0428 10.319Z" fill="#890C25"/>
                     <path d="M34.9708 14.7094C35.2487 14.7092 35.5204 14.6266 35.7514 14.472C35.9824 14.3175 36.1625 14.098 36.2688 13.8412C36.3752 13.5844 36.403 13.3018 36.3488 13.0292C36.2947 12.7565 36.161 12.5061 35.9645 12.3094C35.1835 11.5252 34.2549 10.9036 33.2322 10.4804C32.2095 10.0572 31.1131 9.8408 30.0063 9.8438H29.9975C28.8898 9.83989 27.7923 10.0558 26.7687 10.479C25.745 10.9023 24.8154 11.5244 24.0339 12.3094C23.8973 12.4386 23.788 12.5938 23.7124 12.7659C23.6369 12.938 23.5965 13.1235 23.5939 13.3114C23.5912 13.4993 23.6263 13.6859 23.697 13.8601C23.7676 14.0343 23.8725 14.1925 24.0054 14.3254C24.1383 14.4584 24.2965 14.5633 24.4706 14.6341C24.6447 14.7048 24.8313 14.74 25.0192 14.7374C25.2072 14.7348 25.3927 14.6946 25.5648 14.6191C25.737 14.5436 25.8922 14.4344 26.0214 14.2979C26.5426 13.775 27.1622 13.3608 27.8445 13.079C28.5268 12.7972 29.2582 12.6536 29.9964 12.6563H30.002C30.7399 12.654 31.4709 12.7979 32.1529 13.0797C32.8348 13.3614 33.4543 13.7754 33.9753 14.2979C34.1059 14.4288 34.261 14.5326 34.4319 14.6032C34.6028 14.6738 34.7859 14.7099 34.9708 14.7094Z" fill="#890C25"/>
@@ -1347,15 +1347,15 @@ const rawPageHtml = `
                     <path d="M30.0078 21.1094C31.5611 21.1094 32.8203 19.8502 32.8203 18.2969C32.8203 16.7436 31.5611 15.4844 30.0078 15.4844C28.4545 15.4844 27.1953 16.7436 27.1953 18.2969C27.1953 19.8502 28.4545 21.1094 30.0078 21.1094Z" fill="#890C25"/>
                   </svg>                    
                 </div>
-                <div class="td_feature_info">
-                  <h3 class="td_fs_32 td_semibold td_mb_15">Live Online Classes</h3>
-                  <p class="td_fs_14 td_heading_color td_opacity_7 mb-0">Learn from home with live guidance, speaking tasks, and clear correction.</p>
+                <div className="td_feature_info">
+                  <h3 className="td_fs_32 td_semibold td_mb_15">Live Online Classes</h3>
+                  <p className="td_fs_14 td_heading_color td_opacity_7 mb-0">Learn from home with live guidance, speaking tasks, and clear correction.</p>
                 </div>
               </li>
               <li>
-                <div class="td_feature_icon td_center">
+                <div className="td_feature_icon td_center">
                   <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_34_2108)">
+                    <g clipPath="url(#clip0_34_2108)">
                     <path d="M23.6914 57.3692C23.6914 58.8245 24.8712 60.0043 26.3265 60.0043C27.7814 60.0043 28.9617 58.8245 28.9617 57.3692V43H23.6914V57.3692Z" fill="#890C25"/>
                     <path d="M29.8398 57.3692C29.8398 58.8245 31.0193 60.0043 32.475 60.0043C33.9293 60.0043 35.1101 58.8245 35.1101 57.3692V43H29.8398V57.3692Z" fill="#890C25"/>
                     <path d="M34.9213 6.95278C35.6315 3.90571 33.7371 0.8599 30.6902 0.149783C27.6433 -0.560334 24.5976 1.33415 23.8874 4.38122C23.1773 7.4283 25.0716 10.4741 28.1185 11.1842C31.1655 11.8943 34.2112 9.99986 34.9213 6.95278Z" fill="#890C25"/>
@@ -1372,26 +1372,26 @@ const rawPageHtml = `
                     </defs>
                   </svg>                                      
                 </div>
-                <div class="td_feature_info">
-                  <h3 class="td_fs_32 td_semibold td_mb_15">Daily Speaking Practice</h3>
-                  <p class="td_fs_14 td_heading_color td_opacity_7 mb-0">Learn from home with live guidance, speaking tasks, and clear correction.</p>
+                <div className="td_feature_info">
+                  <h3 className="td_fs_32 td_semibold td_mb_15">Daily Speaking Practice</h3>
+                  <p className="td_fs_14 td_heading_color td_opacity_7 mb-0">Learn from home with live guidance, speaking tasks, and clear correction.</p>
                 </div>
               </li>
               <li>
-                <div class="td_feature_icon td_center">
+                <div className="td_feature_icon td_center">
                   <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M57.4219 23.625C57.0163 22.7274 56.5648 21.8513 56.0694 21L49.6869 38.3375C49.4435 38.9853 49.0895 39.5858 48.6406 40.1125C50.3538 39.9429 52.0048 39.3799 53.4646 38.4674C54.9245 37.5549 56.1539 36.3175 57.0569 34.8518C57.96 33.386 58.5123 31.7315 58.6707 30.0172C58.8292 28.3029 58.5896 26.5752 57.9706 24.9688C57.8006 24.5113 57.6181 24.0663 57.4219 23.625Z" fill="#890C25"/>
                     <path d="M20.7886 7.99641C17.0644 9.32208 13.6459 11.3856 10.7379 14.0633C7.82987 16.7411 5.49203 19.9781 3.86434 23.5806C2.23665 27.1831 1.35257 31.0769 1.26502 35.0291C1.17747 38.9812 1.88826 42.9104 3.35483 46.5814C3.39358 46.6602 3.41983 46.7377 3.45858 46.8164C4.23772 48.6771 5.50623 50.292 7.1294 51.4896C8.75258 52.6873 10.6698 53.423 12.6775 53.6186C14.6852 53.8142 16.7084 53.4624 18.5322 52.6006C20.356 51.7388 21.9124 50.3992 23.0361 48.7239C25.3862 45.1838 28.76 42.4445 32.7073 40.8714C32.8323 40.8214 32.9573 40.7839 33.0823 40.7377C33.5267 39.7124 34.1881 38.7956 35.0208 38.0505C35.8536 37.3054 36.8379 36.7496 37.9061 36.4214C37.8801 35.48 38.0731 34.5455 38.4698 33.6914L48.3448 12.3077C44.4659 9.36724 39.9185 7.43436 35.1096 6.68199C30.3007 5.92961 25.3802 6.38123 20.7886 7.99641ZM13.1261 40.6214C12.1372 40.6214 11.1705 40.3282 10.3482 39.7788C9.52598 39.2294 8.88512 38.4485 8.50668 37.5348C8.12824 36.6212 8.02923 35.6159 8.22215 34.646C8.41508 33.6761 8.89128 32.7851 9.59055 32.0859C10.2898 31.3866 11.1807 30.9104 12.1506 30.7175C13.1205 30.5246 14.1259 30.6236 15.0395 31.002C15.9531 31.3805 16.734 32.0213 17.2834 32.8436C17.8328 33.6658 18.1261 34.6325 18.1261 35.6214C18.1261 36.9475 17.5993 38.2193 16.6616 39.1569C15.7239 40.0946 14.4522 40.6214 13.1261 40.6214ZM19.3761 26.2464C18.3872 26.2464 17.4205 25.9532 16.5982 25.4038C15.776 24.8544 15.1351 24.0735 14.7567 23.1598C14.3782 22.2462 14.2792 21.2409 14.4722 20.271C14.6651 19.3011 15.1413 18.4101 15.8405 17.7109C16.5398 17.0116 17.4307 16.5354 18.4006 16.3425C19.3705 16.1496 20.3759 16.2486 21.2895 16.627C22.2031 17.0054 22.984 17.6463 23.5334 18.4686C24.0828 19.2908 24.3761 20.2575 24.3761 21.2464C24.3761 22.5725 23.8493 23.8443 22.9116 24.7819C21.9739 25.7196 20.7022 26.2464 19.3761 26.2464ZM34.3761 21.8714C33.3872 21.8714 32.4205 21.5782 31.5982 21.0288C30.776 20.4794 30.1351 19.6985 29.7567 18.7848C29.3782 17.8712 29.2792 16.8659 29.4722 15.896C29.6651 14.9261 30.1413 14.0351 30.8405 13.3359C31.5398 12.6366 32.4307 12.1604 33.4006 11.9675C34.3705 11.7746 35.3759 11.8736 36.2895 12.252C37.2031 12.6304 37.984 13.2713 38.5334 14.0936C39.0828 14.9158 39.3761 15.8825 39.3761 16.8714C39.3761 18.1975 38.8493 19.4693 37.9116 20.4069C36.9739 21.3446 35.7022 21.8714 34.3761 21.8714Z" fill="#890C25"/>
                     <path d="M56.8494 5.18546C56.2948 4.9551 55.6725 4.94854 55.1131 5.16716C54.5537 5.38577 54.1008 5.81256 53.8494 6.35796L40.7444 34.7392C40.4426 35.3921 40.345 36.1208 40.4643 36.8301C40.5837 37.5393 40.9144 38.196 41.4131 38.7142C40.1949 38.4285 38.9148 38.5847 37.801 39.1549C36.6872 39.7252 35.8122 40.6725 35.3319 41.828C33.3081 46.7155 36.5094 48.8592 34.4844 53.7467C36.7929 53.4888 38.992 52.6243 40.8582 51.2412C42.7244 49.858 44.1911 48.0054 45.1094 45.8717C45.5417 44.821 45.6232 43.6588 45.3416 42.5581C45.0601 41.4574 44.4306 40.477 43.5469 39.763C44.3461 39.866 45.1566 39.695 45.8461 39.2779C46.5356 38.8609 47.0633 38.2224 47.3431 37.4667L58.1431 8.12796C58.3482 7.56529 58.3281 6.94516 58.0871 6.39693C57.846 5.8487 57.4026 5.4147 56.8494 5.18546Z" fill="#890C25"/>
                   </svg>              
                 </div>
-                <div class="td_feature_info">
-                  <h3 class="td_fs_32 td_semibold td_mb_15">Personal Feedback</h3>
-                  <p class="td_fs_14 td_heading_color td_opacity_7 mb-0">Learn from home with live guidance, speaking tasks, and clear correction.</p>
+                <div className="td_feature_info">
+                  <h3 className="td_fs_32 td_semibold td_mb_15">Personal Feedback</h3>
+                  <p className="td_fs_14 td_heading_color td_opacity_7 mb-0">Learn from home with live guidance, speaking tasks, and clear correction.</p>
                 </div>
               </li>
               <li>
-                <div class="td_feature_icon td_center">
+                <div className="td_feature_icon td_center">
                   <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6.32422 50.5922C8.31795 52.4224 10.8098 53.62 13.4844 54.0336C13.7762 52.5659 13.7222 51.0504 13.3268 49.6072C12.9313 48.164 12.2053 46.8327 11.2061 45.7188L6.32422 50.5922Z" fill="#890C25"/>
                     <path d="M31.5345 48.5391C30.7481 48.5391 29.9794 48.7723 29.3256 49.2092C28.6717 49.6461 28.1621 50.2671 27.8612 50.9936C27.5603 51.7202 27.4816 52.5196 27.635 53.2909C27.7884 54.0621 28.1671 54.7706 28.7232 55.3267C29.2793 55.8827 29.9877 56.2614 30.759 56.4148C31.5303 56.5682 32.3297 56.4894 33.0562 56.1885C33.7828 55.8876 34.4037 55.3779 34.8406 54.7241C35.2775 54.0702 35.5107 53.3015 35.5107 52.5151C35.5095 51.4609 35.0902 50.4503 34.3448 49.7049C33.5994 48.9595 32.5887 48.5402 31.5345 48.5391Z" fill="#890C25"/>
@@ -1436,31 +1436,31 @@ const rawPageHtml = `
                     <path d="M48.1131 12.4546L49.2971 9.89023L46.2075 8.46875L45.0234 11.0332L48.1131 12.4546Z" fill="#890C25"/>
                   </svg>                                       
                 </div>
-                <div class="td_feature_info">
-                  <h3 class="td_fs_32 td_semibold td_mb_15">Daily Speaking Practice</h3>
-                  <p class="td_fs_14 td_heading_color td_opacity_7 mb-0">Learn from home with live guidance, speaking tasks, and clear correction.</p>
+                <div className="td_feature_info">
+                  <h3 className="td_fs_32 td_semibold td_mb_15">Daily Speaking Practice</h3>
+                  <p className="td_fs_14 td_heading_color td_opacity_7 mb-0">Learn from home with live guidance, speaking tasks, and clear correction.</p>
                 </div>
               </li>
             </ul>
           </div>
-          <div class="td_features_shape_1 position-absolute td_accent_color td_hover_layer_3">
+          <div className="td_features_shape_1 position-absolute td_accent_color td_hover_layer_3">
             <svg width="482" height="769" viewBox="0 0 482 769" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M95.5257 63.6079C95.5257 63.6079 440.442 -122.4 331.028 144.941C186.89 497.038 374.069 383.766 443.343 372.701C533.011 358.466 432.66 620.605 432.66 620.605M89.566 67.8652C89.566 67.8652 425.38 -107.274 318.228 154.436C178.626 495.525 359.245 392.597 435.947 380.589C531.877 365.485 417.864 629.948 417.864 629.948M83.6064 72.1225C83.6064 72.1225 410.212 -91.9622 305.428 163.93C170.242 493.943 344.301 401.36 428.657 388.29C530.744 372.504 403.055 639.034 403.055 639.034M77.7534 76.1935C77.7534 76.1935 395.15 -76.8363 292.734 173.239C162.086 492.243 329.585 410.005 421.489 396.06C529.717 379.336 388.366 648.19 388.366 648.19M71.6731 80.3817C71.6731 80.3817 379.968 -61.7794 279.813 182.664C153.702 490.661 314.641 418.767 414.078 403.692C528.69 386.169 373.678 657.346 373.678 657.346M65.7135 84.639C65.7135 84.639 364.799 -46.4671 267.013 192.158C145.332 489.334 299.817 427.599 406.682 411.579C527.571 393.443 358.762 666.62 358.762 666.62M59.7538 88.8963C59.7538 88.8963 349.51 -31.2238 254.106 201.839C136.948 487.752 284.767 436.548 399.286 419.467C526.437 400.462 343.966 675.962 343.966 675.962M53.7942 93.1536C53.7942 93.1536 334.449 -16.0979 241.305 211.334C128.684 486.239 269.943 445.379 391.89 427.354C525.304 407.481 329.171 685.304 329.171 685.304M47.8345 97.4109C47.8345 97.4109 319.28 -0.785629 228.505 220.828C120.3 484.657 255.12 454.211 384.614 435.31C524.184 414.755 314.376 694.646 314.376 694.646M41.9815 101.482C41.9815 101.482 304.219 14.3403 215.811 230.136C112.143 482.958 240.403 462.856 377.431 442.825C523.385 421.471 299.794 703.616 299.794 703.616M36.0219 105.739C36.0219 105.739 289.157 29.4662 203.011 239.631C103.88 481.445 225.459 471.619 370.035 450.712C522.131 428.42 284.984 712.703 284.984 712.703M30.0622 109.997C30.0622 109.997 273.988 44.7786 190.09 249.056C95.4961 479.863 210.515 480.381 362.625 458.345C520.997 435.439 270.068 721.976 270.068 721.976M24.1026 114.254C24.1026 114.254 258.82 60.0909 177.29 258.551C87.112 478.281 195.692 489.213 355.229 466.232C519.864 442.458 255.273 731.319 255.273 731.319M18.1429 118.511C18.1429 118.511 243.638 75.1478 164.489 268.045C78.8487 476.768 180.868 498.044 348.06 474.002C518.958 449.36 240.705 740.544 240.705 740.544M12.1833 122.768C12.1833 122.768 228.469 90.46 151.689 277.54C70.5853 475.255 166.045 506.876 340.663 481.889C517.838 456.634 225.91 749.886 225.91 749.886M6.3303 126.839C6.3303 126.839 213.514 105.4 138.995 286.848C62.3079 473.486 151.208 515.452 333.481 489.404C516.705 463.653 211.101 758.973 211.101 758.973M0.25 131.028C0.25 131.028 198.225 120.643 125.968 296.46C53.8173 472.09 136.157 524.401 325.857 497.409C515.678 470.486 196.412 768.129 196.412 768.129" stroke="currentColor" stroke-miterlimit="10"/>
             </svg>              
           </div>
-          <div class="td_features_shape_2 position-absolute td_accent_color td_hover_layer_5">
+          <div className="td_features_shape_2 position-absolute td_accent_color td_hover_layer_5">
             <svg width="576" height="726" viewBox="0 0 576 726" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M492.179 645.603C492.179 645.603 177.451 855.296 228.555 594.921C295.898 251.997 127.985 377.265 58.6234 394.914C-31.1778 417.678 11.7299 163.105 11.7299 163.105M497.373 641.009C497.373 641.009 189.556 839.623 239.628 584.728C304.835 252.527 141.316 367.473 64.4603 386.789C-31.6424 411.026 24.9113 152.842 24.9113 152.842M502.567 636.415C502.567 636.415 201.729 823.765 250.702 574.535C313.912 253.109 154.787 357.734 70.23 378.85C-32.107 404.375 38.1671 142.815 38.1671 142.815M507.694 632.006C507.694 632.006 213.834 808.091 261.709 564.526C322.782 253.825 168.05 348.127 75.8582 370.859C-32.6388 397.908 51.2814 132.736 51.2814 132.736M513.029 627.464C513.029 627.464 226.081 792.469 272.924 554.384C331.86 254.407 181.522 338.387 81.7694 362.97C-33.1705 391.442 64.3956 122.657 64.3956 122.657M518.223 622.87C518.223 622.87 238.253 776.611 283.998 544.191C340.863 254.753 194.852 328.596 87.6063 354.846C-33.7095 384.554 77.7186 112.445 77.7186 112.445M523.417 618.276C523.417 618.276 250.567 760.804 295.139 533.813C349.941 255.335 208.39 318.672 93.4432 346.722C-34.1741 377.903 90.9 102.182 90.9 102.182M528.611 613.681C528.611 613.681 262.672 745.131 306.213 523.619C358.878 255.866 221.72 308.88 99.28 338.598C-34.6387 371.251 104.081 91.9181 104.081 91.9181M533.805 609.087C533.805 609.087 274.845 729.273 317.286 513.426C367.956 256.448 235.05 299.089 104.975 330.422C-35.1777 364.364 117.263 81.6546 117.263 81.6546M538.932 604.678C538.932 604.678 286.95 713.599 328.293 503.417C376.825 257.163 248.313 289.483 110.678 322.667C-35.9181 358.03 130.31 71.7605 130.31 71.7605M544.126 600.084C544.126 600.084 299.055 697.926 339.367 493.224C385.762 257.694 261.785 279.743 116.515 314.543C-36.2412 351.43 143.566 61.7332 143.566 61.7332M549.32 595.49C549.32 595.49 311.228 682.068 350.582 483.082C394.84 258.276 275.256 270.003 122.426 306.655C-36.7059 344.779 156.889 51.5211 156.889 51.5211M554.514 590.896C554.514 590.896 323.4 666.21 361.656 472.889C403.918 258.858 288.587 260.212 128.263 298.53C-37.1705 338.127 170.07 41.2576 170.07 41.2576M559.708 586.302C559.708 586.302 335.647 650.588 372.73 462.695C412.854 259.389 301.917 250.421 133.891 290.539C-37.8437 331.609 183.043 31.1274 183.043 31.1274M564.902 581.708C564.902 581.708 347.819 634.729 383.803 452.502C421.791 259.92 315.247 240.629 139.728 282.415C-38.3826 324.722 196.224 20.8639 196.224 20.8639M570.029 577.299C570.029 577.299 359.857 619.241 394.81 442.493C430.801 260.687 328.651 231.074 145.431 274.66C-38.8473 318.07 209.48 10.8366 209.48 10.8366M575.364 572.756C575.364 572.756 372.171 603.434 406.092 432.167C439.946 261.084 342.19 221.15 151.476 266.402C-39.3791 311.604 222.594 0.757812 222.594 0.757812" stroke="currentColor" stroke-miterlimit="10"/>
             </svg>                      
           </div>
         </div>
       </div>
-      <div class="td_height_120 td_height_lg_80"></div>
+      <div className="td_height_120 td_height_lg_80"></div>
     </section>
     
     
-    <section class="branddarkenglishta td_shape_section_1 td_video_showcase">
-      <div class="td_shape_position_4 td_accent_color position-absolute">
+    <section className="branddarkenglishta td_shape_section_1 td_video_showcase">
+      <div className="td_shape_position_4 td_accent_color position-absolute">
         <svg width="37" height="40" viewBox="0 0 37 40" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g opacity="0.4">
           <rect y="12.3906" width="23.6182" height="31.0709" rx="1" transform="rotate(-30.4551 0 12.3906)" fill="white"/>
@@ -1469,48 +1469,48 @@ const rawPageHtml = `
           </g>
         </svg>          
       </div>
-      <div class="td_height_120 td_height_lg_80"></div>
-      <div class="container">
-        <div class="row td_gap_y_40">
-          <div class="col-lg-4 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s">
-            <div class="td_height_57 td_height_lg_0"></div>
-            <div class="td_section_heading td_style_1">
-              <h2 class="td_section_title td_fs_48 mb-0 td_white_color">Watch Real English Training Sessions</h2>
-              <p class="td_section_subtitle td_fs_18 mb-0 td_white_color td_opacity_7">Watch practical Englishta lessons, demo classes, pronunciation tips, and speaking practice videos designed for online English learners.</p>
+      <div className="td_height_120 td_height_lg_80"></div>
+      <div className="container">
+        <div className="row td_gap_y_40">
+          <div className="col-lg-4 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s">
+            <div className="td_height_57 td_height_lg_0"></div>
+            <div className="td_section_heading td_style_1">
+              <h2 className="td_section_title td_fs_48 mb-0 td_white_color">Watch Real English Training Sessions</h2>
+              <p className="td_section_subtitle td_fs_18 mb-0 td_white_color td_opacity_7">Watch practical Englishta lessons, demo classes, pronunciation tips, and speaking practice videos designed for online English learners.</p>
             </div>
-            <div class="td_btn_box">
-              <svg width="299" height="315" viewBox="0 0 299 315" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <div class="td_btn_box">
+            <svg width="299" height="315" viewBox="0 0 299 315" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g opacity="0.75" clip-path="url(#clip0_34_2222)">
-                <path d="M242.757 275.771C242.505 275.771 242.253 275.75 242.005 275.707C32.3684 239.98 0.342741 8.13005 0.0437414 5.79468C-0.108609 4.51176 0.22739 3.21754 0.9787 2.19335C1.73001 1.16916 2.8359 0.497795 4.05598 0.32519C5.27606 0.152585 6.5117 0.492693 7.4943 1.27158C8.4769 2.05047 9.12704 3.20518 9.3034 4.48471C9.59772 6.7514 40.7872 231.477 243.5 266.022C244.658 266.22 245.702 266.868 246.426 267.838C247.15 268.808 247.5 270.028 247.406 271.256C247.312 272.484 246.782 273.63 245.921 274.467C245.06 275.303 243.93 275.769 242.757 275.771Z" fill="white"/>
-                <path d="M299.002 275.455C271.709 283.305 237.446 297.872 215.562 314.617L235.465 269.602L223.318 221.648C242.099 242.137 273.428 262.728 299.002 275.455Z" fill="white"/>
+                <path d="M242.757 275.771C242.505 275.771 242.253 275.75 242.005 275.707C32.3684 239.98 0.342741 8.13005 0.0437414 5.79468C-0.108609 4.51176 0.22739 3.21754 0.9787 2.19335C1.73001 1.16916 2.8359 0.497795 4.05598 0.32519C5.27606 0.152585 6.5117 0.492693 7.4943 1.27158C8.4769 2.05047 9.12704 3.20518 9.3034 4.48471C9.59772 6.7514 40.7872 231.477 243.5 266.022C244.658 266.22 245.702 266.868 246.426 267.838C247.15 268.808 247.5 270.028 247.406 271.256C247.312 272.484 246.782 273.63 245.921 274.467C245.06 275.303 243.93 275.769 242.757 275.771Z" fill="white"></path>
+                <path d="M299.002 275.455C271.709 283.305 237.446 297.872 215.562 314.617L235.465 269.602L223.318 221.648C242.099 242.137 273.428 262.728 299.002 275.455Z" fill="white"></path>
                 </g>
                 <defs>
                 <clipPath id="clip0_34_2222">
-                <rect width="299" height="314" fill="white" transform="translate(0 0.421875)"/>
+                <rect width="299" height="314" fill="white" transform="translate(0 0.421875)"></rect>
                 </clipPath>
                 </defs>
-              </svg>  
+              </svg>
               <div class="td_btn_box_in">
                 <a href="courses-grid-view.html" class="td_btn td_style_1 td_radius_10 td_medium td_fs_18">
                   <span class="td_btn_in td_heading_color td_white_bg">
-                    <span>View All Videos</span>
+                    <span>View All Program</span>
                   </span>             
                 </a> 
               </div>             
             </div>
           </div>
-          <div class="col-lg-6 offset-lg-1">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="td_card td_style_2 td_tilt_left wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-                  <div class="td_card_thumb td_video_thumb d-block">
+          <div className="col-lg-6 offset-lg-1">
+            <div className="row">
+              <div className="col-sm-6">
+                <div className="td_card td_style_2 td_tilt_left wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+                  <div className="td_card_thumb td_video_thumb d-block">
                     <iframe src="https://www.youtube.com/embed/Bbn5or47ItM?si=gArVS5iU5QRmbNBF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                   </div>
-                  <div class="td_card_info">
-                    <h2 class="td_card_title mb-0 td_fs_18 td_semibold td_white_color">
+                  <div className="td_card_info">
+                    <h2 className="td_card_title mb-0 td_fs_18 td_semibold td_white_color">
                       <a href="course-details.html">Free English Speaking Demo</a>
                     </h2>
-                    <a href="course-details.html" class="td_card_btn">
+                    <a href="course-details.html" className="td_card_btn">
                       <svg width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18.564 4.70161L4.42188 18.8438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M18.5654 13.5341C18.5654 13.5341 19.7299 5.85989 18.5654 4.69528C17.4008 3.53067 9.72656 4.69531 9.72656 4.69531" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1522,16 +1522,16 @@ const rawPageHtml = `
                     </a>
                   </div>
                 </div>
-                <div class="td_height_40 td_height_lg_30"></div>
-                <div class="td_card td_style_2 td_tilt_right wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
-                  <a href="course-details.html" class="td_card_thumb d-block">
-                    <img src="https://picsum.photos/seed/englishta-78/900/600" alt="" class="w-100">
+                <div className="td_height_40 td_height_lg_30"></div>
+                <div className="td_card td_style_2 td_tilt_right wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
+                  <a href="course-details.html" className="td_card_thumb d-block">
+                    <img src="https://picsum.photos/seed/englishta-78/900/600" alt="" className="w-100">
                   </a>
-                  <div class="td_card_info">
-                    <h2 class="td_card_title mb-0 td_fs_18 td_semibold td_white_color">
+                  <div className="td_card_info">
+                    <h2 className="td_card_title mb-0 td_fs_18 td_semibold td_white_color">
                       <a href="course-details.html">Pronunciation Practice Tips</a>
                     </h2>
-                    <a href="course-details.html" class="td_card_btn">
+                    <a href="course-details.html" className="td_card_btn">
                       <svg width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18.564 4.70161L4.42188 18.8438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M18.5654 13.5341C18.5654 13.5341 19.7299 5.85989 18.5654 4.69528C17.4008 3.53067 9.72656 4.69531 9.72656 4.69531" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1544,17 +1544,17 @@ const rawPageHtml = `
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6">
-                <div class="td_height_50 td_height_lg_30"></div>
-                <div class="td_card td_style_2 td_tilt_soft_right wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
-                  <a href="course-details.html" class="td_card_thumb d-block">
-                    <img src="https://picsum.photos/seed/englishta-79/900/600" alt="" class="w-100">
+              <div className="col-sm-6">
+                <div className="td_height_50 td_height_lg_30"></div>
+                <div className="td_card td_style_2 td_tilt_soft_right wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
+                  <a href="course-details.html" className="td_card_thumb d-block">
+                    <img src="https://picsum.photos/seed/englishta-79/900/600" alt="" className="w-100">
                   </a>
-                  <div class="td_card_info">
-                    <h2 class="td_card_title mb-0 td_fs_18 td_semibold td_white_color">
+                  <div className="td_card_info">
+                    <h2 className="td_card_title mb-0 td_fs_18 td_semibold td_white_color">
                       <a href="course-details.html">Interview English Lessons</a>
                     </h2>
-                    <a href="course-details.html" class="td_card_btn">
+                    <a href="course-details.html" className="td_card_btn">
                       <svg width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18.564 4.70161L4.42188 18.8438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M18.5654 13.5341C18.5654 13.5341 19.7299 5.85989 18.5654 4.69528C17.4008 3.53067 9.72656 4.69531 9.72656 4.69531" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1566,16 +1566,16 @@ const rawPageHtml = `
                     </a>
                   </div>
                 </div>
-                <div class="td_height_40 td_height_lg_30"></div>
-                <div class="td_card td_style_2 td_tilt_soft_left wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
-                  <a href="course-details.html" class="td_card_thumb d-block">
-                    <img src="https://picsum.photos/seed/englishta-80/900/600" alt="" class="w-100">
+                <div className="td_height_40 td_height_lg_30"></div>
+                <div className="td_card td_style_2 td_tilt_soft_left wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
+                  <a href="course-details.html" className="td_card_thumb d-block">
+                    <img src="https://picsum.photos/seed/englishta-80/900/600" alt="" className="w-100">
                   </a>
-                  <div class="td_card_info">
-                    <h2 class="td_card_title mb-0 td_fs_18 td_semibold td_white_color">
+                  <div className="td_card_info">
+                    <h2 className="td_card_title mb-0 td_fs_18 td_semibold td_white_color">
                       <a href="course-details.html">Flexible Batches</a>
                     </h2>
-                    <a href="course-details.html" class="td_card_btn">
+                    <a href="course-details.html" className="td_card_btn">
                       <svg width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18.564 4.70161L4.42188 18.8438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M18.5654 13.5341C18.5654 13.5341 19.7299 5.85989 18.5654 4.69528C17.4008 3.53067 9.72656 4.69531 9.72656 4.69531" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1592,24 +1592,24 @@ const rawPageHtml = `
           </div>
         </div>
       </div>
-      <div class="td_height_112 td_height_lg_75"></div>
+      <div className="td_height_112 td_height_lg_75"></div>
     </section>
     
     
     <section>
-      <div class="td_height_112 td_height_lg_75"></div>
-      <div class="container">
-        <div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-          <p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Departments</p>
-          <h2 class="td_section_title td_fs_48 mb-0">Popular Training Areas</h2>
-          <p class="td_section_subtitle td_fs_18 mb-0">Improve spoken English online with structured lessons, live practice, vocabulary building, <br>pronunciation correction, and confidence-focused coaching.</p>
+      <div className="td_height_112 td_height_lg_75"></div>
+      <div className="container">
+        <div className="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+          <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Departments</p>
+          <h2 className="td_section_title td_fs_48 mb-0">Popular Training Areas</h2>
+          <p className="td_section_subtitle td_fs_18 mb-0">Improve spoken English online with structured lessons, live practice, vocabulary building, <br>pronunciation correction, and confidence-focused coaching.</p>
         </div>
-        <div class="td_height_50 td_height_lg_50"></div>
-        <div class="td_iconbox_1_wrap">
-          <div class="td_iconbox td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-            <div class="td_iconbox_icon td_accent_color td_mb_10">
+        <div className="td_height_50 td_height_lg_50"></div>
+        <div className="td_iconbox_1_wrap">
+          <div className="td_iconbox td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+            <div className="td_iconbox_icon td_accent_color td_mb_10">
               <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_34_2239)">
+                <g clipPath="url(#clip0_34_2239)">
                 <path d="M86.126 63.5156H46.4883L74.5107 91.5381C75.7496 92.777 77.8014 92.666 78.8801 91.2854C84.4443 84.1625 87.9336 75.7453 89.0367 66.7844C89.2508 65.0453 87.8783 63.5156 86.126 63.5156Z" fill="#890C25"/>
                 <path d="M37.3424 62.6603C36.793 62.1109 36.4842 61.3656 36.4842 60.5887V24.5742C36.4842 22.7795 34.8828 21.3922 33.1109 21.6781C14.3254 24.7105 -0.0588036 41.0676 0.00018075 60.709C0.0650245 82.3125 17.708 99.9478 39.3113 100.003C47.7394 100.024 55.7699 97.414 62.4678 92.5601C63.9219 91.5062 64.0768 89.3945 62.8068 88.1248L37.3424 62.6603Z" fill="#890C25"/>
                 <path d="M99.985 54.4305C97.0867 25.7699 74.2301 2.9135 45.5695 0.0150621C43.841 -0.159743 42.3438 1.20959 42.3438 2.9469V57.6563H97.0531C98.7904 57.6563 100.16 56.159 99.985 54.4305Z" fill="#890C25"/>
@@ -1621,12 +1621,12 @@ const rawPageHtml = `
                 </defs>
               </svg>                          
             </div>
-            <h3 class="td_iconbox_title mb-0 td_medium td_fs_36">Conversation Practice</h3>
+            <h3 className="td_iconbox_title mb-0 td_medium td_fs_36">Conversation Practice</h3>
           </div>
-          <div class="td_iconbox td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
-            <div class="td_iconbox_icon td_accent_color td_mb_10">
+          <div className="td_iconbox td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
+            <div className="td_iconbox_icon td_accent_color td_mb_10">
               <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_34_2246)">
+                <g clipPath="url(#clip0_34_2246)">
                 <path d="M50 26.5625C53.4518 26.5625 56.25 23.7643 56.25 20.3125C56.25 16.8607 53.4518 14.0625 50 14.0625C46.5482 14.0625 43.75 16.8607 43.75 20.3125C43.75 23.7643 46.5482 26.5625 50 26.5625Z" fill="#890C25"/>
                 <path d="M84.375 34.375C86.9638 34.375 89.0625 32.2763 89.0625 29.6875C89.0625 27.0987 86.9638 25 84.375 25C81.7862 25 79.6875 27.0987 79.6875 29.6875C79.6875 32.2763 81.7862 34.375 84.375 34.375Z" fill="#890C25"/>
                 <path d="M43.75 6.25H46.875V11.4844C48.8945 10.7552 51.1055 10.7552 53.125 11.4844V6.25H56.25C57.0788 6.25 57.8737 5.92076 58.4597 5.33471C59.0458 4.74866 59.375 3.9538 59.375 3.125C59.375 2.2962 59.0458 1.50134 58.4597 0.915291C57.8737 0.32924 57.0788 0 56.25 0L43.75 0C42.9212 0 42.1263 0.32924 41.5403 0.915291C40.9542 1.50134 40.625 2.2962 40.625 3.125C40.625 3.9538 40.9542 4.74866 41.5403 5.33471C42.1263 5.92076 42.9212 6.25 43.75 6.25Z" fill="#890C25"/>
@@ -1646,12 +1646,12 @@ const rawPageHtml = `
                 </defs>
               </svg>                               
             </div>
-            <h3 class="td_iconbox_title mb-0 td_medium td_fs_36">Interview Preparation</h3>
+            <h3 className="td_iconbox_title mb-0 td_medium td_fs_36">Interview Preparation</h3>
           </div>
-          <div class="td_iconbox td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
-            <div class="td_iconbox_icon td_accent_color td_mb_10">
+          <div className="td_iconbox td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
+            <div className="td_iconbox_icon td_accent_color td_mb_10">
               <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_34_2260)">
+                <g clipPath="url(#clip0_34_2260)">
                 <path d="M5.48785 47.2141C5.57737 47.3052 5.7193 47.4286 5.90882 47.5794C7.61285 43.6278 10.187 38.6697 14.0782 33.4915C17.629 28.7665 21.2798 25.1826 24.3483 22.5665C22.0604 25.6036 19.3395 29.835 17.0838 35.2697C14.4927 41.5133 13.4266 47.1487 12.9693 51.2673C18.4435 53.1278 25.9903 53.5834 32.6137 46.8036C44.0548 35.0923 30.8709 20.0044 50.9693 6.50035C50.9693 6.50035 25.1346 -0.710944 8.64995 16.1616C-7.83634 33.0358 4.04753 45.7657 5.48785 47.2141Z" fill="#890C25"/>
                 <path d="M87.7621 60.4129C87.7621 60.4129 105.67 40.1975 98.1581 17.6983C90.6476 -4.80005 74.1065 0.292695 72.1863 0.949953C72.0661 0.991082 71.8911 1.06528 71.6758 1.1685C74.5742 3.29834 79.9734 7.90076 83.4653 15.7096C85.5186 20.3008 86.2436 24.5072 86.5032 27.5016C84.3379 24.0201 81.2694 19.7741 77.0258 15.4701C72.8218 11.2064 68.6758 8.11447 65.2686 5.92495C61.1806 10.0604 57.404 16.704 60.4242 25.7443C65.6379 41.3604 84.8371 36.1419 87.7621 60.4129Z" fill="#890C25"/>
                 <path d="M78.6168 75.7887C77.0144 70.1645 73.0934 63.6073 63.8281 61.9347C47.8241 59.0452 43.0814 78.6234 20.7031 69.529C20.7031 69.529 29.5394 95.1855 52.5967 99.35C75.6539 103.515 79.2249 86.3597 79.5805 84.3363C79.6023 84.2081 79.6233 84.0202 79.6378 83.7774C75.7031 85.0371 69.9459 86.3855 62.9241 86.3419C57.1023 86.3057 52.2249 85.3234 48.6459 84.3097C52.9322 84.1234 58.4757 83.4726 64.7039 81.6403C70.4007 79.9645 75.0684 77.7726 78.6168 75.7887Z" fill="#890C25"/>
@@ -1663,48 +1663,48 @@ const rawPageHtml = `
                 </defs>
               </svg>                            
             </div>
-            <h3 class="td_iconbox_title mb-0 td_medium td_fs_36">Pronunciation Training</h3>
+            <h3 className="td_iconbox_title mb-0 td_medium td_fs_36">Pronunciation Training</h3>
           </div>
-          <div class="td_iconbox td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
-            <div class="td_iconbox_icon td_accent_color td_mb_10">
+          <div className="td_iconbox td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
+            <div className="td_iconbox_icon td_accent_color td_mb_10">
               <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M26.5625 21.875V57.8125H43.75V51.7812L60.9375 44.0781V37.4844L26.5625 21.875ZM40.625 42.1875H34.375V35.9375H40.625V42.1875Z" fill="#890C25"/>
                 <path d="M6.25 60.9375V85.9375H43.75V60.9375H6.25ZM21.875 76.5625H15.625V70.3125H21.875V76.5625Z" fill="#890C25"/>
                 <path d="M46.875 53.8125V85.9375H76.5625V70.3125H85.9375V85.9375H93.75V32.8125L46.875 53.8125ZM65.625 76.5625H59.375V70.3125H65.625V76.5625Z" fill="#890C25"/>
               </svg>                               
             </div>
-            <h3 class="td_iconbox_title mb-0 td_medium td_fs_36">Corporate Communication</h3>
+            <h3 className="td_iconbox_title mb-0 td_medium td_fs_36">Corporate Communication</h3>
           </div>
         </div>
       </div>
-      <div class="td_height_120 td_height_lg_80"></div>
+      <div className="td_height_120 td_height_lg_80"></div>
     </section>
     
     
     <section>
-      <div class="td_video_block td_style_1 td_accent_bg td_bg_filed td_center text-center" data-src="https://picsum.photos/seed/englishta-99/1600/900">
-        <div class="container">
-          <a href="https://www.youtube.com/embed/rRid6GCJtgc" class="td_player_btn_wrap_2 td_video_open wow zoomIn" data-wow-duration="1s" data-wow-delay="0.2s">
-            <span class="td_player_btn td_center">
+      <div className="td_video_block td_style_1 td_accent_bg td_bg_filed td_center text-center" data-src="https://picsum.photos/seed/englishta-99/1600/900">
+        <div className="container">
+          <a href="https://www.youtube.com/embed/rRid6GCJtgc" className="td_player_btn_wrap_2 td_video_open wow zoomIn" data-wow-duration="1s" data-wow-delay="0.2s">
+            <span className="td_player_btn td_center">
               <span></span>
             </span>
           </a>
-          <div class="td_height_70 td_height_lg_50"></div>
-          <h2 class="td_fs_48 td_white_color mb-0 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">Watch How Englishta Helps You <br>Speak Better English</h2>
+          <div className="td_height_70 td_height_lg_50"></div>
+          <h2 className="td_fs_48 td_white_color mb-0 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">Watch How Englishta Helps You <br>Speak Better English</h2>
         </div>
       </div>
-      <div class="container wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
-        <div class="td_contact_box td_style_1 td_accent_bg td_radius_10">
-          <div class="td_contact_box_left">
-            <p class="td_fs_18 td_light td_white_color td_mb_4">Get In Touch:</p>
-            <h3 class="td_fs_36 mb-0 td_white_color"><a href="mailto:hello@englishta.com">hello@englishta.com</a></h3>
+      <div className="container wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
+        <div className="td_contact_box td_style_1 td_accent_bg td_radius_10">
+          <div className="td_contact_box_left">
+            <p className="td_fs_18 td_light td_white_color td_mb_4">Get In Touch:</p>
+            <h3 className="td_fs_36 mb-0 td_white_color"><a href="mailto:hello@englishta.com">hello@englishta.com</a></h3>
           </div>
-          <div class="td_contact_box_or td_fs_24 td_medium td_white_bg td_white_bg td_center rounded-circle td_accent_color">
+          <div className="td_contact_box_or td_fs_24 td_medium td_white_bg td_white_bg td_center rounded-circle td_accent_color">
             or
           </div>
-          <div class="td_contact_box_right">
-            <p class="td_fs_18 td_light td_white_color td_mb_4">Get In Touch:</p>
-            <h3 class="td_fs_36 mb-0 td_white_color"><a href="tel:+019987698870">+91 98765 43210</a></h3>
+          <div className="td_contact_box_right">
+            <p className="td_fs_18 td_light td_white_color td_mb_4">Get In Touch:</p>
+            <h3 className="td_fs_36 mb-0 td_white_color"><a href="tel:+019987698870">+91 98765 43210</a></h3>
           </div>
         </div>
       </div>
@@ -1712,38 +1712,38 @@ const rawPageHtml = `
     
     
     <section>
-      <div class="td_height_112 td_height_lg_75"></div>
-      <div class="container">
-        <div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-          <p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Event schedule</p>
-          <h2 class="td_section_title td_fs_48 mb-0">Upcoming Free English Webinar <br>Hosted by Englishta</h2>
+      <div className="td_height_112 td_height_lg_75"></div>
+      <div className="container">
+        <div className="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+          <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Event schedule</p>
+          <h2 className="td_section_title td_fs_48 mb-0">Upcoming Free English Webinar <br>Hosted by Englishta</h2>
         </div>
-        <div class="td_height_50 td_height_lg_50"></div>
-        <div class="row td_gap_y_30">
-          <div class="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-            <div class="td_card td_style_1 td_radius_5">
-              <a href="event-details.html" class="td_card_thumb td_mb_30 d-block">
+        <div className="td_height_50 td_height_lg_50"></div>
+        <div className="row td_gap_y_30">
+          <div className="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+            <div className="td_card td_style_1 td_radius_5">
+              <a href="event-details.html" className="td_card_thumb td_mb_30 d-block">
                 <img src="https://picsum.photos/seed/englishta-81/900/600" alt="">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                <span class="td_card_location td_medium td_white_color td_fs_18">
+                <i className="fa-solid fa-arrow-up-right-from-square"></i>
+                <span className="td_card_location td_medium td_white_color td_fs_18">
                   <svg width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8.0004 0.5C3.86669 0.5 0.554996 3.86526 0.500458 7.98242C0.48345 9.42271 0.942105 10.7046 1.56397 11.8232C2.76977 13.9928 4.04435 16.8182 5.32856 19.4639C5.9286 20.7002 6.89863 21.5052 8.0004 21.5C9.10217 21.4948 10.0665 20.6836 10.6575 19.4404C11.9197 16.7856 13.1685 13.9496 14.4223 11.835C15.1136 10.6691 15.4653 9.3606 15.4974 8.01758C15.5966 3.86772 12.1342 0.5 8.0004 0.5ZM8.0004 2.00586C11.3235 2.00586 14.0821 4.6775 14.0033 7.97363C13.9749 9.08002 13.6796 10.1416 13.1273 11.0732C11.7992 13.3133 10.5449 16.1706 9.2954 18.7988C8.85773 19.7191 8.35538 19.9924 7.98864 19.9941C7.62183 19.9959 7.12572 19.7246 6.68204 18.8105C5.41121 16.1923 4.12648 13.3534 2.87056 11.0938C2.32971 10.121 1.9798 9.11653 1.9946 8.00586C2.03995 4.67555 4.67723 2.00586 8.0004 2.00586ZM8.0004 4.25C5.94024 4.25 4.25034 5.94266 4.25034 8.00586C4.25034 10.0691 5.94024 11.75 8.0004 11.75C10.0605 11.75 11.7503 10.0691 11.7503 8.00586C11.7503 5.94266 10.0605 4.25 8.0004 4.25ZM8.0004 5.74414C9.25065 5.74414 10.2446 6.75372 10.2446 8.00586C10.2446 9.258 9.25065 10.2559 8.0004 10.2559C6.7501 10.2559 5.75331 9.258 5.75331 8.00586C5.75331 6.75372 6.7501 5.74414 8.0004 5.74414Z" fill="currentColor"/>
                   </svg>                    
                   Tsc Center, Northern Asia 
                 </span>
               </a>
-              <div class="td_card_info">
-                <div class="td_card_info_in">
-                  <div class="td_mb_30">
-                    <ul class="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
+              <div className="td_card_info">
+                <div className="td_card_info_in">
+                  <div className="td_mb_30">
+                    <ul className="td_card_meta td_mp_0 td_fs_18 td_medium td_heading_color">
                       <li>
-                        <svg class="td_accent_color" width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="td_accent_color" width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M17.3308 11.7869H19.0049C19.3833 11.7869 19.6913 11.479 19.6913 11.1005V9.42642C19.6913 9.04795 19.3833 8.74003 19.0049 8.74003H17.3308C16.9523 8.74003 16.6444 9.04795 16.6444 9.42642V11.1005C16.6444 11.479 16.9523 11.7869 17.3308 11.7869ZM17.3475 9.44316H18.9881V11.0838H17.3475V9.44316ZM17.3308 16.24H19.0049C19.3833 16.24 19.6913 15.9321 19.6913 15.5536V13.8795C19.6913 13.5011 19.3833 13.1932 19.0049 13.1932H17.3308C16.9523 13.1932 16.6444 13.5011 16.6444 13.8795V15.5536C16.6444 15.9321 16.9523 16.24 17.3308 16.24ZM17.3475 13.8963H18.9881V15.5369H17.3475V13.8963ZM12.5535 11.7869H14.2276C14.606 11.7869 14.914 11.479 14.914 11.1005V9.42642C14.914 9.04795 14.606 8.74003 14.2276 8.74003H12.5535C12.175 8.74003 11.8671 9.04795 11.8671 9.42642V11.1005C11.8671 11.479 12.175 11.7869 12.5535 11.7869ZM12.5702 9.44316H14.2108V11.0838H12.5702V9.44316ZM4.67294 17.4375H2.99884C2.62037 17.4375 2.31245 17.7454 2.31245 18.1239V19.798C2.31245 20.1765 2.62037 20.4844 2.99884 20.4844H4.67294C5.05141 20.4844 5.35933 20.1765 5.35933 19.798V18.1239C5.35933 17.7454 5.05141 17.4375 4.67294 17.4375ZM4.6562 19.7812H3.01558V18.1406H4.6562V19.7812ZM4.67294 8.74003H2.99884C2.62037 8.74003 2.31245 9.04795 2.31245 9.42642V11.1005C2.31245 11.479 2.62037 11.7869 2.99884 11.7869H4.67294C5.05141 11.7869 5.35933 11.479 5.35933 11.1005V9.42642C5.35933 9.04791 5.05141 8.74003 4.67294 8.74003ZM4.6562 11.0838H3.01558V9.44316H4.6562V11.0838ZM12.5535 16.1356H14.2276C14.606 16.1356 14.914 15.8277 14.914 15.4493V13.7752C14.914 13.3967 14.606 13.0888 14.2276 13.0888H12.5535C12.175 13.0888 11.8671 13.3967 11.8671 13.7752V15.4493C11.8671 15.8277 12.175 16.1356 12.5535 16.1356ZM12.5702 13.7919H14.2108V15.4325H12.5702V13.7919ZM20.0404 1.60659H18.5373V1.06908C18.5373 0.479578 18.0578 0 17.4683 0H17.3068C16.7174 0 16.2378 0.479578 16.2378 1.06908V1.60659H5.76592V1.06908C5.76592 0.479578 5.28634 0 4.69684 0H4.53541C3.94591 0 3.46633 0.479578 3.46633 1.06908V1.60659H1.96328C0.992734 1.60659 0.203125 2.3962 0.203125 3.36675V22.2422C0.203125 23.2115 0.991656 24 1.96094 24H20.0429C21.0122 24 21.8007 23.2115 21.8007 22.2422V3.36675C21.8006 2.3962 21.011 1.60659 20.0404 1.60659ZM16.9409 1.06908C16.9409 0.867281 17.1051 0.703125 17.3069 0.703125H17.4683C17.6701 0.703125 17.8343 0.867281 17.8343 1.06908V1.60659H16.9409V1.06908ZM4.1695 1.06908C4.1695 0.867281 4.33366 0.703125 4.53545 0.703125H4.69689C4.89869 0.703125 5.06284 0.867281 5.06284 1.06908V1.60659H4.16955V1.06908H4.1695ZM21.0975 22.2422C21.0975 22.8238 20.6244 23.2969 20.0428 23.2969H1.96089C1.37931 23.2969 0.906203 22.8238 0.906203 22.2422V22.24C1.20077 22.4619 1.56691 22.5938 1.96328 22.5938H16.2172C16.6873 22.5938 17.1294 22.4107 17.4618 22.0782L21.0975 18.4425V22.2422ZM17.1031 21.4425C17.1306 21.3288 17.1456 21.2101 17.1456 21.088V18.7413C17.1456 18.2988 17.5057 17.9387 17.9482 17.9387H20.2949C20.417 17.9387 20.5357 17.9237 20.6494 17.8962L17.1031 21.4425ZM21.0975 6.63066H6.11748C5.92333 6.63066 5.76592 6.78806 5.76592 6.98222C5.76592 7.17637 5.92333 7.33378 6.11748 7.33378H21.0975V16.4331C21.0975 16.8756 20.7375 17.2357 20.2949 17.2357H17.9482C17.118 17.2357 16.4425 17.9111 16.4425 18.7413V21.0881C16.4425 21.5306 16.0825 21.8907 15.64 21.8907H1.96328C1.38044 21.8907 0.90625 21.4165 0.90625 20.8336V7.33378H4.71123C4.90539 7.33378 5.0628 7.17637 5.0628 6.98222C5.0628 6.78806 4.90539 6.63066 4.71123 6.63066H0.906203V3.36675C0.906203 2.78391 1.38039 2.30972 1.96323 2.30972H3.46633V3.34341C3.46633 3.93291 3.94591 4.41248 4.53541 4.41248C4.72956 4.41248 4.88697 4.25508 4.88697 4.06092C4.88697 3.86677 4.72956 3.70936 4.53541 3.70936C4.33361 3.70936 4.16945 3.5452 4.16945 3.34341V2.30972H16.2378V3.34341C16.2378 3.93291 16.7174 4.41248 17.3069 4.41248C17.501 4.41248 17.6584 4.25508 17.6584 4.06092C17.6584 3.86677 17.501 3.70936 17.3069 3.70936C17.1051 3.70936 16.9409 3.5452 16.9409 3.34341V2.30972H20.0405C20.6233 2.30972 21.0975 2.78391 21.0975 3.36675V6.63066ZM4.67294 13.0888H2.99884C2.62037 13.0888 2.31245 13.3967 2.31245 13.7752V15.4493C2.31245 15.8277 2.62037 16.1356 2.99884 16.1356H4.67294C5.05141 16.1356 5.35933 15.8277 5.35933 15.4493V13.7752C5.35933 13.3966 5.05141 13.0888 4.67294 13.0888ZM4.6562 15.4325H3.01558V13.7919H4.6562V15.4325ZM7.77616 11.7869H9.45025C9.82872 11.7869 10.1366 11.479 10.1366 11.1005V9.42642C10.1366 9.04795 9.82872 8.74003 9.45025 8.74003H7.77616C7.39769 8.74003 7.08977 9.04795 7.08977 9.42642V11.1005C7.08977 11.479 7.39769 11.7869 7.77616 11.7869ZM7.79289 9.44316H9.43352V11.0838H7.79289V9.44316ZM12.5698 19.7812C12.5611 19.5948 12.4072 19.4464 12.2186 19.4464C12.0244 19.4464 11.867 19.6038 11.867 19.798C11.867 20.1765 12.175 20.4844 12.5534 20.4844H14.2275C14.606 20.4844 14.9139 20.1765 14.9139 19.798V18.1239C14.9139 17.7454 14.606 17.4375 14.2275 17.4375H12.5534C12.175 17.4375 11.867 17.7454 11.867 18.1239V18.6067C11.867 18.8009 12.0244 18.9583 12.2186 18.9583C12.4127 18.9583 12.5702 18.8009 12.5702 18.6067V18.1406H14.2108V19.7812H12.5698ZM7.77616 16.1356H9.45025C9.82872 16.1356 10.1366 15.8277 10.1366 15.4493V13.7752C10.1366 13.3967 9.82872 13.0888 9.45025 13.0888H7.77616C7.39769 13.0888 7.08977 13.3967 7.08977 13.7752V15.4493C7.08977 15.8277 7.39769 16.1356 7.77616 16.1356ZM7.79289 13.7919H9.43352V15.4325H7.79289V13.7919ZM7.77616 20.4844H9.45025C9.82872 20.4844 10.1366 20.1765 10.1366 19.798V18.1239C10.1366 17.7454 9.82872 17.4375 9.45025 17.4375H7.77616C7.39769 17.4375 7.08977 17.7454 7.08977 18.1239V19.798C7.08977 20.1765 7.39769 20.4844 7.77616 20.4844ZM7.79289 18.1406H9.43352V19.7812H7.79289V18.1406Z" fill="currentColor"/>
                         </svg>
                         <span>Jan 23 , 2024</span>
                       </li>
                       <li>
-                        <svg class="td_accent_color" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="td_accent_color" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <g >
                           <path d="M12 24C18.616 24 24 18.616 24 12C24 5.38401 18.6161 0 12 0C5.38394 0 0 5.38401 0 12C0 18.616 5.38401 24 12 24ZM12 1.59997C17.736 1.59997 22.4 6.26396 22.4 12C22.4 17.736 17.736 22.4 12 22.4C6.26396 22.4 1.59997 17.736 1.59997 12C1.59997 6.26396 6.26402 1.59997 12 1.59997Z" fill="currentColor"/>
                           <path d="M15.4992 15.8209C15.6472 15.9408 15.8232 15.9969 15.9992 15.9969C16.2352 15.9969 16.4672 15.8929 16.6232 15.6969C16.8992 15.3529 16.8431 14.8489 16.4992 14.5729L12.7992 11.6129V5.59686C12.7992 5.15686 12.4392 4.79688 11.9992 4.79688C11.5592 4.79688 11.1992 5.15686 11.1992 5.59686V11.9969C11.1992 12.2409 11.3112 12.4689 11.4992 12.6209L15.4992 15.8209Z" fill="currentColor"/>
@@ -1758,12 +1758,12 @@ const rawPageHtml = `
                       </li>
                     </ul>
                   </div>
-                  <h2 class="td_card_title td_fs_32 td_semibold td_mb_20">
+                  <h2 className="td_card_title td_fs_32 td_semibold td_mb_20">
                     <a href="event-details.html">Free Webinar: Speak English Without Fear</a>
                   </h2>
-                  <p class="td_mb_30 td_fs_18">Join our online English session to learn simple techniques for speaking confidently in real conversations. While there are significant challenges, </p>
-                  <a href="event-details.html" class="td_btn td_style_1 td_radius_10 td_medium">
-                    <span class="td_btn_in td_white_color td_accent_bg">
+                  <p className="td_mb_30 td_fs_18">Join our online English session to learn simple techniques for speaking confidently in real conversations. While there are significant challenges, </p>
+                  <a href="event-details.html" className="td_btn td_style_1 td_radius_10 td_medium">
+                    <span className="td_btn_in td_white_color td_accent_bg">
                       <span>Learn More</span>
                       <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1775,24 +1775,24 @@ const rawPageHtml = `
               </div>
             </div>
           </div>
-          <div class="col-lg-6 td_gap_y_30 flex-wrap d-flex wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.3s">
-            <div class="td_card td_style_1 td_type_1">
-              <a href="event-details.html" class="td_card_thumb d-block">
+          <div className="col-lg-6 td_gap_y_30 flex-wrap d-flex wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.3s">
+            <div className="td_card td_style_1 td_type_1">
+              <a href="event-details.html" className="td_card_thumb d-block">
                 <img src="https://picsum.photos/seed/englishta-82/900/600" alt="">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <i className="fa-solid fa-arrow-up-right-from-square"></i>
               </a>
-              <div class="td_card_info">
-                <div class="td_card_info_in">
-                  <div class="td_mb_20">
-                    <ul class="td_card_meta td_mp_0 td_medium td_heading_color">
+              <div className="td_card_info">
+                <div className="td_card_info_in">
+                  <div className="td_mb_20">
+                    <ul className="td_card_meta td_mp_0 td_medium td_heading_color">
                       <li>
-                        <svg class="td_accent_color" width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="td_accent_color" width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M17.3308 11.7869H19.0049C19.3833 11.7869 19.6913 11.479 19.6913 11.1005V9.42642C19.6913 9.04795 19.3833 8.74003 19.0049 8.74003H17.3308C16.9523 8.74003 16.6444 9.04795 16.6444 9.42642V11.1005C16.6444 11.479 16.9523 11.7869 17.3308 11.7869ZM17.3475 9.44316H18.9881V11.0838H17.3475V9.44316ZM17.3308 16.24H19.0049C19.3833 16.24 19.6913 15.9321 19.6913 15.5536V13.8795C19.6913 13.5011 19.3833 13.1932 19.0049 13.1932H17.3308C16.9523 13.1932 16.6444 13.5011 16.6444 13.8795V15.5536C16.6444 15.9321 16.9523 16.24 17.3308 16.24ZM17.3475 13.8963H18.9881V15.5369H17.3475V13.8963ZM12.5535 11.7869H14.2276C14.606 11.7869 14.914 11.479 14.914 11.1005V9.42642C14.914 9.04795 14.606 8.74003 14.2276 8.74003H12.5535C12.175 8.74003 11.8671 9.04795 11.8671 9.42642V11.1005C11.8671 11.479 12.175 11.7869 12.5535 11.7869ZM12.5702 9.44316H14.2108V11.0838H12.5702V9.44316ZM4.67294 17.4375H2.99884C2.62037 17.4375 2.31245 17.7454 2.31245 18.1239V19.798C2.31245 20.1765 2.62037 20.4844 2.99884 20.4844H4.67294C5.05141 20.4844 5.35933 20.1765 5.35933 19.798V18.1239C5.35933 17.7454 5.05141 17.4375 4.67294 17.4375ZM4.6562 19.7812H3.01558V18.1406H4.6562V19.7812ZM4.67294 8.74003H2.99884C2.62037 8.74003 2.31245 9.04795 2.31245 9.42642V11.1005C2.31245 11.479 2.62037 11.7869 2.99884 11.7869H4.67294C5.05141 11.7869 5.35933 11.479 5.35933 11.1005V9.42642C5.35933 9.04791 5.05141 8.74003 4.67294 8.74003ZM4.6562 11.0838H3.01558V9.44316H4.6562V11.0838ZM12.5535 16.1356H14.2276C14.606 16.1356 14.914 15.8277 14.914 15.4493V13.7752C14.914 13.3967 14.606 13.0888 14.2276 13.0888H12.5535C12.175 13.0888 11.8671 13.3967 11.8671 13.7752V15.4493C11.8671 15.8277 12.175 16.1356 12.5535 16.1356ZM12.5702 13.7919H14.2108V15.4325H12.5702V13.7919ZM20.0404 1.60659H18.5373V1.06908C18.5373 0.479578 18.0578 0 17.4683 0H17.3068C16.7174 0 16.2378 0.479578 16.2378 1.06908V1.60659H5.76592V1.06908C5.76592 0.479578 5.28634 0 4.69684 0H4.53541C3.94591 0 3.46633 0.479578 3.46633 1.06908V1.60659H1.96328C0.992734 1.60659 0.203125 2.3962 0.203125 3.36675V22.2422C0.203125 23.2115 0.991656 24 1.96094 24H20.0429C21.0122 24 21.8007 23.2115 21.8007 22.2422V3.36675C21.8006 2.3962 21.011 1.60659 20.0404 1.60659ZM16.9409 1.06908C16.9409 0.867281 17.1051 0.703125 17.3069 0.703125H17.4683C17.6701 0.703125 17.8343 0.867281 17.8343 1.06908V1.60659H16.9409V1.06908ZM4.1695 1.06908C4.1695 0.867281 4.33366 0.703125 4.53545 0.703125H4.69689C4.89869 0.703125 5.06284 0.867281 5.06284 1.06908V1.60659H4.16955V1.06908H4.1695ZM21.0975 22.2422C21.0975 22.8238 20.6244 23.2969 20.0428 23.2969H1.96089C1.37931 23.2969 0.906203 22.8238 0.906203 22.2422V22.24C1.20077 22.4619 1.56691 22.5938 1.96328 22.5938H16.2172C16.6873 22.5938 17.1294 22.4107 17.4618 22.0782L21.0975 18.4425V22.2422ZM17.1031 21.4425C17.1306 21.3288 17.1456 21.2101 17.1456 21.088V18.7413C17.1456 18.2988 17.5057 17.9387 17.9482 17.9387H20.2949C20.417 17.9387 20.5357 17.9237 20.6494 17.8962L17.1031 21.4425ZM21.0975 6.63066H6.11748C5.92333 6.63066 5.76592 6.78806 5.76592 6.98222C5.76592 7.17637 5.92333 7.33378 6.11748 7.33378H21.0975V16.4331C21.0975 16.8756 20.7375 17.2357 20.2949 17.2357H17.9482C17.118 17.2357 16.4425 17.9111 16.4425 18.7413V21.0881C16.4425 21.5306 16.0825 21.8907 15.64 21.8907H1.96328C1.38044 21.8907 0.90625 21.4165 0.90625 20.8336V7.33378H4.71123C4.90539 7.33378 5.0628 7.17637 5.0628 6.98222C5.0628 6.78806 4.90539 6.63066 4.71123 6.63066H0.906203V3.36675C0.906203 2.78391 1.38039 2.30972 1.96323 2.30972H3.46633V3.34341C3.46633 3.93291 3.94591 4.41248 4.53541 4.41248C4.72956 4.41248 4.88697 4.25508 4.88697 4.06092C4.88697 3.86677 4.72956 3.70936 4.53541 3.70936C4.33361 3.70936 4.16945 3.5452 4.16945 3.34341V2.30972H16.2378V3.34341C16.2378 3.93291 16.7174 4.41248 17.3069 4.41248C17.501 4.41248 17.6584 4.25508 17.6584 4.06092C17.6584 3.86677 17.501 3.70936 17.3069 3.70936C17.1051 3.70936 16.9409 3.5452 16.9409 3.34341V2.30972H20.0405C20.6233 2.30972 21.0975 2.78391 21.0975 3.36675V6.63066ZM4.67294 13.0888H2.99884C2.62037 13.0888 2.31245 13.3967 2.31245 13.7752V15.4493C2.31245 15.8277 2.62037 16.1356 2.99884 16.1356H4.67294C5.05141 16.1356 5.35933 15.8277 5.35933 15.4493V13.7752C5.35933 13.3966 5.05141 13.0888 4.67294 13.0888ZM4.6562 15.4325H3.01558V13.7919H4.6562V15.4325ZM7.77616 11.7869H9.45025C9.82872 11.7869 10.1366 11.479 10.1366 11.1005V9.42642C10.1366 9.04795 9.82872 8.74003 9.45025 8.74003H7.77616C7.39769 8.74003 7.08977 9.04795 7.08977 9.42642V11.1005C7.08977 11.479 7.39769 11.7869 7.77616 11.7869ZM7.79289 9.44316H9.43352V11.0838H7.79289V9.44316ZM12.5698 19.7812C12.5611 19.5948 12.4072 19.4464 12.2186 19.4464C12.0244 19.4464 11.867 19.6038 11.867 19.798C11.867 20.1765 12.175 20.4844 12.5534 20.4844H14.2275C14.606 20.4844 14.9139 20.1765 14.9139 19.798V18.1239C14.9139 17.7454 14.606 17.4375 14.2275 17.4375H12.5534C12.175 17.4375 11.867 17.7454 11.867 18.1239V18.6067C11.867 18.8009 12.0244 18.9583 12.2186 18.9583C12.4127 18.9583 12.5702 18.8009 12.5702 18.6067V18.1406H14.2108V19.7812H12.5698ZM7.77616 16.1356H9.45025C9.82872 16.1356 10.1366 15.8277 10.1366 15.4493V13.7752C10.1366 13.3967 9.82872 13.0888 9.45025 13.0888H7.77616C7.39769 13.0888 7.08977 13.3967 7.08977 13.7752V15.4493C7.08977 15.8277 7.39769 16.1356 7.77616 16.1356ZM7.79289 13.7919H9.43352V15.4325H7.79289V13.7919ZM7.77616 20.4844H9.45025C9.82872 20.4844 10.1366 20.1765 10.1366 19.798V18.1239C10.1366 17.7454 9.82872 17.4375 9.45025 17.4375H7.77616C7.39769 17.4375 7.08977 17.7454 7.08977 18.1239V19.798C7.08977 20.1765 7.39769 20.4844 7.77616 20.4844ZM7.79289 18.1406H9.43352V19.7812H7.79289V18.1406Z" fill="currentColor"/>
                         </svg>
                         <span>Jan 23 , 2024</span>
                       </li>
                       <li>
-                        <svg class="td_accent_color" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="td_accent_color" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <g >
                           <path d="M12 24C18.616 24 24 18.616 24 12C24 5.38401 18.6161 0 12 0C5.38394 0 0 5.38401 0 12C0 18.616 5.38401 24 12 24ZM12 1.59997C17.736 1.59997 22.4 6.26396 22.4 12C22.4 17.736 17.736 22.4 12 22.4C6.26396 22.4 1.59997 17.736 1.59997 12C1.59997 6.26396 6.26402 1.59997 12 1.59997Z" fill="currentColor"/>
                           <path d="M15.4992 15.8209C15.6472 15.9408 15.8232 15.9969 15.9992 15.9969C16.2352 15.9969 16.4672 15.8929 16.6232 15.6969C16.8992 15.3529 16.8431 14.8489 16.4992 14.5729L12.7992 11.6129V5.59686C12.7992 5.15686 12.4392 4.79688 11.9992 4.79688C11.5592 4.79688 11.1992 5.15686 11.1992 5.59686V11.9969C11.1992 12.2409 11.3112 12.4689 11.4992 12.6209L15.4992 15.8209Z" fill="currentColor"/>
@@ -1807,11 +1807,11 @@ const rawPageHtml = `
                       </li>
                     </ul>
                   </div>
-                  <h2 class="td_card_title td_fs_20 td_semibold td_mb_20">
+                  <h2 className="td_card_title td_fs_20 td_semibold td_mb_20">
                     <a href="event-details.html">Online Demo Class for Spoken English</a>
                   </h2>
-                  <span class="td_card_location td_medium td_heading_color">
-                    <svg class="td_accent_color" width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <span className="td_card_location td_medium td_heading_color">
+                    <svg className="td_accent_color" width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M8.0004 0.5C3.86669 0.5 0.554996 3.86526 0.500458 7.98242C0.48345 9.42271 0.942105 10.7046 1.56397 11.8232C2.76977 13.9928 4.04435 16.8182 5.32856 19.4639C5.9286 20.7002 6.89863 21.5052 8.0004 21.5C9.10217 21.4948 10.0665 20.6836 10.6575 19.4404C11.9197 16.7856 13.1685 13.9496 14.4223 11.835C15.1136 10.6691 15.4653 9.3606 15.4974 8.01758C15.5966 3.86772 12.1342 0.5 8.0004 0.5ZM8.0004 2.00586C11.3235 2.00586 14.0821 4.6775 14.0033 7.97363C13.9749 9.08002 13.6796 10.1416 13.1273 11.0732C11.7992 13.3133 10.5449 16.1706 9.2954 18.7988C8.85773 19.7191 8.35538 19.9924 7.98864 19.9941C7.62183 19.9959 7.12572 19.7246 6.68204 18.8105C5.41121 16.1923 4.12648 13.3534 2.87056 11.0938C2.32971 10.121 1.9798 9.11653 1.9946 8.00586C2.03995 4.67555 4.67723 2.00586 8.0004 2.00586ZM8.0004 4.25C5.94024 4.25 4.25034 5.94266 4.25034 8.00586C4.25034 10.0691 5.94024 11.75 8.0004 11.75C10.0605 11.75 11.7503 10.0691 11.7503 8.00586C11.7503 5.94266 10.0605 4.25 8.0004 4.25ZM8.0004 5.74414C9.25065 5.74414 10.2446 6.75372 10.2446 8.00586C10.2446 9.258 9.25065 10.2559 8.0004 10.2559C6.7501 10.2559 5.75331 9.258 5.75331 8.00586C5.75331 6.75372 6.7501 5.74414 8.0004 5.74414Z" fill="currentColor"/>
                     </svg>                    
                     Tsc Center, Northern Asia 
@@ -1819,23 +1819,23 @@ const rawPageHtml = `
                 </div>
               </div>
             </div>
-            <div class="td_card td_style_1 td_type_1">
-              <a href="event-details.html" class="td_card_thumb d-block">
+            <div className="td_card td_style_1 td_type_1">
+              <a href="event-details.html" className="td_card_thumb d-block">
                 <img src="https://picsum.photos/seed/englishta-83/900/600" alt="">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <i className="fa-solid fa-arrow-up-right-from-square"></i>
               </a>
-              <div class="td_card_info">
-                <div class="td_card_info_in">
-                  <div class="td_mb_20">
-                    <ul class="td_card_meta td_mp_0 td_medium td_heading_color">
+              <div className="td_card_info">
+                <div className="td_card_info_in">
+                  <div className="td_mb_20">
+                    <ul className="td_card_meta td_mp_0 td_medium td_heading_color">
                       <li>
-                        <svg class="td_accent_color" width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="td_accent_color" width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M17.3308 11.7869H19.0049C19.3833 11.7869 19.6913 11.479 19.6913 11.1005V9.42642C19.6913 9.04795 19.3833 8.74003 19.0049 8.74003H17.3308C16.9523 8.74003 16.6444 9.04795 16.6444 9.42642V11.1005C16.6444 11.479 16.9523 11.7869 17.3308 11.7869ZM17.3475 9.44316H18.9881V11.0838H17.3475V9.44316ZM17.3308 16.24H19.0049C19.3833 16.24 19.6913 15.9321 19.6913 15.5536V13.8795C19.6913 13.5011 19.3833 13.1932 19.0049 13.1932H17.3308C16.9523 13.1932 16.6444 13.5011 16.6444 13.8795V15.5536C16.6444 15.9321 16.9523 16.24 17.3308 16.24ZM17.3475 13.8963H18.9881V15.5369H17.3475V13.8963ZM12.5535 11.7869H14.2276C14.606 11.7869 14.914 11.479 14.914 11.1005V9.42642C14.914 9.04795 14.606 8.74003 14.2276 8.74003H12.5535C12.175 8.74003 11.8671 9.04795 11.8671 9.42642V11.1005C11.8671 11.479 12.175 11.7869 12.5535 11.7869ZM12.5702 9.44316H14.2108V11.0838H12.5702V9.44316ZM4.67294 17.4375H2.99884C2.62037 17.4375 2.31245 17.7454 2.31245 18.1239V19.798C2.31245 20.1765 2.62037 20.4844 2.99884 20.4844H4.67294C5.05141 20.4844 5.35933 20.1765 5.35933 19.798V18.1239C5.35933 17.7454 5.05141 17.4375 4.67294 17.4375ZM4.6562 19.7812H3.01558V18.1406H4.6562V19.7812ZM4.67294 8.74003H2.99884C2.62037 8.74003 2.31245 9.04795 2.31245 9.42642V11.1005C2.31245 11.479 2.62037 11.7869 2.99884 11.7869H4.67294C5.05141 11.7869 5.35933 11.479 5.35933 11.1005V9.42642C5.35933 9.04791 5.05141 8.74003 4.67294 8.74003ZM4.6562 11.0838H3.01558V9.44316H4.6562V11.0838ZM12.5535 16.1356H14.2276C14.606 16.1356 14.914 15.8277 14.914 15.4493V13.7752C14.914 13.3967 14.606 13.0888 14.2276 13.0888H12.5535C12.175 13.0888 11.8671 13.3967 11.8671 13.7752V15.4493C11.8671 15.8277 12.175 16.1356 12.5535 16.1356ZM12.5702 13.7919H14.2108V15.4325H12.5702V13.7919ZM20.0404 1.60659H18.5373V1.06908C18.5373 0.479578 18.0578 0 17.4683 0H17.3068C16.7174 0 16.2378 0.479578 16.2378 1.06908V1.60659H5.76592V1.06908C5.76592 0.479578 5.28634 0 4.69684 0H4.53541C3.94591 0 3.46633 0.479578 3.46633 1.06908V1.60659H1.96328C0.992734 1.60659 0.203125 2.3962 0.203125 3.36675V22.2422C0.203125 23.2115 0.991656 24 1.96094 24H20.0429C21.0122 24 21.8007 23.2115 21.8007 22.2422V3.36675C21.8006 2.3962 21.011 1.60659 20.0404 1.60659ZM16.9409 1.06908C16.9409 0.867281 17.1051 0.703125 17.3069 0.703125H17.4683C17.6701 0.703125 17.8343 0.867281 17.8343 1.06908V1.60659H16.9409V1.06908ZM4.1695 1.06908C4.1695 0.867281 4.33366 0.703125 4.53545 0.703125H4.69689C4.89869 0.703125 5.06284 0.867281 5.06284 1.06908V1.60659H4.16955V1.06908H4.1695ZM21.0975 22.2422C21.0975 22.8238 20.6244 23.2969 20.0428 23.2969H1.96089C1.37931 23.2969 0.906203 22.8238 0.906203 22.2422V22.24C1.20077 22.4619 1.56691 22.5938 1.96328 22.5938H16.2172C16.6873 22.5938 17.1294 22.4107 17.4618 22.0782L21.0975 18.4425V22.2422ZM17.1031 21.4425C17.1306 21.3288 17.1456 21.2101 17.1456 21.088V18.7413C17.1456 18.2988 17.5057 17.9387 17.9482 17.9387H20.2949C20.417 17.9387 20.5357 17.9237 20.6494 17.8962L17.1031 21.4425ZM21.0975 6.63066H6.11748C5.92333 6.63066 5.76592 6.78806 5.76592 6.98222C5.76592 7.17637 5.92333 7.33378 6.11748 7.33378H21.0975V16.4331C21.0975 16.8756 20.7375 17.2357 20.2949 17.2357H17.9482C17.118 17.2357 16.4425 17.9111 16.4425 18.7413V21.0881C16.4425 21.5306 16.0825 21.8907 15.64 21.8907H1.96328C1.38044 21.8907 0.90625 21.4165 0.90625 20.8336V7.33378H4.71123C4.90539 7.33378 5.0628 7.17637 5.0628 6.98222C5.0628 6.78806 4.90539 6.63066 4.71123 6.63066H0.906203V3.36675C0.906203 2.78391 1.38039 2.30972 1.96323 2.30972H3.46633V3.34341C3.46633 3.93291 3.94591 4.41248 4.53541 4.41248C4.72956 4.41248 4.88697 4.25508 4.88697 4.06092C4.88697 3.86677 4.72956 3.70936 4.53541 3.70936C4.33361 3.70936 4.16945 3.5452 4.16945 3.34341V2.30972H16.2378V3.34341C16.2378 3.93291 16.7174 4.41248 17.3069 4.41248C17.501 4.41248 17.6584 4.25508 17.6584 4.06092C17.6584 3.86677 17.501 3.70936 17.3069 3.70936C17.1051 3.70936 16.9409 3.5452 16.9409 3.34341V2.30972H20.0405C20.6233 2.30972 21.0975 2.78391 21.0975 3.36675V6.63066ZM4.67294 13.0888H2.99884C2.62037 13.0888 2.31245 13.3967 2.31245 13.7752V15.4493C2.31245 15.8277 2.62037 16.1356 2.99884 16.1356H4.67294C5.05141 16.1356 5.35933 15.8277 5.35933 15.4493V13.7752C5.35933 13.3966 5.05141 13.0888 4.67294 13.0888ZM4.6562 15.4325H3.01558V13.7919H4.6562V15.4325ZM7.77616 11.7869H9.45025C9.82872 11.7869 10.1366 11.479 10.1366 11.1005V9.42642C10.1366 9.04795 9.82872 8.74003 9.45025 8.74003H7.77616C7.39769 8.74003 7.08977 9.04795 7.08977 9.42642V11.1005C7.08977 11.479 7.39769 11.7869 7.77616 11.7869ZM7.79289 9.44316H9.43352V11.0838H7.79289V9.44316ZM12.5698 19.7812C12.5611 19.5948 12.4072 19.4464 12.2186 19.4464C12.0244 19.4464 11.867 19.6038 11.867 19.798C11.867 20.1765 12.175 20.4844 12.5534 20.4844H14.2275C14.606 20.4844 14.9139 20.1765 14.9139 19.798V18.1239C14.9139 17.7454 14.606 17.4375 14.2275 17.4375H12.5534C12.175 17.4375 11.867 17.7454 11.867 18.1239V18.6067C11.867 18.8009 12.0244 18.9583 12.2186 18.9583C12.4127 18.9583 12.5702 18.8009 12.5702 18.6067V18.1406H14.2108V19.7812H12.5698ZM7.77616 16.1356H9.45025C9.82872 16.1356 10.1366 15.8277 10.1366 15.4493V13.7752C10.1366 13.3967 9.82872 13.0888 9.45025 13.0888H7.77616C7.39769 13.0888 7.08977 13.3967 7.08977 13.7752V15.4493C7.08977 15.8277 7.39769 16.1356 7.77616 16.1356ZM7.79289 13.7919H9.43352V15.4325H7.79289V13.7919ZM7.77616 20.4844H9.45025C9.82872 20.4844 10.1366 20.1765 10.1366 19.798V18.1239C10.1366 17.7454 9.82872 17.4375 9.45025 17.4375H7.77616C7.39769 17.4375 7.08977 17.7454 7.08977 18.1239V19.798C7.08977 20.1765 7.39769 20.4844 7.77616 20.4844ZM7.79289 18.1406H9.43352V19.7812H7.79289V18.1406Z" fill="currentColor"/>
                         </svg>
                         <span>Jan 23 , 2024</span>
                       </li>
                       <li>
-                        <svg class="td_accent_color" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="td_accent_color" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <g >
                           <path d="M12 24C18.616 24 24 18.616 24 12C24 5.38401 18.6161 0 12 0C5.38394 0 0 5.38401 0 12C0 18.616 5.38401 24 12 24ZM12 1.59997C17.736 1.59997 22.4 6.26396 22.4 12C22.4 17.736 17.736 22.4 12 22.4C6.26396 22.4 1.59997 17.736 1.59997 12C1.59997 6.26396 6.26402 1.59997 12 1.59997Z" fill="currentColor"/>
                           <path d="M15.4992 15.8209C15.6472 15.9408 15.8232 15.9969 15.9992 15.9969C16.2352 15.9969 16.4672 15.8929 16.6232 15.6969C16.8992 15.3529 16.8431 14.8489 16.4992 14.5729L12.7992 11.6129V5.59686C12.7992 5.15686 12.4392 4.79688 11.9992 4.79688C11.5592 4.79688 11.1992 5.15686 11.1992 5.59686V11.9969C11.1992 12.2409 11.3112 12.4689 11.4992 12.6209L15.4992 15.8209Z" fill="currentColor"/>
@@ -1850,11 +1850,11 @@ const rawPageHtml = `
                       </li>
                     </ul>
                   </div>
-                  <h2 class="td_card_title td_fs_20 td_semibold td_mb_20">
+                  <h2 className="td_card_title td_fs_20 td_semibold td_mb_20">
                     <a href="event-details.html">Interview English Practice Session</a>
                   </h2>
-                  <span class="td_card_location td_medium td_heading_color">
-                    <svg class="td_accent_color" width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <span className="td_card_location td_medium td_heading_color">
+                    <svg className="td_accent_color" width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M8.0004 0.5C3.86669 0.5 0.554996 3.86526 0.500458 7.98242C0.48345 9.42271 0.942105 10.7046 1.56397 11.8232C2.76977 13.9928 4.04435 16.8182 5.32856 19.4639C5.9286 20.7002 6.89863 21.5052 8.0004 21.5C9.10217 21.4948 10.0665 20.6836 10.6575 19.4404C11.9197 16.7856 13.1685 13.9496 14.4223 11.835C15.1136 10.6691 15.4653 9.3606 15.4974 8.01758C15.5966 3.86772 12.1342 0.5 8.0004 0.5ZM8.0004 2.00586C11.3235 2.00586 14.0821 4.6775 14.0033 7.97363C13.9749 9.08002 13.6796 10.1416 13.1273 11.0732C11.7992 13.3133 10.5449 16.1706 9.2954 18.7988C8.85773 19.7191 8.35538 19.9924 7.98864 19.9941C7.62183 19.9959 7.12572 19.7246 6.68204 18.8105C5.41121 16.1923 4.12648 13.3534 2.87056 11.0938C2.32971 10.121 1.9798 9.11653 1.9946 8.00586C2.03995 4.67555 4.67723 2.00586 8.0004 2.00586ZM8.0004 4.25C5.94024 4.25 4.25034 5.94266 4.25034 8.00586C4.25034 10.0691 5.94024 11.75 8.0004 11.75C10.0605 11.75 11.7503 10.0691 11.7503 8.00586C11.7503 5.94266 10.0605 4.25 8.0004 4.25ZM8.0004 5.74414C9.25065 5.74414 10.2446 6.75372 10.2446 8.00586C10.2446 9.258 9.25065 10.2559 8.0004 10.2559C6.7501 10.2559 5.75331 9.258 5.75331 8.00586C5.75331 6.75372 6.7501 5.74414 8.0004 5.74414Z" fill="currentColor"/>
                     </svg>                    
                     Tsc Center, Northern Asia 
@@ -1862,23 +1862,23 @@ const rawPageHtml = `
                 </div>
               </div>
             </div>
-            <div class="td_card td_style_1 td_type_1">
-              <a href="event-details.html" class="td_card_thumb d-block">
+            <div className="td_card td_style_1 td_type_1">
+              <a href="event-details.html" className="td_card_thumb d-block">
                 <img src="https://picsum.photos/seed/englishta-84/900/600" alt="">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <i className="fa-solid fa-arrow-up-right-from-square"></i>
               </a>
-              <div class="td_card_info">
-                <div class="td_card_info_in">
-                  <div class="td_mb_20">
-                    <ul class="td_card_meta td_mp_0 td_medium td_heading_color">
+              <div className="td_card_info">
+                <div className="td_card_info_in">
+                  <div className="td_mb_20">
+                    <ul className="td_card_meta td_mp_0 td_medium td_heading_color">
                       <li>
-                        <svg class="td_accent_color" width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="td_accent_color" width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M17.3308 11.7869H19.0049C19.3833 11.7869 19.6913 11.479 19.6913 11.1005V9.42642C19.6913 9.04795 19.3833 8.74003 19.0049 8.74003H17.3308C16.9523 8.74003 16.6444 9.04795 16.6444 9.42642V11.1005C16.6444 11.479 16.9523 11.7869 17.3308 11.7869ZM17.3475 9.44316H18.9881V11.0838H17.3475V9.44316ZM17.3308 16.24H19.0049C19.3833 16.24 19.6913 15.9321 19.6913 15.5536V13.8795C19.6913 13.5011 19.3833 13.1932 19.0049 13.1932H17.3308C16.9523 13.1932 16.6444 13.5011 16.6444 13.8795V15.5536C16.6444 15.9321 16.9523 16.24 17.3308 16.24ZM17.3475 13.8963H18.9881V15.5369H17.3475V13.8963ZM12.5535 11.7869H14.2276C14.606 11.7869 14.914 11.479 14.914 11.1005V9.42642C14.914 9.04795 14.606 8.74003 14.2276 8.74003H12.5535C12.175 8.74003 11.8671 9.04795 11.8671 9.42642V11.1005C11.8671 11.479 12.175 11.7869 12.5535 11.7869ZM12.5702 9.44316H14.2108V11.0838H12.5702V9.44316ZM4.67294 17.4375H2.99884C2.62037 17.4375 2.31245 17.7454 2.31245 18.1239V19.798C2.31245 20.1765 2.62037 20.4844 2.99884 20.4844H4.67294C5.05141 20.4844 5.35933 20.1765 5.35933 19.798V18.1239C5.35933 17.7454 5.05141 17.4375 4.67294 17.4375ZM4.6562 19.7812H3.01558V18.1406H4.6562V19.7812ZM4.67294 8.74003H2.99884C2.62037 8.74003 2.31245 9.04795 2.31245 9.42642V11.1005C2.31245 11.479 2.62037 11.7869 2.99884 11.7869H4.67294C5.05141 11.7869 5.35933 11.479 5.35933 11.1005V9.42642C5.35933 9.04791 5.05141 8.74003 4.67294 8.74003ZM4.6562 11.0838H3.01558V9.44316H4.6562V11.0838ZM12.5535 16.1356H14.2276C14.606 16.1356 14.914 15.8277 14.914 15.4493V13.7752C14.914 13.3967 14.606 13.0888 14.2276 13.0888H12.5535C12.175 13.0888 11.8671 13.3967 11.8671 13.7752V15.4493C11.8671 15.8277 12.175 16.1356 12.5535 16.1356ZM12.5702 13.7919H14.2108V15.4325H12.5702V13.7919ZM20.0404 1.60659H18.5373V1.06908C18.5373 0.479578 18.0578 0 17.4683 0H17.3068C16.7174 0 16.2378 0.479578 16.2378 1.06908V1.60659H5.76592V1.06908C5.76592 0.479578 5.28634 0 4.69684 0H4.53541C3.94591 0 3.46633 0.479578 3.46633 1.06908V1.60659H1.96328C0.992734 1.60659 0.203125 2.3962 0.203125 3.36675V22.2422C0.203125 23.2115 0.991656 24 1.96094 24H20.0429C21.0122 24 21.8007 23.2115 21.8007 22.2422V3.36675C21.8006 2.3962 21.011 1.60659 20.0404 1.60659ZM16.9409 1.06908C16.9409 0.867281 17.1051 0.703125 17.3069 0.703125H17.4683C17.6701 0.703125 17.8343 0.867281 17.8343 1.06908V1.60659H16.9409V1.06908ZM4.1695 1.06908C4.1695 0.867281 4.33366 0.703125 4.53545 0.703125H4.69689C4.89869 0.703125 5.06284 0.867281 5.06284 1.06908V1.60659H4.16955V1.06908H4.1695ZM21.0975 22.2422C21.0975 22.8238 20.6244 23.2969 20.0428 23.2969H1.96089C1.37931 23.2969 0.906203 22.8238 0.906203 22.2422V22.24C1.20077 22.4619 1.56691 22.5938 1.96328 22.5938H16.2172C16.6873 22.5938 17.1294 22.4107 17.4618 22.0782L21.0975 18.4425V22.2422ZM17.1031 21.4425C17.1306 21.3288 17.1456 21.2101 17.1456 21.088V18.7413C17.1456 18.2988 17.5057 17.9387 17.9482 17.9387H20.2949C20.417 17.9387 20.5357 17.9237 20.6494 17.8962L17.1031 21.4425ZM21.0975 6.63066H6.11748C5.92333 6.63066 5.76592 6.78806 5.76592 6.98222C5.76592 7.17637 5.92333 7.33378 6.11748 7.33378H21.0975V16.4331C21.0975 16.8756 20.7375 17.2357 20.2949 17.2357H17.9482C17.118 17.2357 16.4425 17.9111 16.4425 18.7413V21.0881C16.4425 21.5306 16.0825 21.8907 15.64 21.8907H1.96328C1.38044 21.8907 0.90625 21.4165 0.90625 20.8336V7.33378H4.71123C4.90539 7.33378 5.0628 7.17637 5.0628 6.98222C5.0628 6.78806 4.90539 6.63066 4.71123 6.63066H0.906203V3.36675C0.906203 2.78391 1.38039 2.30972 1.96323 2.30972H3.46633V3.34341C3.46633 3.93291 3.94591 4.41248 4.53541 4.41248C4.72956 4.41248 4.88697 4.25508 4.88697 4.06092C4.88697 3.86677 4.72956 3.70936 4.53541 3.70936C4.33361 3.70936 4.16945 3.5452 4.16945 3.34341V2.30972H16.2378V3.34341C16.2378 3.93291 16.7174 4.41248 17.3069 4.41248C17.501 4.41248 17.6584 4.25508 17.6584 4.06092C17.6584 3.86677 17.501 3.70936 17.3069 3.70936C17.1051 3.70936 16.9409 3.5452 16.9409 3.34341V2.30972H20.0405C20.6233 2.30972 21.0975 2.78391 21.0975 3.36675V6.63066ZM4.67294 13.0888H2.99884C2.62037 13.0888 2.31245 13.3967 2.31245 13.7752V15.4493C2.31245 15.8277 2.62037 16.1356 2.99884 16.1356H4.67294C5.05141 16.1356 5.35933 15.8277 5.35933 15.4493V13.7752C5.35933 13.3966 5.05141 13.0888 4.67294 13.0888ZM4.6562 15.4325H3.01558V13.7919H4.6562V15.4325ZM7.77616 11.7869H9.45025C9.82872 11.7869 10.1366 11.479 10.1366 11.1005V9.42642C10.1366 9.04795 9.82872 8.74003 9.45025 8.74003H7.77616C7.39769 8.74003 7.08977 9.04795 7.08977 9.42642V11.1005C7.08977 11.479 7.39769 11.7869 7.77616 11.7869ZM7.79289 9.44316H9.43352V11.0838H7.79289V9.44316ZM12.5698 19.7812C12.5611 19.5948 12.4072 19.4464 12.2186 19.4464C12.0244 19.4464 11.867 19.6038 11.867 19.798C11.867 20.1765 12.175 20.4844 12.5534 20.4844H14.2275C14.606 20.4844 14.9139 20.1765 14.9139 19.798V18.1239C14.9139 17.7454 14.606 17.4375 14.2275 17.4375H12.5534C12.175 17.4375 11.867 17.7454 11.867 18.1239V18.6067C11.867 18.8009 12.0244 18.9583 12.2186 18.9583C12.4127 18.9583 12.5702 18.8009 12.5702 18.6067V18.1406H14.2108V19.7812H12.5698ZM7.77616 16.1356H9.45025C9.82872 16.1356 10.1366 15.8277 10.1366 15.4493V13.7752C10.1366 13.3967 9.82872 13.0888 9.45025 13.0888H7.77616C7.39769 13.0888 7.08977 13.3967 7.08977 13.7752V15.4493C7.08977 15.8277 7.39769 16.1356 7.77616 16.1356ZM7.79289 13.7919H9.43352V15.4325H7.79289V13.7919ZM7.77616 20.4844H9.45025C9.82872 20.4844 10.1366 20.1765 10.1366 19.798V18.1239C10.1366 17.7454 9.82872 17.4375 9.45025 17.4375H7.77616C7.39769 17.4375 7.08977 17.7454 7.08977 18.1239V19.798C7.08977 20.1765 7.39769 20.4844 7.77616 20.4844ZM7.79289 18.1406H9.43352V19.7812H7.79289V18.1406Z" fill="currentColor"/>
                         </svg>
                         <span>Jan 23 , 2024</span>
                       </li>
                       <li>
-                        <svg class="td_accent_color" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="td_accent_color" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <g >
                           <path d="M12 24C18.616 24 24 18.616 24 12C24 5.38401 18.6161 0 12 0C5.38394 0 0 5.38401 0 12C0 18.616 5.38401 24 12 24ZM12 1.59997C17.736 1.59997 22.4 6.26396 22.4 12C22.4 17.736 17.736 22.4 12 22.4C6.26396 22.4 1.59997 17.736 1.59997 12C1.59997 6.26396 6.26402 1.59997 12 1.59997Z" fill="currentColor"/>
                           <path d="M15.4992 15.8209C15.6472 15.9408 15.8232 15.9969 15.9992 15.9969C16.2352 15.9969 16.4672 15.8929 16.6232 15.6969C16.8992 15.3529 16.8431 14.8489 16.4992 14.5729L12.7992 11.6129V5.59686C12.7992 5.15686 12.4392 4.79688 11.9992 4.79688C11.5592 4.79688 11.1992 5.15686 11.1992 5.59686V11.9969C11.1992 12.2409 11.3112 12.4689 11.4992 12.6209L15.4992 15.8209Z" fill="currentColor"/>
@@ -1893,11 +1893,11 @@ const rawPageHtml = `
                       </li>
                     </ul>
                   </div>
-                  <h2 class="td_card_title td_fs_20 td_semibold td_mb_20">
+                  <h2 className="td_card_title td_fs_20 td_semibold td_mb_20">
                     <a href="event-details.html">Pronunciation and Fluency Workshop</a>
                   </h2>
-                  <span class="td_card_location td_medium td_heading_color">
-                    <svg class="td_accent_color" width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <span className="td_card_location td_medium td_heading_color">
+                    <svg className="td_accent_color" width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M8.0004 0.5C3.86669 0.5 0.554996 3.86526 0.500458 7.98242C0.48345 9.42271 0.942105 10.7046 1.56397 11.8232C2.76977 13.9928 4.04435 16.8182 5.32856 19.4639C5.9286 20.7002 6.89863 21.5052 8.0004 21.5C9.10217 21.4948 10.0665 20.6836 10.6575 19.4404C11.9197 16.7856 13.1685 13.9496 14.4223 11.835C15.1136 10.6691 15.4653 9.3606 15.4974 8.01758C15.5966 3.86772 12.1342 0.5 8.0004 0.5ZM8.0004 2.00586C11.3235 2.00586 14.0821 4.6775 14.0033 7.97363C13.9749 9.08002 13.6796 10.1416 13.1273 11.0732C11.7992 13.3133 10.5449 16.1706 9.2954 18.7988C8.85773 19.7191 8.35538 19.9924 7.98864 19.9941C7.62183 19.9959 7.12572 19.7246 6.68204 18.8105C5.41121 16.1923 4.12648 13.3534 2.87056 11.0938C2.32971 10.121 1.9798 9.11653 1.9946 8.00586C2.03995 4.67555 4.67723 2.00586 8.0004 2.00586ZM8.0004 4.25C5.94024 4.25 4.25034 5.94266 4.25034 8.00586C4.25034 10.0691 5.94024 11.75 8.0004 11.75C10.0605 11.75 11.7503 10.0691 11.7503 8.00586C11.7503 5.94266 10.0605 4.25 8.0004 4.25ZM8.0004 5.74414C9.25065 5.74414 10.2446 6.75372 10.2446 8.00586C10.2446 9.258 9.25065 10.2559 8.0004 10.2559C6.7501 10.2559 5.75331 9.258 5.75331 8.00586C5.75331 6.75372 6.7501 5.74414 8.0004 5.74414Z" fill="currentColor"/>
                     </svg>                    
                     Tsc Center, Northern Asia 
@@ -1908,24 +1908,24 @@ const rawPageHtml = `
           </div>
         </div>
       </div>
-      <div class="td_height_120 td_height_lg_80"></div>
+      <div className="td_height_120 td_height_lg_80"></div>
     </section>
     
     
-    <section class="td_heading_bg td_hobble">
-      <div class="td_height_112 td_height_lg_75"></div>
-      <div class="container">
-        <div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-          <h2 class="td_section_title td_fs_48 mb-0 td_white_color">Start Speaking English With Us</h2>
-          <p class="td_section_subtitle td_fs_18 mb-0 td_white_color td_opacity_7">Join Englishta online classes from Nashik and build fluency through <br>conversation practice, grammar correction, and confidence coaching. </p>
+    <section className="td_heading_bg td_hobble">
+      <div className="td_height_112 td_height_lg_75"></div>
+      <div className="container">
+        <div className="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+          <h2 className="td_section_title td_fs_48 mb-0 td_white_color">Start Speaking English With Us</h2>
+          <p className="td_section_subtitle td_fs_18 mb-0 td_white_color td_opacity_7">Join Englishta online classes from Nashik and build fluency through <br>conversation practice, grammar correction, and confidence coaching. </p>
         </div>
-        <div class="td_height_50 td_height_lg_50"></div>
-        <div class="row align-items-center td_gap_y_40">
-          <div class="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-            <div class="td_testimonial_img_wrap">
-              <img src="https://picsum.photos/seed/englishta-85/900/600" alt="" class="td_testimonial_img">
-              <span class="td_testimonial_img_shape_1"><span></span></span>
-              <span class="td_testimonial_img_shape_2 td_accent_color td_hover_layer_3">
+        <div className="td_height_50 td_height_lg_50"></div>
+        <div className="row align-items-center td_gap_y_40">
+          <div className="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+            <div className="td_testimonial_img_wrap">
+              <img src="https://picsum.photos/seed/englishta-85/900/600" alt="" className="td_testimonial_img">
+              <span className="td_testimonial_img_shape_1"><span></span></span>
+              <span className="td_testimonial_img_shape_2 td_accent_color td_hover_layer_3">
                 <svg width="145" height="165" viewBox="0 0 145 165" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M145.003 25.9077L139.516 27.7024L143.814 31.5573L145.003 25.9077ZM69.5244 11.4999L69.2176 11.1051L69.5244 11.4999ZM69.5244 53.0379L69.3973 53.5215L69.5244 53.0379ZM141.65 28.8989C135.031 35.2997 125.943 38.4375 116.315 39.2654C106.688 40.0931 96.561 38.607 87.9207 35.8021C79.2649 32.9923 72.1739 28.8832 68.5572 24.5234C66.753 22.3484 65.8508 20.1579 65.9824 18.0635C66.1133 15.9807 67.2739 13.8818 69.8312 11.8948L69.2176 11.1051C66.5057 13.2123 65.1383 15.552 64.9844 18.0007C64.8313 20.4378 65.8877 22.8715 67.7876 25.1618C71.5792 29.7325 78.8783 33.9182 87.6119 36.7533C96.361 39.5934 106.622 41.1025 116.4 40.2617C126.177 39.4211 135.511 36.2268 142.346 29.6178L141.65 28.8989ZM69.8312 11.8948C76.1217 7.00714 81.1226 4.09865 85.0169 2.71442C88.9178 1.32781 91.6197 1.49918 93.4091 2.61867C95.1994 3.73872 96.231 5.90455 96.5629 8.8701C96.894 11.8276 96.5159 15.4895 95.5803 19.4474C93.7094 27.3612 89.6393 36.3356 84.7843 42.9886C82.3565 46.3156 79.7503 49.0371 77.1481 50.7594C74.545 52.4823 72.001 53.1717 69.6515 52.5543L69.3973 53.5215C72.1238 54.238 74.964 53.4042 77.7 51.5933C80.437 49.7818 83.1248 46.9592 85.5921 43.578C90.5275 36.8148 94.6527 27.7176 96.5534 19.6775C97.5035 15.6584 97.9053 11.8728 97.5567 8.75886C97.2091 5.65298 96.1014 3.12347 93.9395 1.77091C91.7766 0.417783 88.7131 0.33927 84.6819 1.77217C80.6441 3.20744 75.5463 6.18784 69.2176 11.1051L69.8312 11.8948ZM69.6515 52.5543C56.6241 49.1307 47.457 52.0938 41.14 58.6639C34.8623 65.1932 31.4678 75.2154 29.7777 85.7878C28.0854 96.3743 28.0905 107.589 28.673 116.58C28.9644 121.078 29.4007 125.024 29.843 128.065C30.2827 131.086 30.7341 133.255 31.0666 134.168L32.0062 133.825C31.7138 133.023 31.2736 130.952 30.8326 127.921C30.3942 124.908 29.9607 120.988 29.6709 116.516C29.0912 107.568 29.0886 96.4337 30.7652 85.9456C32.444 75.4434 35.7949 65.6661 41.8608 59.357C47.8875 53.0888 56.6625 50.1748 69.3973 53.5215L69.6515 52.5543Z" fill="white"/>
                   <circle cx="34" cy="150" r="15" fill="currentColor"/>
@@ -1935,68 +1935,68 @@ const rawPageHtml = `
               </span>
             </div>
           </div>
-          <div class="col-lg-6 wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
-            <div class="td_slider td_style_1">
-              <div class="td_slider_container" data-autoplay="0" data-loop="1" data-speed="800" data-center="0" data-variable-width="0" data-slides-per-view="1">
-                <div class="td_slider_wrapper">
-                  <div class="td_slide">
-                    <div class="td_testimonial td_style_1 td_white_bg td_radius_5">
-                      <span class="td_quote_icon td_accent_color">
+          <div className="col-lg-6 wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
+            <div className="td_slider td_style_1">
+              <div className="td_slider_container" data-autoplay="0" data-loop="1" data-speed="800" data-center="0" data-variable-width="0" data-slides-per-view="1">
+                <div className="td_slider_wrapper">
+                  <div className="td_slide">
+                    <div className="td_testimonial td_style_1 td_white_bg td_radius_5">
+                      <span className="td_quote_icon td_accent_color">
                         <svg width="65" height="46" viewBox="0 0 65 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path opacity="0.05" d="M13.9286 26.6H1V1H26.8571V27.362L17.956 45H6.26764L14.8213 28.0505L15.5534 26.6H13.9286ZM51.0714 26.6H38.1429V1H64V27.362L55.0988 45H43.4105L51.9642 28.0505L52.6962 26.6H51.0714Z" fill="currentColor" stroke="currentColor" stroke-width="2"/>
                         </svg>
                       </span>              
-                      <div class="td_testimonial_meta td_mb_24">
+                      <div className="td_testimonial_meta td_mb_24">
                         <img src="https://picsum.photos/seed/englishta-86/900/600" alt="">
-                        <div class="td_testimonial_meta_right">
-                          <h3 class="td_fs_24 td_semibold td_mb_2">Rohit Patil</h3>
-                          <p class="td_fs_14 mb-0 td_heading_color td_opacity_7">Online Spoken English Learner</p>
+                        <div className="td_testimonial_meta_right">
+                          <h3 className="td_fs_24 td_semibold td_mb_2">Rohit Patil</h3>
+                          <p className="td_fs_14 mb-0 td_heading_color td_opacity_7">Online Spoken English Learner</p>
                         </div>
                       </div>
-                      <blockquote class="td_testimonial_text td_fs_20 td_medium td_heading_color td_mb_24 td_opacity_9">Englishta helped me speak without fear. The online sessions are practical, friendly, and focused on real conversations.</blockquote>
-                      <div class="td_rating" data-rating="5">
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <div class="td_rating_percentage">
-                          <i class="fa-solid fa-star fa-fw"></i>
-                          <i class="fa-solid fa-star fa-fw"></i>
-                          <i class="fa-solid fa-star fa-fw"></i>
-                          <i class="fa-solid fa-star fa-fw"></i>
-                          <i class="fa-solid fa-star fa-fw"></i>
+                      <blockquote className="td_testimonial_text td_fs_20 td_medium td_heading_color td_mb_24 td_opacity_9">Englishta helped me speak without fear. The online sessions are practical, friendly, and focused on real conversations.</blockquote>
+                      <div className="td_rating" data-rating="5">
+                        <i className="fa-regular fa-star"></i>
+                        <i className="fa-regular fa-star"></i>
+                        <i className="fa-regular fa-star"></i>
+                        <i className="fa-regular fa-star"></i>
+                        <i className="fa-regular fa-star"></i>
+                        <div className="td_rating_percentage">
+                          <i className="fa-solid fa-star fa-fw"></i>
+                          <i className="fa-solid fa-star fa-fw"></i>
+                          <i className="fa-solid fa-star fa-fw"></i>
+                          <i className="fa-solid fa-star fa-fw"></i>
+                          <i className="fa-solid fa-star fa-fw"></i>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="td_slide">
-                    <div class="td_testimonial td_style_1 td_white_bg td_radius_5">
-                      <span class="td_quote_icon td_accent_color">
+                  <div className="td_slide">
+                    <div className="td_testimonial td_style_1 td_white_bg td_radius_5">
+                      <span className="td_quote_icon td_accent_color">
                         <svg width="65" height="46" viewBox="0 0 65 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path opacity="0.05" d="M13.9286 26.6H1V1H26.8571V27.362L17.956 45H6.26764L14.8213 28.0505L15.5534 26.6H13.9286ZM51.0714 26.6H38.1429V1H64V27.362L55.0988 45H43.4105L51.9642 28.0505L52.6962 26.6H51.0714Z" fill="currentColor" stroke="currentColor" stroke-width="2"/>
                         </svg>
                       </span>              
-                      <div class="td_testimonial_meta td_mb_24">
+                      <div className="td_testimonial_meta td_mb_24">
                         <img src="https://picsum.photos/seed/englishta-87/900/600" alt="">
-                        <div class="td_testimonial_meta_right">
-                          <h3 class="td_fs_24 td_semibold td_mb_2">Sneha Kulkarni</h3>
-                          <p class="td_fs_14 mb-0 td_heading_color td_opacity_7">Interview English Learner</p>
+                        <div className="td_testimonial_meta_right">
+                          <h3 className="td_fs_24 td_semibold td_mb_2">Sneha Kulkarni</h3>
+                          <p className="td_fs_14 mb-0 td_heading_color td_opacity_7">Interview English Learner</p>
                         </div>
                       </div>
-                      <blockquote class="td_testimonial_text td_fs_20 td_medium td_heading_color td_mb_24 td_opacity_9">Englishta helped me speak without fear. The online sessions are practical, friendly, and focused on real conversations.</blockquote>
-                      <div class="td_rating" data-rating="4.5">
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <div class="td_rating_percentage">
-                          <i class="fa-solid fa-star fa-fw"></i>
-                          <i class="fa-solid fa-star fa-fw"></i>
-                          <i class="fa-solid fa-star fa-fw"></i>
-                          <i class="fa-solid fa-star fa-fw"></i>
-                          <i class="fa-solid fa-star fa-fw"></i>
+                      <blockquote className="td_testimonial_text td_fs_20 td_medium td_heading_color td_mb_24 td_opacity_9">Englishta helped me speak without fear. The online sessions are practical, friendly, and focused on real conversations.</blockquote>
+                      <div className="td_rating" data-rating="4.5">
+                        <i className="fa-regular fa-star"></i>
+                        <i className="fa-regular fa-star"></i>
+                        <i className="fa-regular fa-star"></i>
+                        <i className="fa-regular fa-star"></i>
+                        <i className="fa-regular fa-star"></i>
+                        <div className="td_rating_percentage">
+                          <i className="fa-solid fa-star fa-fw"></i>
+                          <i className="fa-solid fa-star fa-fw"></i>
+                          <i className="fa-solid fa-star fa-fw"></i>
+                          <i className="fa-solid fa-star fa-fw"></i>
+                          <i className="fa-solid fa-star fa-fw"></i>
                         </div>
                       </div>
                     </div>
@@ -2007,82 +2007,82 @@ const rawPageHtml = `
           </div>
         </div>
       </div>
-      <div class="td_height_120 td_height_lg_80"></div>
+      <div className="td_height_120 td_height_lg_80"></div>
     </section>
     
     
     <section>
-      <div class="td_height_112 td_height_lg_75"></div>
-      <div class="container">
-        <div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-          <p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">BLOG & TIPS</p>
-          <h2 class="td_section_title td_fs_48 mb-0">English Speaking Tips <br>From Englishta</h2>
+      <div className="td_height_112 td_height_lg_75"></div>
+      <div className="container">
+        <div className="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+          <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">BLOG & TIPS</p>
+          <h2 className="td_section_title td_fs_48 mb-0">English Speaking Tips <br>From Englishta</h2>
         </div>
-        <div class="td_height_50 td_height_lg_50"></div>
-        <div class="row td_gap_y_30">
-          <div class="col-lg-4 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-            <div class="td_post td_style_1">
-              <a href="blog-details.html" class="td_post_thumb d-block">
+        <div className="td_height_50 td_height_lg_50"></div>
+        <div className="row td_gap_y_30">
+          <div className="col-lg-4 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+            <div className="td_post td_style_1">
+              <a href="blog-details.html" className="td_post_thumb d-block">
                 <img src="https://picsum.photos/seed/englishta-88/900/600" alt="">
-                <i class="fa-solid fa-link"></i>
+                <i className="fa-solid fa-link"></i>
               </a>
-              <div class="td_post_info">
-                <div class="td_post_meta td_fs_14 td_medium td_mb_20">
+              <div className="td_post_info">
+                <div className="td_post_meta td_fs_14 td_medium td_mb_20">
                   <span><img src="https://picsum.photos/seed/englishta-89/900/600" alt="">Jan 23 , 2024</span>
                   <span><img src="https://picsum.photos/seed/englishta-90/900/600" alt="">Englishta Team</span>
                 </div>
-                <h2 class="td_post_title td_fs_24 td_medium td_mb_16">
+                <h2 className="td_post_title td_fs_24 td_medium td_mb_16">
                   <a href="blog-details.html">How to Start Speaking English Every Day</a>
                 </h2>
-                <p class="td_post_subtitle td_mb_24 td_heading_color td_opacity_7">Simple tips to improve fluency, clarity, and confidence in daily English.</p>
-                <a href="blog-details.html" class="td_btn td_style_1 td_type_3 td_radius_30 td_medium">
-                  <span class="td_btn_in td_accent_color">
+                <p className="td_post_subtitle td_mb_24 td_heading_color td_opacity_7">Simple tips to improve fluency, clarity, and confidence in daily English.</p>
+                <a href="blog-details.html" className="td_btn td_style_1 td_type_3 td_radius_30 td_medium">
+                  <span className="td_btn_in td_accent_color">
                     <span>Read More</span>
                   </span>             
                 </a>
               </div>
             </div>
           </div>
-          <div class="col-lg-4 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
-            <div class="td_post td_style_1">
-              <a href="blog-details.html" class="td_post_thumb d-block">
+          <div className="col-lg-4 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
+            <div className="td_post td_style_1">
+              <a href="blog-details.html" className="td_post_thumb d-block">
                 <img src="https://picsum.photos/seed/englishta-91/900/600" alt="">
-                <i class="fa-solid fa-link"></i>
+                <i className="fa-solid fa-link"></i>
               </a>
-              <div class="td_post_info">
-                <div class="td_post_meta td_fs_14 td_medium td_mb_20">
+              <div className="td_post_info">
+                <div className="td_post_meta td_fs_14 td_medium td_mb_20">
                   <span><img src="https://picsum.photos/seed/englishta-92/900/600" alt="">Jan 20 , 2024</span>
                   <span><img src="https://picsum.photos/seed/englishta-93/900/600" alt="">Englishta Team</span>
                 </div>
-                <h2 class="td_post_title td_fs_24 td_medium td_mb_16">
+                <h2 className="td_post_title td_fs_24 td_medium td_mb_16">
                   <a href="blog-details.html">Common Grammar Mistakes While Speaking</a>
                 </h2>
-                <p class="td_post_subtitle td_mb_24 td_heading_color td_opacity_7">Simple tips to improve fluency, clarity, and confidence in daily English.</p>
-                <a href="blog-details.html" class="td_btn td_style_1 td_type_3 td_radius_30 td_medium">
-                  <span class="td_btn_in td_accent_color">
+                <p className="td_post_subtitle td_mb_24 td_heading_color td_opacity_7">Simple tips to improve fluency, clarity, and confidence in daily English.</p>
+                <a href="blog-details.html" className="td_btn td_style_1 td_type_3 td_radius_30 td_medium">
+                  <span className="td_btn_in td_accent_color">
                     <span>Read More</span>
                   </span>             
                 </a>
               </div>
             </div>
           </div>
-          <div class="col-lg-4 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
-            <div class="td_post td_style_1">
-              <a href="blog-details.html" class="td_post_thumb d-block">
+          <div className="col-lg-4 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
+            <div className="td_post td_style_1">
+              <a href="blog-details.html" className="td_post_thumb d-block">
                 <img src="https://picsum.photos/seed/englishta-94/900/600" alt="">
-                <i class="fa-solid fa-link"></i>
+                <i className="fa-solid fa-link"></i>
               </a>
-              <div class="td_post_info">
-                <div class="td_post_meta td_fs_14 td_medium td_mb_20">
+              <div className="td_post_info">
+                <div className="td_post_meta td_fs_14 td_medium td_mb_20">
                   <span><img src="https://picsum.photos/seed/englishta-95/900/600" alt="">Jan 18 , 2024</span>
                   <span><img src="https://picsum.photos/seed/englishta-96/900/600" alt="">Englishta Team</span>
                 </div>
-                <h2 class="td_post_title td_fs_24 td_medium td_mb_16">
+                <h2 className="td_post_title td_fs_24 td_medium td_mb_16">
                   <a href="blog-details.html">How to Prepare for an English Interview</a>
                 </h2>
-                <p class="td_post_subtitle td_mb_24 td_heading_color td_opacity_7">Simple tips to improve fluency, clarity, and confidence in daily English.</p>
-                <a href="blog-details.html" class="td_btn td_style_1 td_type_3 td_radius_30 td_medium">
-                  <span class="td_btn_in td_accent_color">
+                <p className="td_post_subtitle td_mb_24 td_heading_color td_opacity_7">Simple tips to improve fluency, clarity, and confidence in daily English.</p>
+                <a href="blog-details.html" className="td_btn td_style_1 td_type_3 td_radius_30 td_medium">
+                  <span className="td_btn_in td_accent_color">
                     <span>Read More</span>
                   </span>             
                 </a>
@@ -2091,31 +2091,40 @@ const rawPageHtml = `
           </div>
         </div>
       </div>
-      <div class="td_height_120 td_height_lg_80"></div>
+      <div className="td_height_120 td_height_lg_80"></div>
     </section>
 
     
     
-    <div class="td_scrollup">
-      <i class="fa-solid fa-arrow-up"></i>
+    <div className="td_scrollup">
+      <i className="fa-solid fa-arrow-up"></i>
     </div>
     `;
 
-const pageHtml = rawPageHtml.replace(
+const normalizeInjectedHtml = (html) =>
+  html
+    .replaceAll("className=", "class=")
+    .replaceAll("clipPath=", "clip-path=")
+    .replaceAll("strokeWidth=", "stroke-width=")
+    .replaceAll("strokeLinecap=", "stroke-linecap=")
+    .replaceAll("strokeLinejoin=", "stroke-linejoin=");
+
+const pageHtml = normalizeInjectedHtml(rawPageHtml).replace(
   /<section class="branddarkenglishta td_shape_section_1 td_video_showcase">[\s\S]*?<\/section>/,
   "__ENGLISHTA_VIDEO_SECTION__",
 );
 
-const Preloader = () => {
+const Preloader = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
       setIsVisible(false);
+      onComplete?.();
     }, 300);
 
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [onComplete]);
 
   if (!isVisible) {
     return null;
@@ -2131,34 +2140,41 @@ const Preloader = () => {
   );
 };
 
-const HomeBanner = () => {
+const HomeBanner = ({ isReady = false }) => {
   return (
-    <section className="englishtaHeroShade" aria-label="Online English speaking course">
-      <div className="englishtaHeroShade__inner">
-        <div className="englishtaHeroShade__copy">
-          <p className="englishtaHeroShade__eyebrow">Online English Speaking Course</p>
-          <h1>
-            Speak English
-            <span> Confidently.</span>
-            <strong>Anytime. Anywhere.</strong>
-          </h1>
-          <p className="englishtaHeroShade__text">
-            Master English speaking with India&apos;s trusted platform. Practical learning, real-life results.
-          </p>
-          <div className="englishtaHeroShade__actions">
-            <a href="/contact-us" className="englishtaHeroShade__primary">
-              Join Free Demo Class
-            </a>
-            <a href="/courses" className="englishtaHeroShade__secondary">
-              Explore Courses
-            </a>
-          </div>
+    <section
+      className={isReady ? "englishtaHeroShade englishtaHeroShade--ready" : "englishtaHeroShade"}
+      aria-label="Online English speaking course"
+    >
+      <div className="englishtaHeroShade__content">
+        <p className="englishtaHeroShade__proof">Trusted by 10,000+ learners</p>
+        <h1 className="englishtaHeroShade__headline">
+          Speak English Confidently.
+          <span>Anytime. Anywhere.</span>
+        </h1>
+        <div className="englishtaHeroShade__actions">
+          <a href="/contact-us" className="englishtaHeroShade__cta englishtaHeroShade__cta--primary">
+            Join Free Demo Class
+          </a>
+          <a href="/courses" className="englishtaHeroShade__cta englishtaHeroShade__cta--secondary">
+            Explore Courses
+          </a>
         </div>
+      </div>
 
-        {/* <div className="englishtaHeroShade__visual">
-          <div className="englishtaHeroShade__circle" />
-          <img src="/assets/images/rightsidebanner1.png" alt="Student learning English online" />
-        </div> */}
+      <div className="englishtaHeroShade__features" aria-label="Course highlights">
+        <div className="englishtaHeroShade__feature">
+          <i className="fa-solid fa-chart-simple" />
+          <span>Live online speaking practice</span>
+        </div>
+        <div className="englishtaHeroShade__feature">
+          <i className="fa-solid fa-user-group" />
+          <span>Personal feedback from expert tutor</span>
+        </div>
+        <div className="englishtaHeroShade__feature">
+          <i className="fa-solid fa-location-dot" />
+          <span>Fluency for interviews and daily life</span>
+        </div>
       </div>
     </section>
   );
@@ -2196,57 +2212,80 @@ const videoCards = [
   },
 ];
 
-const VideoShowcase = () => {
+const videoCardClasses = [
+  "englishtaVideoShowcase__card--featured englishtaVideoShowcase__card--tiltLeft",
+  "englishtaVideoShowcase__card--tiltRight",
+  "englishtaVideoShowcase__card--tiltSoftLeft",
+  "englishtaVideoShowcase__card--tiltSoftRight",
+];
+
+const VideoShowcase = ({ videos = [] }) => {
+  const displayVideos = videos.length
+    ? videos.slice(0, 4).map((video, index) => ({
+      ...video,
+      className: videoCardClasses[index] ?? videoCardClasses[videoCardClasses.length - 1],
+    }))
+    : videoCards;
+  const hasBackendVideos = videos.length > 0;
+
   return (
-    <section className="englishtaVideoShowcase" aria-label="Englishta training videos">
+    <section className="englishtaVideoShowcase">
+      <span className="englishtaVideoShowcase__spark englishtaVideoShowcase__spark--one" />
+      <span className="englishtaVideoShowcase__spark englishtaVideoShowcase__spark--two" />
+      <span className="englishtaVideoShowcase__triangle" />
       <div className="englishtaVideoShowcase__shell">
         <div className="englishtaVideoShowcase__intro">
           <h2>
             Watch Real
             <span>English Training</span>
-            Training Sessions
+            <span>Sessions</span>
           </h2>
-
           <p>
-            Watch practical Englishta lessons, demo classes, pronunciation tips, and speaking practice videos
-            designed for online English learners.
+            Watch practical Englishta lessons, demo classes, pronunciation tips, and speaking practice videos designed
+            for online English learners.
           </p>
-
-          <div className="englishtaVideoShowcase__trail">
-            <div className="englishtaVideoShowcase__trailArc" aria-hidden="true" />
-            <div className="englishtaVideoShowcase__trailArrow" aria-hidden="true">
-              <i className="fa-solid fa-arrow-right-long" />
-            </div>
-            <div className="englishtaVideoShowcase__trailTag">Videos</div>
+          <div className="englishtaVideoShowcase__trail" aria-hidden="true">
+            <span className="englishtaVideoShowcase__trailArc" />
+            <span className="englishtaVideoShowcase__trailArrow">➜</span>
+            <span className="englishtaVideoShowcase__trailTag">Videos</span>
           </div>
         </div>
 
         <div className="englishtaVideoShowcase__grid">
-          {videoCards.map((card) => (
-            <a href="/webinar" className={`englishtaVideoShowcase__card ${card.className ?? ""}`} key={card.title}>
-              <img src={card.image} alt={card.title} />
-              <div className="englishtaVideoShowcase__overlay" />
-              <div className="englishtaVideoShowcase__network" />
-              <div className="englishtaVideoShowcase__cardMeta">
-                <span className="englishtaVideoShowcase__avatar">
-                  {card.channel.slice(0, 1)}
+          {displayVideos.map((video, index) => (
+            <div className={`englishtaVideoShowcase__card ${video.className}`} key={video._id ?? video.title}>
+              {video.youtubeIframe ? (
+                <span
+                  className="englishtaVideoShowcase__iframe"
+                  dangerouslySetInnerHTML={{ __html: video.youtubeIframe }}
+                />
+              ) : (
+                <img src={video.image} alt={video.title} />
+              )}
+              {!hasBackendVideos ? <span className="englishtaVideoShowcase__overlay" /> : null}
+              {!hasBackendVideos && index === 0 ? (
+                <>
+                  <span className="englishtaVideoShowcase__cardMeta">
+                    <span className="englishtaVideoShowcase__avatar">E</span>
+                    <span>
+                      <strong>{video.channel}</strong>
+                      <span>Prof. Raj Shekle</span>
+                    </span>
+                  </span>
+                  <span className="englishtaVideoShowcase__play">
+                    <i className="fa-brands fa-youtube" />
+                  </span>
+                  <span className="englishtaVideoShowcase__liveTag">{video.label}</span>
+                </>
+              ) : null}
+              {!hasBackendVideos ? <span className="englishtaVideoShowcase__network" /> : null}
+              {!hasBackendVideos ? (
+                <span className="englishtaVideoShowcase__cardTitle">
+                  <h3>{video.title}</h3>
+                  <span>↗</span>
                 </span>
-                <div>
-                  <strong>{card.channel}</strong>
-                  <span>{card.title}</span>
-                </div>
-              </div>
-              {card.label ? <span className="englishtaVideoShowcase__liveTag">{card.label}</span> : null}
-              <span className="englishtaVideoShowcase__play">
-                <i className="fa-brands fa-youtube" />
-              </span>
-              <div className="englishtaVideoShowcase__cardTitle">
-                <h3>{card.title}</h3>
-                <span>
-                  <i className="fa-solid fa-arrow-up-right-from-square" />
-                </span>
-              </div>
-            </a>
+              ) : null}
+            </div>
           ))}
         </div>
       </div>
@@ -2255,18 +2294,44 @@ const VideoShowcase = () => {
 };
 
 const Home = () => {
+  const [youtubeVideos, setYoutubeVideos] = useState([]);
+  const [isHeroReady, setIsHeroReady] = useState(false);
+  const handlePreloaderComplete = useCallback(() => {
+    setIsHeroReady(true);
+  }, []);
   const { beforeVideos, afterVideos } = useMemo(() => {
     const [before = "", after = ""] = pageHtml.split("__ENGLISHTA_VIDEO_SECTION__");
     return { beforeVideos: before, afterVideos: after };
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/youtube-videos", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((payload) => {
+        if (isMounted && payload.success) {
+          setYoutubeVideos(payload.data.filter((video) => video.visible !== "No"));
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setYoutubeVideos([]);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <>
-      <Preloader />
+      <Preloader onComplete={handlePreloaderComplete} />
       <Navbar />
-      <HomeBanner />
+      <HomeBanner isReady={isHeroReady} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: beforeVideos }} />
-      <VideoShowcase />
+      <VideoShowcase videos={youtubeVideos} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: afterVideos }} />
       <Footer />
     </>
@@ -2274,3 +2339,4 @@ const Home = () => {
 };
 
 export default Home;
+
