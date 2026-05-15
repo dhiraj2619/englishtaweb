@@ -81,7 +81,7 @@ const CourseDetailPage = () => {
       <main className="englishtaCourseDetail">
         {loading ? (
           <section className="englishtaCourseDetail__loading">
-            <div className="container">
+            <div className="container wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
               <span />
               <h1>Loading course...</h1>
             </div>
@@ -89,13 +89,13 @@ const CourseDetailPage = () => {
         ) : null}
 
         {!loading && error ? (
-          <section className="englishtaCoursesNotice englishtaCourseDetail__notice">
+          <section className="englishtaCoursesNotice englishtaCourseDetail__notice wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
             {error}
           </section>
         ) : null}
 
         {!loading && !error && !course ? (
-          <section className="englishtaCoursesNotice englishtaCourseDetail__notice">
+          <section className="englishtaCoursesNotice englishtaCourseDetail__notice wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
             Course not found. <Link href="/courses">View all courses</Link>
           </section>
         ) : null}
@@ -104,7 +104,7 @@ const CourseDetailPage = () => {
           <>
             <section className="englishtaCourseDetailHero">
               <div className="container">
-                <div className="englishtaCourseDetailHero__copy">
+                <div className="englishtaCourseDetailHero__copy wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
                   <Link href="/courses" className="englishtaCourseDetailHero__back">
                     <i className="fa-solid fa-arrow-left" />
                     Courses
@@ -123,7 +123,7 @@ const CourseDetailPage = () => {
                     </a>
                   </div>
                 </div>
-                <div className="englishtaCourseDetailHero__media">
+                <div className="englishtaCourseDetailHero__media wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
                   <img src={course.thumbnail} alt={course.name} />
                   <div>
                     <strong>Starting from {course.price}</strong>
@@ -135,7 +135,7 @@ const CourseDetailPage = () => {
 
             <section className="englishtaCourseDetailBody">
               <div className="container">
-                <article className="englishtaCourseDetailBody__main">
+                <article className="englishtaCourseDetailBody__main wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
                   <section className="englishtaCourseDetailSection">
                     <p className="englishtaCourseDetailBody__eyebrow">About this course</p>
                     <h2>Learn with structure, speaking practice, and personal correction.</h2>
@@ -179,7 +179,7 @@ const CourseDetailPage = () => {
                   </div>
                 </article>
 
-                <aside className="englishtaCourseDetailCard">
+                <aside className="englishtaCourseDetailCard wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
                   <h3>Ready to start?</h3>
                   <p>Tell us your goal and we will suggest the right English practice plan.</p>
                   <Link href="/contact-us">Join Free Demo Class</Link>

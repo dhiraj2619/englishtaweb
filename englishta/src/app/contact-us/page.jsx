@@ -7,7 +7,7 @@ const ContactUs = () => {
       <Navbar />
       <main className="englishta-contact-page">
         <section className="englishta-contact-hero">
-          <div className="container">
+          <div className="container wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
             <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">
               Contact Englishta
             </p>
@@ -23,7 +23,7 @@ const ContactUs = () => {
         <section className="englishta-contact-section">
           <div className="container">
             <div className="englishta-contact-grid">
-              <div className="englishta-contact-info">
+              <div className="englishta-contact-info wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
                 <div className="englishta-contact-card">
                   <i className="fa-solid fa-phone" />
                   <div>
@@ -55,7 +55,7 @@ const ContactUs = () => {
                 </div>
               </div>
 
-              <form className="englishta-contact-form">
+              <form className="englishta-contact-form wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
                 <div className="englishta-form-row">
                   <label>
                     Full Name

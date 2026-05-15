@@ -2146,7 +2146,7 @@ const HomeBanner = ({ isReady = false }) => {
       className={isReady ? "englishtaHeroShade englishtaHeroShade--ready" : "englishtaHeroShade"}
       aria-label="Online English speaking course"
     >
-      <div className="englishtaHeroShade__content">
+      <div className="englishtaHeroShade__content wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
         <p className="englishtaHeroShade__proof">Trusted by 10,000+ learners</p>
         <h1 className="englishtaHeroShade__headline">
           Speak English Confidently.
@@ -2162,7 +2162,7 @@ const HomeBanner = ({ isReady = false }) => {
         </div>
       </div>
 
-      <div className="englishtaHeroShade__features" aria-label="Course highlights">
+      <div className="englishtaHeroShade__features wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s" aria-label="Course highlights">
         <div className="englishtaHeroShade__feature">
           <i className="fa-solid fa-chart-simple" />
           <span>Live online speaking practice</span>
@@ -2234,7 +2234,7 @@ const VideoShowcase = ({ videos = [] }) => {
       <span className="englishtaVideoShowcase__spark englishtaVideoShowcase__spark--two" />
       <span className="englishtaVideoShowcase__triangle" />
       <div className="englishtaVideoShowcase__shell">
-        <div className="englishtaVideoShowcase__intro">
+        <div className="englishtaVideoShowcase__intro wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
           <h2>
             Watch Real
             <span>English Training</span>
@@ -2253,7 +2253,12 @@ const VideoShowcase = ({ videos = [] }) => {
 
         <div className="englishtaVideoShowcase__grid">
           {displayVideos.map((video, index) => (
-            <div className={`englishtaVideoShowcase__card ${video.className}`} key={video._id ?? video.title}>
+            <div
+              className={`englishtaVideoShowcase__card ${video.className} wow fadeInUp`}
+              data-wow-duration="1s"
+              data-wow-delay={`${0.15 + index * 0.1}s`}
+              key={video._id ?? video.title}
+            >
               {video.youtubeIframe ? (
                 <span
                   className="englishtaVideoShowcase__iframe"

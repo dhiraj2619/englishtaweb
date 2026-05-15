@@ -96,7 +96,7 @@ const CoursesPage = () => {
       <Navbar />
       <main className="englishtaCoursesPage">
         <section className="englishtaCoursesHero">
-          <div className="container">
+          <div className="container wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
             <p>Online English Speaking Courses</p>
             <h1>Choose the course that fits your English goal</h1>
             <div className="englishtaCoursesHero__stats">
@@ -112,7 +112,12 @@ const CoursesPage = () => {
             {loading ? (
               <div className="englishtaCoursesGrid">
                 {[1, 2, 3].map((item) => (
-                  <div className="englishtaCourseCard englishtaCourseCard--loading" key={item}>
+                  <div
+                    className="englishtaCourseCard englishtaCourseCard--loading wow fadeInUp"
+                    data-wow-duration="1s"
+                    data-wow-delay={`${0.12 + item * 0.08}s`}
+                    key={item}
+                  >
                     <span />
                     <div />
                     <strong />
@@ -122,16 +127,20 @@ const CoursesPage = () => {
               </div>
             ) : null}
 
-            {!loading && error ? <div className="englishtaCoursesNotice">{error}</div> : null}
+            {!loading && error ? (
+              <div className="englishtaCoursesNotice wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
+                {error}
+              </div>
+            ) : null}
 
             {!loading && !error && courses.length === 0 ? (
-              <div className="englishtaCoursesNotice">
+              <div className="englishtaCoursesNotice wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
                 Courses added from admin will appear here.
               </div>
             ) : null}
 
             {shouldShowDiagnostics ? (
-              <div className="englishtaCoursesDebug">
+              <div className="englishtaCoursesDebug wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
                 <strong>Production database check</strong>
                 <p>{diagnostics.message}</p>
                 <dl>
@@ -171,11 +180,17 @@ const CoursesPage = () => {
 
             {!loading && !error && courses.length > 0 ? (
               <div className="englishtaCoursesGrid">
-                {courses.map((course) => {
+                {courses.map((course, index) => {
                   const slug = slugifyCourseName(course.name);
 
                   return (
-                    <Link className="englishtaCourseCard" href={`/course/${slug}`} key={course._id ?? slug}>
+                    <Link
+                      className="englishtaCourseCard wow fadeInUp"
+                      data-wow-duration="1s"
+                      data-wow-delay={`${0.12 + (index % 3) * 0.1}s`}
+                      href={`/course/${slug}`}
+                      key={course._id ?? slug}
+                    >
                       <span className="englishtaCourseCard__image">
                         <img src={course.thumbnail} alt={course.name} />
                         <span>{course.allowBooking === "Yes" ? "Booking Open" : "View Details"}</span>

@@ -1,5 +1,6 @@
 import './globals.css';
 import Script from 'next/script';
+import WowInit from '@/components/WowInit';
 
 export const metadata = {
   title: 'Englishta',
@@ -41,6 +42,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         {children}
+        <WowInit />
         <Script
           src="https://code.jquery.com/jquery-3.7.1.min.js"
           strategy="afterInteractive"

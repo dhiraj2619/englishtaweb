@@ -27,7 +27,7 @@ const AboutUsPage = () => {
       <main className="englishtaAboutPage">
         <section className="englishtaAboutHero">
           <div className="container">
-            <div className="englishtaAboutHero__copy">
+            <div className="englishtaAboutHero__copy wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
               <p className="englishtaAboutEyebrow">About Us</p>
               <h1>
                 Helping You Speak English <span>Confidently.</span>
@@ -41,7 +41,7 @@ const AboutUsPage = () => {
               </p>
             </div>
 
-            <div className="englishtaAboutHero__visual">
+            <div className="englishtaAboutHero__visual wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
               <div className="englishtaAboutDots" />
               <div className="englishtaAboutHero__photo">
                 <img src={tutorImage} alt="Prof. Raj Shelke" />
@@ -58,13 +58,18 @@ const AboutUsPage = () => {
 
         <section className="englishtaAboutStats">
           <div className="container">
-            <div className="englishtaAboutStats__panel">
+            <div className="englishtaAboutStats__panel wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
               <h2>
                 <span>Our</span> Engagements
               </h2>
               <div className="englishtaAboutStats__grid">
-                {stats.map(([icon, value, label]) => (
-                  <div className="englishtaAboutStat" key={label}>
+                {stats.map(([icon, value, label], index) => (
+                  <div
+                    className="englishtaAboutStat wow fadeInUp"
+                    data-wow-duration="1s"
+                    data-wow-delay={`${0.15 + index * 0.08}s`}
+                    key={label}
+                  >
                     <i className={icon} />
                     <strong>{value}</strong>
                     <span>{label}</span>
@@ -77,12 +82,12 @@ const AboutUsPage = () => {
 
         <section className="englishtaAboutMission">
           <div className="container">
-            <h2>
+            <h2 className="wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
               Our <span>Mission & Vision</span>
             </h2>
             <div className="englishtaAboutLine englishtaAboutLine--center" />
             <div className="englishtaAboutMission__grid">
-              <article>
+              <article className="wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
                 <i className="fa-solid fa-bullseye" />
                 <h3>Our Mission</h3>
                 <p>
@@ -90,7 +95,7 @@ const AboutUsPage = () => {
                   feedback, and real-life conversations.
                 </p>
               </article>
-              <article>
+              <article className="wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
                 <i className="fa-regular fa-eye" />
                 <h3>Our Vision</h3>
                 <p>
@@ -104,16 +109,16 @@ const AboutUsPage = () => {
 
         <section className="englishtaAboutTutor">
           <div className="container">
-            <h2>
+            <h2 className="wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
               Meet Your <span>Tutor</span>
             </h2>
             <div className="englishtaAboutLine englishtaAboutLine--center" />
             <div className="englishtaAboutTutor__grid">
-              <div className="englishtaAboutTutor__image">
+              <div className="englishtaAboutTutor__image wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
                 <div className="englishtaAboutDots englishtaAboutDots--left" />
                 <img src={tutorImage} alt="Prof. Raj Shelke" />
               </div>
-              <div className="englishtaAboutTutor__copy">
+              <div className="englishtaAboutTutor__copy wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
                 <h3>Prof. Raj Shelke</h3>
                 <p className="englishtaAboutTutor__role">Founder & English Communication Expert</p>
                 <p>
@@ -134,7 +139,7 @@ const AboutUsPage = () => {
 
         <section className="englishtaAboutFaq">
           <div className="container">
-            <div className="englishtaAboutFaq__main">
+            <div className="englishtaAboutFaq__main wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
               <h2>
                 Frequently Asked <span>Questions</span>
               </h2>
@@ -149,7 +154,7 @@ const AboutUsPage = () => {
               </div>
             </div>
 
-            <aside className="englishtaAboutCta">
+            <aside className="englishtaAboutCta wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
               <h3>
                 Ready to Speak English With <span>Confidence?</span>
               </h3>

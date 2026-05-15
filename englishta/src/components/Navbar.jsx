@@ -10,20 +10,9 @@ const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky
               <a class="td_site_branding" href="index.html">
                 <img src="/assets/images/logo/logoenglishta.png" style="height:80px" alt="Logo">
               </a>
-              <div class="td_header_social_btns">
-                <a href="#" class="td_center">
-                  <i class="fa-brands fa-facebook-f"></i>
-                </a>
-                <a href="#" class="td_center">
-                  <i class="fa-brands fa-x-twitter"></i>
-                </a>
-                <a href="#" class="td_center">
-                  <i class="fa-brands fa-instagram"></i>
-                </a>
-                <a href="#" class="td_center">
-                  <i class="fa-brands fa-pinterest-p"></i>
-                </a>
-              </div>
+              <a class="englishtaNavbar__leftLogo" href="/">
+                <img src="/assets/images/logo/logoenglishta.png" alt="Englishta">
+              </a>
             </div>
             <div class="td_main_header_center">
               <nav class="td_nav">
@@ -33,9 +22,7 @@ const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky
                       <li><a href="/">Home</a></li>
                       <li><a href="/courses">Courses</a></li>
                     </ul>
-                    <a class="td_site_branding" href="/">
-                      <img src="/assets/images/logo/logoenglishta.png" class="logomain" alt="Logo">
-                    </a>
+                 
                     <ul class="td_nav_list">
                       <li><a href="/webinar">Webinar</a></li>
                       <li><a href="/about-us">About</a></li>
