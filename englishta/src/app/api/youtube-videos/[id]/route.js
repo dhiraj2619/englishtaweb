@@ -3,6 +3,9 @@ import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongodb";
 import YoutubeVideo from "@/models/YoutubeVideo";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export async function GET(_request, { params }) {
   try {
     const { id } = await params;
@@ -15,6 +18,8 @@ export async function GET(_request, { params }) {
 
     return NextResponse.json({ success: true, data: video });
   } catch (error) {
+    console.error("Failed to fetch YouTube video:", error);
+
     return NextResponse.json(
       { success: false, message: "Failed to fetch YouTube video.", error: error.message },
       { status: 400 },
@@ -38,6 +43,8 @@ export async function PUT(request, { params }) {
 
     return NextResponse.json({ success: true, data: video });
   } catch (error) {
+    console.error("Failed to update YouTube video:", error);
+
     return NextResponse.json(
       { success: false, message: "Failed to update YouTube video.", error: error.message },
       { status: 400 },
@@ -57,6 +64,8 @@ export async function DELETE(_request, { params }) {
 
     return NextResponse.json({ success: true, data: video });
   } catch (error) {
+    console.error("Failed to delete YouTube video:", error);
+
     return NextResponse.json(
       { success: false, message: "Failed to delete YouTube video.", error: error.message },
       { status: 400 },

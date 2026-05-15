@@ -17,9 +17,34 @@ const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [diagnostics, setDiagnostics] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
+
+    const loadDiagnostics = async () => {
+      try {
+        const response = await fetch("/api/debug/database", { cache: "no-store" });
+        const payload = await response.json();
+
+        if (isMounted) {
+          setDiagnostics(payload);
+        }
+      } catch (diagnosticError) {
+        if (isMounted) {
+          setDiagnostics({
+            success: false,
+            message: "Could not load database diagnostics.",
+            diagnostics: {
+              error: {
+                name: diagnosticError.name,
+                message: diagnosticError.message,
+              },
+            },
+          });
+        }
+      }
+    };
 
     fetch("/api/courses", { cache: "no-store" })
       .then((response) => response.json())
@@ -30,11 +55,17 @@ const CoursesPage = () => {
           throw new Error(payload.message || "Failed to load courses.");
         }
 
-        setCourses(payload.data ?? []);
+        const nextCourses = payload.data ?? [];
+        setCourses(nextCourses);
+
+        if (nextCourses.length === 0) {
+          loadDiagnostics();
+        }
       })
       .catch((fetchError) => {
         if (isMounted) {
           setError(fetchError.message || "Failed to load courses.");
+          loadDiagnostics();
         }
       })
       .finally(() => {
@@ -56,6 +87,9 @@ const CoursesPage = () => {
       }, 0),
     [courses],
   );
+
+  const diagnosticDetails = diagnostics?.diagnostics;
+  const shouldShowDiagnostics = !loading && diagnostics && (error || courses.length === 0);
 
   return (
     <>
@@ -93,6 +127,45 @@ const CoursesPage = () => {
             {!loading && !error && courses.length === 0 ? (
               <div className="englishtaCoursesNotice">
                 Courses added from admin will appear here.
+              </div>
+            ) : null}
+
+            {shouldShowDiagnostics ? (
+              <div className="englishtaCoursesDebug">
+                <strong>Production database check</strong>
+                <p>{diagnostics.message}</p>
+                <dl>
+                  <div>
+                    <dt>MONGODB_URI added</dt>
+                    <dd>{diagnosticDetails?.env?.mongodbUriPresent ? "Yes" : "No"}</dd>
+                  </div>
+                  <div>
+                    <dt>MONGODB_DB</dt>
+                    <dd>{diagnosticDetails?.env?.mongodbDb || "Not set"}</dd>
+                  </div>
+                  <div>
+                    <dt>Mongo host</dt>
+                    <dd>{diagnosticDetails?.env?.mongodbHost || "Not available"}</dd>
+                  </div>
+                  <div>
+                    <dt>Ready state</dt>
+                    <dd>{diagnosticDetails?.mongooseReadyState ?? "Unknown"}</dd>
+                  </div>
+                  <div>
+                    <dt>Course records</dt>
+                    <dd>{diagnosticDetails?.counts?.courses ?? "Unknown"}</dd>
+                  </div>
+                  <div>
+                    <dt>Video records</dt>
+                    <dd>{diagnosticDetails?.counts?.videos ?? "Unknown"}</dd>
+                  </div>
+                </dl>
+                {diagnosticDetails?.error ? (
+                  <p className="englishtaCoursesDebug__error">
+                    {diagnosticDetails.error.name}: {diagnosticDetails.error.message}
+                  </p>
+                ) : null}
+                <span>Open /api/debug/database on production for the full safe diagnostic response.</span>
               </div>
             ) : null}
 

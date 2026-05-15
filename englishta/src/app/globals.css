@@ -418,6 +418,71 @@
   text-align: center;
 }
 
+.englishtaCoursesDebug {
+  background: #141006;
+  border: 1px solid rgba(254, 182, 12, 0.32);
+  border-radius: 18px;
+  box-shadow: 0 20px 55px rgba(22, 18, 8, 0.16);
+  color: #fff;
+  margin: 28px auto 0;
+  max-width: 860px;
+  padding: 26px;
+}
+
+.englishtaCoursesDebug strong {
+  color: #feb60c;
+  display: block;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.englishtaCoursesDebug p {
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 18px;
+}
+
+.englishtaCoursesDebug dl {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 0 18px;
+}
+
+.englishtaCoursesDebug dl div {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.englishtaCoursesDebug dt {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.englishtaCoursesDebug dd {
+  color: #fff;
+  font-weight: 800;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.englishtaCoursesDebug__error {
+  background: rgba(255, 91, 91, 0.14);
+  border: 1px solid rgba(255, 91, 91, 0.25);
+  border-radius: 12px;
+  color: #ffd8d8 !important;
+  padding: 12px 14px;
+}
+
+.englishtaCoursesDebug span {
+  color: rgba(255, 255, 255, 0.66);
+  display: block;
+  font-size: 13px;
+}
+
 .englishtaCourseDetailHero {
   background:
     linear-gradient(135deg, rgba(7, 6, 4, 0.92), rgba(21, 15, 5, 0.9)),
@@ -1856,6 +1921,10 @@
   .englishtaCoursesGrid,
   .englishtaCourseDetailHero .container,
   .englishtaCourseDetailBody .container {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaCoursesDebug dl {
     grid-template-columns: 1fr;
   }
 

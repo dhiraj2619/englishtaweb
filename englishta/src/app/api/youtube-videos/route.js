@@ -3,6 +3,9 @@ import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongodb";
 import YoutubeVideo from "@/models/YoutubeVideo";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await connectToDatabase();
@@ -10,6 +13,8 @@ export async function GET() {
 
     return NextResponse.json({ success: true, data: videos });
   } catch (error) {
+    console.error("Failed to fetch YouTube videos:", error);
+
     return NextResponse.json(
       {
         success: false,
@@ -29,6 +34,8 @@ export async function POST(request) {
 
     return NextResponse.json({ success: true, data: video }, { status: 201 });
   } catch (error) {
+    console.error("Failed to create YouTube video:", error);
+
     return NextResponse.json(
       {
         success: false,

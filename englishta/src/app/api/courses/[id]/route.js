@@ -3,6 +3,9 @@ import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongodb";
 import Course from "@/models/Course";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export async function GET(_request, { params }) {
   try {
     await connectToDatabase();
@@ -14,6 +17,8 @@ export async function GET(_request, { params }) {
 
     return NextResponse.json({ success: true, data: course });
   } catch (error) {
+    console.error("Failed to fetch course:", error);
+
     return NextResponse.json(
       { success: false, message: "Failed to fetch course.", error: error.message },
       { status: 400 },
@@ -36,6 +41,8 @@ export async function PUT(request, { params }) {
 
     return NextResponse.json({ success: true, data: course });
   } catch (error) {
+    console.error("Failed to update course:", error);
+
     return NextResponse.json(
       { success: false, message: "Failed to update course.", error: error.message },
       { status: 400 },
@@ -54,6 +61,8 @@ export async function DELETE(_request, { params }) {
 
     return NextResponse.json({ success: true, data: course });
   } catch (error) {
+    console.error("Failed to delete course:", error);
+
     return NextResponse.json(
       { success: false, message: "Failed to delete course.", error: error.message },
       { status: 400 },
