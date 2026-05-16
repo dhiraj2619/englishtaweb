@@ -5,6 +5,7 @@ import connectToDatabase from "@/lib/mongodb";
 import Course from "@/models/Course";
 import Lead from "@/models/Lead";
 import Webinar from "@/models/Webinar";
+import WebinarRegistration from "@/models/WebinarRegistration";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -18,7 +19,7 @@ export async function GET() {
       Course.countDocuments(),
       Webinar.countDocuments(),
       Lead.countDocuments({ source: "Course Inquiry" }),
-      Lead.countDocuments({ source: "Webinar Registration" }),
+      WebinarRegistration.countDocuments(),
       Course.find({}, { studentsEnrolled: 1 }).lean(),
     ]);
 

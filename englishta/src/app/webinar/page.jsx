@@ -78,8 +78,11 @@ const standardOptions = [
 
 const WebinarPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [selectedWebinar, setSelectedWebinar] = useState("");
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -102,11 +105,17 @@ const WebinarPage = () => {
 
   function openRegisterModal(webinarTitle = "Webinar Registration") {
     setSelectedWebinar(webinarTitle);
+    setSubmitError("");
     setIsModalOpen(true);
   }
 
   function closeRegisterModal() {
     setIsModalOpen(false);
+    setSubmitError("");
+  }
+
+  function closeSuccessModal() {
+    setIsSuccessModalOpen(false);
   }
 
   function updateField(field, value) {
@@ -126,17 +135,18 @@ const WebinarPage = () => {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError("");
 
     try {
-      const response = await fetch("/api/leads", {
+      const response = await fetch("/api/webinar-registrations", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...form,
-          source: "Webinar Registration",
-          course: selectedWebinar,
+          webinarTitle: selectedWebinar,
         }),
       });
       const payload = await response.json();
@@ -146,6 +156,7 @@ const WebinarPage = () => {
       }
 
       closeRegisterModal();
+      setIsSuccessModalOpen(true);
       setForm({
         firstName: "",
         lastName: "",
@@ -158,7 +169,9 @@ const WebinarPage = () => {
         state: "",
       });
     } catch (error) {
-      window.alert(error.message || "Failed to submit webinar registration.");
+      setSubmitError(error.message || "Failed to submit webinar registration.");
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -490,11 +503,42 @@ const WebinarPage = () => {
                 </label>
               </div>
 
+              {submitError ? <p className="englishtaWebinarModal__feedback error">{submitError}</p> : null}
+
               <button type="submit" className="englishtaWebinarModal__submit">
-                Submit
+                {isSubmitting ? "Submitting..." : "Submit"}
                 <i className="fa-solid fa-arrow-right" />
               </button>
             </form>
+          </div>
+        </div>
+      ) : null}
+      {isSuccessModalOpen ? (
+        <div className="englishtaWebinarModal" onClick={closeSuccessModal}>
+          <div
+            className="englishtaWebinarModal__dialog englishtaWebinarModal__dialog--success"
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="webinar-success-title"
+          >
+            <button type="button" className="englishtaWebinarModal__close" onClick={closeSuccessModal}>
+              <i className="fa-solid fa-xmark" />
+            </button>
+            <div className="englishtaWebinarModal__successIcon">
+              <i className="fa-solid fa-check" />
+            </div>
+            <div className="englishtaWebinarModal__head englishtaWebinarModal__head--success">
+              <p>Registration Submitted</p>
+              <h2 id="webinar-success-title">Thank you for your response</h2>
+            </div>
+            <p className="englishtaWebinarModal__successText">
+              We have received your webinar registration successfully.
+            </p>
+            <button type="button" className="englishtaWebinarModal__submit" onClick={closeSuccessModal}>
+              Close
+              <i className="fa-solid fa-arrow-right" />
+            </button>
           </div>
         </div>
       ) : null}

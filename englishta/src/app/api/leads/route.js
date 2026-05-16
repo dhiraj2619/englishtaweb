@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { requireAdminAccess } from "@/lib/adminAuth";
 import connectToDatabase from "@/lib/mongodb";
 import Lead from "@/models/Lead";
+import WebinarRegistration from "@/models/WebinarRegistration";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,7 +39,23 @@ export async function GET() {
   try {
     await requireAdminAccess();
     await connectToDatabase();
-    const leads = await Lead.find().sort({ createdAt: -1 }).lean();
+    const [courseInquiries, webinarRegistrations] = await Promise.all([
+      Lead.find({ source: "Course Inquiry" }).lean(),
+      WebinarRegistration.find().lean(),
+    ]);
+
+    const registrations = webinarRegistrations.map((item) => ({
+      ...item,
+      name: `${item.firstName || ""} ${item.lastName || ""}`.trim(),
+      phone: item.mobile || "",
+      source: "Webinar Registration",
+      course: item.webinarTitle || "",
+    }));
+
+    const leads = [...courseInquiries, ...registrations].sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+
     return NextResponse.json({ success: true, data: leads });
   } catch (error) {
     const status = error.status || 500;
