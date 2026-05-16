@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -42,7 +45,127 @@ const testimonials = [
   ["Anjali K.", "Teacher", "Englishta webinars are practical, engaging, and truly improving my communication skills."],
 ];
 
+const standardOptions = [
+  "4th Standard",
+  "5th Standard",
+  "6th Standard",
+  "7th Standard",
+  "8th Standard",
+  "9th Standard",
+  "10th Standard",
+  "11th Standard",
+  "12th Standard",
+  "Diploma",
+  "Bachelor of Arts (BA)",
+  "Bachelor of Commerce (BCom)",
+  "Bachelor of Science (BSc)",
+  "Bachelor of Business Administration (BBA)",
+  "Bachelor of Computer Applications (BCA)",
+  "Bachelor of Engineering (BE)",
+  "Bachelor of Technology (BTech)",
+  "Bachelor of Education (BEd)",
+  "Bachelor of Pharmacy (BPharm)",
+  "Bachelor of Management Studies (BMS)",
+  "Master of Arts (MA)",
+  "Master of Commerce (MCom)",
+  "Master of Science (MSc)",
+  "Master of Business Administration (MBA)",
+  "Master of Computer Applications (MCA)",
+  "Master of Technology (MTech)",
+  "Master of Education (MEd)",
+  "Master of Pharmacy (MPharm)",
+];
+
 const WebinarPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedWebinar, setSelectedWebinar] = useState("");
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobile: "",
+    gender: "male",
+    occupation: "student",
+    standard: "",
+    city: "",
+    state: "",
+  });
+
+  useEffect(() => {
+    const timerId = window.setInterval(() => {
+      setActiveTestimonial((current) => (current + 1) % testimonials.length);
+    }, 4000);
+
+    return () => window.clearInterval(timerId);
+  }, []);
+
+  function openRegisterModal(webinarTitle = "Webinar Registration") {
+    setSelectedWebinar(webinarTitle);
+    setIsModalOpen(true);
+  }
+
+  function closeRegisterModal() {
+    setIsModalOpen(false);
+  }
+
+  function updateField(field, value) {
+    setForm((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  }
+
+  function handleOccupationChange(value) {
+    setForm((current) => ({
+      ...current,
+      occupation: value,
+      standard: value === "student" ? current.standard : "",
+    }));
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...form,
+          source: "Webinar Registration",
+          course: selectedWebinar,
+        }),
+      });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to submit webinar registration.");
+      }
+
+      closeRegisterModal();
+      setForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        mobile: "",
+        gender: "male",
+        occupation: "student",
+        standard: "",
+        city: "",
+        state: "",
+      });
+    } catch (error) {
+      window.alert(error.message || "Failed to submit webinar registration.");
+    }
+  }
+
+  function goToTestimonial(index) {
+    setActiveTestimonial(index);
+  }
+
   return (
     <>
       <Navbar />
@@ -63,10 +186,10 @@ const WebinarPage = () => {
                 <span><i className="fa-solid fa-person-chalkboard" />Practical Learning</span>
               </div>
               <div className="englishtaWebinarHero__actions">
-                <a href="/contact-us">
+                <button type="button" onClick={() => openRegisterModal("Live Webinar Registration")}>
                   Register for Free
                   <i className="fa-solid fa-arrow-right" />
-                </a>
+                </button>
                 <a href="#upcoming" className="englishtaWebinarHero__link">
                   See All Webinars
                   <i className="fa-solid fa-arrow-right" />
@@ -128,10 +251,10 @@ const WebinarPage = () => {
                         15+ Years of Experience
                       </span>
                     </div>
-                    <a href="/contact-us">
+                    <button type="button" onClick={() => openRegisterModal(webinar.title)}>
                       Register Now
                       <i className="fa-solid fa-arrow-right" />
-                    </a>
+                    </button>
                   </div>
                 </article>
               ))}
@@ -169,33 +292,44 @@ const WebinarPage = () => {
             </h2>
             <div className="englishtaWebinarLine" />
             <div className="englishtaWebinarTestimonials__grid">
-              {testimonials.map(([name, role, text], index) => (
-                <article
-                  className="wow fadeInUp"
-                  data-wow-duration="1s"
-                  data-wow-delay={`${0.15 + index * 0.1}s`}
-                  key={name}
-                >
-                  <i className="fa-solid fa-quote-left" />
-                  <div className="englishtaWebinarStars">
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                  </div>
-                  <p>{text}</p>
-                  <div>
-                    <span>{name.charAt(0)}</span>
-                    <strong>{name}<small>{role}</small></strong>
-                  </div>
-                </article>
-              ))}
+              <div
+                className="englishtaWebinarTestimonials__track"
+                style={{ transform: `translateX(-${activeTestimonial * 100}%)` }}
+              >
+                {testimonials.map(([name, role, text], index) => (
+                  <article
+                    className="wow fadeInUp"
+                    data-wow-duration="1s"
+                    data-wow-delay={`${0.15 + index * 0.1}s`}
+                    key={name}
+                  >
+                    <i className="fa-solid fa-quote-left" />
+                    <div className="englishtaWebinarStars">
+                      <i className="fa-solid fa-star" />
+                      <i className="fa-solid fa-star" />
+                      <i className="fa-solid fa-star" />
+                      <i className="fa-solid fa-star" />
+                      <i className="fa-solid fa-star" />
+                    </div>
+                    <p>{text}</p>
+                    <div>
+                      <span>{name.charAt(0)}</span>
+                      <strong>{name}<small>{role}</small></strong>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
             <div className="englishtaWebinarDots">
-              <span />
-              <span className="active" />
-              <span />
+              {testimonials.map((item, index) => (
+                <button
+                  type="button"
+                  key={item[0]}
+                  className={activeTestimonial === index ? "active" : ""}
+                  onClick={() => goToTestimonial(index)}
+                  aria-label={`Show testimonial ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -208,14 +342,162 @@ const WebinarPage = () => {
                 <h2>Don&apos;t Miss Out!</h2>
                 <p>Join our live webinars and start speaking English with confidence.</p>
               </div>
-              <a href="/contact-us">
+              <button type="button" onClick={() => openRegisterModal("Join Your Next Webinar")}>
                 Join Your Next Webinar
                 <i className="fa-solid fa-arrow-right" />
-              </a>
+              </button>
             </div>
           </div>
         </section>
       </main>
+      {isModalOpen ? (
+        <div className="englishtaWebinarModal" onClick={closeRegisterModal}>
+          <div
+            className="englishtaWebinarModal__dialog"
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="webinar-register-title"
+          >
+            <button type="button" className="englishtaWebinarModal__close" onClick={closeRegisterModal}>
+              <i className="fa-solid fa-xmark" />
+            </button>
+            <div className="englishtaWebinarModal__head">
+              <p>{selectedWebinar}</p>
+              <h2 id="webinar-register-title">Register Now</h2>
+            </div>
+
+            <form className="englishtaWebinarModal__form" onSubmit={handleSubmit}>
+              <div className="englishtaWebinarModal__grid">
+                <label>
+                  <span>First Name</span>
+                  <input
+                    type="text"
+                    value={form.firstName}
+                    onChange={(event) => updateField("firstName", event.target.value)}
+                    required
+                  />
+                </label>
+                <label>
+                  <span>Last Name</span>
+                  <input
+                    type="text"
+                    value={form.lastName}
+                    onChange={(event) => updateField("lastName", event.target.value)}
+                    required
+                  />
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(event) => updateField("email", event.target.value)}
+                    required
+                  />
+                </label>
+                <label>
+                  <span>Mobile</span>
+                  <input
+                    type="tel"
+                    value={form.mobile}
+                    onChange={(event) => updateField("mobile", event.target.value)}
+                    required
+                  />
+                </label>
+              </div>
+
+              <div className="englishtaWebinarModal__group">
+                <span>Gender</span>
+                <div className="englishtaWebinarModal__choices">
+                  <label>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="male"
+                      checked={form.gender === "male"}
+                      onChange={(event) => updateField("gender", event.target.value)}
+                    />
+                    <span>Male</span>
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="female"
+                      checked={form.gender === "female"}
+                      onChange={(event) => updateField("gender", event.target.value)}
+                    />
+                    <span>Female</span>
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="other"
+                      checked={form.gender === "other"}
+                      onChange={(event) => updateField("gender", event.target.value)}
+                    />
+                    <span>Other</span>
+                  </label>
+                </div>
+              </div>
+
+              <label className="englishtaWebinarModal__full">
+                <span>Occupation</span>
+                <select value={form.occupation} onChange={(event) => handleOccupationChange(event.target.value)}>
+                  <option value="student">Student</option>
+                  <option value="employed">Employed</option>
+                </select>
+              </label>
+
+              {form.occupation === "student" ? (
+                <label className="englishtaWebinarModal__full">
+                  <span>Standard</span>
+                  <select
+                    value={form.standard}
+                    onChange={(event) => updateField("standard", event.target.value)}
+                    required
+                  >
+                    <option value="">Select standard</option>
+                    {standardOptions.map((option) => (
+                      <option value={option} key={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+
+              <div className="englishtaWebinarModal__grid">
+                <label>
+                  <span>City</span>
+                  <input
+                    type="text"
+                    value={form.city}
+                    onChange={(event) => updateField("city", event.target.value)}
+                    required
+                  />
+                </label>
+                <label>
+                  <span>State</span>
+                  <input
+                    type="text"
+                    value={form.state}
+                    onChange={(event) => updateField("state", event.target.value)}
+                    required
+                  />
+                </label>
+              </div>
+
+              <button type="submit" className="englishtaWebinarModal__submit">
+                Submit
+                <i className="fa-solid fa-arrow-right" />
+              </button>
+            </form>
+          </div>
+        </div>
+      ) : null}
       <Footer />
     </>
   );

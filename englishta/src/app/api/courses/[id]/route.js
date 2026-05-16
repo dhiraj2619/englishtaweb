@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { requireAdminAccess } from "@/lib/adminAuth";
 import connectToDatabase from "@/lib/mongodb";
 import Course from "@/models/Course";
 
@@ -28,6 +29,7 @@ export async function GET(_request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
+    await requireAdminAccess();
     await connectToDatabase();
     const body = await request.json();
     const course = await Course.findByIdAndUpdate(params.id, body, {
@@ -41,17 +43,19 @@ export async function PUT(request, { params }) {
 
     return NextResponse.json({ success: true, data: course });
   } catch (error) {
+    const status = error.status || 400;
     console.error("Failed to update course:", error);
 
     return NextResponse.json(
       { success: false, message: "Failed to update course.", error: error.message },
-      { status: 400 },
+      { status },
     );
   }
 }
 
 export async function DELETE(_request, { params }) {
   try {
+    await requireAdminAccess();
     await connectToDatabase();
     const course = await Course.findByIdAndDelete(params.id).lean();
 
@@ -61,11 +65,12 @@ export async function DELETE(_request, { params }) {
 
     return NextResponse.json({ success: true, data: course });
   } catch (error) {
+    const status = error.status || 400;
     console.error("Failed to delete course:", error);
 
     return NextResponse.json(
       { success: false, message: "Failed to delete course.", error: error.message },
-      { status: 400 },
+      { status },
     );
   }
 }

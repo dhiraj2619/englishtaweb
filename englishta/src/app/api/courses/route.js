@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { requireAdminAccess } from "@/lib/adminAuth";
 import connectToDatabase from "@/lib/mongodb";
 import Course from "@/models/Course";
 
@@ -28,12 +29,19 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    await requireAdminAccess();
     await connectToDatabase();
     const body = await request.json();
+
+    if (!body.name?.trim() || !body.thumbnail?.trim() || !body.shortDescription?.trim() || !body.longDescription?.trim()) {
+      return NextResponse.json({ success: false, message: "Please fill all required course fields." }, { status: 400 });
+    }
+
     const course = await Course.create(body);
 
     return NextResponse.json({ success: true, data: course }, { status: 201 });
   } catch (error) {
+    const status = error.status || 400;
     console.error("Failed to create course:", error);
 
     return NextResponse.json(
@@ -42,7 +50,7 @@ export async function POST(request) {
         message: "Failed to create course.",
         error: error.message,
       },
-      { status: 400 },
+      { status },
     );
   }
 }

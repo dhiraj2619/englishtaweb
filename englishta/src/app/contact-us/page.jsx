@@ -1,7 +1,69 @@
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const ContactUs = () => {
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    interest: "",
+    message: "",
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState({ type: "", message: "" });
+
+  function updateField(field, value) {
+    setForm((current) => ({ ...current, [field]: value }));
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setFeedback({ type: "", message: "" });
+
+    if (!form.name.trim() || !form.phone.trim() || !form.email.trim() || !form.interest.trim()) {
+      setFeedback({ type: "error", message: "Please fill all required fields." });
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          email: form.email,
+          source: "Course Inquiry",
+          course: form.interest,
+          message: form.message,
+        }),
+      });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to submit inquiry.");
+      }
+
+      setFeedback({ type: "success", message: "Inquiry submitted successfully." });
+      setForm({
+        name: "",
+        phone: "",
+        email: "",
+        interest: "",
+        message: "",
+      });
+    } catch (error) {
+      setFeedback({ type: "error", message: error.message || "Failed to submit inquiry." });
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -55,24 +117,55 @@ const ContactUs = () => {
                 </div>
               </div>
 
-              <form className="englishta-contact-form wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
+              <form
+                className="englishta-contact-form wow fadeInRight"
+                data-wow-duration="1s"
+                data-wow-delay="0.25s"
+                onSubmit={handleSubmit}
+              >
                 <div className="englishta-form-row">
                   <label>
                     Full Name
-                    <input type="text" name="name" placeholder="Your name" />
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Your name"
+                      value={form.name}
+                      onChange={(event) => updateField("name", event.target.value)}
+                      required
+                    />
                   </label>
                   <label>
                     Phone Number
-                    <input type="tel" name="phone" placeholder="Your mobile number" />
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Your mobile number"
+                      value={form.phone}
+                      onChange={(event) => updateField("phone", event.target.value)}
+                      required
+                    />
                   </label>
                 </div>
                 <label>
                   Email Address
-                  <input type="email" name="email" placeholder="you@example.com" />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    value={form.email}
+                    onChange={(event) => updateField("email", event.target.value)}
+                    required
+                  />
                 </label>
                 <label>
                   Course Interest
-                  <select name="interest" defaultValue="">
+                  <select
+                    name="interest"
+                    value={form.interest}
+                    onChange={(event) => updateField("interest", event.target.value)}
+                    required
+                  >
                     <option value="" disabled>
                       Select a course
                     </option>
@@ -89,11 +182,18 @@ const ContactUs = () => {
                     name="message"
                     rows="5"
                     placeholder="Tell us what you want to improve"
+                    value={form.message}
+                    onChange={(event) => updateField("message", event.target.value)}
                   />
                 </label>
+                {feedback.message ? (
+                  <p className={feedback.type === "success" ? "englishta-contact-feedback success" : "englishta-contact-feedback error"}>
+                    {feedback.message}
+                  </p>
+                ) : null}
                 <button type="submit" className="td_btn td_style_1 td_radius_10 td_medium">
                   <span className="td_btn_in td_white_color td_accent_bg">
-                    <span>Send Inquiry</span>
+                    <span>{submitting ? "Sending..." : "Send Inquiry"}</span>
                   </span>
                 </button>
               </form>

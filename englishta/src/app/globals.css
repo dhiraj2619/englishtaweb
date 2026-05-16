@@ -1434,12 +1434,19 @@
 }
 
 .englishtaWebinarHero__actions a,
+.englishtaWebinarHero__actions button,
 .englishtaWebinarSectionHead a,
 .englishtaWebinarCard__footer a,
-.englishtaWebinarCta__panel a {
+.englishtaWebinarCard__footer button,
+.englishtaWebinarCta__panel a,
+.englishtaWebinarCta__panel button {
   align-items: center;
+  background: transparent;
+  border: 0;
   border-radius: 12px;
+  cursor: pointer;
   display: inline-flex;
+  font: inherit;
   font-weight: 900;
   gap: 12px;
   justify-content: center;
@@ -1447,7 +1454,8 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-.englishtaWebinarHero__actions a:first-child {
+.englishtaWebinarHero__actions a:first-child,
+.englishtaWebinarHero__actions button:first-child {
   background: #feb60c;
   color: #080604;
   min-height: 58px;
@@ -1456,9 +1464,12 @@
 }
 
 .englishtaWebinarHero__actions a:hover,
+.englishtaWebinarHero__actions button:hover,
 .englishtaWebinarSectionHead a:hover,
 .englishtaWebinarCard__footer a:hover,
-.englishtaWebinarCta__panel a:hover {
+.englishtaWebinarCard__footer button:hover,
+.englishtaWebinarCta__panel a:hover,
+.englishtaWebinarCta__panel button:hover {
   transform: translateY(-2px);
 }
 
@@ -1468,9 +1479,12 @@
 
 .englishtaWebinarHero__link i,
 .englishtaWebinarHero__actions a:first-child i,
+.englishtaWebinarHero__actions button:first-child i,
 .englishtaWebinarSectionHead a i,
 .englishtaWebinarCard__footer a i,
-.englishtaWebinarCta__panel a i {
+.englishtaWebinarCard__footer button i,
+.englishtaWebinarCta__panel a i,
+.englishtaWebinarCta__panel button i {
   align-items: center;
   border: 1px solid currentColor;
   border-radius: 50%;
@@ -1615,8 +1629,7 @@
   padding: 13px 18px;
 }
 
-.englishtaWebinarCards,
-.englishtaWebinarTestimonials__grid {
+.englishtaWebinarCards {
   display: grid;
   gap: 24px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1746,9 +1759,31 @@
   padding: 10px 12px;
 }
 
+.englishtaWebinarCard__footer button,
+.englishtaWebinarCta__panel button {
+  background: #feb60c;
+  color: #080604;
+}
+
+.englishtaWebinarCard__footer button {
+  flex: 0 0 auto;
+  font-size: 12px;
+  padding: 10px 12px;
+}
+
 .englishtaWebinarBenefits,
 .englishtaWebinarTestimonials {
   text-align: center;
+}
+
+.englishtaWebinarTestimonials__grid {
+  overflow: hidden;
+  position: relative;
+}
+
+.englishtaWebinarTestimonials__track {
+  display: flex;
+  transition: transform 0.45s ease;
 }
 
 .englishtaWebinarLine {
@@ -1802,6 +1837,8 @@
 }
 
 .englishtaWebinarTestimonials article {
+  flex: 0 0 100%;
+  max-width: 100%;
   padding: 28px;
   text-align: left;
 }
@@ -1866,14 +1903,17 @@
   margin-top: 34px;
 }
 
-.englishtaWebinarDots span {
+.englishtaWebinarDots button {
   background: #d8d1c5;
+  border: 0;
   border-radius: 99px;
+  cursor: pointer;
   height: 8px;
+  padding: 0;
   width: 8px;
 }
 
-.englishtaWebinarDots span.active {
+.englishtaWebinarDots button.active {
   background: #feb60c;
   width: 28px;
 }
@@ -18440,6 +18480,185 @@ body {
   .englishta-course-card h3 {
     font-size: 21px;
   }
+}
+
+.englishtaWebinarHero__actions button,
+.englishtaWebinarCard__footer button,
+.englishtaWebinarCta__panel button {
+  appearance: none;
+}
+
+.englishtaWebinarModal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  background: rgba(10, 9, 15, 0.68);
+  backdrop-filter: blur(8px);
+}
+
+.englishtaWebinarModal__dialog {
+  position: relative;
+  width: min(100%, 760px);
+  max-height: calc(100vh - 44px);
+  overflow-y: auto;
+  padding: 30px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #ffffff 0%, #fffaf0 100%);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+}
+
+.englishtaWebinarModal__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #f3f4f7;
+  color: #131725;
+}
+
+.englishtaWebinarModal__head {
+  margin-bottom: 24px;
+  padding-right: 46px;
+}
+
+.englishtaWebinarModal__head p {
+  margin: 0 0 8px;
+  color: #f0a500;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.englishtaWebinarModal__head h2 {
+  margin: 0;
+  color: #121a30;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.englishtaWebinarModal__form {
+  display: grid;
+  gap: 18px;
+}
+
+.englishtaWebinarModal__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.englishtaWebinarModal__form label,
+.englishtaWebinarModal__group {
+  display: grid;
+  gap: 8px;
+}
+
+.englishtaWebinarModal__form label > span,
+.englishtaWebinarModal__group > span {
+  color: #182136;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.englishtaWebinarModal__form input,
+.englishtaWebinarModal__form select {
+  min-height: 50px;
+  width: 100%;
+  border: 1px solid #dce2ec;
+  border-radius: 14px;
+  background: #fff;
+  color: #1b2438;
+  font: inherit;
+  padding: 0 16px;
+}
+
+.englishtaWebinarModal__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.englishtaWebinarModal__choices label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 16px;
+  border: 1px solid #dce2ec;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.englishtaWebinarModal__choices input {
+  min-height: auto;
+  width: auto;
+}
+
+.englishtaWebinarModal__full {
+  grid-column: 1 / -1;
+}
+
+.englishtaWebinarModal__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  width: 100%;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffc845 0%, #f0a500 100%);
+  color: #161100;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+@media (max-width: 767px) {
+  .englishtaWebinarModal {
+    padding: 14px;
+  }
+
+  .englishtaWebinarModal__dialog {
+    padding: 22px 18px;
+    border-radius: 20px;
+  }
+
+  .englishtaWebinarModal__head h2 {
+    font-size: 28px;
+  }
+
+  .englishtaWebinarModal__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaWebinarModal__choices {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+.englishta-contact-feedback {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.englishta-contact-feedback.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.englishta-contact-feedback.error {
+  background: #fee2e2;
+  color: #b91c1c;
 }
 
 

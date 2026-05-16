@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { requireAdminAccess } from "@/lib/adminAuth";
 import connectToDatabase from "@/lib/mongodb";
 import YoutubeVideo from "@/models/YoutubeVideo";
 
@@ -28,12 +29,19 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    await requireAdminAccess();
     await connectToDatabase();
     const body = await request.json();
+
+    if (!body.title?.trim() || !body.youtubeIframe?.trim()) {
+      return NextResponse.json({ success: false, message: "Title and YouTube iframe are required." }, { status: 400 });
+    }
+
     const video = await YoutubeVideo.create(body);
 
     return NextResponse.json({ success: true, data: video }, { status: 201 });
   } catch (error) {
+    const status = error.status || 400;
     console.error("Failed to create YouTube video:", error);
 
     return NextResponse.json(
@@ -42,7 +50,7 @@ export async function POST(request) {
         message: "Failed to create YouTube video.",
         error: error.message,
       },
-      { status: 400 },
+      { status },
     );
   }
 }

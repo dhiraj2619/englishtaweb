@@ -6,14 +6,16 @@ import { useEffect, useMemo, useState } from "react";
 const storageKey = "englishta-admin-dashboard";
 
 const modules = [
+  { key: "dashboard", label: "Dashboard", description: "Track courses, webinars, enrollments, and inquiries." },
   { key: "courses", label: "Courses", description: "Add, edit, and delete courses." },
-  { key: "users", label: "Users", description: "View inquiries, joiners, and webinar registrations." },
+  { key: "users", label: "Leads", description: "Auto-captured course inquiries and webinar registrations." },
   { key: "testimonials", label: "Testimonials", description: "Manage student reviews shown on the website." },
   { key: "videos", label: "Videos", description: "Add YouTube learning and demo videos." },
   { key: "webinars", label: "Webinars", description: "Manage live and recorded webinar sessions." },
 ];
 
 const emptyForms = {
+  dashboard: {},
   courses: {
     name: "",
     thumbnail: "",
@@ -25,11 +27,6 @@ const emptyForms = {
     studentsEnrolled: "",
   },
   users: {
-    name: "",
-    email: "",
-    phone: "",
-    source: "Inquiry",
-    course: "",
     status: "New",
   },
   testimonials: {
@@ -54,6 +51,7 @@ const emptyForms = {
 };
 
 const starterData = {
+  dashboard: [],
   courses: [
     {
       _id: "course-1",
@@ -67,17 +65,7 @@ const starterData = {
       studentsEnrolled: "128",
     },
   ],
-  users: [
-    {
-      id: "user-1",
-      name: "Priya Sharma",
-      email: "priya@example.com",
-      phone: "+91 98765 43210",
-      source: "Course Joiner",
-      course: "Spoken English Mastery",
-      status: "Enrolled",
-    },
-  ],
+  users: [],
   testimonials: [
     {
       id: "testimonial-1",
@@ -99,7 +87,7 @@ const starterData = {
   ],
   webinars: [
     {
-      id: "webinar-1",
+      _id: "webinar-1",
       title: "How to Speak English Confidently",
       type: "Live",
       dateTime: "2026-05-20T18:00",
@@ -110,6 +98,7 @@ const starterData = {
 };
 
 const columns = {
+  dashboard: [],
   courses: [
     ["name", "Course"],
     ["thumbnail", "Thumbnail"],
@@ -123,6 +112,7 @@ const columns = {
     ["email", "Email"],
     ["phone", "Phone"],
     ["source", "Source"],
+    ["course", "Course / Webinar"],
     ["status", "Status"],
   ],
   testimonials: [
@@ -163,25 +153,49 @@ function makeId(moduleKey) {
 }
 
 export default function AdminDashboard() {
-  const [activeModule, setActiveModule] = useState("courses");
+  const [activeModule, setActiveModule] = useState("dashboard");
   const [data, setData] = useState(loadData);
-  const [form, setForm] = useState(emptyForms.courses);
+  const [form, setForm] = useState(emptyForms.dashboard);
   const [editingId, setEditingId] = useState(null);
   const [coursesLoading, setCoursesLoading] = useState(false);
   const [coursesError, setCoursesError] = useState("");
   const [videosLoading, setVideosLoading] = useState(false);
   const [videosError, setVideosError] = useState("");
+  const [webinarsLoading, setWebinarsLoading] = useState(false);
+  const [webinarsError, setWebinarsError] = useState("");
+  const [usersLoading, setUsersLoading] = useState(false);
+  const [usersError, setUsersError] = useState("");
+  const [dashboardStats, setDashboardStats] = useState(null);
+  const [dashboardError, setDashboardError] = useState("");
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
   const [thumbnailUploadError, setThumbnailUploadError] = useState("");
   const activeConfig = modules.find((item) => item.key === activeModule);
 
   const stats = useMemo(
-    () =>
-      modules.map((module) => ({
-        ...module,
-        count: data[module.key]?.length ?? 0,
-      })),
-    [data],
+    () => [
+      { key: "coursesCount", label: "Courses", count: dashboardStats?.coursesCount ?? data.courses?.length ?? 0 },
+      {
+        key: "webinarsCount",
+        label: "Webinars",
+        count: dashboardStats?.webinarsCount ?? data.webinars?.length ?? 0,
+      },
+      {
+        key: "courseInquiryCount",
+        label: "Course Inquiries",
+        count: dashboardStats?.courseInquiryCount ?? 0,
+      },
+      {
+        key: "webinarRegistrationCount",
+        label: "Webinar Students",
+        count: dashboardStats?.webinarRegistrationCount ?? 0,
+      },
+      {
+        key: "courseEnrollmentCount",
+        label: "Course Enrollments",
+        count: dashboardStats?.courseEnrollmentCount ?? 0,
+      },
+    ],
+    [dashboardStats, data.courses?.length, data.webinars?.length],
   );
 
   function updateField(field, value) {
@@ -194,6 +208,8 @@ export default function AdminDashboard() {
     setEditingId(null);
     setThumbnailUploadError("");
     setVideosError("");
+    setWebinarsError("");
+    setUsersError("");
   }
 
   async function fetchCourses() {
@@ -242,10 +258,76 @@ export default function AdminDashboard() {
     }
   }
 
+  async function fetchWebinars() {
+    setWebinarsLoading(true);
+    setWebinarsError("");
+
+    try {
+      const response = await fetch("/api/webinars", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load webinars.");
+      }
+
+      setData((current) => ({
+        ...current,
+        webinars: payload.data,
+      }));
+    } catch (error) {
+      setWebinarsError(error.message || "Failed to load webinars.");
+    } finally {
+      setWebinarsLoading(false);
+    }
+  }
+
+  async function fetchUsers() {
+    setUsersLoading(true);
+    setUsersError("");
+
+    try {
+      const response = await fetch("/api/leads", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load leads.");
+      }
+
+      setData((current) => ({
+        ...current,
+        users: payload.data,
+      }));
+    } catch (error) {
+      setUsersError(error.message || "Failed to load leads.");
+    } finally {
+      setUsersLoading(false);
+    }
+  }
+
+  async function fetchDashboardStats() {
+    setDashboardError("");
+
+    try {
+      const response = await fetch("/api/admin/stats", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load dashboard stats.");
+      }
+
+      setDashboardStats(payload.data);
+    } catch (error) {
+      setDashboardError(error.message || "Failed to load dashboard stats.");
+    }
+  }
+
   useEffect(() => {
     const timerId = window.setTimeout(() => {
       fetchCourses();
       fetchVideos();
+      fetchWebinars();
+      fetchUsers();
+      fetchDashboardStats();
     }, 0);
 
     return () => window.clearTimeout(timerId);
@@ -262,6 +344,8 @@ export default function AdminDashboard() {
     setEditingId(null);
     setThumbnailUploadError("");
     setVideosError("");
+    setWebinarsError("");
+    setUsersError("");
   }
 
   async function uploadCourseThumbnail(file) {
@@ -333,6 +417,7 @@ export default function AdminDashboard() {
         });
 
         resetForm();
+        await fetchDashboardStats();
       } catch (error) {
         setCoursesError(error.message || "Failed to save course.");
       }
@@ -374,6 +459,48 @@ export default function AdminDashboard() {
         setVideosError(error.message || "Failed to save YouTube video.");
       }
 
+      return;
+    }
+
+    if (activeModule === "webinars") {
+      try {
+        setWebinarsError("");
+
+        const response = await fetch(editingId ? `/api/webinars/${editingId}` : "/api/webinars", {
+          method: editingId ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to save webinar.");
+        }
+
+        setData((current) => {
+          const list = current.webinars ?? [];
+
+          return {
+            ...current,
+            webinars: editingId
+              ? list.map((item) => ((item._id ?? item.id) === editingId ? payload.data : item))
+              : [payload.data, ...list],
+          };
+        });
+
+        resetForm();
+        await fetchWebinars();
+        await fetchDashboardStats();
+      } catch (error) {
+        setWebinarsError(error.message || "Failed to save webinar.");
+      }
+
+      return;
+    }
+
+    if (activeModule === "dashboard" || activeModule === "users") {
       return;
     }
 
@@ -430,6 +557,8 @@ export default function AdminDashboard() {
         if (editingId === id) {
           resetForm();
         }
+
+        await fetchDashboardStats();
       } catch (error) {
         setCoursesError(error.message || "Failed to delete course.");
       }
@@ -468,6 +597,43 @@ export default function AdminDashboard() {
         await fetchVideos();
       } catch (error) {
         setVideosError(error.message || "Failed to delete YouTube video.");
+      }
+
+      return;
+    }
+
+    if (activeModule === "webinars") {
+      const confirmed = window.confirm("Delete this webinar?");
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        setWebinarsError("");
+
+        const response = await fetch(`/api/webinars/${id}`, {
+          method: "DELETE",
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to delete webinar.");
+        }
+
+        setData((current) => ({
+          ...current,
+          webinars: current.webinars.filter((item) => (item._id ?? item.id) !== id),
+        }));
+
+        if (editingId === id) {
+          resetForm();
+        }
+
+        await fetchWebinars();
+        await fetchDashboardStats();
+      } catch (error) {
+        setWebinarsError(error.message || "Failed to delete webinar.");
       }
 
       return;
@@ -515,6 +681,16 @@ export default function AdminDashboard() {
               <p>Manage courses, users, testimonials, videos, and webinars from one place.</p>
             </div>
             <div className="adminActions">
+              <button
+                type="button"
+                className="adminButton"
+                onClick={async () => {
+                  await fetch("/api/admin/logout", { method: "POST" });
+                  window.location.href = "/admin/login";
+                }}
+              >
+                Logout
+              </button>
               <Link className="adminButton adminButtonGhost" href="/">
                 View Website
               </Link>
@@ -536,33 +712,50 @@ export default function AdminDashboard() {
                 <h2>{activeConfig.label} Management</h2>
                 <p>{activeConfig.description}</p>
               </div>
-              <button type="button" className="adminButton adminButtonAlt" onClick={resetForm}>
-                {activeModule === "videos" ? "New YouTube Video" : `New ${activeConfig.label.slice(0, -1)}`}
-              </button>
+              {activeModule !== "dashboard" && activeModule !== "users" ? (
+                <button type="button" className="adminButton adminButtonAlt" onClick={resetForm}>
+                  {activeModule === "videos" ? "New YouTube Video" : `New ${activeConfig.label.slice(0, -1)}`}
+                </button>
+              ) : null}
             </div>
 
-            <AdminForm
-              moduleKey={activeModule}
-              form={form}
-              editingId={editingId}
-              onChange={updateField}
-              onSubmit={saveItem}
-              onCancel={resetForm}
-              onThumbnailUpload={uploadCourseThumbnail}
-              thumbnailUploading={thumbnailUploading}
-              thumbnailUploadError={thumbnailUploadError}
-            />
+            {activeModule === "dashboard" ? (
+              <DashboardOverview stats={stats} error={dashboardError} />
+            ) : null}
+
+            {activeModule !== "dashboard" && activeModule !== "users" ? (
+              <AdminForm
+                moduleKey={activeModule}
+                form={form}
+                editingId={editingId}
+                onChange={updateField}
+                onSubmit={saveItem}
+                onCancel={resetForm}
+                onThumbnailUpload={uploadCourseThumbnail}
+                thumbnailUploading={thumbnailUploading}
+                thumbnailUploadError={thumbnailUploadError}
+              />
+            ) : null}
 
             {activeModule === "courses" && coursesError ? <div className="adminEmpty">{coursesError}</div> : null}
             {activeModule === "videos" && videosError ? <div className="adminEmpty">{videosError}</div> : null}
+            {activeModule === "webinars" && webinarsError ? <div className="adminEmpty">{webinarsError}</div> : null}
+            {activeModule === "users" && usersError ? <div className="adminEmpty">{usersError}</div> : null}
 
-            <AdminTable
-              moduleKey={activeModule}
-              items={data[activeModule] ?? []}
-              onEdit={editItem}
-              onDelete={deleteItem}
-              loading={(activeModule === "courses" && coursesLoading) || (activeModule === "videos" && videosLoading)}
-            />
+            {activeModule !== "dashboard" ? (
+              <AdminTable
+                moduleKey={activeModule}
+                items={data[activeModule] ?? []}
+                onEdit={editItem}
+                onDelete={deleteItem}
+                loading={
+                  (activeModule === "courses" && coursesLoading) ||
+                  (activeModule === "videos" && videosLoading) ||
+                  (activeModule === "webinars" && webinarsLoading) ||
+                  (activeModule === "users" && usersLoading)
+                }
+              />
+            ) : null}
           </section>
         </main>
       </div>
@@ -582,6 +775,7 @@ function AdminForm({
   thumbnailUploadError,
 }) {
   const fields = {
+    dashboard: [],
     courses: [
       ["name", "Course Name", "input"],
       ["price", "Starting From Pricing", "input"],
@@ -591,14 +785,7 @@ function AdminForm({
       ["longDescription", "Long Description", "richtext", "adminFull"],
       ["syllabus", "Syllabus (Optional)", "richtext", "adminFull"],
     ],
-    users: [
-      ["name", "User Name", "input"],
-      ["email", "Email", "input"],
-      ["phone", "Phone", "input"],
-      ["source", "User Type", "select", ["Inquiry", "Course Joiner", "Webinar Registration"]],
-      ["course", "Course / Webinar", "input"],
-      ["status", "Status", "select", ["New", "Contacted", "Enrolled", "Closed"]],
-    ],
+    users: [],
     testimonials: [
       ["studentName", "Student Name", "input"],
       ["course", "Course", "input"],
@@ -690,6 +877,22 @@ function AdminForm({
   );
 }
 
+function DashboardOverview({ stats, error }) {
+  return (
+    <div className="adminDashboardOverview">
+      {error ? <div className="adminEmpty">{error}</div> : null}
+      <div className="adminDashboardOverview__grid">
+        {stats.map((stat) => (
+          <article className="adminDashboardOverview__card" key={stat.key}>
+            <span>{stat.label}</span>
+            <strong>{stat.count}</strong>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function RichTextEditor({ id, value, onChange }) {
   const [editorModules, setEditorModules] = useState(null);
 
@@ -777,7 +980,7 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
             {columns[moduleKey].map(([, label]) => (
               <th key={label}>{label}</th>
             ))}
-            <th>Actions</th>
+            {moduleKey !== "users" ? <th>Actions</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -793,6 +996,8 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                     />
                   ) : key === "youtubeIframe" ? (
                     <div className="adminYoutubePreview" dangerouslySetInnerHTML={{ __html: item[key] }} />
+                  ) : key === "phone" ? (
+                    item.phone || item.mobile
                   ) : ["allowBooking", "visible", "status", "type"].includes(key) ? (
                     <span className="adminBadge">{item[key]}</span>
                   ) : (
@@ -800,20 +1005,22 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                   )}
                 </td>
               ))}
-              <td>
-                <div className="adminActions">
-                  <button type="button" className="adminButton adminButtonGhost" onClick={() => onEdit(item)}>
-                    Edit
-                  </button>
-                  <button
-                    type="button"
-                    className="adminButton adminButtonDanger"
-                    onClick={() => onDelete(item._id ?? item.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </td>
+              {moduleKey !== "users" ? (
+                <td>
+                  <div className="adminActions">
+                    <button type="button" className="adminButton adminButtonGhost" onClick={() => onEdit(item)}>
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      className="adminButton adminButtonDanger"
+                      onClick={() => onDelete(item._id ?? item.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              ) : null}
             </tr>
           ))}
         </tbody>

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { requireAdminAccess } from "@/lib/adminAuth";
 import connectToDatabase from "@/lib/mongodb";
 import YoutubeVideo from "@/models/YoutubeVideo";
 
@@ -30,6 +31,7 @@ export async function GET(_request, { params }) {
 export async function PUT(request, { params }) {
   try {
     const { id } = await params;
+    await requireAdminAccess();
     await connectToDatabase();
     const body = await request.json();
     const video = await YoutubeVideo.findByIdAndUpdate(id, body, {
@@ -43,11 +45,12 @@ export async function PUT(request, { params }) {
 
     return NextResponse.json({ success: true, data: video });
   } catch (error) {
+    const status = error.status || 400;
     console.error("Failed to update YouTube video:", error);
 
     return NextResponse.json(
       { success: false, message: "Failed to update YouTube video.", error: error.message },
-      { status: 400 },
+      { status },
     );
   }
 }
@@ -55,6 +58,7 @@ export async function PUT(request, { params }) {
 export async function DELETE(_request, { params }) {
   try {
     const { id } = await params;
+    await requireAdminAccess();
     await connectToDatabase();
     const video = await YoutubeVideo.findByIdAndDelete(id).lean();
 
@@ -64,11 +68,12 @@ export async function DELETE(_request, { params }) {
 
     return NextResponse.json({ success: true, data: video });
   } catch (error) {
+    const status = error.status || 400;
     console.error("Failed to delete YouTube video:", error);
 
     return NextResponse.json(
       { success: false, message: "Failed to delete YouTube video.", error: error.message },
-      { status: 400 },
+      { status },
     );
   }
 }
