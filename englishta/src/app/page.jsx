@@ -1923,7 +1923,7 @@ const rawPageHtml = `
         <div className="row align-items-center td_gap_y_40">
           <div className="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
             <div className="td_testimonial_img_wrap">
-              <img src="https://picsum.photos/seed/englishta-85/900/600" alt="" className="td_testimonial_img">
+              <img src="/assets/images/testimonial.png" alt="" className="td_testimonial_img">
               <span className="td_testimonial_img_shape_1"><span></span></span>
               <span className="td_testimonial_img_shape_2 td_accent_color td_hover_layer_3">
                 <svg width="145" height="165" viewBox="0 0 145 165" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2109,10 +2109,15 @@ const normalizeInjectedHtml = (html) =>
     .replaceAll("strokeLinecap=", "stroke-linecap=")
     .replaceAll("strokeLinejoin=", "stroke-linejoin=");
 
-const pageHtml = normalizeInjectedHtml(rawPageHtml).replace(
-  /<section class="branddarkenglishta td_shape_section_1 td_video_showcase">[\s\S]*?<\/section>/,
-  "__ENGLISHTA_VIDEO_SECTION__",
-);
+const pageHtml = normalizeInjectedHtml(rawPageHtml)
+  .replace(
+    /<section class="branddarkenglishta td_shape_section_1 td_video_showcase">[\s\S]*?<\/section>/,
+    "__ENGLISHTA_VIDEO_SECTION__",
+  )
+  .replace(
+    /<section>\s*<div class="td_height_112 td_height_lg_75"><\/div>\s*<div class="container">\s*<div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">\s*<p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Departments<\/p>\s*<h2 class="td_section_title td_fs_48 mb-0">Popular Training Areas<\/h2>[\s\S]*?<\/section>/,
+    "__ENGLISHTA_TRAINING_AREAS__",
+  );
 
 const Preloader = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -2212,6 +2217,45 @@ const videoCards = [
   },
 ];
 
+const trainingAreas = [
+  {
+    title: "Conversation Practice",
+    description:
+      "Build fluency and confidence through real-life conversations and interactive speaking sessions.",
+    highlight: "Speak Naturally",
+    detail: "in Everyday Situations",
+    logo: "/assets/images/logo/conversation.png",
+    tone: "gold",
+  },
+  {
+    title: "Interview Preparation",
+    description:
+      "Master interview skills with expert guidance, mock interviews, and personalized feedback.",
+    highlight: "Crack Interviews",
+    detail: "with Confidence",
+    logo: "/assets/images/logo/interviewpre.png",
+    tone: "orange",
+  },
+  {
+    title: "Pronunciation Training",
+    description:
+      "Improve your pronunciation, clarity, and accent with focused practice and expert correction.",
+    highlight: "Speak Clearly",
+    detail: "and Confidently",
+    logo: "/assets/images/logo/pronounce.png",
+    tone: "violet",
+  },
+  {
+    title: "Corporate Communication",
+    description:
+      "Enhance professional communication skills for meetings, presentations, emails, and more.",
+    highlight: "Communicate Professionally",
+    detail: "in the Workplace",
+    logo: "/assets/images/logo/corporate.png",
+    tone: "blue",
+  },
+];
+
 const videoCardClasses = [
   "englishtaVideoShowcase__card--featured englishtaVideoShowcase__card--tiltLeft",
   "englishtaVideoShowcase__card--tiltRight",
@@ -2298,15 +2342,90 @@ const VideoShowcase = ({ videos = [] }) => {
   );
 };
 
+const PopularTrainingAreas = () => {
+  return (
+    <section className="englishtaTrainingAreas">
+      <div className="container">
+        <div className="englishtaTrainingAreas__header wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
+          <p className="englishtaTrainingAreas__eyebrow">
+            <i className="fa-solid fa-graduation-cap" />
+            <span>Our Departments</span>
+          </p>
+          <h2>
+            Popular <span>Training Areas</span>
+          </h2>
+          <p>
+            Improve spoken English online with structured lessons, live practice,
+            vocabulary building, pronunciation correction, and confidence-focused
+            coaching.
+          </p>
+          <span className="englishtaTrainingAreas__divider" aria-hidden="true" />
+        </div>
+
+        <div className="englishtaTrainingAreas__grid">
+          {trainingAreas.map((item, index) => (
+            <article
+              key={item.title}
+              className={`englishtaTrainingAreas__card englishtaTrainingAreas__card--${item.tone} wow fadeInUp`}
+              data-wow-duration="1s"
+              data-wow-delay={`${0.2 + index * 0.1}s`}
+            >
+              <div className="englishtaTrainingAreas__art" aria-hidden="true">
+                <img src={item.logo} alt="" />
+              </div>
+              <div className="d-flex justify-content-center mb-3">
+                <img src={item.logo} alt={item.title} className="" height="92" width="92"/>
+              </div>
+              <h3>{item.title}</h3>
+              <span className="englishtaTrainingAreas__line" aria-hidden="true" />
+              <p>{item.description}</p>
+
+              <div className="englishtaTrainingAreas__pill">
+                <span className="englishtaTrainingAreas__pillIcon">
+                  <img src={item.logo} alt="" />
+                </span>
+                <div>
+                  <strong>{item.highlight}</strong>
+                  <span>{item.detail}</span>
+                </div>
+              </div>
+
+              <a href="/courses" className="englishtaTrainingAreas__arrow">
+                <i className="fa-solid fa-arrow-right" />
+              </a>
+            </article>
+          ))}
+        </div>
+
+        <div className="englishtaTrainingAreas__footer wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.35s">
+          <a href="/courses" className="englishtaTrainingAreas__cta">
+            <i className="fa-solid fa-star" />
+            <span>Explore All Courses</span>
+            <span className="englishtaTrainingAreas__ctaArrow">
+              <i className="fa-solid fa-arrow-right" />
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Home = () => {
   const [youtubeVideos, setYoutubeVideos] = useState([]);
   const [isHeroReady, setIsHeroReady] = useState(false);
   const handlePreloaderComplete = useCallback(() => {
     setIsHeroReady(true);
   }, []);
-  const { beforeVideos, afterVideos } = useMemo(() => {
-    const [before = "", after = ""] = pageHtml.split("__ENGLISHTA_VIDEO_SECTION__");
-    return { beforeVideos: before, afterVideos: after };
+  const { beforeVideos, betweenSections, afterTrainingAreas } = useMemo(() => {
+    const [before = "", afterVideo = ""] = pageHtml.split("__ENGLISHTA_VIDEO_SECTION__");
+    const [between = "", afterTraining = ""] = afterVideo.split("__ENGLISHTA_TRAINING_AREAS__");
+
+    return {
+      beforeVideos: before,
+      betweenSections: between,
+      afterTrainingAreas: afterTraining,
+    };
   }, []);
 
   useEffect(() => {
@@ -2337,7 +2456,9 @@ const Home = () => {
       <HomeBanner isReady={isHeroReady} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: beforeVideos }} />
       <VideoShowcase videos={youtubeVideos} />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: afterVideos }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: betweenSections }} />
+      <PopularTrainingAreas />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: afterTrainingAreas }} />
       <Footer />
     </>
   );
