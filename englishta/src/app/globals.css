@@ -192,19 +192,26 @@
 }
 
 .englishtaHeroShade__features {
-  align-items: center;
   background: #feb60c;
   bottom: 0;
   color: #050505;
-  display: grid;
-  gap: 28px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   left: 0;
   min-height: 74px;
-  padding: 16px 10vw;
+  overflow: hidden;
+  padding: 16px 0;
   position: absolute;
   right: 0;
   z-index: 2;
+}
+
+.englishtaHeroShade__marqueeTrack {
+  align-items: center;
+  display: flex;
+  gap: 42px;
+  min-width: max-content;
+  padding-inline: 10vw;
+  width: max-content;
+  animation: englishtaHeroMarquee 18s linear infinite;
 }
 
 .englishtaAnywhereSection {
@@ -396,7 +403,7 @@
   display: inline-flex;
   font-size: 20px;
   font-weight: 700;
-  gap: 20px;
+  gap: 18px;
   justify-content: center;
   line-height: 1.2;
   min-width: 0;
@@ -407,6 +414,15 @@
   color: #050505;
   flex: 0 0 auto;
   font-size: 34px;
+}
+
+@keyframes englishtaHeroMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes englishtaHeadlineDrop {
@@ -3469,7 +3485,11 @@
   }
 
   .englishtaHeroShade__features {
-    gap: 16px;
+    padding-block: 14px;
+  }
+
+  .englishtaHeroShade__marqueeTrack {
+    gap: 28px;
     padding-inline: 32px;
   }
 }
@@ -3658,15 +3678,22 @@
   }
 
   .englishtaHeroShade__features {
-    grid-template-columns: 1fr;
     min-height: auto;
-    padding: 16px 20px;
+    padding: 14px 0;
+  }
+
+  .englishtaHeroShade__marqueeTrack {
+    gap: 24px;
+    padding-inline: 20px;
   }
 
   .englishtaHeroShade__feature {
     font-size: 16px;
-    justify-content: flex-start;
-    white-space: normal;
+    gap: 12px;
+  }
+
+  .englishtaHeroShade__feature i {
+    font-size: 24px;
   }
 }
 

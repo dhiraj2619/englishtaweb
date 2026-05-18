@@ -2152,6 +2152,8 @@ const Preloader = ({ onComplete }) => {
 };
 
 const HomeBanner = ({ isReady = false }) => {
+  const marqueeContent = [...heroMarqueeItems, ...heroMarqueeItems];
+
   return (
     <section
       className={isReady ? "englishtaHeroShade englishtaHeroShade--ready" : "englishtaHeroShade"}
@@ -2174,17 +2176,13 @@ const HomeBanner = ({ isReady = false }) => {
       </div>
 
       <div className="englishtaHeroShade__features wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s" aria-label="Course highlights">
-        <div className="englishtaHeroShade__feature">
-          <i className="fa-solid fa-chart-simple" />
-          <span>Live online speaking practice</span>
-        </div>
-        <div className="englishtaHeroShade__feature">
-          <i className="fa-solid fa-user-group" />
-          <span>Personal feedback from expert tutor</span>
-        </div>
-        <div className="englishtaHeroShade__feature">
-          <i className="fa-solid fa-location-dot" />
-          <span>Fluency for interviews and daily life</span>
+        <div className="englishtaHeroShade__marqueeTrack">
+          {marqueeContent.map((item, index) => (
+            <div className="englishtaHeroShade__feature" key={`${item.text}-${index}`}>
+              <i className={item.icon} />
+              <span>{item.text}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -2281,6 +2279,21 @@ const defaultTestimonials = [
     course: "Interview English Learner",
     rating: "5",
     review: "I became much more confident in interviews. The trainer corrected my mistakes clearly and kept the practice very real.",
+  },
+];
+
+const heroMarqueeItems = [
+  {
+    icon: "fa-solid fa-chart-simple",
+    text: "Live online speaking practice",
+  },
+  {
+    icon: "fa-solid fa-user-group",
+    text: "Personal feedback from expert tutor",
+  },
+  {
+    icon: "fa-solid fa-location-dot",
+    text: "Fluency for interviews and daily life",
   },
 ];
 
