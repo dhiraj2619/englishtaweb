@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { requireAdminAccess } from "@/lib/adminAuth";
 import connectToDatabase from "@/lib/mongodb";
 import Course from "@/models/Course";
-import Lead from "@/models/Lead";
+import CourseLead from "@/models/CourseLead";
 import Webinar from "@/models/Webinar";
 import WebinarRegistration from "@/models/WebinarRegistration";
 
@@ -18,7 +18,7 @@ export async function GET() {
     const [coursesCount, webinarsCount, courseInquiryCount, webinarRegistrationCount, courses] = await Promise.all([
       Course.countDocuments(),
       Webinar.countDocuments(),
-      Lead.countDocuments({ source: "Course Inquiry" }),
+      CourseLead.countDocuments(),
       WebinarRegistration.countDocuments(),
       Course.find({}, { studentsEnrolled: 1 }).lean(),
     ]);

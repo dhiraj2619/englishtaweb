@@ -54,6 +54,7 @@
 .englishtaHeroShade__cta--primary:hover,
 .englishtaCourseDetailHero__primary:hover,
 .englishtaCourseDetailCard a:hover,
+.englishtaCourseDetailCard button:hover,
 .englishtaAboutCta a:hover,
 .englishtaWebinarHero__actions a:first-child:hover,
 .englishtaWebinarCard__footer a:hover,
@@ -67,6 +68,7 @@
 .englishtaHeroShade__cta--primary:hover i,
 .englishtaCourseDetailHero__primary:hover i,
 .englishtaCourseDetailCard a:hover i,
+.englishtaCourseDetailCard button:hover i,
 .englishtaAboutCta a:hover i,
 .englishtaWebinarHero__actions a:first-child:hover i,
 .englishtaWebinarCard__footer a:hover i,
@@ -337,12 +339,12 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  padding: 26px 20px 22px;
+  padding: 22px 22px 64px;
   border: 1px solid rgba(19, 20, 48, 0.08);
-  border-radius: 24px;
+  border-radius: 28px;
   background: #fff;
-  box-shadow: 0 14px 38px rgba(30, 29, 63, 0.08);
-  overflow: hidden;
+  box-shadow: 0 18px 44px rgba(30, 29, 63, 0.1);
+  overflow: visible;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -355,8 +357,9 @@
   position: absolute;
   inset: 0 auto auto 0;
   width: 100%;
-  height: 124px;
-  opacity: 0.52;
+  height: 132px;
+  opacity: 0.68;
+  pointer-events: none;
   background:
     radial-gradient(circle at 78% 24%, rgba(255, 255, 255, 0.88) 0 12px, transparent 13px),
     radial-gradient(circle at 86% 30%, rgba(255, 255, 255, 0.7) 0 10px, transparent 11px),
@@ -365,25 +368,25 @@
 
 .englishtaTrainingAreas__art img {
   position: absolute;
-  right: 14px;
-  bottom: 0;
-  width: 124px;
-  height: 72px;
+  right: 18px;
+  bottom: 8px;
+  width: 138px;
+  height: 82px;
   object-fit: contain;
   object-position: right bottom;
-  opacity: 0.12;
+  opacity: 0.1;
   filter: saturate(0.9);
 }
 
 .englishtaTrainingAreas__card::after {
   content: "";
   position: absolute;
-  right: -8px;
-  top: 24px;
-  width: 170px;
-  height: 74px;
-  border-radius: 0 0 0 74px;
-  opacity: 0.28;
+  right: -4px;
+  top: 30px;
+  width: 190px;
+  height: 78px;
+  border-radius: 0 0 0 90px;
+  opacity: 0.36;
 }
 
 .englishtaTrainingAreas__card--gold::after {
@@ -402,41 +405,47 @@
   background: linear-gradient(135deg, rgba(49, 136, 255, 0.16), rgba(49, 136, 255, 0.04));
 }
 
-.englishtaTrainingAreas__icon {
+.englishtaTrainingAreas__iconWrap {
   position: relative;
   z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 96px;
-  height: 96px;
+  display: flex;
+  justify-content: center;
   margin-bottom: 18px;
-  border: 6px solid #fff;
+}
+
+.englishtaTrainingAreas__iconGlow {
+  position: absolute;
+  inset: 8px auto auto 50%;
+  width: 104px;
+  height: 104px;
   border-radius: 50%;
-  box-shadow: 0 10px 24px rgba(24, 23, 52, 0.1);
-  overflow: hidden;
+  transform: translateX(-50%);
+  opacity: 0.3;
+  filter: blur(12px);
 }
 
-.englishtaTrainingAreas__card--gold .englishtaTrainingAreas__icon {
-  background: linear-gradient(135deg, #ffd76d, #ffb100);
+.englishtaTrainingAreas__card--gold .englishtaTrainingAreas__iconGlow {
+  background: radial-gradient(circle, rgba(255, 177, 0, 0.28), rgba(255, 177, 0, 0));
 }
 
-.englishtaTrainingAreas__card--orange .englishtaTrainingAreas__icon {
-  background: linear-gradient(135deg, #ffd8c6, #ff7b1c);
+.englishtaTrainingAreas__card--orange .englishtaTrainingAreas__iconGlow {
+  background: radial-gradient(circle, rgba(255, 123, 28, 0.22), rgba(255, 123, 28, 0));
 }
 
-.englishtaTrainingAreas__card--violet .englishtaTrainingAreas__icon {
-  background: linear-gradient(135deg, #eadfff, #7a4bff);
+.englishtaTrainingAreas__card--violet .englishtaTrainingAreas__iconGlow {
+  background: radial-gradient(circle, rgba(122, 75, 255, 0.22), rgba(122, 75, 255, 0));
 }
 
-.englishtaTrainingAreas__card--blue .englishtaTrainingAreas__icon {
-  background: linear-gradient(135deg, #d8efff, #3188ff);
+.englishtaTrainingAreas__card--blue .englishtaTrainingAreas__iconGlow {
+  background: radial-gradient(circle, rgba(49, 136, 255, 0.2), rgba(49, 136, 255, 0));
 }
 
-.englishtaTrainingAreas__icon img {
-  width: 44px;
-  height: 44px;
+.englishtaTrainingAreas__iconImage {
+  position: relative;
+  z-index: 1;
+  width: 74px;
+  height: 74px;
   object-fit: contain;
-  filter: brightness(0) invert(1);
 }
 
 .englishtaTrainingAreas__card h3 {
@@ -444,15 +453,15 @@
   z-index: 1;
   margin: 0;
   color: #10112d;
-  font-size: 23px;
+  font-size: 25px;
   line-height: 1.08;
   font-weight: 900;
 }
 
 .englishtaTrainingAreas__line {
-  width: 28px;
+  width: 30px;
   height: 3px;
-  margin: 14px 0 12px;
+  margin: 12px 0 14px;
   border-radius: 999px;
 }
 
@@ -473,20 +482,21 @@
 }
 
 .englishtaTrainingAreas__card > p {
-  margin: 0 0 18px;
+  margin: 0 0 16px;
   color: #666879;
-  font-size: 15px;
-  line-height: 1.65;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 .englishtaTrainingAreas__pill {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 50px;
+  gap: 14px;
+  min-height: 54px;
   margin-top: auto;
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .englishtaTrainingAreas__card--gold .englishtaTrainingAreas__pill {
@@ -506,10 +516,11 @@
 }
 
 .englishtaTrainingAreas__pillIcon {
+  position: relative;
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   flex: 0 0 auto;
   border-radius: 50%;
   overflow: hidden;
@@ -532,10 +543,21 @@
 }
 
 .englishtaTrainingAreas__pillIcon img {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   object-fit: contain;
   filter: brightness(0) invert(1);
+}
+
+.englishtaTrainingAreas__pillIcon::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .englishtaTrainingAreas__pill strong,
@@ -552,22 +574,24 @@
 
 .englishtaTrainingAreas__pill span {
   color: #5c5d74;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.2;
 }
 
 .englishtaTrainingAreas__arrow {
   position: absolute;
   left: 50%;
-  bottom: -18px;
+  bottom: -20px;
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   color: #fff;
   transform: translateX(-50%);
-  box-shadow: 0 12px 22px rgba(18, 17, 45, 0.18);
+  border: 4px solid #fff;
+  box-shadow: 0 14px 28px rgba(18, 17, 45, 0.2);
+  z-index: 2;
 }
 
 .englishtaTrainingAreas__arrow:hover {
@@ -1003,10 +1027,13 @@
 
 .englishtaCourseDetailHero__primary,
 .englishtaCourseDetailHero__secondary,
-.englishtaCourseDetailCard a {
+.englishtaCourseDetailCard a,
+.englishtaCourseDetailCard button {
   align-items: center;
   border-radius: 999px;
   display: inline-flex;
+  border: 0;
+  cursor: pointer;
   font-weight: 900;
   justify-content: center;
   min-height: 56px;
@@ -1015,7 +1042,8 @@
 }
 
 .englishtaCourseDetailHero__primary,
-.englishtaCourseDetailCard a {
+.englishtaCourseDetailCard a,
+.englishtaCourseDetailCard button {
   background: #feb60c;
   color: #101010;
 }
@@ -1109,6 +1137,30 @@
   font-size: 17px;
   line-height: 1.75;
   margin-bottom: 0;
+}
+
+.englishtaCourseDetailBody__content {
+  color: #565148;
+  display: grid;
+  gap: 16px;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.englishtaCourseDetailBody__content p,
+.englishtaCourseDetailBody__content ul,
+.englishtaCourseDetailBody__content ol,
+.englishtaCourseDetailBody__content blockquote {
+  margin: 0;
+}
+
+.englishtaCourseDetailBody__content ul,
+.englishtaCourseDetailBody__content ol {
+  padding-left: 22px;
+}
+
+.englishtaCourseDetailBody__content li + li {
+  margin-top: 8px;
 }
 
 .englishtaCourseDetailHighlights {
@@ -1234,7 +1286,8 @@
   margin-bottom: 24px;
 }
 
-.englishtaCourseDetailCard a {
+.englishtaCourseDetailCard a,
+.englishtaCourseDetailCard button {
   width: 100%;
 }
 
@@ -19003,7 +19056,8 @@ body {
 }
 
 .englishtaWebinarModal__form input,
-.englishtaWebinarModal__form select {
+.englishtaWebinarModal__form select,
+.englishtaWebinarModal__textarea {
   min-height: 50px;
   width: 100%;
   border: 1px solid #dce2ec;
@@ -19012,6 +19066,72 @@ body {
   color: #1b2438;
   font: inherit;
   padding: 0 16px;
+}
+
+.englishtaWebinarModal__textarea {
+  min-height: 120px;
+  padding: 14px 16px;
+  resize: vertical;
+}
+
+.englishtaTestimonialsSlider {
+  overflow: hidden;
+}
+
+.englishtaTestimonialsTrack {
+  display: flex;
+  transition: transform 0.55s ease;
+}
+
+.englishtaTestimonialsSlide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.englishtaTestimonialCard {
+  height: 100%;
+}
+
+.englishtaTestimonialAvatar {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd56f 0%, #feb60c 100%);
+  color: #161100;
+  font-size: 26px;
+  font-weight: 900;
+  flex: 0 0 auto;
+}
+
+.englishtaTestimonialsDots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.englishtaTestimonialsDots button {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.englishtaTestimonialsDots button.active {
+  background: #feb60c;
+  transform: scale(1.1);
+}
+
+.englishtaTestimonialStars {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #feb60c;
+  font-size: 20px;
 }
 
 .englishtaWebinarModal__choices {

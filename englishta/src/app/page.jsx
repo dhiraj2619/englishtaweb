@@ -82,11 +82,9 @@ const rawPageHtml = `
               <div className="td_about_thumb_wrap">
                 <div className="td_about_year text-uppercase td_fs_64 td_bold">ONLINE</div>
                 <div className="td_about_thumb_1">
-                  <img src="https://picsum.photos/seed/englishta-1/900/600" alt="">
+                  <img src="/assets/images/aboutenglishta.png" alt="Best English teaching academy in Nashik">
                 </div>
-                <div className="td_about_thumb_2">
-                  <img src="https://picsum.photos/seed/englishta-2/900/600" alt="">
-                </div>
+              
                 <a href="https://www.youtube.com/embed/rRid6GCJtgc" className="td_circle_text td_center td_video_open">
                   <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M14.086 8.63792C14.6603 9.03557 14.6603 9.88459 14.086 10.2822L2.54766 18.2711C1.88444 18.7303 0.978418 18.2557 0.978418 17.449L0.978418 1.47118C0.978418 0.664496 1.88444 0.189811 2.54767 0.649016L14.086 8.63792Z" fill="white"/>
@@ -99,22 +97,22 @@ const rawPageHtml = `
             <div className="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
               <div className="td_section_heading td_style_1 td_mb_30">
                 <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">About us</p>
-                <h2 className="td_section_title td_fs_48 mb-0">The largest & Most Diverse Universities in the United Emirates</h2>
-                <p className="td_section_subtitle td_fs_18 mb-0">Englishta helps learners from Nashik and beyond improve fluency through live online classes, daily speaking drills, vocabulary practice, and personal feedback. a large language ocean</p>
+                <h2 className="td_section_title td_fs_48 mb-0">Best English Teaching Academy in Nashik for Spoken English and Confidence</h2>
+                <p className="td_section_subtitle td_fs_18 mb-0">Englishta is a trusted English speaking academy in Nashik helping students, job seekers, and working professionals improve spoken English, interview communication, pronunciation, vocabulary, and daily fluency through practical online and guided learning sessions.</p>
               </div>
               <div className="td_mb_40">
                 <ul className="td_list td_style_5 td_mp_0">
                   <li>
-                    <h3 className="td_fs_24 td_mb_8">Spoken English Training</h3>
-                    <p className="td_fs_18 mb-0">Live practice for clear, confident communication</p>
+                    <h3 className="td_fs_24 td_mb_8">Spoken English Classes in Nashik</h3>
+                    <p className="td_fs_18 mb-0">Build fluency, confidence, grammar accuracy, and real conversation skills with expert guidance.</p>
                   </li>
                   <li>
-                    <h3 className="td_fs_24 td_mb_8">Interview English</h3>
-                    <p className="td_fs_18 mb-0">Live practice for clear, confident communication</p>
+                    <h3 className="td_fs_24 td_mb_8">Interview and Professional English</h3>
+                    <p className="td_fs_18 mb-0">Prepare for interviews, presentations, workplace communication, and public speaking with structured practice.</p>
                   </li>
                 </ul>
               </div>
-              <a href="courses-grid-view.html" className="td_btn td_style_1 td_radius_10 td_medium">
+              <a href="/about-us" className="td_btn td_style_1 td_radius_10 td_medium">
                 <span className="td_btn_in td_white_color td_accent_bg">
                   <span>Know More</span>
                   <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2117,6 +2115,10 @@ const pageHtml = normalizeInjectedHtml(rawPageHtml)
   .replace(
     /<section>\s*<div class="td_height_112 td_height_lg_75"><\/div>\s*<div class="container">\s*<div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">\s*<p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Departments<\/p>\s*<h2 class="td_section_title td_fs_48 mb-0">Popular Training Areas<\/h2>[\s\S]*?<\/section>/,
     "__ENGLISHTA_TRAINING_AREAS__",
+  )
+  .replace(
+    /<section class="td_heading_bg td_hobble">[\s\S]*?<\/section>/,
+    "__ENGLISHTA_TESTIMONIALS__",
   );
 
 const Preloader = ({ onComplete }) => {
@@ -2263,6 +2265,32 @@ const videoCardClasses = [
   "englishtaVideoShowcase__card--tiltSoftRight",
 ];
 
+const defaultTestimonials = [
+  {
+    studentName: "Rohit Patil",
+    course: "Online Spoken English Learner",
+    rating: "5",
+    review: "Englishta helped me speak without fear. The online sessions are practical, friendly, and focused on real conversations.",
+  },
+  {
+    studentName: "Sneha Kulkarni",
+    course: "Interview English Learner",
+    rating: "5",
+    review: "I became much more confident in interviews. The trainer corrected my mistakes clearly and kept the practice very real.",
+  },
+];
+
+const renderStars = (ratingValue) => {
+  const rating = Math.max(0, Math.min(5, Number.parseInt(ratingValue || "5", 10) || 0));
+
+  return Array.from({ length: 5 }).map((_, index) => (
+    <i
+      className={index < rating ? "fa-solid fa-star" : "fa-regular fa-star"}
+      key={`star-${rating}-${index}`}
+    ></i>
+  ));
+};
+
 const VideoShowcase = ({ videos = [] }) => {
   const displayVideos = videos.length
     ? videos.slice(0, 4).map((video, index) => ({
@@ -2373,20 +2401,19 @@ const PopularTrainingAreas = () => {
               <div className="englishtaTrainingAreas__art" aria-hidden="true">
                 <img src={item.logo} alt="" />
               </div>
-              <div className="d-flex justify-content-center mb-3">
-                <img src={item.logo} alt={item.title} className="" height="92" width="92"/>
+              <div className="englishtaTrainingAreas__iconWrap">
+                <span className="englishtaTrainingAreas__iconGlow" aria-hidden="true" />
+                <img src={item.logo} alt={item.title} className="englishtaTrainingAreas__iconImage" />
               </div>
               <h3>{item.title}</h3>
               <span className="englishtaTrainingAreas__line" aria-hidden="true" />
               <p>{item.description}</p>
 
-              <div className="englishtaTrainingAreas__pill">
-                <span className="englishtaTrainingAreas__pillIcon">
-                  <img src={item.logo} alt="" />
-                </span>
-                <div>
+              <div className="englishtaTrainingAreas__pill d-flex justify-content-center">
+               
+                <div className="text-center">
                   <strong>{item.highlight}</strong>
-                  <span>{item.detail}</span>
+                  <span className="mt-1">{item.detail}</span>
                 </div>
               </div>
 
@@ -2411,20 +2438,122 @@ const PopularTrainingAreas = () => {
   );
 };
 
+const TestimonialsShowcase = ({ testimonials = [] }) => {
+  const visibleTestimonials = testimonials.length
+    ? testimonials.filter((item) => item.visible !== "No").slice(0, 6)
+    : defaultTestimonials;
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (visibleTestimonials.length <= 1) {
+      return undefined;
+    }
+
+    const timerId = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % visibleTestimonials.length);
+    }, 3500);
+
+    return () => window.clearInterval(timerId);
+  }, [visibleTestimonials.length]);
+
+  return (
+    <section className="td_heading_bg td_hobble">
+      <div className="td_height_112 td_height_lg_75"></div>
+      <div className="container">
+        <div className="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+          <h2 className="td_section_title td_fs_48 mb-0 td_white_color">Start Speaking English With Us</h2>
+          <p className="td_section_subtitle td_fs_18 mb-0 td_white_color td_opacity_7">
+            Join Englishta online classes from Nashik and build fluency through
+            <br />
+            conversation practice, grammar correction, and confidence coaching.
+          </p>
+        </div>
+        <div className="td_height_50 td_height_lg_50"></div>
+        <div className="row align-items-center td_gap_y_40">
+          <div className="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+            <div className="td_testimonial_img_wrap">
+              <img src="/assets/images/testimonial.png" alt="" className="td_testimonial_img" />
+              <span className="td_testimonial_img_shape_1"><span></span></span>
+              <span className="td_testimonial_img_shape_2 td_accent_color td_hover_layer_3">
+                <svg width="145" height="165" viewBox="0 0 145 165" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M145.003 25.9077L139.516 27.7024L143.814 31.5573L145.003 25.9077ZM69.5244 11.4999L69.2176 11.1051L69.5244 11.4999ZM69.5244 53.0379L69.3973 53.5215L69.5244 53.0379ZM141.65 28.8989C135.031 35.2997 125.943 38.4375 116.315 39.2654C106.688 40.0931 96.561 38.607 87.9207 35.8021C79.2649 32.9923 72.1739 28.8832 68.5572 24.5234C66.753 22.3484 65.8508 20.1579 65.9824 18.0635C66.1133 15.9807 67.2739 13.8818 69.8312 11.8948L69.2176 11.1051C66.5057 13.2123 65.1383 15.552 64.9844 18.0007C64.8313 20.4378 65.8877 22.8715 67.7876 25.1618C71.5792 29.7325 78.8783 33.9182 87.6119 36.7533C96.361 39.5934 106.622 41.1025 116.4 40.2617C126.177 39.4211 135.511 36.2268 142.346 29.6178L141.65 28.8989Z" fill="white"/>
+                  <circle cx="34" cy="150" r="15" fill="currentColor" />
+                  <circle cx="15" cy="137" r="15" fill="currentColor" />
+                  <circle cx="24" cy="144" r="15" fill="white" />
+                </svg>
+              </span>
+            </div>
+          </div>
+          <div className="col-lg-6 wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
+            <div className="englishtaTestimonialsSlider">
+              <div
+                className="englishtaTestimonialsTrack"
+                style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+              >
+              {visibleTestimonials.map((item, index) => (
+                <div className="englishtaTestimonialsSlide" key={item._id ?? `${item.studentName}-${index}`}>
+                  <div className="td_testimonial td_style_1 td_white_bg td_radius_5 englishtaTestimonialCard">
+                    <span className="td_quote_icon td_accent_color">
+                      <svg width="65" height="46" viewBox="0 0 65 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path opacity="0.05" d="M13.9286 26.6H1V1H26.8571V27.362L17.956 45H6.26764L14.8213 28.0505L15.5534 26.6H13.9286ZM51.0714 26.6H38.1429V1H64V27.362L55.0988 45H43.4105L51.9642 28.0505L52.6962 26.6H51.0714Z" fill="currentColor" stroke="currentColor" strokeWidth="2" />
+                      </svg>
+                    </span>
+                    <div className="td_testimonial_meta td_mb_24">
+                      <span className="englishtaTestimonialAvatar">{item.studentName?.charAt(0) || "E"}</span>
+                      <div className="td_testimonial_meta_right">
+                        <h3 className="td_fs_24 td_semibold td_mb_2">{item.studentName}</h3>
+                        <p className="td_fs_14 mb-0 td_heading_color td_opacity_7">{item.course}</p>
+                      </div>
+                    </div>
+                    <blockquote className="td_testimonial_text td_fs_20 td_medium td_heading_color td_mb_24 td_opacity_9">
+                      {item.review}
+                    </blockquote>
+                    <div className="englishtaTestimonialStars" aria-label={`${item.rating || "5"} out of 5 stars`}>
+                      {renderStars(item.rating)}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              </div>
+              {visibleTestimonials.length > 1 ? (
+                <div className="englishtaTestimonialsDots">
+                  {visibleTestimonials.map((item, index) => (
+                    <button
+                      type="button"
+                      key={item._id ?? `${item.studentName}-dot-${index}`}
+                      className={activeIndex === index ? "active" : ""}
+                      onClick={() => setActiveIndex(index)}
+                      aria-label={`Show testimonial ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="td_height_120 td_height_lg_80"></div>
+    </section>
+  );
+};
+
 const Home = () => {
   const [youtubeVideos, setYoutubeVideos] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
   const [isHeroReady, setIsHeroReady] = useState(false);
   const handlePreloaderComplete = useCallback(() => {
     setIsHeroReady(true);
   }, []);
-  const { beforeVideos, betweenSections, afterTrainingAreas } = useMemo(() => {
+  const { beforeVideos, betweenSections, beforeTestimonials, afterTestimonials } = useMemo(() => {
     const [before = "", afterVideo = ""] = pageHtml.split("__ENGLISHTA_VIDEO_SECTION__");
     const [between = "", afterTraining = ""] = afterVideo.split("__ENGLISHTA_TRAINING_AREAS__");
+    const [beforeCustomTestimonials = "", afterCustomTestimonials = ""] = afterTraining.split("__ENGLISHTA_TESTIMONIALS__");
 
     return {
       beforeVideos: before,
       betweenSections: between,
-      afterTrainingAreas: afterTraining,
+      beforeTestimonials: beforeCustomTestimonials,
+      afterTestimonials: afterCustomTestimonials,
     };
   }, []);
 
@@ -2444,6 +2573,19 @@ const Home = () => {
         }
       });
 
+    fetch("/api/testimonials", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((payload) => {
+        if (isMounted && payload.success) {
+          setTestimonials(payload.data.filter((item) => item.visible !== "No"));
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setTestimonials([]);
+        }
+      });
+
     return () => {
       isMounted = false;
     };
@@ -2458,7 +2600,9 @@ const Home = () => {
       <VideoShowcase videos={youtubeVideos} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: betweenSections }} />
       <PopularTrainingAreas />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: afterTrainingAreas }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: beforeTestimonials }} />
+      <TestimonialsShowcase testimonials={testimonials} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: afterTestimonials }} />
       <Footer />
     </>
   );

@@ -8,7 +8,8 @@ const storageKey = "englishta-admin-dashboard";
 const modules = [
   { key: "dashboard", label: "Dashboard", description: "Track courses, webinars, enrollments, and inquiries." },
   { key: "courses", label: "Courses", description: "Add, edit, and delete courses." },
-  { key: "users", label: "Leads", description: "Auto-captured course inquiries and webinar registrations." },
+  { key: "webinarLeads", label: "Webinar Leads", description: "Auto-captured webinar registrations from the website." },
+  { key: "courseLeads", label: "Course Leads", description: "Auto-captured course enquiries and demo requests from the website." },
   { key: "testimonials", label: "Testimonials", description: "Manage student reviews shown on the website." },
   { key: "videos", label: "Videos", description: "Add YouTube learning and demo videos." },
   { key: "webinars", label: "Webinars", description: "Manage live and recorded webinar sessions." },
@@ -26,7 +27,10 @@ const emptyForms = {
     price: "",
     studentsEnrolled: "",
   },
-  users: {
+  webinarLeads: {
+    status: "New",
+  },
+  courseLeads: {
     status: "New",
   },
   testimonials: {
@@ -65,7 +69,8 @@ const starterData = {
       studentsEnrolled: "128",
     },
   ],
-  users: [],
+  webinarLeads: [],
+  courseLeads: [],
   testimonials: [
     {
       id: "testimonial-1",
@@ -107,12 +112,22 @@ const columns = {
     ["price", "Starting From"],
     ["studentsEnrolled", "Students"],
   ],
-  users: [
+  webinarLeads: [
     ["name", "Name"],
     ["email", "Email"],
     ["phone", "Phone"],
-    ["source", "Source"],
-    ["course", "Course / Webinar"],
+    ["course", "Webinar"],
+    ["occupation", "Occupation"],
+    ["city", "City"],
+    ["status", "Status"],
+  ],
+  courseLeads: [
+    ["name", "Name"],
+    ["email", "Email"],
+    ["phone", "Phone"],
+    ["course", "Course"],
+    ["occupation", "Occupation"],
+    ["city", "City"],
     ["status", "Status"],
   ],
   testimonials: [
@@ -161,10 +176,14 @@ export default function AdminDashboard() {
   const [coursesError, setCoursesError] = useState("");
   const [videosLoading, setVideosLoading] = useState(false);
   const [videosError, setVideosError] = useState("");
+  const [testimonialsLoading, setTestimonialsLoading] = useState(false);
+  const [testimonialsError, setTestimonialsError] = useState("");
   const [webinarsLoading, setWebinarsLoading] = useState(false);
   const [webinarsError, setWebinarsError] = useState("");
-  const [usersLoading, setUsersLoading] = useState(false);
-  const [usersError, setUsersError] = useState("");
+  const [webinarLeadsLoading, setWebinarLeadsLoading] = useState(false);
+  const [webinarLeadsError, setWebinarLeadsError] = useState("");
+  const [courseLeadsLoading, setCourseLeadsLoading] = useState(false);
+  const [courseLeadsError, setCourseLeadsError] = useState("");
   const [dashboardStats, setDashboardStats] = useState(null);
   const [dashboardError, setDashboardError] = useState("");
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
@@ -208,8 +227,10 @@ export default function AdminDashboard() {
     setEditingId(null);
     setThumbnailUploadError("");
     setVideosError("");
+    setTestimonialsError("");
     setWebinarsError("");
-    setUsersError("");
+    setWebinarLeadsError("");
+    setCourseLeadsError("");
   }
 
   async function fetchCourses() {
@@ -258,6 +279,29 @@ export default function AdminDashboard() {
     }
   }
 
+  async function fetchTestimonials() {
+    setTestimonialsLoading(true);
+    setTestimonialsError("");
+
+    try {
+      const response = await fetch("/api/testimonials", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load testimonials.");
+      }
+
+      setData((current) => ({
+        ...current,
+        testimonials: payload.data,
+      }));
+    } catch (error) {
+      setTestimonialsError(error.message || "Failed to load testimonials.");
+    } finally {
+      setTestimonialsLoading(false);
+    }
+  }
+
   async function fetchWebinars() {
     setWebinarsLoading(true);
     setWebinarsError("");
@@ -281,26 +325,59 @@ export default function AdminDashboard() {
     }
   }
 
-  async function fetchUsers() {
-    setUsersLoading(true);
-    setUsersError("");
+  async function fetchWebinarLeads() {
+    setWebinarLeadsLoading(true);
+    setWebinarLeadsError("");
 
     try {
-      const response = await fetch("/api/leads", { cache: "no-store" });
+      const response = await fetch("/api/webinar-registrations", { cache: "no-store" });
       const payload = await response.json();
 
       if (!response.ok || !payload.success) {
-        throw new Error(payload.message || "Failed to load leads.");
+        throw new Error(payload.message || "Failed to load webinar leads.");
       }
 
       setData((current) => ({
         ...current,
-        users: payload.data,
+        webinarLeads: payload.data.map((item) => ({
+          ...item,
+          name: `${item.firstName || ""} ${item.lastName || ""}`.trim(),
+          phone: item.mobile || "",
+          course: item.webinarTitle || "",
+        })),
       }));
     } catch (error) {
-      setUsersError(error.message || "Failed to load leads.");
+      setWebinarLeadsError(error.message || "Failed to load webinar leads.");
     } finally {
-      setUsersLoading(false);
+      setWebinarLeadsLoading(false);
+    }
+  }
+
+  async function fetchCourseLeads() {
+    setCourseLeadsLoading(true);
+    setCourseLeadsError("");
+
+    try {
+      const response = await fetch("/api/course-leads", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load course leads.");
+      }
+
+      setData((current) => ({
+        ...current,
+        courseLeads: payload.data.map((item) => ({
+          ...item,
+          name: `${item.firstName || ""} ${item.lastName || ""}`.trim(),
+          phone: item.mobile || "",
+          course: item.courseName || "",
+        })),
+      }));
+    } catch (error) {
+      setCourseLeadsError(error.message || "Failed to load course leads.");
+    } finally {
+      setCourseLeadsLoading(false);
     }
   }
 
@@ -325,8 +402,10 @@ export default function AdminDashboard() {
     const timerId = window.setTimeout(() => {
       fetchCourses();
       fetchVideos();
+      fetchTestimonials();
       fetchWebinars();
-      fetchUsers();
+      fetchWebinarLeads();
+      fetchCourseLeads();
       fetchDashboardStats();
     }, 0);
 
@@ -344,8 +423,10 @@ export default function AdminDashboard() {
     setEditingId(null);
     setThumbnailUploadError("");
     setVideosError("");
+    setTestimonialsError("");
     setWebinarsError("");
-    setUsersError("");
+    setWebinarLeadsError("");
+    setCourseLeadsError("");
   }
 
   async function uploadCourseThumbnail(file) {
@@ -462,6 +543,43 @@ export default function AdminDashboard() {
       return;
     }
 
+    if (activeModule === "testimonials") {
+      try {
+        setTestimonialsError("");
+
+        const response = await fetch(editingId ? `/api/testimonials/${editingId}` : "/api/testimonials", {
+          method: editingId ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to save testimonial.");
+        }
+
+        setData((current) => {
+          const list = current.testimonials ?? [];
+
+          return {
+            ...current,
+            testimonials: editingId
+              ? list.map((item) => ((item._id ?? item.id) === editingId ? payload.data : item))
+              : [payload.data, ...list],
+          };
+        });
+
+        resetForm();
+        await fetchTestimonials();
+      } catch (error) {
+        setTestimonialsError(error.message || "Failed to save testimonial.");
+      }
+
+      return;
+    }
+
     if (activeModule === "webinars") {
       try {
         setWebinarsError("");
@@ -500,7 +618,7 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (activeModule === "dashboard" || activeModule === "users") {
+    if (activeModule === "dashboard" || activeModule === "webinarLeads" || activeModule === "courseLeads") {
       return;
     }
 
@@ -602,6 +720,42 @@ export default function AdminDashboard() {
       return;
     }
 
+    if (activeModule === "testimonials") {
+      const confirmed = window.confirm("Delete this testimonial?");
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        setTestimonialsError("");
+
+        const response = await fetch(`/api/testimonials/${id}`, {
+          method: "DELETE",
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to delete testimonial.");
+        }
+
+        setData((current) => ({
+          ...current,
+          testimonials: current.testimonials.filter((item) => (item._id ?? item.id) !== id),
+        }));
+
+        if (editingId === id) {
+          resetForm();
+        }
+
+        await fetchTestimonials();
+      } catch (error) {
+        setTestimonialsError(error.message || "Failed to delete testimonial.");
+      }
+
+      return;
+    }
+
     if (activeModule === "webinars") {
       const confirmed = window.confirm("Delete this webinar?");
 
@@ -678,7 +832,7 @@ export default function AdminDashboard() {
           <header className="adminTopbar">
             <div>
               <h1>Admin Dashboard</h1>
-              <p>Manage courses, users, testimonials, videos, and webinars from one place.</p>
+              <p>Manage courses, leads, testimonials, videos, and webinars from one place.</p>
             </div>
             <div className="adminActions">
               <button
@@ -712,7 +866,7 @@ export default function AdminDashboard() {
                 <h2>{activeConfig.label} Management</h2>
                 <p>{activeConfig.description}</p>
               </div>
-              {activeModule !== "dashboard" && activeModule !== "users" ? (
+              {activeModule !== "dashboard" && activeModule !== "webinarLeads" && activeModule !== "courseLeads" ? (
                 <button type="button" className="adminButton adminButtonAlt" onClick={resetForm}>
                   {activeModule === "videos" ? "New YouTube Video" : `New ${activeConfig.label.slice(0, -1)}`}
                 </button>
@@ -723,7 +877,7 @@ export default function AdminDashboard() {
               <DashboardOverview stats={stats} error={dashboardError} />
             ) : null}
 
-            {activeModule !== "dashboard" && activeModule !== "users" ? (
+            {activeModule !== "dashboard" && activeModule !== "webinarLeads" && activeModule !== "courseLeads" ? (
               <AdminForm
                 moduleKey={activeModule}
                 form={form}
@@ -739,8 +893,10 @@ export default function AdminDashboard() {
 
             {activeModule === "courses" && coursesError ? <div className="adminEmpty">{coursesError}</div> : null}
             {activeModule === "videos" && videosError ? <div className="adminEmpty">{videosError}</div> : null}
+            {activeModule === "testimonials" && testimonialsError ? <div className="adminEmpty">{testimonialsError}</div> : null}
             {activeModule === "webinars" && webinarsError ? <div className="adminEmpty">{webinarsError}</div> : null}
-            {activeModule === "users" && usersError ? <div className="adminEmpty">{usersError}</div> : null}
+            {activeModule === "webinarLeads" && webinarLeadsError ? <div className="adminEmpty">{webinarLeadsError}</div> : null}
+            {activeModule === "courseLeads" && courseLeadsError ? <div className="adminEmpty">{courseLeadsError}</div> : null}
 
             {activeModule !== "dashboard" ? (
               <AdminTable
@@ -751,8 +907,10 @@ export default function AdminDashboard() {
                 loading={
                   (activeModule === "courses" && coursesLoading) ||
                   (activeModule === "videos" && videosLoading) ||
+                  (activeModule === "testimonials" && testimonialsLoading) ||
                   (activeModule === "webinars" && webinarsLoading) ||
-                  (activeModule === "users" && usersLoading)
+                  (activeModule === "webinarLeads" && webinarLeadsLoading) ||
+                  (activeModule === "courseLeads" && courseLeadsLoading)
                 }
               />
             ) : null}
@@ -785,7 +943,8 @@ function AdminForm({
       ["longDescription", "Long Description", "richtext", "adminFull"],
       ["syllabus", "Syllabus (Optional)", "richtext", "adminFull"],
     ],
-    users: [],
+    webinarLeads: [],
+    courseLeads: [],
     testimonials: [
       ["studentName", "Student Name", "input"],
       ["course", "Course", "input"],
@@ -980,7 +1139,7 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
             {columns[moduleKey].map(([, label]) => (
               <th key={label}>{label}</th>
             ))}
-            {moduleKey !== "users" ? <th>Actions</th> : null}
+            {moduleKey !== "webinarLeads" && moduleKey !== "courseLeads" ? <th>Actions</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -1005,7 +1164,7 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                   )}
                 </td>
               ))}
-              {moduleKey !== "users" ? (
+              {moduleKey !== "webinarLeads" && moduleKey !== "courseLeads" ? (
                 <td>
                   <div className="adminActions">
                     <button type="button" className="adminButton adminButtonGhost" onClick={() => onEdit(item)}>
