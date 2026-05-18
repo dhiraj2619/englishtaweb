@@ -51,6 +51,7 @@ export async function POST(request) {
     }
 
     const registration = await WebinarRegistration.create({
+      webinarId: body.webinarId?.trim() || "",
       webinarTitle: body.webinarTitle.trim(),
       firstName: body.firstName.trim(),
       lastName: body.lastName.trim(),

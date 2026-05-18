@@ -6,88 +6,42 @@ import Footer from "@/components/Footer";
 
 const ContactUs = () => {
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
-    mobile: "",
-    gender: "male",
-    occupation: "student",
-    standard: "",
-    city: "",
-    state: "",
-    interest: "",
+    phone: "",
+    subject: "",
     message: "",
   });
-  const [submitting, setSubmitting] = useState(false);
   const [feedback, setFeedback] = useState({ type: "", message: "" });
+  const gmailAddress = "hello@englishta.com";
 
   function updateField(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
     setFeedback({ type: "", message: "" });
 
-    if (
-      !form.firstName.trim() ||
-      !form.lastName.trim() ||
-      !form.email.trim() ||
-      !form.mobile.trim() ||
-      !form.interest.trim() ||
-      !form.city.trim() ||
-      !form.state.trim() ||
-      (form.occupation === "student" && !form.standard.trim())
-    ) {
+    if (!form.name.trim() || !form.email.trim() || !form.phone.trim() || !form.message.trim()) {
       setFeedback({ type: "error", message: "Please fill all required fields." });
       return;
     }
 
-    setSubmitting(true);
+    const subject = form.subject.trim() || `Inquiry from ${form.name.trim()}`;
+    const body = [
+      `Name: ${form.name.trim()}`,
+      `Email: ${form.email.trim()}`,
+      `Phone: ${form.phone.trim()}`,
+      "",
+      "Message:",
+      form.message.trim(),
+    ].join("\n");
 
-    try {
-      const response = await fetch("/api/course-leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: form.firstName,
-          lastName: form.lastName,
-          mobile: form.mobile,
-          email: form.email,
-          gender: form.gender,
-          occupation: form.occupation,
-          standard: form.occupation === "student" ? form.standard : "",
-          city: form.city,
-          state: form.state,
-          courseName: form.interest,
-          message: form.message,
-        }),
-      });
-      const payload = await response.json();
+    const mailtoUrl = `mailto:${gmailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
 
-      if (!response.ok || !payload.success) {
-        throw new Error(payload.message || "Failed to submit inquiry.");
-      }
-
-      setFeedback({ type: "success", message: "Inquiry submitted successfully." });
-      setForm({
-        firstName: "",
-        lastName: "",
-        email: "",
-        mobile: "",
-        gender: "male",
-        occupation: "student",
-        standard: "",
-        city: "",
-        state: "",
-        interest: "",
-        message: "",
-      });
-    } catch (error) {
-      setFeedback({ type: "error", message: error.message || "Failed to submit inquiry." });
-    } finally {
-      setSubmitting(false);
-    }
+    setFeedback({ type: "success", message: "Your email app is opening with the inquiry draft." });
   }
 
   return (
@@ -151,32 +105,19 @@ const ContactUs = () => {
               >
                 <div className="englishta-form-row">
                   <label>
-                    First Name
+                    Full Name
                     <input
                       type="text"
-                      placeholder="First name"
-                      value={form.firstName}
-                      onChange={(event) => updateField("firstName", event.target.value)}
+                      placeholder="Your name"
+                      value={form.name}
+                      onChange={(event) => updateField("name", event.target.value)}
                       required
                     />
                   </label>
-                  <label>
-                    Last Name
-                    <input
-                      type="text"
-                      placeholder="Last name"
-                      value={form.lastName}
-                      onChange={(event) => updateField("lastName", event.target.value)}
-                      required
-                    />
-                  </label>
-                </div>
-                <div className="englishta-form-row">
                   <label>
                     Email Address
                     <input
                       type="email"
-                      name="email"
                       placeholder="you@example.com"
                       value={form.email}
                       onChange={(event) => updateField("email", event.target.value)}
@@ -184,136 +125,34 @@ const ContactUs = () => {
                     />
                   </label>
                   <label>
-                    Mobile Number
+                    Phone Number
                     <input
                       type="tel"
-                      placeholder="Your mobile number"
-                      value={form.mobile}
-                      onChange={(event) => updateField("mobile", event.target.value)}
+                      placeholder="Your phone number"
+                      value={form.phone}
+                      onChange={(event) => updateField("phone", event.target.value)}
                       required
                     />
                   </label>
                 </div>
                 <label>
-                  Gender
-                  <div className="englishtaWebinarModal__choices">
-                    <label>
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="male"
-                        checked={form.gender === "male"}
-                        onChange={(event) => updateField("gender", event.target.value)}
-                      />
-                      <span>Male</span>
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="female"
-                        checked={form.gender === "female"}
-                        onChange={(event) => updateField("gender", event.target.value)}
-                      />
-                      <span>Female</span>
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="other"
-                        checked={form.gender === "other"}
-                        onChange={(event) => updateField("gender", event.target.value)}
-                      />
-                      <span>Other</span>
-                    </label>
-                  </div>
+                  Subject
+                  <input
+                    type="text"
+                    placeholder="Inquiry subject"
+                    value={form.subject}
+                    onChange={(event) => updateField("subject", event.target.value)}
+                  />
                 </label>
-                <div className="englishta-form-row">
-                  <label>
-                    Occupation
-                    <select
-                      value={form.occupation}
-                      onChange={(event) => updateField("occupation", event.target.value)}
-                      required
-                    >
-                      <option value="student">Student</option>
-                      <option value="employed">Employed</option>
-                    </select>
-                  </label>
-                  {form.occupation === "student" ? (
-                    <label>
-                      Standard
-                      <select
-                        value={form.standard}
-                        onChange={(event) => updateField("standard", event.target.value)}
-                        required
-                      >
-                        <option value="">Select standard</option>
-                        <option>4th Standard</option>
-                        <option>5th Standard</option>
-                        <option>6th Standard</option>
-                        <option>7th Standard</option>
-                        <option>8th Standard</option>
-                        <option>9th Standard</option>
-                        <option>10th Standard</option>
-                        <option>11th Standard</option>
-                        <option>12th Standard</option>
-                        <option>Diploma</option>
-                        <option>Bachelor&apos;s</option>
-                        <option>Master&apos;s</option>
-                      </select>
-                    </label>
-                  ) : <div />}
-                </div>
-                <label>
-                  Course Interest
-                  <select
-                    name="interest"
-                    value={form.interest}
-                    onChange={(event) => updateField("interest", event.target.value)}
-                    required
-                  >
-                    <option value="" disabled>
-                      Select a course
-                    </option>
-                    <option>Spoken English</option>
-                    <option>Interview English</option>
-                    <option>Pronunciation Practice</option>
-                    <option>Corporate Communication</option>
-                    <option>Public Speaking</option>
-                  </select>
-                </label>
-                <div className="englishta-form-row">
-                  <label>
-                    City
-                    <input
-                      type="text"
-                      placeholder="Your city"
-                      value={form.city}
-                      onChange={(event) => updateField("city", event.target.value)}
-                      required
-                    />
-                  </label>
-                  <label>
-                    State
-                    <input
-                      type="text"
-                      placeholder="Your state"
-                      value={form.state}
-                      onChange={(event) => updateField("state", event.target.value)}
-                      required
-                    />
-                  </label>
-                </div>
                 <label>
                   Message
                   <textarea
                     name="message"
                     rows="5"
-                    placeholder="Tell us what you want to improve"
+                    placeholder="Tell us how we can help you"
                     value={form.message}
                     onChange={(event) => updateField("message", event.target.value)}
+                    required
                   />
                 </label>
                 {feedback.message ? (
@@ -323,7 +162,7 @@ const ContactUs = () => {
                 ) : null}
                 <button type="submit" className="td_btn td_style_1 td_radius_10 td_medium">
                   <span className="td_btn_in td_white_color td_accent_bg">
-                    <span>{submitting ? "Sending..." : "Send Inquiry"}</span>
+                    <span>Send Inquiry</span>
                   </span>
                 </button>
               </form>

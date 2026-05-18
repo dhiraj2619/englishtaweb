@@ -9,6 +9,7 @@ export const dynamic = "force-dynamic";
 
 function validateWebinarPayload(payload) {
   if (!payload.title?.trim()) return "Title is required.";
+  if (!payload.thumbnail?.trim()) return "Thumbnail is required.";
   if (!payload.dateTime?.trim()) return "Date and time are required.";
   if (!payload.link?.trim()) return "Link is required.";
   if (!payload.description?.trim()) return "Description is required.";

@@ -47,6 +47,7 @@ const emptyForms = {
   },
   webinars: {
     title: "",
+    thumbnail: "",
     type: "Live",
     dateTime: "",
     link: "",
@@ -94,10 +95,12 @@ const starterData = {
     {
       _id: "webinar-1",
       title: "How to Speak English Confidently",
+      thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
       type: "Live",
       dateTime: "2026-05-20T18:00",
       link: "https://meet.google.com/demo",
       description: "A live webinar for students who want to improve speaking confidence.",
+      registrationsCount: 0,
     },
   ],
 };
@@ -144,9 +147,11 @@ const columns = {
   ],
   webinars: [
     ["title", "Title"],
+    ["thumbnail", "Thumbnail"],
     ["type", "Type"],
     ["dateTime", "Date & Time"],
     ["link", "Link"],
+    ["registrationsCount", "Registered Users"],
   ],
 };
 
@@ -429,7 +434,7 @@ export default function AdminDashboard() {
     setCourseLeadsError("");
   }
 
-  async function uploadCourseThumbnail(file) {
+  async function uploadThumbnail(file, moduleKey = "courses") {
     if (!file) {
       return;
     }
@@ -440,8 +445,9 @@ export default function AdminDashboard() {
     try {
       const formData = new FormData();
       formData.append("file", file);
+      const uploadEndpoint = moduleKey === "webinars" ? "/api/uploads/webinar-thumbnail" : "/api/uploads/course-thumbnail";
 
-      const response = await fetch("/api/uploads/course-thumbnail", {
+      const response = await fetch(uploadEndpoint, {
         method: "POST",
         body: formData,
       });
@@ -583,6 +589,10 @@ export default function AdminDashboard() {
     if (activeModule === "webinars") {
       try {
         setWebinarsError("");
+
+        if (!form.thumbnail) {
+          throw new Error("Please upload a webinar thumbnail first.");
+        }
 
         const response = await fetch(editingId ? `/api/webinars/${editingId}` : "/api/webinars", {
           method: editingId ? "PUT" : "POST",
@@ -885,7 +895,7 @@ export default function AdminDashboard() {
                 onChange={updateField}
                 onSubmit={saveItem}
                 onCancel={resetForm}
-                onThumbnailUpload={uploadCourseThumbnail}
+                onThumbnailUpload={uploadThumbnail}
                 thumbnailUploading={thumbnailUploading}
                 thumbnailUploadError={thumbnailUploadError}
               />
@@ -968,14 +978,14 @@ function AdminForm({
 
   return (
     <form className="adminForm" onSubmit={onSubmit}>
-      {moduleKey === "courses" ? (
+      {moduleKey === "courses" || moduleKey === "webinars" ? (
         <div className="adminField adminFull">
-          <label htmlFor="thumbnailFile">Course Thumbnail</label>
+          <label htmlFor="thumbnailFile">{moduleKey === "webinars" ? "Webinar Thumbnail" : "Course Thumbnail"}</label>
           <input
             id="thumbnailFile"
             type="file"
             accept="image/*"
-            onChange={(event) => onThumbnailUpload?.(event.target.files?.[0])}
+            onChange={(event) => onThumbnailUpload?.(event.target.files?.[0], moduleKey)}
           />
           {thumbnailUploading ? <small>Uploading thumbnail...</small> : null}
           {thumbnailUploadError ? <small>{thumbnailUploadError}</small> : null}
@@ -983,7 +993,7 @@ function AdminForm({
             <div style={{ marginTop: "12px" }}>
               <img
                 src={form.thumbnail}
-                alt="Course thumbnail preview"
+                alt={`${moduleKey === "webinars" ? "Webinar" : "Course"} thumbnail preview`}
                 style={{ width: "180px", height: "110px", objectFit: "cover", borderRadius: "10px" }}
               />
             </div>
@@ -1150,7 +1160,7 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                   {key === "thumbnail" ? (
                     <img
                       src={item[key]}
-                      alt={item.name ?? "Course thumbnail"}
+                      alt={item.name ?? item.title ?? "Thumbnail"}
                       style={{ width: "72px", height: "48px", objectFit: "cover", borderRadius: "8px" }}
                     />
                   ) : key === "youtubeIframe" ? (

@@ -7,6 +7,11 @@ const webinarSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    thumbnail: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     type: {
       type: String,
       enum: ["Live", "Recorded"],

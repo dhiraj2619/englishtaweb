@@ -5,15 +5,17 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const tutorImage =
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85";
+  "/assets/images/raajshlke.png";
 
-const webinars = [
+const fallbackWebinars = [
   {
     date: "25 May, 2025",
     time: "7:00 PM IST",
     title: "Speak English Confidently in Daily Life",
     text: "Learn simple strategies to speak English fluently and confidently in everyday conversations.",
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
+    type: "Live",
+    link: "#",
   },
   {
     date: "08 June, 2025",
@@ -21,6 +23,8 @@ const webinars = [
     title: "Ace Your English Interview",
     text: "Master common interview questions and improve your responses with expert tips.",
     image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80",
+    type: "Live",
+    link: "#",
   },
   {
     date: "22 June, 2025",
@@ -28,6 +32,8 @@ const webinars = [
     title: "Expand Vocabulary The Smart Way",
     text: "Learn techniques to build strong vocabulary and use it naturally in conversations.",
     image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=900&q=80",
+    type: "Recorded",
+    link: "#",
   },
 ];
 
@@ -77,8 +83,10 @@ const standardOptions = [
 ];
 
 const WebinarPage = () => {
+  const [webinars, setWebinars] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [selectedWebinarId, setSelectedWebinarId] = useState("");
   const [selectedWebinar, setSelectedWebinar] = useState("");
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -103,7 +111,29 @@ const WebinarPage = () => {
     return () => window.clearInterval(timerId);
   }, []);
 
-  function openRegisterModal(webinarTitle = "Webinar Registration") {
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/webinars", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((payload) => {
+        if (isMounted && payload.success) {
+          setWebinars(payload.data ?? []);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setWebinars([]);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  function openRegisterModal(webinarTitle = "Webinar Registration", webinarId = "") {
+    setSelectedWebinarId(webinarId);
     setSelectedWebinar(webinarTitle);
     setSubmitError("");
     setIsModalOpen(true);
@@ -146,6 +176,7 @@ const WebinarPage = () => {
         },
         body: JSON.stringify({
           ...form,
+          webinarId: selectedWebinarId,
           webinarTitle: selectedWebinar,
         }),
       });
@@ -178,6 +209,33 @@ const WebinarPage = () => {
   function goToTestimonial(index) {
     setActiveTestimonial(index);
   }
+
+  function formatWebinarDate(dateTimeValue) {
+    const date = new Date(dateTimeValue);
+
+    if (Number.isNaN(date.getTime())) {
+      return { date: dateTimeValue, time: "" };
+    }
+
+    return {
+      date: date.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }),
+      time: date.toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit", hour12: true }),
+    };
+  }
+
+  const webinarItems = webinars.length
+    ? webinars.map((item) => {
+      const formatted = formatWebinarDate(item.dateTime);
+
+      return {
+        ...item,
+        date: formatted.date,
+        time: formatted.time,
+        text: item.description,
+        image: item.thumbnail,
+      };
+    })
+    : fallbackWebinars;
 
   return (
     <>
@@ -239,35 +297,37 @@ const WebinarPage = () => {
             </div>
 
             <div className="englishtaWebinarCards">
-              {webinars.map((webinar, index) => (
+              {webinarItems.map((webinar, index) => (
                 <article
                   className="englishtaWebinarCard wow fadeInUp"
                   data-wow-duration="1s"
                   data-wow-delay={`${0.15 + index * 0.1}s`}
-                  key={webinar.title}
+                  key={webinar._id ?? webinar.title}
                 >
                   <div className="englishtaWebinarCard__media">
                     <img src={webinar.image} alt={webinar.title} />
-                    <span>Live</span>
-                    <div className="englishtaWebinarCard__content">
+                    <span>{webinar.type || "Live"}</span>
+                  </div>
+                  <div className="englishtaWebinarCard__content">
+                    <div className="englishtaWebinarCard__meta d-flex align-items-center gap-3">
                       <p><i className="fa-regular fa-calendar" />{webinar.date}</p>
-                      <p><i className="fa-regular fa-clock" />{webinar.time}</p>
-                      <h3>{webinar.title}</h3>
-                      <p>{webinar.text}</p>
+                      {webinar.time ? <p><i className="fa-regular fa-clock" />{webinar.time}</p> : null}
                     </div>
+                    <h3>{webinar.title}</h3>
+                    <p>{webinar.text}</p>
                   </div>
                   <div className="englishtaWebinarCard__footer">
-                    <div>
-                      <img src={tutorImage} alt="Prof. Raj Shelke" />
-                      <span>
-                        <strong>Prof. Raj Shelke</strong>
-                        15+ Years of Experience
-                      </span>
-                    </div>
-                    <button type="button" onClick={() => openRegisterModal(webinar.title)}>
-                      Register Now
-                      <i className="fa-solid fa-arrow-right" />
-                    </button>
+                    {webinar.type === "Recorded" ? (
+                      <a href={webinar.link} target="_blank" rel="noreferrer">
+                        Watch Recording
+                        <i className="fa-solid fa-arrow-right" />
+                      </a>
+                    ) : (
+                      <button type="button" onClick={() => openRegisterModal(webinar.title, webinar._id ?? "")}>
+                        Register Now
+                        <i className="fa-solid fa-arrow-right" />
+                      </button>
+                    )}
                   </div>
                 </article>
               ))}

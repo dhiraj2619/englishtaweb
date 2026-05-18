@@ -2109,6 +2109,10 @@ const normalizeInjectedHtml = (html) =>
 
 const pageHtml = normalizeInjectedHtml(rawPageHtml)
   .replace(
+    /<section>\s*<div class="td_height_120 td_height_lg_80"><\/div>\s*<div class="container">\s*<div class="td_features td_style_1 td_hobble">[\s\S]*?<\/section>/,
+    "__ENGLISHTA_ANYWHERE_SECTION__",
+  )
+  .replace(
     /<section class="branddarkenglishta td_shape_section_1 td_video_showcase">[\s\S]*?<\/section>/,
     "__ENGLISHTA_VIDEO_SECTION__",
   )
@@ -2280,6 +2284,29 @@ const defaultTestimonials = [
   },
 ];
 
+const learningAnywhereFeatures = [
+  {
+    icon: "fa-solid fa-video",
+    title: "Live Online Classes",
+    text: "Join guided English sessions from home with real speaking practice and live correction.",
+  },
+  {
+    icon: "fa-solid fa-comments",
+    title: "Daily Speaking Practice",
+    text: "Build fluency step by step through conversation tasks, confidence drills, and repetition.",
+  },
+  {
+    icon: "fa-solid fa-user-check",
+    title: "Personal Feedback",
+    text: "Get direct support on pronunciation, grammar usage, clarity, and interview communication.",
+  },
+  {
+    icon: "fa-solid fa-briefcase",
+    title: "Career-Focused English",
+    text: "Prepare for interviews, workplace communication, public speaking, and professional growth.",
+  },
+];
+
 const renderStars = (ratingValue) => {
   const rating = Math.max(0, Math.min(5, Number.parseInt(ratingValue || "5", 10) || 0));
 
@@ -2364,6 +2391,37 @@ const VideoShowcase = ({ videos = [] }) => {
               ) : null}
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const LearningAnywhereSection = () => {
+  return (
+    <section className="englishtaAnywhereSection">
+      <div className="englishtaAnywhereSection__image">
+        <img src="/assets/images/whyenglishta.jpg" alt="Learn English from anywhere with Englishta" />
+      </div>
+      <div className="container">
+        <div className="englishtaAnywhereSection__card wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
+          <div className="englishtaAnywhereSection__heading">
+          
+            <h3>Learn English From Anywhere</h3>
+          </div>
+          <div className="englishtaAnywhereSection__grid">
+            {learningAnywhereFeatures.map((item) => (
+              <article className="englishtaAnywhereFeature" key={item.title}>
+                <span className="englishtaAnywhereFeature__icon">
+                  <i className={item.icon} />
+                </span>
+                <div>
+                  <h5>{item.title}</h5>
+                  <p>{item.text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -2544,13 +2602,15 @@ const Home = () => {
   const handlePreloaderComplete = useCallback(() => {
     setIsHeroReady(true);
   }, []);
-  const { beforeVideos, betweenSections, beforeTestimonials, afterTestimonials } = useMemo(() => {
-    const [before = "", afterVideo = ""] = pageHtml.split("__ENGLISHTA_VIDEO_SECTION__");
+  const { beforeAnywhere, betweenAnywhereAndVideos, betweenSections, beforeTestimonials, afterTestimonials } = useMemo(() => {
+    const [before = "", afterAnywhere = ""] = pageHtml.split("__ENGLISHTA_ANYWHERE_SECTION__");
+    const [afterAnywhereBeforeVideo = "", afterVideo = ""] = afterAnywhere.split("__ENGLISHTA_VIDEO_SECTION__");
     const [between = "", afterTraining = ""] = afterVideo.split("__ENGLISHTA_TRAINING_AREAS__");
     const [beforeCustomTestimonials = "", afterCustomTestimonials = ""] = afterTraining.split("__ENGLISHTA_TESTIMONIALS__");
 
     return {
-      beforeVideos: before,
+      beforeAnywhere: before,
+      betweenAnywhereAndVideos: afterAnywhereBeforeVideo,
       betweenSections: between,
       beforeTestimonials: beforeCustomTestimonials,
       afterTestimonials: afterCustomTestimonials,
@@ -2596,7 +2656,9 @@ const Home = () => {
       <Preloader onComplete={handlePreloaderComplete} />
       <Navbar />
       <HomeBanner isReady={isHeroReady} />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: beforeVideos }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: beforeAnywhere }} />
+      <LearningAnywhereSection />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: betweenAnywhereAndVideos }} />
       <VideoShowcase videos={youtubeVideos} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: betweenSections }} />
       <PopularTrainingAreas />

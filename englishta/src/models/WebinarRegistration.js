@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const webinarRegistrationSchema = new mongoose.Schema(
   {
+    webinarId: {
+      type: String,
+      default: "",
+      trim: true,
+    },
     webinarTitle: {
       type: String,
       required: true,
