@@ -2419,7 +2419,7 @@ const LearningAnywhereSection = () => {
       <div className="container">
         <div className="englishtaAnywhereSection__card wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
           <div className="englishtaAnywhereSection__heading">
-          
+
             <h3>Learn English From Anywhere</h3>
           </div>
           <div className="englishtaAnywhereSection__grid">
@@ -2481,7 +2481,7 @@ const PopularTrainingAreas = () => {
               <p>{item.description}</p>
 
               <div className="englishtaTrainingAreas__pill d-flex justify-content-center">
-               
+
                 <div className="text-center">
                   <strong>{item.highlight}</strong>
                   <span className="mt-1">{item.detail}</span>
@@ -2547,7 +2547,7 @@ const TestimonialsShowcase = ({ testimonials = [] }) => {
               <span className="td_testimonial_img_shape_1"><span></span></span>
               <span className="td_testimonial_img_shape_2 td_accent_color td_hover_layer_3">
                 <svg width="145" height="165" viewBox="0 0 145 165" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M145.003 25.9077L139.516 27.7024L143.814 31.5573L145.003 25.9077ZM69.5244 11.4999L69.2176 11.1051L69.5244 11.4999ZM69.5244 53.0379L69.3973 53.5215L69.5244 53.0379ZM141.65 28.8989C135.031 35.2997 125.943 38.4375 116.315 39.2654C106.688 40.0931 96.561 38.607 87.9207 35.8021C79.2649 32.9923 72.1739 28.8832 68.5572 24.5234C66.753 22.3484 65.8508 20.1579 65.9824 18.0635C66.1133 15.9807 67.2739 13.8818 69.8312 11.8948L69.2176 11.1051C66.5057 13.2123 65.1383 15.552 64.9844 18.0007C64.8313 20.4378 65.8877 22.8715 67.7876 25.1618C71.5792 29.7325 78.8783 33.9182 87.6119 36.7533C96.361 39.5934 106.622 41.1025 116.4 40.2617C126.177 39.4211 135.511 36.2268 142.346 29.6178L141.65 28.8989Z" fill="white"/>
+                  <path d="M145.003 25.9077L139.516 27.7024L143.814 31.5573L145.003 25.9077ZM69.5244 11.4999L69.2176 11.1051L69.5244 11.4999ZM69.5244 53.0379L69.3973 53.5215L69.5244 53.0379ZM141.65 28.8989C135.031 35.2997 125.943 38.4375 116.315 39.2654C106.688 40.0931 96.561 38.607 87.9207 35.8021C79.2649 32.9923 72.1739 28.8832 68.5572 24.5234C66.753 22.3484 65.8508 20.1579 65.9824 18.0635C66.1133 15.9807 67.2739 13.8818 69.8312 11.8948L69.2176 11.1051C66.5057 13.2123 65.1383 15.552 64.9844 18.0007C64.8313 20.4378 65.8877 22.8715 67.7876 25.1618C71.5792 29.7325 78.8783 33.9182 87.6119 36.7533C96.361 39.5934 106.622 41.1025 116.4 40.2617C126.177 39.4211 135.511 36.2268 142.346 29.6178L141.65 28.8989Z" fill="white" />
                   <circle cx="34" cy="150" r="15" fill="currentColor" />
                   <circle cx="15" cy="137" r="15" fill="currentColor" />
                   <circle cx="24" cy="144" r="15" fill="white" />
@@ -2561,30 +2561,30 @@ const TestimonialsShowcase = ({ testimonials = [] }) => {
                 className="englishtaTestimonialsTrack"
                 style={{ transform: `translateX(-${activeIndex * 100}%)` }}
               >
-              {visibleTestimonials.map((item, index) => (
-                <div className="englishtaTestimonialsSlide" key={item._id ?? `${item.studentName}-${index}`}>
-                  <div className="td_testimonial td_style_1 td_white_bg td_radius_5 englishtaTestimonialCard">
-                    <span className="td_quote_icon td_accent_color">
-                      <svg width="65" height="46" viewBox="0 0 65 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path opacity="0.05" d="M13.9286 26.6H1V1H26.8571V27.362L17.956 45H6.26764L14.8213 28.0505L15.5534 26.6H13.9286ZM51.0714 26.6H38.1429V1H64V27.362L55.0988 45H43.4105L51.9642 28.0505L52.6962 26.6H51.0714Z" fill="currentColor" stroke="currentColor" strokeWidth="2" />
-                      </svg>
-                    </span>
-                    <div className="td_testimonial_meta td_mb_24">
-                      <span className="englishtaTestimonialAvatar">{item.studentName?.charAt(0) || "E"}</span>
-                      <div className="td_testimonial_meta_right">
-                        <h3 className="td_fs_24 td_semibold td_mb_2">{item.studentName}</h3>
-                        <p className="td_fs_14 mb-0 td_heading_color td_opacity_7">{item.course}</p>
+                {visibleTestimonials.map((item, index) => (
+                  <div className="englishtaTestimonialsSlide" key={item._id ?? `${item.studentName}-${index}`}>
+                    <div className="td_testimonial td_style_1 td_white_bg td_radius_5 englishtaTestimonialCard">
+                      <span className="td_quote_icon td_accent_color">
+                        <svg width="65" height="46" viewBox="0 0 65 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path opacity="0.05" d="M13.9286 26.6H1V1H26.8571V27.362L17.956 45H6.26764L14.8213 28.0505L15.5534 26.6H13.9286ZM51.0714 26.6H38.1429V1H64V27.362L55.0988 45H43.4105L51.9642 28.0505L52.6962 26.6H51.0714Z" fill="currentColor" stroke="currentColor" strokeWidth="2" />
+                        </svg>
+                      </span>
+                      <div className="td_testimonial_meta td_mb_24">
+                        <span className="englishtaTestimonialAvatar">{item.studentName?.charAt(0) || "E"}</span>
+                        <div className="td_testimonial_meta_right">
+                          <h3 className="td_fs_24 td_semibold td_mb_2">{item.studentName}</h3>
+                          <p className="td_fs_14 mb-0 td_heading_color td_opacity_7">{item.course}</p>
+                        </div>
+                      </div>
+                      <blockquote className="td_testimonial_text td_fs_20 td_medium td_heading_color td_mb_24 td_opacity_9">
+                        {item.review}
+                      </blockquote>
+                      <div className="englishtaTestimonialStars" aria-label={`${item.rating || "5"} out of 5 stars`}>
+                        {renderStars(item.rating)}
                       </div>
                     </div>
-                    <blockquote className="td_testimonial_text td_fs_20 td_medium td_heading_color td_mb_24 td_opacity_9">
-                      {item.review}
-                    </blockquote>
-                    <div className="englishtaTestimonialStars" aria-label={`${item.rating || "5"} out of 5 stars`}>
-                      {renderStars(item.rating)}
-                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
               </div>
               {visibleTestimonials.length > 1 ? (
                 <div className="englishtaTestimonialsDots">
