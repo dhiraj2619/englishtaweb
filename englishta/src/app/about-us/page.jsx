@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const tutorImage =
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85";
+  "/assets/images/raajshlke.png";
 
 const stats = [
   ["fa-regular fa-user", "10,000+", "Happy Learners"],
