@@ -20,20 +20,11 @@ const emptyForms = {
   courses: {
     name: "",
     courseMode: "live",
-    batchType: "beginners",
-    cardTitle: "",
-    cardSubtitle: "",
     thumbnail: "",
     shortDescription: "",
     longDescription: "",
     syllabus: "",
     languages: ["marathi", "hindi", "english"],
-    benefits: "Early Bird Offer\nFree Speaking Club\nBonus PDFs\nWhatsApp Group",
-    badge: "",
-    isPremium: "No",
-    sortOrder: "0",
-    theme: "yellow",
-    icon: "",
     allowBooking: "Yes",
     price: "",
     studentsEnrolled: "",
@@ -72,22 +63,13 @@ const starterData = {
   courses: [
     {
       _id: "course-1",
-      name: "Spoken English Mastery",
+      name: "Beginners-Promise Batch",
       courseMode: "live",
-      batchType: "beginners",
-      cardTitle: "Beginners-Promise Batch",
-      cardSubtitle: "Perfect for beginners who hesitate while speaking English.",
       thumbnail: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80",
-      shortDescription: "Daily speaking practice for beginners and intermediate learners.",
+      shortDescription: "Perfect for beginners who hesitate while speaking English.",
       longDescription: "A structured spoken English program with grammar, pronunciation, fluency, and confidence work.",
       syllabus: "Grammar basics, vocabulary, pronunciation, interview speaking",
       languages: ["marathi", "hindi", "english"],
-      benefits: ["Early Bird Offer", "Free Speaking Club", "Bonus PDFs", "WhatsApp Group"],
-      badge: "",
-      isPremium: false,
-      sortOrder: 1,
-      theme: "yellow",
-      icon: "fa-solid fa-user-graduate",
       allowBooking: "Yes",
       price: "999",
       studentsEnrolled: "128",
@@ -134,9 +116,7 @@ const columns = {
   courses: [
     ["name", "Course"],
     ["courseMode", "Mode"],
-    ["batchType", "Batch"],
-    ["cardTitle", "Card Title"],
-    ["theme", "Theme"],
+    ["shortDescription", "Short Description"],
     ["visible", "Visible"],
     ["allowBooking", "Booking"],
   ],
@@ -195,39 +175,11 @@ const courseModeLabels = {
   progress: "Check Your Progress",
 };
 
-const batchTypeLabels = {
-  beginners: "Beginners-Promise Batch",
-  advanced: "Advanced-Confidence Batch",
-  speakers: "Speakers-Expression Batch",
-  interview: "Interview Preparation Batch",
-  grammar: "Grammar-Academics Batch",
-  super5: "Super 5 Live Batch",
-  oneOnOne: "One On One Live Batch",
-};
-
-const courseThemeLabels = {
-  yellow: "Yellow",
-  orange: "Orange",
-  purple: "Purple",
-  blue: "Blue",
-  green: "Green",
-  dark: "Dark Premium",
-};
-
 function normalizeCourseRecord(course) {
   return {
     ...course,
     courseMode: course.courseMode || "live",
-    batchType: course.batchType || "beginners",
-    cardTitle: course.cardTitle || course.name || "",
-    cardSubtitle: course.cardSubtitle || course.shortDescription || "",
     languages: Array.isArray(course.languages) && course.languages.length ? course.languages : ["marathi", "hindi", "english"],
-    benefits: Array.isArray(course.benefits) && course.benefits.length
-      ? course.benefits
-      : ["Early Bird Offer", "Free Speaking Club", "Bonus PDFs", "WhatsApp Group"],
-    isPremium: Boolean(course.isPremium),
-    sortOrder: course.sortOrder ?? 0,
-    theme: course.theme || "yellow",
     visible: course.visible || "Yes",
   };
 }
@@ -758,11 +710,7 @@ export default function AdminDashboard() {
       Object.keys(defaults).reduce(
         (next, key) => ({
           ...next,
-          [key]: key === "benefits" && Array.isArray(sourceItem[key])
-            ? sourceItem[key].join("\n")
-            : key === "isPremium"
-              ? sourceItem[key] ? "Yes" : "No"
-              : sourceItem[key] ?? defaults[key] ?? "",
+          [key]: sourceItem[key] ?? defaults[key] ?? "",
         }),
         {},
       ),
@@ -1059,20 +1007,11 @@ function AdminForm({
     courses: [
       ["name", "Course Name", "input"],
       ["courseMode", "Course Mode", "select", Object.keys(courseModeLabels)],
-      ["batchType", "Batch Type", "select", Object.keys(batchTypeLabels)],
-      ["cardTitle", "Card Title", "input"],
-      ["cardSubtitle", "Card Subtitle", "textarea", "adminFull"],
       ["price", "Starting From Pricing", "input"],
       ["studentsEnrolled", "Students Enrolled", "input"],
-      ["sortOrder", "Sort Order", "number"],
-      ["theme", "Card Theme", "select", Object.keys(courseThemeLabels)],
-      ["icon", "Icon Class", "input"],
-      ["badge", "Badge Text", "input"],
-      ["isPremium", "Premium Card", "select", ["No", "Yes"]],
       ["visible", "Display on Website", "select", ["Yes", "No"]],
       ["allowBooking", "Allow Booking Option", "select", ["Yes", "No"]],
       ["languages", "Languages", "checkboxes", Object.keys(languageLabels), "adminFull"],
-      ["benefits", "Benefits (One per line)", "textarea", "adminFull"],
       ["shortDescription", "Short Description", "textarea", "adminFull"],
       ["longDescription", "Long Description", "richtext", "adminFull"],
       ["syllabus", "Syllabus (Optional)", "richtext", "adminFull"],
@@ -1140,13 +1079,7 @@ function AdminForm({
               <select id={name} value={form[name]} onChange={(event) => onChange(name, event.target.value)}>
                 {options.map((option) => (
                   <option value={option} key={option}>
-                    {name === "batchType"
-                      ? batchTypeLabels[option]
-                      : name === "courseMode"
-                        ? courseModeLabels[option]
-                        : name === "theme"
-                          ? courseThemeLabels[option]
-                          : option}
+                    {name === "courseMode" ? courseModeLabels[option] : option}
                   </option>
                 ))}
               </select>
@@ -1323,10 +1256,6 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                     languageLabels[item[key]] || item[key] || "-"
                   ) : key === "courseMode" ? (
                     courseModeLabels[item[key]] || item[key] || "Live Courses"
-                  ) : key === "batchType" ? (
-                    batchTypeLabels[item[key]] || item[key] || "Beginners-Promise Batch"
-                  ) : key === "theme" ? (
-                    courseThemeLabels[item[key]] || item[key] || "Yellow"
                   ) : Array.isArray(item[key]) ? (
                     item[key].join(", ")
                   ) : typeof item[key] === "boolean" ? (

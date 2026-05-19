@@ -8,9 +8,18 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const courseModes = ["live", "recorded", "audio", "progress"];
-const batchTypes = ["beginners", "advanced", "speakers", "interview", "grammar", "super5", "oneOnOne"];
 const languageTypes = ["marathi", "hindi", "english"];
-const themeTypes = ["yellow", "orange", "purple", "blue", "green", "dark"];
+const removedCourseFields = {
+  batchType: "",
+  cardTitle: "",
+  cardSubtitle: "",
+  benefits: "",
+  badge: "",
+  isPremium: "",
+  sortOrder: "",
+  theme: "",
+  icon: "",
+};
 
 function parseList(value, fallback = []) {
   if (Array.isArray(value)) {
@@ -27,10 +36,6 @@ function parseList(value, fallback = []) {
   return fallback;
 }
 
-function isYes(value) {
-  return value === true || value === "true" || value === "Yes";
-}
-
 function validateCoursePayload(payload) {
   if (!payload.name?.trim() || !payload.thumbnail?.trim() || !payload.shortDescription?.trim() || !payload.longDescription?.trim()) {
     return "Please fill all required course fields.";
@@ -39,16 +44,6 @@ function validateCoursePayload(payload) {
   const courseMode = payload.courseMode?.trim().toLowerCase();
   if (courseMode && !courseModes.includes(courseMode)) {
     return "Please select a valid course mode.";
-  }
-
-  const batchType = payload.batchType?.trim().toLowerCase();
-  if (batchType && !batchTypes.includes(batchType)) {
-    return "Please select a valid batch type.";
-  }
-
-  const theme = payload.theme?.trim().toLowerCase();
-  if (theme && !themeTypes.includes(theme)) {
-    return "Please select a valid course theme.";
   }
 
   const languages = parseList(payload.languages);
@@ -63,21 +58,18 @@ function normalizeCoursePayload(payload) {
   const normalizedLanguages = parseList(payload.languages, ["marathi", "hindi", "english"]).map((language) =>
     language.toLowerCase(),
   );
-  const benefits = parseList(payload.benefits, ["Early Bird Offer", "Free Speaking Club", "Bonus PDFs", "WhatsApp Group"]);
 
   return {
-    ...payload,
+    name: payload.name?.trim() || "",
     courseMode: payload.courseMode?.trim().toLowerCase() || "live",
-    batchType: payload.batchType?.trim().toLowerCase() || "beginners",
-    cardTitle: payload.cardTitle?.trim() || payload.name?.trim() || "",
-    cardSubtitle: payload.cardSubtitle?.trim() || payload.shortDescription?.trim() || "",
+    thumbnail: payload.thumbnail?.trim() || "",
+    shortDescription: payload.shortDescription?.trim() || "",
+    longDescription: payload.longDescription?.trim() || "",
+    syllabus: payload.syllabus?.trim() || "",
     languages: normalizedLanguages.length ? normalizedLanguages : ["marathi", "hindi", "english"],
-    benefits,
-    badge: payload.badge?.trim() || "",
-    isPremium: isYes(payload.isPremium),
-    sortOrder: Number.isFinite(Number(payload.sortOrder)) ? Number(payload.sortOrder) : 0,
-    theme: payload.theme?.trim().toLowerCase() || "yellow",
-    icon: payload.icon?.trim() || "",
+    allowBooking: payload.allowBooking === "No" ? "No" : "Yes",
+    price: payload.price?.trim() || "",
+    studentsEnrolled: payload.studentsEnrolled?.trim() || "",
     visible: payload.visible === "No" ? "No" : "Yes",
   };
 }
@@ -125,25 +117,7 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ success: false, message: "Course not found." }, { status: 404 });
     }
 
-    await Course.collection.updateOne(
-      { _id: course._id },
-      {
-        $set: {
-          courseMode: normalizedBody.courseMode,
-          batchType: normalizedBody.batchType,
-          cardTitle: normalizedBody.cardTitle,
-          cardSubtitle: normalizedBody.cardSubtitle,
-          languages: normalizedBody.languages,
-          benefits: normalizedBody.benefits,
-          badge: normalizedBody.badge,
-          isPremium: normalizedBody.isPremium,
-          sortOrder: normalizedBody.sortOrder,
-          theme: normalizedBody.theme,
-          icon: normalizedBody.icon,
-          visible: normalizedBody.visible,
-        },
-      },
-    );
+    await Course.collection.updateOne({ _id: course._id }, { $unset: removedCourseFields });
 
     return NextResponse.json({ success: true, data: { ...course, ...normalizedBody } });
   } catch (error) {

@@ -43,108 +43,49 @@ const courseModeDetails = {
   },
 };
 
-const batchTypeMeta = {
-  beginners: {
-    label: "Beginners-Promise Batch",
-    icon: "fa-solid fa-user-graduate",
-    theme: "yellow",
-    subtitle: "Perfect for beginners who hesitate while speaking English.",
-  },
-  advanced: {
-    label: "Advanced-Confidence Batch",
-    icon: "fa-solid fa-person-rays",
-    theme: "orange",
-    subtitle: "Build confidence and improve fluency.",
-  },
-  speakers: {
-    label: "Speakers-Expression Batch",
-    icon: "fa-solid fa-people-arrows",
-    theme: "purple",
-    subtitle: "Learn natural speaking styles and expressions.",
-  },
-  interview: {
-    label: "Interview Preparation Batch",
-    icon: "fa-solid fa-user-tie",
-    theme: "blue",
-    subtitle: "Prepare confidently for interviews and professional communication.",
-  },
-  grammar: {
-    label: "Grammar-Academics Batch",
-    icon: "fa-solid fa-book-open",
-    theme: "green",
-    subtitle: "Strengthen your grammar and academic English.",
-  },
-  super5: {
-    label: "Super 5 Live Batch",
-    icon: "fa-solid fa-crown",
-    theme: "yellow",
-    subtitle: "Premium small-group learning with maximum personal attention.",
-  },
-  oneOnOne: {
-    label: "One On One Live Batch",
-    icon: "fa-solid fa-user-shield",
-    theme: "dark",
-    subtitle: "Personal English coaching tailored to your goals.",
-  },
-};
-
 const languageLabels = {
   marathi: "Marathi",
   hindi: "Hindi",
   english: "English",
 };
 
-const defaultBenefits = ["Early Bird Offer", "Free Speaking Club", "Bonus PDFs", "WhatsApp Group"];
-
-const whatYouGetItems = [
-  ["fa-solid fa-gift", "Early Bird Offer"],
-  ["fa-solid fa-comments", "Free Speaking Club"],
-  ["fa-solid fa-file-pdf", "Bonus PDFs"],
-  ["fa-solid fa-clipboard-list", "Interview Toolkit"],
-  ["fa-brands fa-whatsapp", "WhatsApp Practice Group"],
+const defaultLiveCourses = [
+  ["Beginners-Promise Batch", "Perfect for beginners who hesitate while speaking English."],
+  ["Advanced-Confidence Batch", "Build confidence and improve fluency."],
+  ["Speakers-Expression Batch", "Learn natural speaking styles and expressions."],
+  ["Interview Preparation Batch", "Prepare confidently for interviews and professional communication."],
+  ["Grammar-Academics Batch", "Strengthen your grammar and academic English."],
+  ["Super 5 Live Batch", "Premium small-group learning with maximum personal attention."],
+  ["One On One Live Batch", "Personal English coaching tailored to your goals."],
 ];
 
-const defaultLiveBatchTypes = ["beginners", "advanced", "speakers", "interview", "grammar", "super5", "oneOnOne"];
-
 function normalizeCourse(course) {
-  const batchType = course.batchType || "beginners";
-  const meta = batchTypeMeta[batchType] || batchTypeMeta.beginners;
-  const cardTitle = course.cardTitle || meta.label;
-  const cardSubtitle = course.cardSubtitle || course.shortDescription || meta.subtitle;
-  const benefits = Array.isArray(course.benefits) && course.benefits.length ? course.benefits : defaultBenefits;
   const languages = Array.isArray(course.languages) && course.languages.length
     ? course.languages
     : ["marathi", "hindi", "english"];
 
   return {
     ...course,
-    batchType,
     courseMode: course.courseMode || "live",
-    cardTitle,
-    cardSubtitle,
-    benefits,
     languages,
-    icon: course.icon || meta.icon,
-    theme: course.theme || meta.theme,
-    isPremium: Boolean(course.isPremium) || batchType === "oneOnOne",
-    sortOrder: Number.isFinite(Number(course.sortOrder)) ? Number(course.sortOrder) : 0,
   };
 }
 
 const getFallbackCourses = () =>
-  defaultLiveBatchTypes.map((batchType, index) =>
+  defaultLiveCourses.map(([name, shortDescription], index) =>
     normalizeCourse({
-      _id: `fallback-${batchType}`,
-      name: batchTypeMeta[batchType].label,
-      batchType,
+      _id: `fallback-live-${index}`,
+      name,
+      shortDescription,
       courseMode: "live",
       visible: "Yes",
-      sortOrder: index + 1,
-      benefits: defaultBenefits,
       languages: ["marathi", "hindi", "english"],
       isFallback: true,
     }),
   );
+
+const getCourseImage = (course, index) =>
+  course.thumbnail || `https://picsum.photos/seed/englishta-course-${index}/900/600`;
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -222,17 +163,10 @@ const CoursesPage = () => {
     const adminCourses = visibleCourses.filter((course) => course.courseMode === activeMode);
 
     if (activeMode !== "live") {
-      return adminCourses.sort((first, second) => first.sortOrder - second.sortOrder);
+      return adminCourses;
     }
 
-    const fallbackCourses = getFallbackCourses();
-    const coursesByBatch = new Map(fallbackCourses.map((course) => [course.batchType, course]));
-
-    adminCourses.forEach((course) => {
-      coursesByBatch.set(course.batchType, course);
-    });
-
-    return Array.from(coursesByBatch.values()).sort((first, second) => first.sortOrder - second.sortOrder);
+    return adminCourses.length ? adminCourses : getFallbackCourses();
   }, [activeMode, visibleCourses]);
 
   const activeModeDetails = courseModeDetails[activeMode];
@@ -276,9 +210,9 @@ const CoursesPage = () => {
             </div>
 
             {loading ? (
-              <div className="englishtaCourseCatalogGrid">
+              <div className="englishtaCoursesGrid">
                 {[1, 2, 3, 4].map((item) => (
-                  <div className="englishtaCourseTile englishtaCourseTile--loading" key={item}>
+                  <div className="englishtaCourseCard englishtaCourseCard--loading" key={item}>
                     <span />
                     <strong />
                     <p />
@@ -332,54 +266,38 @@ const CoursesPage = () => {
                   </div>
                 ) : null}
 
-                <div className="englishtaCourseCatalogGrid">
+                <div className="englishtaCoursesGrid">
                   {activeCourses.map((course, index) => {
                     const slug = slugifyCourseName(course.name);
-                    const courseNumber = index + 1;
 
                     return (
                       <Link
                         href={course.isFallback ? "/contact-us" : `/course/${slug}`}
-                        className={`englishtaCourseTile englishtaCourseTile--${course.theme} ${
-                          course.isPremium ? "englishtaCourseTile--premium" : ""
-                        }`}
+                        className="englishtaCourseCard"
                         key={course._id ?? slug}
                       >
-                        {course.isPremium || course.badge ? (
-                          <span className="englishtaCourseTile__badge">{course.badge || "Premium"}</span>
-                        ) : null}
-                        <span className="englishtaCourseTile__number">{courseNumber}</span>
-                        <span className="englishtaCourseTile__icon">
-                          <i className={course.icon} />
+                        <span className="englishtaCourseCard__image">
+                          <img src={getCourseImage(course, index)} alt={course.name} />
+                          <span>{courseModeDetails[course.courseMode]?.title || "Course"}</span>
                         </span>
-                        <strong>{course.cardTitle}</strong>
-                        <span className="englishtaCourseTile__text">{course.cardSubtitle}</span>
-                        <span className="englishtaCourseTile__chips">
-                          {course.benefits.slice(0, 4).map((benefit) => (
-                            <span key={benefit}>{benefit}</span>
-                          ))}
-                        </span>
-                        <span className="englishtaCourseTile__languages">
-                          Language: {course.languages.map((language) => languageLabels[language] || language).join(" + ")}
+                        <span className="englishtaCourseCard__body">
+                          <span className="englishtaCourseCard__tag">
+                            {course.languages.map((language) => languageLabels[language] || language).join(" + ")}
+                          </span>
+                          <strong>{course.name}</strong>
+                          <span className="englishtaCourseCard__desc">{course.shortDescription}</span>
+                          <span className="englishtaCourseCard__meta">
+                            <span>{course.price ? `Starting From ${course.price}` : "Online Batch"}</span>
+                            <span>{course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}</span>
+                          </span>
+                          <span className="englishtaCourseCard__action">
+                            {course.isFallback ? "Enquire Now" : "View Course"}
+                            <i className="fa-solid fa-arrow-right" />
+                          </span>
                         </span>
                       </Link>
                     );
                   })}
-
-                  <aside className="englishtaCourseBenefits">
-                    <h3>
-                      <i className="fa-solid fa-gift" />
-                      What You Get
-                    </h3>
-                    <ul>
-                      {whatYouGetItems.map(([icon, label]) => (
-                        <li key={label}>
-                          <i className={icon} />
-                          <span>{label}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </aside>
                 </div>
               </>
             ) : null}
