@@ -59,6 +59,14 @@ const defaultLiveCourses = [
   ["One On One Live Batch", "Personal English coaching tailored to your goals."],
 ];
 
+const courseBonusPoints = [
+  "Early Bird Offer",
+  "Free Speaking Club",
+  "Bonus PDFs",
+  "Interview Toolkit",
+  "WhatsApp Practice Group",
+];
+
 function normalizeCourse(course) {
   const languages = Array.isArray(course.languages) && course.languages.length
     ? course.languages
@@ -86,6 +94,17 @@ const getFallbackCourses = () =>
 
 const getCourseImage = (course, index) =>
   course.thumbnail || `https://picsum.photos/seed/englishta-course-${index}/900/600`;
+
+const formatCourseFees = (price) => {
+  if (!price) return "Fees: Contact Us";
+  const normalizedPrice = String(price).trim();
+
+  if (/^(rs\.?|₹)/i.test(normalizedPrice)) {
+    return `Fees: ${normalizedPrice}`;
+  }
+
+  return `Fees: ₹${normalizedPrice}`;
+};
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -282,12 +301,17 @@ const CoursesPage = () => {
                         </span>
                         <span className="englishtaCourseCard__body">
                           <span className="englishtaCourseCard__tag">
-                            {course.languages.map((language) => languageLabels[language] || language).join(" + ")}
+                            Language: {course.languages.map((language) => languageLabels[language] || language).join(" + ")}
                           </span>
                           <strong>{course.name}</strong>
                           <span className="englishtaCourseCard__desc">{course.shortDescription}</span>
+                          <span className="englishtaCourseCard__bonus">
+                            {courseBonusPoints.map((point) => (
+                              <span key={point}>{point}</span>
+                            ))}
+                          </span>
                           <span className="englishtaCourseCard__meta">
-                            <span>{course.price ? `Starting From ${course.price}` : "Online Batch"}</span>
+                            <span>{formatCourseFees(course.price)}</span>
                             <span>{course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}</span>
                           </span>
                           <span className="englishtaCourseCard__action">

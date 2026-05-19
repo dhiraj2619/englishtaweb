@@ -34,6 +34,11 @@ const courseSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
+    timeline: {
+      type: String,
+      default: "",
+      trim: true,
+    },
     languages: {
       type: [String],
       enum: ["marathi", "hindi", "english"],
@@ -67,7 +72,8 @@ const courseSchema = new mongoose.Schema(
 
 if (
   mongoose.models.Course &&
-  mongoose.models.Course.schema.path("batchType")
+  (mongoose.models.Course.schema.path("batchType") ||
+    !mongoose.models.Course.schema.path("timeline"))
 ) {
   mongoose.deleteModel("Course");
 }

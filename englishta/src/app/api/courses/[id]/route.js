@@ -66,6 +66,7 @@ function normalizeCoursePayload(payload) {
     shortDescription: payload.shortDescription?.trim() || "",
     longDescription: payload.longDescription?.trim() || "",
     syllabus: payload.syllabus?.trim() || "",
+    timeline: payload.timeline?.trim() || "",
     languages: normalizedLanguages.length ? normalizedLanguages : ["marathi", "hindi", "english"],
     allowBooking: payload.allowBooking === "No" ? "No" : "Yes",
     price: payload.price?.trim() || "",

@@ -66,6 +66,7 @@ function normalizeCoursePayload(payload) {
     shortDescription: payload.shortDescription?.trim() || "",
     longDescription: payload.longDescription?.trim() || "",
     syllabus: payload.syllabus?.trim() || "",
+    timeline: payload.timeline?.trim() || "",
     languages: normalizedLanguages.length ? normalizedLanguages : ["marathi", "hindi", "english"],
     allowBooking: payload.allowBooking === "No" ? "No" : "Yes",
     price: payload.price?.trim() || "",
@@ -79,6 +80,7 @@ async function cleanLegacyCourseFields() {
     {
       $or: [
         { courseMode: { $exists: false } },
+        { timeline: { $exists: false } },
         { languages: { $exists: false } },
         { visible: { $exists: false } },
       ],
@@ -87,6 +89,7 @@ async function cleanLegacyCourseFields() {
       {
         $set: {
           courseMode: { $ifNull: ["$courseMode", "live"] },
+          timeline: { $ifNull: ["$timeline", ""] },
           languages: { $ifNull: ["$languages", ["marathi", "hindi", "english"]] },
           visible: { $ifNull: ["$visible", "Yes"] },
         },

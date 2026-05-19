@@ -24,6 +24,7 @@ const emptyForms = {
     shortDescription: "",
     longDescription: "",
     syllabus: "",
+    timeline: "",
     languages: ["marathi", "hindi", "english"],
     allowBooking: "Yes",
     price: "",
@@ -69,6 +70,7 @@ const starterData = {
       shortDescription: "Perfect for beginners who hesitate while speaking English.",
       longDescription: "A structured spoken English program with grammar, pronunciation, fluency, and confidence work.",
       syllabus: "Grammar basics, vocabulary, pronunciation, interview speaking",
+      timeline: "8 weeks live online training with guided speaking practice.",
       languages: ["marathi", "hindi", "english"],
       allowBooking: "Yes",
       price: "999",
@@ -179,6 +181,7 @@ function normalizeCourseRecord(course) {
   return {
     ...course,
     courseMode: course.courseMode || "live",
+    timeline: course.timeline || "",
     languages: Array.isArray(course.languages) && course.languages.length ? course.languages : ["marathi", "hindi", "english"],
     visible: course.visible || "Yes",
   };
@@ -1014,6 +1017,7 @@ function AdminForm({
       ["languages", "Languages", "checkboxes", Object.keys(languageLabels), "adminFull"],
       ["shortDescription", "Short Description", "textarea", "adminFull"],
       ["longDescription", "Long Description", "richtext", "adminFull"],
+      ["timeline", "Course Timeline", "richtext", "adminFull"],
       ["syllabus", "Syllabus (Optional)", "richtext", "adminFull"],
     ],
     webinarLeads: [],
