@@ -5,11 +5,11 @@ const footerHtml = `<footer class="td_footer td_style_1">
             <div class="td_footer_widget">
               <div class="td_footer_text_widget td_fs_18">
                 <img src="/assets/images/logo/logoenglishta.png" alt="Englishta Logo">
-                <p>Englishta is a Nashik-based online English speaking academy helping learners speak confidently in study, work, interviews, and daily life.</p>
+                <p>Englishta is an online English speaking academy helping learners speak confidently in study, work, interviews, and daily life.</p>
               </div>
               <ul class="td_footer_address_widget td_medium td_mp_0">
                 <li><i class="fa-solid fa-phone-volume"></i><a href="cal:+23(000)68603">+91 98765 43210</a></li>
-                <li><i class="fa-solid fa-location-dot"></i>Nashik, Maharashtra <br>Online classes available</li>
+                <li><i class="fa-solid fa-location-dot"></i>Live Online Classes <br>Learn from anywhere</li>
               </ul>
             </div>
           </div>

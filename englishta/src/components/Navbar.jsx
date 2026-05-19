@@ -77,7 +77,7 @@ const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky
             </li>
             <li>
               <i class="fa-solid fa-location-dot"></i>            
-              <span>Nashik, Maharashtra <br>Online English Training</span>
+              <span>Live Online Classes <br>Learn From Anywhere</span>
             </li>
           </ul>
         </div>

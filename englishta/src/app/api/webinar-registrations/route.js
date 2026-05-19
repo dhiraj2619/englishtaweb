@@ -7,8 +7,11 @@ import WebinarRegistration from "@/models/WebinarRegistration";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const preferredLanguages = ["english", "hindi", "marathi"];
+
 function validateRegistrationPayload(payload) {
   const errors = [];
+  const preferredLanguage = payload.preferredLanguage?.trim().toLowerCase();
 
   if (!payload.webinarTitle?.trim()) errors.push("Webinar title is required.");
   if (!payload.firstName?.trim()) errors.push("First name is required.");
@@ -17,6 +20,10 @@ function validateRegistrationPayload(payload) {
   if (!payload.mobile?.trim()) errors.push("Mobile is required.");
   if (!payload.gender?.trim()) errors.push("Gender is required.");
   if (!payload.occupation?.trim()) errors.push("Occupation is required.");
+  if (!payload.preferredLanguage?.trim()) errors.push("Preferred language is required.");
+  if (preferredLanguage && !preferredLanguages.includes(preferredLanguage)) {
+    errors.push("Please select a valid preferred language.");
+  }
   if (payload.occupation === "student" && !payload.standard?.trim()) errors.push("Standard is required.");
   if (!payload.city?.trim()) errors.push("City is required.");
   if (!payload.state?.trim()) errors.push("State is required.");
@@ -59,6 +66,7 @@ export async function POST(request) {
       mobile: body.mobile.trim(),
       gender: body.gender.trim().toLowerCase(),
       occupation: body.occupation.trim().toLowerCase(),
+      preferredLanguage: body.preferredLanguage.trim().toLowerCase(),
       standard: body.occupation === "student" ? body.standard?.trim() || "" : "",
       city: body.city.trim(),
       state: body.state.trim(),

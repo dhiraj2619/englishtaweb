@@ -45,6 +45,12 @@ const webinarRegistrationSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    preferredLanguage: {
+      type: String,
+      enum: ["english", "hindi", "marathi"],
+      required: true,
+      trim: true,
+    },
     standard: {
       type: String,
       default: "",

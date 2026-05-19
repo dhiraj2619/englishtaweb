@@ -1026,6 +1026,37 @@
   padding: 80px 0 110px;
 }
 
+.englishtaCoursesTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 30px;
+}
+
+.englishtaCoursesTabs button {
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: 999px;
+  color: #19150e;
+  font-size: 14px;
+  font-weight: 900;
+  min-height: 46px;
+  padding: 10px 18px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.englishtaCoursesTabs button:hover,
+.englishtaCoursesTabs button.isActive {
+  background: #feb60c;
+  border-color: #feb60c;
+  color: #111;
+  transform: translateY(-1px);
+}
+
 .englishtaCoursesGrid {
   display: grid;
   gap: 30px;
@@ -1247,6 +1278,458 @@
   color: rgba(255, 255, 255, 0.66);
   display: block;
   font-size: 13px;
+}
+
+.englishtaCoursesPage--catalog {
+  background: #f8fafc;
+}
+
+.englishtaCourseCatalog {
+  background: #fff;
+  min-height: 100vh;
+  padding: 140px 0 90px;
+}
+
+.englishtaHomeCourseCatalog {
+  min-height: auto;
+  padding: 104px 0 92px;
+}
+
+.englishtaCourseCatalog .container {
+  max-width: 1190px;
+}
+
+.englishtaCourseCatalog__head {
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.englishtaCourseCatalog__head p {
+  color: #f8a800;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.englishtaCourseCatalog__head h1 {
+  color: #070b1f;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 900;
+  line-height: 1;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.englishtaCourseCatalog__head > span {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.englishtaCourseCatalog__head > span::before,
+.englishtaCourseCatalog__head > span::after {
+  background: #f8a800;
+  content: "";
+  height: 2px;
+  width: 42px;
+}
+
+.englishtaCourseCatalog__head > span {
+  color: #f8a800;
+}
+
+.englishtaCourseCatalog__head > span::selection {
+  background: transparent;
+}
+
+.englishtaCourseCatalog__head > span::before {
+  box-shadow: 50px 0 0 -47px #f8a800;
+}
+
+.englishtaCourseModeTabs {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 auto 34px;
+}
+
+.englishtaCourseModeTabs button {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #dce3ee;
+  border-radius: 8px;
+  color: #11162a;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 900;
+  gap: 12px;
+  justify-content: center;
+  min-height: 56px;
+  padding: 12px 18px;
+  text-transform: uppercase;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.englishtaCourseModeTabs button i {
+  align-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 13px;
+  height: 26px;
+  justify-content: center;
+  width: 26px;
+}
+
+.englishtaCourseModeTabs button:hover,
+.englishtaCourseModeTabs button.isActive {
+  background: #ffa800;
+  border-color: #ffa800;
+  box-shadow: 0 12px 24px rgba(255, 168, 0, 0.22);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.englishtaCourseModeHead {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  margin: 0 0 22px;
+}
+
+.englishtaCourseModeHead > i {
+  color: #ff001f;
+  font-size: 24px;
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.englishtaCourseModeHead h2 {
+  color: #060a1d;
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.05;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+}
+
+.englishtaCourseModeHead p {
+  color: #4f5567;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.englishtaCourseCatalogGrid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.englishtaCourseTile {
+  border: 1px solid #e1e6ef;
+  border-radius: 10px;
+  color: #080d22;
+  display: flex;
+  flex-direction: column;
+  min-height: 306px;
+  overflow: hidden;
+  padding: 24px 18px 18px;
+  position: relative;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.englishtaCourseTile:hover {
+  color: #080d22;
+  box-shadow: 0 18px 36px rgba(17, 24, 39, 0.12);
+  transform: translateY(-4px);
+}
+
+.englishtaCourseTile--yellow {
+  background: linear-gradient(135deg, #fff8df, #fffdf4 72%);
+  border-color: #f9de9c;
+}
+
+.englishtaCourseTile--orange {
+  background: linear-gradient(135deg, #fff1e5, #fffaf5 72%);
+  border-color: #f8d0ad;
+}
+
+.englishtaCourseTile--purple {
+  background: linear-gradient(135deg, #f2edff, #fbf9ff 72%);
+  border-color: #d9cdf8;
+}
+
+.englishtaCourseTile--blue {
+  background: linear-gradient(135deg, #ecf7ff, #f8fcff 72%);
+  border-color: #c7e2f8;
+}
+
+.englishtaCourseTile--green {
+  background: linear-gradient(135deg, #f0fbe6, #fbfff7 72%);
+  border-color: #d8edc8;
+}
+
+.englishtaCourseTile--dark,
+.englishtaCourseTile--premium {
+  background: linear-gradient(145deg, #101b31, #101727);
+  border-color: #1e2c48;
+  color: #fff;
+}
+
+.englishtaCourseTile--dark:hover,
+.englishtaCourseTile--premium:hover {
+  color: #fff;
+}
+
+.englishtaCourseTile__number {
+  align-items: center;
+  background: #ffaf0f;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 900;
+  height: 28px;
+  justify-content: center;
+  left: 18px;
+  position: absolute;
+  top: 20px;
+  width: 28px;
+}
+
+.englishtaCourseTile--orange .englishtaCourseTile__number {
+  background: #ff6b1a;
+}
+
+.englishtaCourseTile--purple .englishtaCourseTile__number {
+  background: #8c6bdc;
+}
+
+.englishtaCourseTile--blue .englishtaCourseTile__number {
+  background: #4f83d8;
+}
+
+.englishtaCourseTile--green .englishtaCourseTile__number {
+  background: #7fc45c;
+}
+
+.englishtaCourseTile--dark .englishtaCourseTile__number,
+.englishtaCourseTile--premium .englishtaCourseTile__number {
+  background: #ffbf22;
+  color: #0f172a;
+}
+
+.englishtaCourseTile__badge {
+  background: #ffb000;
+  border-radius: 0 0 0 8px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 8px 13px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.englishtaCourseTile__icon {
+  color: #f4a900;
+  display: block;
+  font-size: 50px;
+  line-height: 1;
+  margin: 8px 0 16px 38px;
+  min-height: 52px;
+}
+
+.englishtaCourseTile--orange .englishtaCourseTile__icon {
+  color: #f97316;
+}
+
+.englishtaCourseTile--purple .englishtaCourseTile__icon {
+  color: #7257c9;
+}
+
+.englishtaCourseTile--blue .englishtaCourseTile__icon {
+  color: #2f61be;
+}
+
+.englishtaCourseTile--green .englishtaCourseTile__icon {
+  color: #8fcf5c;
+}
+
+.englishtaCourseTile--dark .englishtaCourseTile__icon,
+.englishtaCourseTile--premium .englishtaCourseTile__icon {
+  color: #ffb000;
+}
+
+.englishtaCourseTile strong {
+  color: inherit;
+  display: block;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.12;
+  margin: 0 0 12px;
+  max-width: 190px;
+}
+
+.englishtaCourseTile__text {
+  color: #4e5362;
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+  margin-bottom: 16px;
+  min-height: 38px;
+}
+
+.englishtaCourseTile--dark .englishtaCourseTile__text,
+.englishtaCourseTile--premium .englishtaCourseTile__text {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.englishtaCourseTile__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.englishtaCourseTile__chips span {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(15, 23, 42, 0.13);
+  border-radius: 6px;
+  color: #202636;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 6px 8px;
+}
+
+.englishtaCourseTile--dark .englishtaCourseTile__chips span,
+.englishtaCourseTile--premium .englishtaCourseTile__chips span {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.24);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.englishtaCourseTile__languages {
+  color: #161c2f;
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  margin-top: 18px;
+}
+
+.englishtaCourseTile--dark .englishtaCourseTile__languages,
+.englishtaCourseTile--premium .englishtaCourseTile__languages {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.englishtaCourseBenefits {
+  background: #fff;
+  border: 1px solid #e1e6ef;
+  border-radius: 10px;
+  min-height: 306px;
+  padding: 28px 26px;
+}
+
+.englishtaCourseBenefits h3 {
+  align-items: center;
+  color: #070b1f;
+  display: flex;
+  font-size: 24px;
+  font-weight: 900;
+  gap: 12px;
+  line-height: 1;
+  margin: 0 0 28px;
+}
+
+.englishtaCourseBenefits h3 i {
+  color: #ff2e1f;
+}
+
+.englishtaCourseBenefits ul {
+  display: grid;
+  gap: 18px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.englishtaCourseBenefits li {
+  align-items: center;
+  color: #151b2d;
+  display: flex;
+  font-size: 13px;
+  font-weight: 900;
+  gap: 14px;
+}
+
+.englishtaCourseBenefits li i {
+  color: #7a55d9;
+  flex: 0 0 20px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.englishtaCourseBenefits li:first-child i,
+.englishtaCourseBenefits li:nth-child(2) i {
+  color: #ff9f0a;
+}
+
+.englishtaCourseBenefits li:last-child i {
+  color: #1fa463;
+}
+
+.englishtaCourseTile--loading {
+  background: #fff;
+  border: 1px solid #e1e6ef;
+  box-shadow: none;
+  gap: 18px;
+}
+
+.englishtaCourseTile--loading span,
+.englishtaCourseTile--loading strong,
+.englishtaCourseTile--loading p,
+.englishtaCourseTile--loading div {
+  animation: englishtaCoursePulse 1.2s ease-in-out infinite alternate;
+  background: #eef2f7;
+  border-radius: 10px;
+  display: block;
+}
+
+.englishtaCourseTile--loading span {
+  height: 58px;
+  width: 82px;
+}
+
+.englishtaCourseTile--loading strong {
+  height: 48px;
+  width: 78%;
+}
+
+.englishtaCourseTile--loading p {
+  height: 42px;
+  width: 100%;
+}
+
+.englishtaCourseTile--loading div {
+  height: 72px;
+  margin-top: auto;
+  width: 100%;
 }
 
 .englishtaCourseDetailHero {
@@ -3475,6 +3958,11 @@
     grid-template-columns: 1fr;
   }
 
+  .englishtaCourseModeTabs,
+  .englishtaCourseCatalogGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .englishtaHeroShade {
     background-position: 38% center;
     min-height: 680px;
@@ -3627,6 +4115,10 @@
     padding-top: 130px;
   }
 
+  .englishtaCourseCatalog {
+    padding-top: 118px;
+  }
+
   .englishtaCoursesHero h1,
   .englishtaCourseDetailHero h1 {
     font-size: 38px;
@@ -3646,6 +4138,24 @@
 
   .englishtaCourseDetailBody__main h2 {
     font-size: 30px;
+  }
+
+  .englishtaCourseModeTabs,
+  .englishtaCourseCatalogGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaCourseModeTabs button {
+    justify-content: flex-start;
+  }
+
+  .englishtaCourseCatalog__head h1 {
+    font-size: 34px;
+  }
+
+  .englishtaCourseTile,
+  .englishtaCourseBenefits {
+    min-height: auto;
   }
 
   .englishtaHeroShade {

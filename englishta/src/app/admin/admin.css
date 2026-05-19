@@ -5,6 +5,29 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.adminToast {
+  position: fixed;
+  right: 24px;
+  top: 24px;
+  z-index: 50;
+  max-width: min(420px, calc(100vw - 32px));
+  border-radius: 10px;
+  box-shadow: 0 18px 42px rgba(17, 24, 39, 0.18);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.4;
+  padding: 14px 16px;
+}
+
+.adminToast--success {
+  background: #15803d;
+}
+
+.adminToast--error {
+  background: #b91c1c;
+}
+
 .adminLayout {
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -181,6 +204,29 @@
 .adminField textarea {
   min-height: 94px;
   resize: vertical;
+}
+
+.adminCheckboxGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.adminCheckboxGroup label {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #d9deea;
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 12px;
+}
+
+.adminCheckboxGroup input {
+  min-height: auto;
+  padding: 0;
+  width: auto;
 }
 
 .adminRichText {

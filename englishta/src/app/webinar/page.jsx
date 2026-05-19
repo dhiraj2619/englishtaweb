@@ -82,6 +82,12 @@ const standardOptions = [
   "Master of Pharmacy (MPharm)",
 ];
 
+const preferredLanguageOptions = [
+  ["english", "English"],
+  ["hindi", "Hindi"],
+  ["marathi", "Marathi"],
+];
+
 const WebinarPage = () => {
   const [webinars, setWebinars] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -98,6 +104,7 @@ const WebinarPage = () => {
     mobile: "",
     gender: "male",
     occupation: "student",
+    preferredLanguage: "english",
     standard: "",
     city: "",
     state: "",
@@ -195,6 +202,7 @@ const WebinarPage = () => {
         mobile: "",
         gender: "male",
         occupation: "student",
+        preferredLanguage: "english",
         standard: "",
         city: "",
         state: "",
@@ -521,6 +529,21 @@ const WebinarPage = () => {
                 <select value={form.occupation} onChange={(event) => handleOccupationChange(event.target.value)}>
                   <option value="student">Student</option>
                   <option value="employed">Employed</option>
+                </select>
+              </label>
+
+              <label className="englishtaWebinarModal__full">
+                <span>Preferred Session Language</span>
+                <select
+                  value={form.preferredLanguage}
+                  onChange={(event) => updateField("preferredLanguage", event.target.value)}
+                  required
+                >
+                  {preferredLanguageOptions.map(([value, label]) => (
+                    <option value={value} key={value}>
+                      {label}
+                    </option>
+                  ))}
                 </select>
               </label>
 

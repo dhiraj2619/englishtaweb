@@ -19,13 +19,25 @@ const emptyForms = {
   dashboard: {},
   courses: {
     name: "",
+    courseMode: "live",
+    batchType: "beginners",
+    cardTitle: "",
+    cardSubtitle: "",
     thumbnail: "",
     shortDescription: "",
     longDescription: "",
     syllabus: "",
+    languages: ["marathi", "hindi", "english"],
+    benefits: "Early Bird Offer\nFree Speaking Club\nBonus PDFs\nWhatsApp Group",
+    badge: "",
+    isPremium: "No",
+    sortOrder: "0",
+    theme: "yellow",
+    icon: "",
     allowBooking: "Yes",
     price: "",
     studentsEnrolled: "",
+    visible: "Yes",
   },
   webinarLeads: {
     status: "New",
@@ -61,13 +73,25 @@ const starterData = {
     {
       _id: "course-1",
       name: "Spoken English Mastery",
+      courseMode: "live",
+      batchType: "beginners",
+      cardTitle: "Beginners-Promise Batch",
+      cardSubtitle: "Perfect for beginners who hesitate while speaking English.",
       thumbnail: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80",
       shortDescription: "Daily speaking practice for beginners and intermediate learners.",
       longDescription: "A structured spoken English program with grammar, pronunciation, fluency, and confidence work.",
       syllabus: "Grammar basics, vocabulary, pronunciation, interview speaking",
+      languages: ["marathi", "hindi", "english"],
+      benefits: ["Early Bird Offer", "Free Speaking Club", "Bonus PDFs", "WhatsApp Group"],
+      badge: "",
+      isPremium: false,
+      sortOrder: 1,
+      theme: "yellow",
+      icon: "fa-solid fa-user-graduate",
       allowBooking: "Yes",
       price: "999",
       studentsEnrolled: "128",
+      visible: "Yes",
     },
   ],
   webinarLeads: [],
@@ -109,17 +133,19 @@ const columns = {
   dashboard: [],
   courses: [
     ["name", "Course"],
-    ["thumbnail", "Thumbnail"],
-    ["shortDescription", "Short Description"],
+    ["courseMode", "Mode"],
+    ["batchType", "Batch"],
+    ["cardTitle", "Card Title"],
+    ["theme", "Theme"],
+    ["visible", "Visible"],
     ["allowBooking", "Booking"],
-    ["price", "Starting From"],
-    ["studentsEnrolled", "Students"],
   ],
   webinarLeads: [
     ["name", "Name"],
     ["email", "Email"],
     ["phone", "Phone"],
     ["course", "Webinar"],
+    ["preferredLanguage", "Language"],
     ["occupation", "Occupation"],
     ["city", "City"],
     ["status", "Status"],
@@ -129,6 +155,7 @@ const columns = {
     ["email", "Email"],
     ["phone", "Phone"],
     ["course", "Course"],
+    ["preferredLanguage", "Language"],
     ["occupation", "Occupation"],
     ["city", "City"],
     ["status", "Status"],
@@ -154,6 +181,56 @@ const columns = {
     ["registrationsCount", "Registered Users"],
   ],
 };
+
+const languageLabels = {
+  english: "English",
+  hindi: "Hindi",
+  marathi: "Marathi",
+};
+
+const courseModeLabels = {
+  live: "Live Courses",
+  recorded: "Recorded Courses",
+  audio: "Audio Course",
+  progress: "Check Your Progress",
+};
+
+const batchTypeLabels = {
+  beginners: "Beginners-Promise Batch",
+  advanced: "Advanced-Confidence Batch",
+  speakers: "Speakers-Expression Batch",
+  interview: "Interview Preparation Batch",
+  grammar: "Grammar-Academics Batch",
+  super5: "Super 5 Live Batch",
+  oneOnOne: "One On One Live Batch",
+};
+
+const courseThemeLabels = {
+  yellow: "Yellow",
+  orange: "Orange",
+  purple: "Purple",
+  blue: "Blue",
+  green: "Green",
+  dark: "Dark Premium",
+};
+
+function normalizeCourseRecord(course) {
+  return {
+    ...course,
+    courseMode: course.courseMode || "live",
+    batchType: course.batchType || "beginners",
+    cardTitle: course.cardTitle || course.name || "",
+    cardSubtitle: course.cardSubtitle || course.shortDescription || "",
+    languages: Array.isArray(course.languages) && course.languages.length ? course.languages : ["marathi", "hindi", "english"],
+    benefits: Array.isArray(course.benefits) && course.benefits.length
+      ? course.benefits
+      : ["Early Bird Offer", "Free Speaking Club", "Bonus PDFs", "WhatsApp Group"],
+    isPremium: Boolean(course.isPremium),
+    sortOrder: course.sortOrder ?? 0,
+    theme: course.theme || "yellow",
+    visible: course.visible || "Yes",
+  };
+}
 
 function loadData() {
   if (typeof window === "undefined") return starterData;
@@ -193,6 +270,7 @@ export default function AdminDashboard() {
   const [dashboardError, setDashboardError] = useState("");
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
   const [thumbnailUploadError, setThumbnailUploadError] = useState("");
+  const [toast, setToast] = useState(null);
   const activeConfig = modules.find((item) => item.key === activeModule);
 
   const stats = useMemo(
@@ -226,6 +304,10 @@ export default function AdminDashboard() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
+  function showToast(type, message) {
+    setToast({ type, message });
+  }
+
   function selectModule(moduleKey) {
     setActiveModule(moduleKey);
     setForm(emptyForms[moduleKey]);
@@ -252,7 +334,7 @@ export default function AdminDashboard() {
 
       setData((current) => ({
         ...current,
-        courses: payload.data,
+        courses: (payload.data ?? []).map(normalizeCourseRecord),
       }));
     } catch (error) {
       setCoursesError(error.message || "Failed to load courses.");
@@ -423,6 +505,16 @@ export default function AdminDashboard() {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (!toast) return undefined;
+
+    const timerId = window.setTimeout(() => {
+      setToast(null);
+    }, 3500);
+
+    return () => window.clearTimeout(timerId);
+  }, [toast]);
+
   function resetForm() {
     setForm(emptyForms[activeModule]);
     setEditingId(null);
@@ -472,6 +564,9 @@ export default function AdminDashboard() {
     event.preventDefault();
 
     if (activeModule === "courses") {
+      const courseName = form.name?.trim() || "Course";
+      const actionLabel = editingId ? "updated" : "added";
+
       try {
         setCoursesError("");
 
@@ -494,19 +589,24 @@ export default function AdminDashboard() {
 
         setData((current) => {
           const list = current.courses ?? [];
+          const savedCourse = normalizeCourseRecord(payload.data);
 
           return {
             ...current,
             courses: editingId
-              ? list.map((item) => ((item._id ?? item.id) === editingId ? payload.data : item))
-              : [payload.data, ...list],
+              ? list.map((item) => ((item._id ?? item.id) === editingId ? savedCourse : item))
+              : [savedCourse, ...list],
           };
         });
 
         resetForm();
+        await fetchCourses();
         await fetchDashboardStats();
+        showToast("success", `Course ${courseName} ${actionLabel} success`);
       } catch (error) {
-        setCoursesError(error.message || "Failed to save course.");
+        const message = error.message || "Failed to save course.";
+        setCoursesError(message);
+        showToast("error", `Course ${courseName} ${actionLabel} failed: ${message}`);
       }
 
       return;
@@ -651,11 +751,18 @@ export default function AdminDashboard() {
   }
 
   function editItem(item) {
+    const defaults = emptyForms[activeModule] ?? {};
+    const sourceItem = activeModule === "courses" ? normalizeCourseRecord(item) : item;
+
     setForm(
-      Object.keys(emptyForms[activeModule]).reduce(
+      Object.keys(defaults).reduce(
         (next, key) => ({
           ...next,
-          [key]: item[key] ?? "",
+          [key]: key === "benefits" && Array.isArray(sourceItem[key])
+            ? sourceItem[key].join("\n")
+            : key === "isPremium"
+              ? sourceItem[key] ? "Yes" : "No"
+              : sourceItem[key] ?? defaults[key] ?? "",
         }),
         {},
       ),
@@ -813,6 +920,11 @@ export default function AdminDashboard() {
 
   return (
     <div className="adminShell">
+      {toast ? (
+        <div className={`adminToast adminToast--${toast.type}`} role="status" aria-live="polite">
+          {toast.message}
+        </div>
+      ) : null}
       <div className="adminLayout">
         <aside className="adminSidebar">
           <div className="adminBrand">
@@ -946,9 +1058,21 @@ function AdminForm({
     dashboard: [],
     courses: [
       ["name", "Course Name", "input"],
+      ["courseMode", "Course Mode", "select", Object.keys(courseModeLabels)],
+      ["batchType", "Batch Type", "select", Object.keys(batchTypeLabels)],
+      ["cardTitle", "Card Title", "input"],
+      ["cardSubtitle", "Card Subtitle", "textarea", "adminFull"],
       ["price", "Starting From Pricing", "input"],
       ["studentsEnrolled", "Students Enrolled", "input"],
+      ["sortOrder", "Sort Order", "number"],
+      ["theme", "Card Theme", "select", Object.keys(courseThemeLabels)],
+      ["icon", "Icon Class", "input"],
+      ["badge", "Badge Text", "input"],
+      ["isPremium", "Premium Card", "select", ["No", "Yes"]],
+      ["visible", "Display on Website", "select", ["Yes", "No"]],
       ["allowBooking", "Allow Booking Option", "select", ["Yes", "No"]],
+      ["languages", "Languages", "checkboxes", Object.keys(languageLabels), "adminFull"],
+      ["benefits", "Benefits (One per line)", "textarea", "adminFull"],
       ["shortDescription", "Short Description", "textarea", "adminFull"],
       ["longDescription", "Long Description", "richtext", "adminFull"],
       ["syllabus", "Syllabus (Optional)", "richtext", "adminFull"],
@@ -1016,10 +1140,38 @@ function AdminForm({
               <select id={name} value={form[name]} onChange={(event) => onChange(name, event.target.value)}>
                 {options.map((option) => (
                   <option value={option} key={option}>
-                    {option}
+                    {name === "batchType"
+                      ? batchTypeLabels[option]
+                      : name === "courseMode"
+                        ? courseModeLabels[option]
+                        : name === "theme"
+                          ? courseThemeLabels[option]
+                          : option}
                   </option>
                 ))}
               </select>
+            ) : type === "checkboxes" ? (
+              <div className="adminCheckboxGroup">
+                {options.map((option) => {
+                  const checkedValues = Array.isArray(form[name]) ? form[name] : [];
+
+                  return (
+                    <label key={option}>
+                      <input
+                        type="checkbox"
+                        checked={checkedValues.includes(option)}
+                        onChange={(event) => {
+                          const nextValues = event.target.checked
+                            ? [...checkedValues, option]
+                            : checkedValues.filter((item) => item !== option);
+                          onChange(name, nextValues);
+                        }}
+                      />
+                      <span>{languageLabels[option] || option}</span>
+                    </label>
+                  );
+                })}
+              </div>
             ) : (
               <input
                 id={name}
@@ -1167,6 +1319,18 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                     <div className="adminYoutubePreview" dangerouslySetInnerHTML={{ __html: item[key] }} />
                   ) : key === "phone" ? (
                     item.phone || item.mobile
+                  ) : key === "preferredLanguage" ? (
+                    languageLabels[item[key]] || item[key] || "-"
+                  ) : key === "courseMode" ? (
+                    courseModeLabels[item[key]] || item[key] || "Live Courses"
+                  ) : key === "batchType" ? (
+                    batchTypeLabels[item[key]] || item[key] || "Beginners-Promise Batch"
+                  ) : key === "theme" ? (
+                    courseThemeLabels[item[key]] || item[key] || "Yellow"
+                  ) : Array.isArray(item[key]) ? (
+                    item[key].join(", ")
+                  ) : typeof item[key] === "boolean" ? (
+                    item[key] ? "Yes" : "No"
                   ) : ["allowBooking", "visible", "status", "type"].includes(key) ? (
                     <span className="adminBadge">{item[key]}</span>
                   ) : (

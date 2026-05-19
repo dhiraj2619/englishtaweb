@@ -64,7 +64,7 @@ export default function HeroBanner() {
           <div className="histudy-feature-strip">
             <div className="histudy-feature">
               <i className="fa-solid fa-laptop" />
-              <span>Online &amp; Offline Classes</span>
+              <span>Live Online Classes</span>
             </div>
             <div className="histudy-feature">
               <i className="fa-solid fa-people-group" />

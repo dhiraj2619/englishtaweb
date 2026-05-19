@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -9,8 +10,8 @@ const rawPageHtml = `
       <div className="container">
         <div className="td_hero_text wow fadeInRight" data-wow-duration="0.9s" data-wow-delay="0.35s">
           <p className="td_hero_subtitle_up td_fs_18 td_white_color td_spacing_1 td_semibold text-uppercase td_mb_10 td_opacity_9">Speak English With Confidence</p>
-          <h1 className="td_hero_title td_fs_64 td_white_color td_mb_12"><span>Englishta</span> - Online English Speaking Academy From Nashik </h1>
-          <p className="td_hero_subtitle td_fs_18 td_white_color td_opacity_7 td_mb_30">Learn spoken English online with practical conversation practice, pronunciation correction, grammar support, and confidence-building sessions led from Nashik.</p>
+          <h1 className="td_hero_title td_fs_64 td_white_color td_mb_12"><span>Englishta</span> - Online English Speaking Academy</h1>
+          <p className="td_hero_subtitle td_fs_18 td_white_color td_opacity_7 td_mb_30">Learn spoken English online with practical conversation practice, pronunciation correction, grammar support, and confidence-building sessions from anywhere.</p>
           <a href="courses-grid-view.html" className="td_btn td_style_1 td_radius_10 td_medium">
             <span className="td_btn_in td_white_color td_accent_bg">
               <span>Explore Courses</span>
@@ -80,30 +81,23 @@ const rawPageHtml = `
           <div className="row align-items-center td_gap_y_40">
             <div className="col-lg-6 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.25s">
               <div className="td_about_thumb_wrap">
-                <div className="td_about_year text-uppercase td_fs_64 td_bold">ONLINE</div>
                 <div className="td_about_thumb_1">
-                  <img src="/assets/images/aboutenglishta.png" alt="Best English teaching academy in Nashik">
+                  <img src="/assets/images/aboutenglishta.png" alt="Online English teaching academy">
                 </div>
               
-                <a href="https://www.youtube.com/embed/rRid6GCJtgc" className="td_circle_text td_center td_video_open">
-                  <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14.086 8.63792C14.6603 9.03557 14.6603 9.88459 14.086 10.2822L2.54766 18.2711C1.88444 18.7303 0.978418 18.2557 0.978418 17.449L0.978418 1.47118C0.978418 0.664496 1.88444 0.189811 2.54767 0.649016L14.086 8.63792Z" fill="white"/>
-                  </svg>   
-                  <img src="https://picsum.photos/seed/englishta-3/900/600" alt="" className="">                 
-                </a>
-                <div className="td_circle_shape"></div>
+               
               </div>
             </div>
             <div className="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
               <div className="td_section_heading td_style_1 td_mb_30">
                 <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">About us</p>
-                <h2 className="td_section_title td_fs_48 mb-0">Best English Teaching Academy in Nashik for Spoken English and Confidence</h2>
-                <p className="td_section_subtitle td_fs_18 mb-0">Englishta is a trusted English speaking academy in Nashik helping students, job seekers, and working professionals improve spoken English, interview communication, pronunciation, vocabulary, and daily fluency through practical online and guided learning sessions.</p>
+                <h2 className="td_section_title td_fs_48 mb-0">Online English Teaching Academy for Spoken English and Confidence</h2>
+                <p className="td_section_subtitle td_fs_18 mb-0">Englishta is a trusted online English speaking academy helping students, job seekers, and working professionals improve spoken English, interview communication, pronunciation, vocabulary, and daily fluency through practical online and guided learning sessions.</p>
               </div>
               <div className="td_mb_40">
                 <ul className="td_list td_style_5 td_mp_0">
                   <li>
-                    <h3 className="td_fs_24 td_mb_8">Spoken English Classes in Nashik</h3>
+                    <h3 className="td_fs_24 td_mb_8">Online Spoken English Classes</h3>
                     <p className="td_fs_18 mb-0">Build fluency, confidence, grammar accuracy, and real conversation skills with expert guidance.</p>
                   </li>
                   <li>
@@ -1727,7 +1721,7 @@ const rawPageHtml = `
                   <svg width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8.0004 0.5C3.86669 0.5 0.554996 3.86526 0.500458 7.98242C0.48345 9.42271 0.942105 10.7046 1.56397 11.8232C2.76977 13.9928 4.04435 16.8182 5.32856 19.4639C5.9286 20.7002 6.89863 21.5052 8.0004 21.5C9.10217 21.4948 10.0665 20.6836 10.6575 19.4404C11.9197 16.7856 13.1685 13.9496 14.4223 11.835C15.1136 10.6691 15.4653 9.3606 15.4974 8.01758C15.5966 3.86772 12.1342 0.5 8.0004 0.5ZM8.0004 2.00586C11.3235 2.00586 14.0821 4.6775 14.0033 7.97363C13.9749 9.08002 13.6796 10.1416 13.1273 11.0732C11.7992 13.3133 10.5449 16.1706 9.2954 18.7988C8.85773 19.7191 8.35538 19.9924 7.98864 19.9941C7.62183 19.9959 7.12572 19.7246 6.68204 18.8105C5.41121 16.1923 4.12648 13.3534 2.87056 11.0938C2.32971 10.121 1.9798 9.11653 1.9946 8.00586C2.03995 4.67555 4.67723 2.00586 8.0004 2.00586ZM8.0004 4.25C5.94024 4.25 4.25034 5.94266 4.25034 8.00586C4.25034 10.0691 5.94024 11.75 8.0004 11.75C10.0605 11.75 11.7503 10.0691 11.7503 8.00586C11.7503 5.94266 10.0605 4.25 8.0004 4.25ZM8.0004 5.74414C9.25065 5.74414 10.2446 6.75372 10.2446 8.00586C10.2446 9.258 9.25065 10.2559 8.0004 10.2559C6.7501 10.2559 5.75331 9.258 5.75331 8.00586C5.75331 6.75372 6.7501 5.74414 8.0004 5.74414Z" fill="currentColor"/>
                   </svg>                    
-                  Tsc Center, Northern Asia 
+                  Live Online Learning 
                 </span>
               </a>
               <div className="td_card_info">
@@ -1812,7 +1806,7 @@ const rawPageHtml = `
                     <svg className="td_accent_color" width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M8.0004 0.5C3.86669 0.5 0.554996 3.86526 0.500458 7.98242C0.48345 9.42271 0.942105 10.7046 1.56397 11.8232C2.76977 13.9928 4.04435 16.8182 5.32856 19.4639C5.9286 20.7002 6.89863 21.5052 8.0004 21.5C9.10217 21.4948 10.0665 20.6836 10.6575 19.4404C11.9197 16.7856 13.1685 13.9496 14.4223 11.835C15.1136 10.6691 15.4653 9.3606 15.4974 8.01758C15.5966 3.86772 12.1342 0.5 8.0004 0.5ZM8.0004 2.00586C11.3235 2.00586 14.0821 4.6775 14.0033 7.97363C13.9749 9.08002 13.6796 10.1416 13.1273 11.0732C11.7992 13.3133 10.5449 16.1706 9.2954 18.7988C8.85773 19.7191 8.35538 19.9924 7.98864 19.9941C7.62183 19.9959 7.12572 19.7246 6.68204 18.8105C5.41121 16.1923 4.12648 13.3534 2.87056 11.0938C2.32971 10.121 1.9798 9.11653 1.9946 8.00586C2.03995 4.67555 4.67723 2.00586 8.0004 2.00586ZM8.0004 4.25C5.94024 4.25 4.25034 5.94266 4.25034 8.00586C4.25034 10.0691 5.94024 11.75 8.0004 11.75C10.0605 11.75 11.7503 10.0691 11.7503 8.00586C11.7503 5.94266 10.0605 4.25 8.0004 4.25ZM8.0004 5.74414C9.25065 5.74414 10.2446 6.75372 10.2446 8.00586C10.2446 9.258 9.25065 10.2559 8.0004 10.2559C6.7501 10.2559 5.75331 9.258 5.75331 8.00586C5.75331 6.75372 6.7501 5.74414 8.0004 5.74414Z" fill="currentColor"/>
                     </svg>                    
-                    Tsc Center, Northern Asia 
+                    Live Online Learning 
                   </span>
                 </div>
               </div>
@@ -1855,7 +1849,7 @@ const rawPageHtml = `
                     <svg className="td_accent_color" width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M8.0004 0.5C3.86669 0.5 0.554996 3.86526 0.500458 7.98242C0.48345 9.42271 0.942105 10.7046 1.56397 11.8232C2.76977 13.9928 4.04435 16.8182 5.32856 19.4639C5.9286 20.7002 6.89863 21.5052 8.0004 21.5C9.10217 21.4948 10.0665 20.6836 10.6575 19.4404C11.9197 16.7856 13.1685 13.9496 14.4223 11.835C15.1136 10.6691 15.4653 9.3606 15.4974 8.01758C15.5966 3.86772 12.1342 0.5 8.0004 0.5ZM8.0004 2.00586C11.3235 2.00586 14.0821 4.6775 14.0033 7.97363C13.9749 9.08002 13.6796 10.1416 13.1273 11.0732C11.7992 13.3133 10.5449 16.1706 9.2954 18.7988C8.85773 19.7191 8.35538 19.9924 7.98864 19.9941C7.62183 19.9959 7.12572 19.7246 6.68204 18.8105C5.41121 16.1923 4.12648 13.3534 2.87056 11.0938C2.32971 10.121 1.9798 9.11653 1.9946 8.00586C2.03995 4.67555 4.67723 2.00586 8.0004 2.00586ZM8.0004 4.25C5.94024 4.25 4.25034 5.94266 4.25034 8.00586C4.25034 10.0691 5.94024 11.75 8.0004 11.75C10.0605 11.75 11.7503 10.0691 11.7503 8.00586C11.7503 5.94266 10.0605 4.25 8.0004 4.25ZM8.0004 5.74414C9.25065 5.74414 10.2446 6.75372 10.2446 8.00586C10.2446 9.258 9.25065 10.2559 8.0004 10.2559C6.7501 10.2559 5.75331 9.258 5.75331 8.00586C5.75331 6.75372 6.7501 5.74414 8.0004 5.74414Z" fill="currentColor"/>
                     </svg>                    
-                    Tsc Center, Northern Asia 
+                    Live Online Learning 
                   </span>
                 </div>
               </div>
@@ -1898,7 +1892,7 @@ const rawPageHtml = `
                     <svg className="td_accent_color" width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M8.0004 0.5C3.86669 0.5 0.554996 3.86526 0.500458 7.98242C0.48345 9.42271 0.942105 10.7046 1.56397 11.8232C2.76977 13.9928 4.04435 16.8182 5.32856 19.4639C5.9286 20.7002 6.89863 21.5052 8.0004 21.5C9.10217 21.4948 10.0665 20.6836 10.6575 19.4404C11.9197 16.7856 13.1685 13.9496 14.4223 11.835C15.1136 10.6691 15.4653 9.3606 15.4974 8.01758C15.5966 3.86772 12.1342 0.5 8.0004 0.5ZM8.0004 2.00586C11.3235 2.00586 14.0821 4.6775 14.0033 7.97363C13.9749 9.08002 13.6796 10.1416 13.1273 11.0732C11.7992 13.3133 10.5449 16.1706 9.2954 18.7988C8.85773 19.7191 8.35538 19.9924 7.98864 19.9941C7.62183 19.9959 7.12572 19.7246 6.68204 18.8105C5.41121 16.1923 4.12648 13.3534 2.87056 11.0938C2.32971 10.121 1.9798 9.11653 1.9946 8.00586C2.03995 4.67555 4.67723 2.00586 8.0004 2.00586ZM8.0004 4.25C5.94024 4.25 4.25034 5.94266 4.25034 8.00586C4.25034 10.0691 5.94024 11.75 8.0004 11.75C10.0605 11.75 11.7503 10.0691 11.7503 8.00586C11.7503 5.94266 10.0605 4.25 8.0004 4.25ZM8.0004 5.74414C9.25065 5.74414 10.2446 6.75372 10.2446 8.00586C10.2446 9.258 9.25065 10.2559 8.0004 10.2559C6.7501 10.2559 5.75331 9.258 5.75331 8.00586C5.75331 6.75372 6.7501 5.74414 8.0004 5.74414Z" fill="currentColor"/>
                     </svg>                    
-                    Tsc Center, Northern Asia 
+                    Live Online Learning 
                   </span>
                 </div>
               </div>
@@ -1915,7 +1909,7 @@ const rawPageHtml = `
       <div className="container">
         <div className="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
           <h2 className="td_section_title td_fs_48 mb-0 td_white_color">Start Speaking English With Us</h2>
-          <p className="td_section_subtitle td_fs_18 mb-0 td_white_color td_opacity_7">Join Englishta online classes from Nashik and build fluency through <br>conversation practice, grammar correction, and confidence coaching. </p>
+          <p className="td_section_subtitle td_fs_18 mb-0 td_white_color td_opacity_7">Join Englishta online classes from anywhere and build fluency through <br>conversation practice, grammar correction, and confidence coaching. </p>
         </div>
         <div className="td_height_50 td_height_lg_50"></div>
         <div className="row align-items-center td_gap_y_40">
@@ -2109,6 +2103,10 @@ const normalizeInjectedHtml = (html) =>
 
 const pageHtml = normalizeInjectedHtml(rawPageHtml)
   .replace(
+    /<section class="td_gray_bg_3">\s*<div class="td_height_112 td_height_lg_75"><\/div>\s*<div class="container">\s*<div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0\.15s">\s*<p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Popular Courses<\/p>\s*<h2 class="td_section_title td_fs_48 mb-0">English Speaking Courses<\/h2>[\s\S]*?<\/section>/,
+    "__ENGLISHTA_COURSE_CATALOG__",
+  )
+  .replace(
     /<section>\s*<div class="td_height_120 td_height_lg_80"><\/div>\s*<div class="container">\s*<div class="td_features td_style_1 td_hobble">[\s\S]*?<\/section>/,
     "__ENGLISHTA_ANYWHERE_SECTION__",
   )
@@ -2184,6 +2182,274 @@ const HomeBanner = ({ isReady = false }) => {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+};
+
+const slugifyCourseName = (name = "") =>
+  name
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const homeCourseModeTabs = [
+  ["live", "Live Courses", "fa-solid fa-tower-broadcast"],
+  ["recorded", "Recorded Courses", "fa-regular fa-circle-play"],
+  ["audio", "Audio Course", "fa-solid fa-headphones-simple"],
+  ["progress", "Check Your Progress", "fa-solid fa-chart-line"],
+];
+
+const homeCourseModeDetails = {
+  live: {
+    title: "Live Courses",
+    text: "Live interaction, real-time feedback & personal attention",
+    icon: "fa-solid fa-tower-broadcast",
+  },
+  recorded: {
+    title: "Recorded Courses",
+    text: "Flexible self-paced lessons you can revisit anytime",
+    icon: "fa-regular fa-circle-play",
+  },
+  audio: {
+    title: "Audio Course",
+    text: "Listen, repeat, and improve pronunciation on the go",
+    icon: "fa-solid fa-headphones-simple",
+  },
+  progress: {
+    title: "Check Your Progress",
+    text: "Track your speaking confidence, grammar, and fluency growth",
+    icon: "fa-solid fa-chart-line",
+  },
+};
+
+const homeBatchTypeMeta = {
+  beginners: {
+    label: "Beginners-Promise Batch",
+    icon: "fa-solid fa-user-graduate",
+    theme: "yellow",
+    subtitle: "Perfect for beginners who hesitate while speaking English.",
+  },
+  advanced: {
+    label: "Advanced-Confidence Batch",
+    icon: "fa-solid fa-person-rays",
+    theme: "orange",
+    subtitle: "Build confidence and improve fluency.",
+  },
+  speakers: {
+    label: "Speakers-Expression Batch",
+    icon: "fa-solid fa-people-arrows",
+    theme: "purple",
+    subtitle: "Learn natural speaking styles and expressions.",
+  },
+  interview: {
+    label: "Interview Preparation Batch",
+    icon: "fa-solid fa-user-tie",
+    theme: "blue",
+    subtitle: "Prepare confidently for interviews and professional communication.",
+  },
+  grammar: {
+    label: "Grammar-Academics Batch",
+    icon: "fa-solid fa-book-open",
+    theme: "green",
+    subtitle: "Strengthen your grammar and academic English.",
+  },
+  super5: {
+    label: "Super 5 Live Batch",
+    icon: "fa-solid fa-crown",
+    theme: "yellow",
+    subtitle: "Premium small-group learning with maximum personal attention.",
+  },
+  oneOnOne: {
+    label: "One On One Live Batch",
+    icon: "fa-solid fa-user-shield",
+    theme: "dark",
+    subtitle: "Personal English coaching tailored to your goals.",
+  },
+};
+
+const homeLanguageLabels = {
+  marathi: "Marathi",
+  hindi: "Hindi",
+  english: "English",
+};
+
+const homeDefaultBenefits = ["Early Bird Offer", "Free Speaking Club", "Bonus PDFs", "WhatsApp Group"];
+
+const homeWhatYouGetItems = [
+  ["fa-solid fa-gift", "Early Bird Offer"],
+  ["fa-solid fa-comments", "Free Speaking Club"],
+  ["fa-solid fa-file-pdf", "Bonus PDFs"],
+  ["fa-solid fa-clipboard-list", "Interview Toolkit"],
+  ["fa-brands fa-whatsapp", "WhatsApp Practice Group"],
+];
+
+const homeDefaultLiveBatchTypes = ["beginners", "advanced", "speakers", "interview", "grammar", "super5", "oneOnOne"];
+
+function normalizeHomeCourse(course) {
+  const batchType = course.batchType || "beginners";
+  const meta = homeBatchTypeMeta[batchType] || homeBatchTypeMeta.beginners;
+  const benefits = Array.isArray(course.benefits) && course.benefits.length ? course.benefits : homeDefaultBenefits;
+  const languages =
+    Array.isArray(course.languages) && course.languages.length ? course.languages : ["marathi", "hindi", "english"];
+
+  return {
+    ...course,
+    batchType,
+    courseMode: course.courseMode || "live",
+    cardTitle: course.cardTitle || meta.label,
+    cardSubtitle: course.cardSubtitle || course.shortDescription || meta.subtitle,
+    benefits,
+    languages,
+    icon: course.icon || meta.icon,
+    theme: course.theme || meta.theme,
+    isPremium: Boolean(course.isPremium) || batchType === "oneOnOne",
+    sortOrder: Number.isFinite(Number(course.sortOrder)) ? Number(course.sortOrder) : 0,
+  };
+}
+
+const getHomeFallbackCourses = () =>
+  homeDefaultLiveBatchTypes.map((batchType, index) =>
+    normalizeHomeCourse({
+      _id: `fallback-${batchType}`,
+      name: homeBatchTypeMeta[batchType].label,
+      batchType,
+      courseMode: "live",
+      visible: "Yes",
+      sortOrder: index + 1,
+      benefits: homeDefaultBenefits,
+      languages: ["marathi", "hindi", "english"],
+      isFallback: true,
+    }),
+  );
+
+const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
+  const [activeMode, setActiveMode] = useState("live");
+  const visibleCourses = useMemo(() => courses.filter((course) => course.visible !== "No"), [courses]);
+  const activeCourses = useMemo(() => {
+    const adminCourses = visibleCourses.filter((course) => course.courseMode === activeMode);
+
+    if (activeMode !== "live") {
+      return adminCourses.sort((first, second) => first.sortOrder - second.sortOrder);
+    }
+
+    const fallbackCourses = getHomeFallbackCourses();
+    const coursesByBatch = new Map(fallbackCourses.map((course) => [course.batchType, course]));
+
+    adminCourses.forEach((course) => {
+      coursesByBatch.set(course.batchType, course);
+    });
+
+    return Array.from(coursesByBatch.values()).sort((first, second) => first.sortOrder - second.sortOrder);
+  }, [activeMode, visibleCourses]);
+  const activeModeDetails = homeCourseModeDetails[activeMode];
+
+  return (
+    <section className="englishtaCourseCatalog englishtaHomeCourseCatalog">
+      <div className="container">
+        <div className="englishtaCourseCatalog__head wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
+          <p>Popular Courses</p>
+          <h1>Choose Your Course</h1>
+          <span aria-hidden="true" />
+        </div>
+
+        <div className="englishtaCourseModeTabs" role="tablist" aria-label="Course modes">
+          {homeCourseModeTabs.map(([value, label, icon]) => (
+            <button
+              type="button"
+              className={activeMode === value ? "isActive" : ""}
+              onClick={() => setActiveMode(value)}
+              role="tab"
+              aria-selected={activeMode === value}
+              key={value}
+            >
+              <i className={icon} />
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div className="englishtaCourseModeHead">
+          <i className={activeModeDetails.icon} />
+          <div>
+            <h2>{activeModeDetails.title}</h2>
+            <p>{activeModeDetails.text}</p>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="englishtaCourseCatalogGrid">
+            {[1, 2, 3, 4].map((item) => (
+              <div className="englishtaCourseTile englishtaCourseTile--loading" key={item}>
+                <span />
+                <strong />
+                <p />
+                <div />
+              </div>
+            ))}
+          </div>
+        ) : null}
+
+        {!loading && error ? <div className="englishtaCoursesNotice">{error}</div> : null}
+
+        {!loading && !error ? (
+          <>
+            {activeCourses.length === 0 ? (
+              <div className="englishtaCoursesNotice">No courses found in this section.</div>
+            ) : null}
+
+            <div className="englishtaCourseCatalogGrid">
+              {activeCourses.map((course, index) => {
+                const slug = slugifyCourseName(course.name);
+
+                return (
+                  <Link
+                    href={course.isFallback ? "/contact-us" : `/course/${slug}`}
+                    className={`englishtaCourseTile englishtaCourseTile--${course.theme} ${
+                      course.isPremium ? "englishtaCourseTile--premium" : ""
+                    }`}
+                    key={course._id ?? slug}
+                  >
+                    {course.isPremium || course.badge ? (
+                      <span className="englishtaCourseTile__badge">{course.badge || "Premium"}</span>
+                    ) : null}
+                    <span className="englishtaCourseTile__number">{index + 1}</span>
+                    <span className="englishtaCourseTile__icon">
+                      <i className={course.icon} />
+                    </span>
+                    <strong>{course.cardTitle}</strong>
+                    <span className="englishtaCourseTile__text">{course.cardSubtitle}</span>
+                    <span className="englishtaCourseTile__chips">
+                      {course.benefits.slice(0, 4).map((benefit) => (
+                        <span key={benefit}>{benefit}</span>
+                      ))}
+                    </span>
+                    <span className="englishtaCourseTile__languages">
+                      Language: {course.languages.map((language) => homeLanguageLabels[language] || language).join(" + ")}
+                    </span>
+                  </Link>
+                );
+              })}
+
+              <aside className="englishtaCourseBenefits">
+                <h3>
+                  <i className="fa-solid fa-gift" />
+                  What You Get
+                </h3>
+                <ul>
+                  {homeWhatYouGetItems.map(([icon, label]) => (
+                    <li key={label}>
+                      <i className={icon} />
+                      <span>{label}</span>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+            </div>
+          </>
+        ) : null}
       </div>
     </section>
   );
@@ -2534,7 +2800,7 @@ const TestimonialsShowcase = ({ testimonials = [] }) => {
         <div className="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
           <h2 className="td_section_title td_fs_48 mb-0 td_white_color">Start Speaking English With Us</h2>
           <p className="td_section_subtitle td_fs_18 mb-0 td_white_color td_opacity_7">
-            Join Englishta online classes from Nashik and build fluency through
+            Join Englishta online classes from anywhere and build fluency through
             <br />
             conversation practice, grammar correction, and confidence coaching.
           </p>
@@ -2611,18 +2877,30 @@ const TestimonialsShowcase = ({ testimonials = [] }) => {
 const Home = () => {
   const [youtubeVideos, setYoutubeVideos] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
+  const [coursesError, setCoursesError] = useState("");
   const [isHeroReady, setIsHeroReady] = useState(false);
   const handlePreloaderComplete = useCallback(() => {
     setIsHeroReady(true);
   }, []);
-  const { beforeAnywhere, betweenAnywhereAndVideos, betweenSections, beforeTestimonials, afterTestimonials } = useMemo(() => {
-    const [before = "", afterAnywhere = ""] = pageHtml.split("__ENGLISHTA_ANYWHERE_SECTION__");
+  const {
+    beforeCourseCatalog,
+    betweenCourseCatalogAndAnywhere,
+    betweenAnywhereAndVideos,
+    betweenSections,
+    beforeTestimonials,
+    afterTestimonials,
+  } = useMemo(() => {
+    const [beforeCourse = "", afterCourse = ""] = pageHtml.split("__ENGLISHTA_COURSE_CATALOG__");
+    const [beforeAnywhere = "", afterAnywhere = ""] = afterCourse.split("__ENGLISHTA_ANYWHERE_SECTION__");
     const [afterAnywhereBeforeVideo = "", afterVideo = ""] = afterAnywhere.split("__ENGLISHTA_VIDEO_SECTION__");
     const [between = "", afterTraining = ""] = afterVideo.split("__ENGLISHTA_TRAINING_AREAS__");
     const [beforeCustomTestimonials = "", afterCustomTestimonials = ""] = afterTraining.split("__ENGLISHTA_TESTIMONIALS__");
 
     return {
-      beforeAnywhere: before,
+      beforeCourseCatalog: beforeCourse,
+      betweenCourseCatalogAndAnywhere: beforeAnywhere,
       betweenAnywhereAndVideos: afterAnywhereBeforeVideo,
       betweenSections: between,
       beforeTestimonials: beforeCustomTestimonials,
@@ -2643,6 +2921,30 @@ const Home = () => {
       .catch(() => {
         if (isMounted) {
           setYoutubeVideos([]);
+        }
+      });
+
+    fetch("/api/courses", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((payload) => {
+        if (!isMounted) return;
+
+        if (!payload.success) {
+          throw new Error(payload.message || "Failed to load courses.");
+        }
+
+        setCourses((payload.data ?? []).map(normalizeHomeCourse));
+        setCoursesError("");
+      })
+      .catch((fetchError) => {
+        if (isMounted) {
+          setCourses([]);
+          setCoursesError(fetchError.message || "Failed to load courses.");
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setCoursesLoading(false);
         }
       });
 
@@ -2669,7 +2971,9 @@ const Home = () => {
       <Preloader onComplete={handlePreloaderComplete} />
       <Navbar />
       <HomeBanner isReady={isHeroReady} />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: beforeAnywhere }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: beforeCourseCatalog }} />
+      <HomeCourseCatalog courses={courses} loading={coursesLoading} error={coursesError} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: betweenCourseCatalogAndAnywhere }} />
       <LearningAnywhereSection />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: betweenAnywhereAndVideos }} />
       <VideoShowcase videos={youtubeVideos} />

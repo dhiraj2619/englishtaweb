@@ -55,7 +55,7 @@ const ContactUs = () => {
             </p>
             <h1>Start Your English Speaking Journey Online</h1>
             <p>
-              Connect with our Nashik-based English trainer for online spoken
+              Connect with our online English trainer for spoken
               English classes, interview preparation, pronunciation practice,
               and confidence-building sessions.
             </p>
@@ -83,8 +83,8 @@ const ContactUs = () => {
                 <div className="englishta-contact-card">
                   <i className="fa-solid fa-location-dot" />
                   <div>
-                    <h2>Based In</h2>
-                    <p>Nashik, Maharashtra. Online classes available.</p>
+                    <h2>Class Mode</h2>
+                    <p>Live online classes available from anywhere.</p>
                   </div>
                 </div>
                 <div className="englishta-contact-note">
