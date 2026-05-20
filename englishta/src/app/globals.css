@@ -96,7 +96,8 @@
   color: #fff;
   display: flex;
   min-height: 730px;
-  overflow: hidden;
+  margin-bottom: 92px;
+  overflow: visible;
   position: relative;
   text-align: center;
 }
@@ -192,26 +193,51 @@
 }
 
 .englishtaHeroShade__features {
-  background: #feb60c;
-  bottom: 0;
+  bottom: -64px;
+  box-sizing: border-box;
   color: #050505;
   left: 0;
-  min-height: 74px;
-  overflow: hidden;
-  padding: 16px 0;
+  margin: 0 auto;
+  max-width: 1560px;
+  padding: 0 40px;
   position: absolute;
   right: 0;
+  width: 100%;
   z-index: 2;
 }
 
-.englishtaHeroShade__marqueeTrack {
+.englishtaHeroShade__featurePanel {
   align-items: center;
+  background: #fff;
+  border-radius: 34px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18);
   display: flex;
-  gap: 42px;
-  min-width: max-content;
-  padding-inline: 10vw;
-  width: max-content;
-  animation: englishtaHeroMarquee 18s linear infinite;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 34px 42px;
+  position: relative;
+}
+
+.englishtaHeroShade__featurePanel:before,
+.englishtaHeroShade__featurePanel:after {
+  content: "";
+  z-index: 0;
+  background: #feb60c;
+  border-radius: 999px;
+  width: 230px;
+  height: 150px;
+  position: absolute;
+  bottom: -115px;
+}
+
+.englishtaHeroShade__featurePanel::before {
+  left: -62px;
+  transform: rotate(32deg);
+}
+
+.englishtaHeroShade__featurePanel::after {
+  right: -62px;
+  transform: rotate(-12deg);
 }
 
 .englishtaAnywhereSection {
@@ -400,20 +426,56 @@
 
 .englishtaHeroShade__feature {
   align-items: center;
-  display: inline-flex;
-  font-size: 20px;
-  font-weight: 700;
-  gap: 18px;
-  justify-content: center;
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  justify-content: flex-start;
   line-height: 1.2;
   min-width: 0;
-  white-space: nowrap;
+  padding: 0 36px;
+  position: relative;
+  z-index: 1;
+}
+
+.englishtaHeroShade__feature:not(:last-child) {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .englishtaHeroShade__feature i {
+  align-items: center;
+  background: #feb60c;
+  border-radius: 50%;
+  box-shadow: 0 10px 24px rgba(254, 182, 12, 0.34);
   color: #050505;
+  display: inline-flex;
   flex: 0 0 auto;
-  font-size: 34px;
+  font-size: 32px;
+  height: 82px;
+  justify-content: center;
+  width: 82px;
+}
+
+.englishtaHeroShade__feature span {
+  color: #050505;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-align: left;
+}
+
+.englishtaHeroShade__feature span {
+  color: #050505;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.18;
+}
+
+.englishtaHeroShade__feature small {
+  color: #4f4b45;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.35;
+  margin-top: 7px;
 }
 
 @keyframes englishtaHeroMarquee {
@@ -3990,12 +4052,28 @@
   }
 
   .englishtaHeroShade__features {
-    padding-block: 14px;
+    bottom: -54px;
+    padding: 0 24px;
   }
 
-  .englishtaHeroShade__marqueeTrack {
-    gap: 28px;
-    padding-inline: 32px;
+  .englishtaHeroShade__featurePanel {
+    border-radius: 28px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 26px;
+  }
+
+  .englishtaHeroShade__feature {
+    border-right: 0 !important;
+    padding: 18px;
+  }
+
+  .englishtaHeroShade__feature:nth-child(odd) {
+    border-right: 1px solid rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .englishtaHeroShade__feature:nth-child(-n + 2) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -4178,6 +4256,7 @@
   .englishtaHeroShade {
     background-position: 30% center;
     min-height: 620px;
+    margin-bottom: 460px;
   }
 
   .englishtaHeroShade__content {
@@ -4205,22 +4284,39 @@
   }
 
   .englishtaHeroShade__features {
-    min-height: auto;
-    padding: 14px 0;
+    bottom: -430px;
+    padding: 0 16px;
   }
 
-  .englishtaHeroShade__marqueeTrack {
-    gap: 24px;
-    padding-inline: 20px;
+  .englishtaHeroShade__featurePanel {
+    border-radius: 24px;
+    grid-template-columns: 1fr;
+    padding: 22px;
   }
 
   .englishtaHeroShade__feature {
-    font-size: 16px;
-    gap: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-right: 0 !important;
+    gap: 16px;
+    padding: 18px 0;
+  }
+
+  .englishtaHeroShade__feature:last-child {
+    border-bottom: 0 !important;
   }
 
   .englishtaHeroShade__feature i {
     font-size: 24px;
+    height: 64px;
+    width: 64px;
+  }
+
+  .englishtaHeroShade__feature strong {
+    font-size: 19px;
+  }
+
+  .englishtaHeroShade__feature small {
+    font-size: 16px;
   }
 }
 

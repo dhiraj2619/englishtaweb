@@ -20,11 +20,13 @@ function validateCourseLeadPayload(payload) {
   if (!payload.mobile?.trim()) errors.push("Mobile is required.");
   if (!payload.gender?.trim()) errors.push("Gender is required.");
   if (!payload.occupation?.trim()) errors.push("Occupation is required.");
-  if (!payload.preferredLanguage?.trim()) errors.push("Preferred language is required.");
+  if (!payload.preferredLanguage?.trim())
+    errors.push("Preferred language is required.");
   if (preferredLanguage && !preferredLanguages.includes(preferredLanguage)) {
     errors.push("Please select a valid preferred language.");
   }
-  if (payload.occupation === "student" && !payload.standard?.trim()) errors.push("Standard is required.");
+  if (payload.occupation === "student" && !payload.standard?.trim())
+    errors.push("Standard is required.");
   if (!payload.city?.trim()) errors.push("City is required.");
   if (!payload.state?.trim()) errors.push("State is required.");
 
@@ -40,7 +42,14 @@ export async function GET() {
     return NextResponse.json({ success: true, data: leads });
   } catch (error) {
     const status = error.status || 500;
-    return NextResponse.json({ success: false, message: "Failed to fetch course leads.", error: error.message }, { status });
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to fetch course leads.",
+        error: error.message,
+      },
+      { status },
+    );
   }
 }
 
@@ -51,7 +60,10 @@ export async function POST(request) {
     const errors = validateCourseLeadPayload(body);
 
     if (errors.length) {
-      return NextResponse.json({ success: false, message: errors[0] }, { status: 400 });
+      return NextResponse.json(
+        { success: false, message: errors[0] },
+        { status: 400 },
+      );
     }
 
     const lead = await CourseLead.create({
@@ -63,7 +75,8 @@ export async function POST(request) {
       gender: body.gender.trim().toLowerCase(),
       occupation: body.occupation.trim().toLowerCase(),
       preferredLanguage: body.preferredLanguage.trim().toLowerCase(),
-      standard: body.occupation === "student" ? body.standard?.trim() || "" : "",
+      standard:
+        body.occupation === "student" ? body.standard?.trim() || "" : "",
       city: body.city.trim(),
       state: body.state.trim(),
       message: body.message?.trim() || "",
@@ -71,6 +84,13 @@ export async function POST(request) {
 
     return NextResponse.json({ success: true, data: lead }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ success: false, message: "Failed to save course lead.", error: error.message }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to save course lead.",
+        error: error.message,
+      },
+      { status: 500 },
+    );
   }
 }

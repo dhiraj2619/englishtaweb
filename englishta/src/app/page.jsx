@@ -2150,8 +2150,6 @@ const Preloader = ({ onComplete }) => {
 };
 
 const HomeBanner = ({ isReady = false }) => {
-  const marqueeContent = [...heroMarqueeItems, ...heroMarqueeItems];
-
   return (
     <section
       className={isReady ? "englishtaHeroShade englishtaHeroShade--ready" : "englishtaHeroShade"}
@@ -2174,11 +2172,14 @@ const HomeBanner = ({ isReady = false }) => {
       </div>
 
       <div className="englishtaHeroShade__features wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s" aria-label="Course highlights">
-        <div className="englishtaHeroShade__marqueeTrack">
-          {marqueeContent.map((item, index) => (
-            <div className="englishtaHeroShade__feature" key={`${item.text}-${index}`}>
+        <div className="englishtaHeroShade__featurePanel">
+          {heroMarqueeItems.map((item) => (
+            <div className="englishtaHeroShade__feature" key={`${item.title}-${item.text}`}>
               <i className={item.icon} />
-              <span>{item.text}</span>
+              <span>
+                <span>{item.title}</span>
+                <small>{item.text}</small>
+              </span>
             </div>
           ))}
         </div>
@@ -2495,16 +2496,24 @@ const defaultTestimonials = [
 
 const heroMarqueeItems = [
   {
-    icon: "fa-solid fa-chart-simple",
-    text: "Live online speaking practice",
-  },
-  {
-    icon: "fa-solid fa-user-group",
-    text: "Personal feedback from expert tutor",
-  },
-  {
     icon: "fa-solid fa-location-dot",
-    text: "Fluency for interviews and daily life",
+    title: "Fluency for Interviews",
+    text: "and Daily Life",
+  },
+  {
+    icon: "fa-solid fa-chart-simple",
+    title: "Live Online",
+    text: "Speaking Practice",
+  },
+  {
+    icon: "fa-solid fa-user",
+    title: "Personal Feedback",
+    text: "from Expert Tutor",
+  },
+  {
+    icon: "fa-solid fa-desktop",
+    title: "Live Online",
+    text: "Small Group Classes",
   },
 ];
 
