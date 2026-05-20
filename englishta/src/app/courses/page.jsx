@@ -59,14 +59,6 @@ const defaultLiveCourses = [
   ["One On One Live Batch", "Personal English coaching tailored to your goals."],
 ];
 
-const courseBonusPoints = [
-  "Early Bird Offer",
-  "Free Speaking Club",
-  "Bonus PDFs",
-  "Interview Toolkit",
-  "WhatsApp Practice Group",
-];
-
 function normalizeCourse(course) {
   const languages = Array.isArray(course.languages) && course.languages.length
     ? course.languages
@@ -196,6 +188,20 @@ const CoursesPage = () => {
     <>
       <Navbar />
       <main className="englishtaCoursesPage englishtaCoursesPage--catalog">
+        <section className="englishtaCoursesHero">
+          <div className="container">
+            <p>English Speaking Courses</p>
+            <h1>
+              Choose the Right English Course for Your Confidence
+            </h1>
+            <div className="englishtaCoursesHero__stats" aria-label="Course highlights">
+              <span>Live Online Sessions</span>
+              <span>Marathi + Hindi + English</span>
+              <span>Expert Tutor Feedback</span>
+            </div>
+          </div>
+        </section>
+
         <section className="englishtaCourseCatalog">
           <div className="container">
             <div className="englishtaCourseCatalog__head wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
@@ -305,11 +311,6 @@ const CoursesPage = () => {
                           </span>
                           <strong>{course.name}</strong>
                           <span className="englishtaCourseCard__desc">{course.shortDescription}</span>
-                          <span className="englishtaCourseCard__bonus">
-                            {courseBonusPoints.map((point) => (
-                              <span key={point}>{point}</span>
-                            ))}
-                          </span>
                           <span className="englishtaCourseCard__meta">
                             <span>{formatCourseFees(course.price)}</span>
                             <span>{course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}</span>

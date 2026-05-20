@@ -33,6 +33,35 @@
   gap: 12px;
 }
 
+.englishtaUnifiedHeading,
+.englishtaCourseCatalog__head h1,
+.englishtaTrainingAreas__header h2,
+.englishtaHomeWebinar__head h2,
+.englishtaVideoShowcase__intro h2 {
+  color: #080b2b;
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.08;
+}
+
+.englishtaUnifiedHeading span,
+.englishtaCourseCatalog__head h1 span,
+.englishtaTrainingAreas__header h2 span,
+.englishtaHomeWebinar__head h2 span,
+.englishtaVideoShowcase__intro h2 span {
+  color: #ffad00;
+}
+
+.englishtaUnifiedHeading--light {
+  color: #fff !important;
+}
+
+.englishtaUnifiedHeading--light span,
+.englishtaVideoShowcase__intro h2 span {
+  color: #ffad00 !important;
+}
+
 .englishtaNavbar__leftLogo {
   align-items: center;
   display: inline-flex;
@@ -580,11 +609,6 @@
 
 .englishtaTrainingAreas__header h2 {
   margin: 18px 0 12px;
-  color: #0b0d2c;
-  font-size: clamp(42px, 5vw, 64px);
-  line-height: 1.04;
-  font-weight: 900;
-  letter-spacing: -0.04em;
 }
 
 .englishtaTrainingAreas__header h2 span {
@@ -991,7 +1015,7 @@
   }
 
   .englishtaTrainingAreas__header h2 {
-    font-size: 42px;
+    font-size: 38px;
   }
 
   .englishtaTrainingAreas__header > p:last-of-type {
@@ -1209,23 +1233,6 @@
   margin: 16px 0 22px;
 }
 
-.englishtaCourseCard__bonus {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 0 0 20px;
-}
-
-.englishtaCourseCard__bonus span {
-  background: #fff7df;
-  border: 1px solid rgba(254, 182, 12, 0.34);
-  border-radius: 999px;
-  color: #32260b;
-  font-size: 12px;
-  font-weight: 900;
-  padding: 7px 10px;
-}
-
 .englishtaCourseCard__meta {
   border-top: 1px solid rgba(15, 15, 15, 0.08);
   display: flex;
@@ -1363,6 +1370,10 @@
   background: #f8fafc;
 }
 
+.englishtaCoursesPage--catalog .englishtaCourseCatalog {
+  padding-top: 88px;
+}
+
 .englishtaCourseCatalog {
   background: #fff;
   min-height: 100vh;
@@ -1393,10 +1404,6 @@
 }
 
 .englishtaCourseCatalog__head h1 {
-  color: #070b1f;
-  font-size: clamp(36px, 4vw, 52px);
-  font-weight: 900;
-  line-height: 1;
   margin: 0;
   text-transform: uppercase;
 }
@@ -1809,6 +1816,880 @@
   height: 72px;
   margin-top: auto;
   width: 100%;
+}
+
+.englishtaHomeWebinar {
+  background: #fff;
+  padding: 112px 0 92px;
+}
+
+.englishtaHomeWebinar .container {
+  max-width: 1380px;
+}
+
+.englishtaHomeWebinar__head {
+  margin: 0 auto 52px;
+  text-align: center;
+}
+
+.englishtaHomeWebinar__head p {
+  align-items: center;
+  border: 1px solid #dfe4ee;
+  border-radius: 999px;
+  color: #ff7a00;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 900;
+  gap: 10px;
+  letter-spacing: 0.06em;
+  margin: 0 0 22px;
+  padding: 12px 24px;
+  text-transform: uppercase;
+}
+
+.englishtaHomeWebinar__head h2 {
+  margin: 0 0 18px;
+}
+
+.englishtaHomeWebinar__head > span {
+  color: #666c85;
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.englishtaHomeWebinar__head em {
+  display: inline-flex;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.englishtaHomeWebinar__head em::before,
+.englishtaHomeWebinar__head em::after {
+  background: #ff9d00;
+  content: "";
+  height: 2px;
+  width: 68px;
+}
+
+.englishtaHomeWebinar__card {
+  background: #fff;
+  border: 1px solid #dfe5f0;
+  border-radius: 14px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.08);
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(390px, 0.95fr);
+  overflow: hidden;
+}
+
+.englishtaHomeWebinar__visual {
+  background: #070f37;
+  min-height: 500px;
+  overflow: hidden;
+  position: relative;
+}
+
+.englishtaHomeWebinar__visual > img {
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  position: absolute;
+  width: 100%;
+}
+
+.englishtaHomeWebinar__visual::after {
+  background:
+    radial-gradient(circle at 72% 28%, rgba(112, 75, 255, 0.42), transparent 24%),
+    linear-gradient(90deg, rgba(3, 9, 42, 0.96), rgba(5, 14, 55, 0.72) 54%, rgba(5, 14, 55, 0.15));
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.englishtaHomeWebinar__visualOverlay {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  max-width: 520px;
+  padding: 52px 42px;
+  position: relative;
+  z-index: 1;
+}
+
+.englishtaHomeWebinar__live {
+  align-items: center;
+  align-self: flex-start;
+  background: #fff;
+  border-radius: 8px;
+  color: #ff1633;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 900;
+  gap: 9px;
+  margin-bottom: 32px;
+  padding: 11px 15px;
+  text-transform: uppercase;
+}
+
+.englishtaHomeWebinar__live i {
+  font-size: 10px;
+}
+
+.englishtaHomeWebinar__visualOverlay h3 {
+  color: #fff;
+  font-size: clamp(42px, 4vw, 58px);
+  font-weight: 900;
+  line-height: 1.06;
+  margin: 0 0 18px;
+}
+
+.englishtaHomeWebinar__visualOverlay p {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 21px;
+  line-height: 1.55;
+  margin: 0 0 28px;
+}
+
+.englishtaHomeWebinar__visualOverlay ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+}
+
+.englishtaHomeWebinar__visualOverlay li {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 800;
+  gap: 10px;
+  text-align: center;
+}
+
+.englishtaHomeWebinar__visualOverlay li i {
+  align-items: center;
+  background: #5932d7;
+  border-radius: 50%;
+  display: inline-flex;
+  font-size: 18px;
+  height: 48px;
+  justify-content: center;
+  width: 48px;
+}
+
+.englishtaHomeWebinar__schedule {
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 14px 22px;
+}
+
+.englishtaHomeWebinar__schedule span {
+  align-items: center;
+  color: #fff;
+  display: inline-flex;
+  font-size: 18px;
+  font-weight: 800;
+  gap: 10px;
+}
+
+.englishtaHomeWebinar__details {
+  background: #fff;
+  padding: 52px 46px 44px;
+}
+
+.englishtaHomeWebinar__host {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 38px;
+}
+
+.englishtaHomeWebinar__host > span,
+.englishtaHomeWebinar__points i {
+  align-items: center;
+  background: #f0edff;
+  border-radius: 50%;
+  color: #6c3bff;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 20px;
+  height: 54px;
+  justify-content: center;
+  width: 54px;
+}
+
+.englishtaHomeWebinar__host small {
+  color: #6c7285;
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.englishtaHomeWebinar__host strong {
+  color: #090d20;
+  display: block;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.englishtaHomeWebinar__host b {
+  background: #6539f5;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  margin-left: auto;
+  padding: 10px 14px;
+  text-transform: uppercase;
+}
+
+.englishtaHomeWebinar__details h3 {
+  border-bottom: 1px solid #dfe5f0;
+  color: #06091f;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 0 0 28px;
+  padding-bottom: 28px;
+}
+
+.englishtaHomeWebinar__points {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 34px;
+}
+
+.englishtaHomeWebinar__points > div {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+}
+
+.englishtaHomeWebinar__points strong {
+  color: #11162a;
+  display: block;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.englishtaHomeWebinar__points small {
+  color: #687085;
+  display: block;
+  font-size: 15px;
+  line-height: 1.45;
+  margin-top: 3px;
+}
+
+.englishtaHomeWebinar__button {
+  align-items: center;
+  background: linear-gradient(90deg, #ff7900, #ff9700);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 14px 26px rgba(255, 121, 0, 0.24);
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 18px;
+  font-weight: 900;
+  gap: 12px;
+  justify-content: center;
+  min-height: 58px;
+  text-decoration: none;
+  width: 100%;
+}
+
+.englishtaHomeWebinar__button:hover {
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.englishtaHomeWebinar__notice {
+  align-items: center;
+  border: 1px solid #dfe5f0;
+  border-radius: 10px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 22px 28px;
+}
+
+.englishtaHomeWebinar__notice span {
+  align-items: center;
+  color: #687085;
+  display: inline-flex;
+  flex-wrap: wrap;
+  font-size: 16px;
+  font-weight: 700;
+  gap: 10px;
+}
+
+.englishtaHomeWebinar__notice i,
+.englishtaHomeWebinar__notice strong {
+  color: #070b1f;
+  font-weight: 900;
+}
+
+.englishtaHomeWebinar__notice span:last-child strong {
+  color: #ff8500;
+}
+
+.englishtaAppPromo {
+  background: #fff;
+  padding: 24px 0 92px;
+}
+
+.englishtaAppPromo .container {
+  max-width: 1320px;
+}
+
+.englishtaAppPromo__panel {
+  background:
+    radial-gradient(circle at 46% 8%, rgba(255, 183, 36, 0.18) 0 18px, transparent 19px),
+    radial-gradient(circle at 44% 34%, rgba(255, 183, 36, 0.1) 0 68px, transparent 69px),
+    linear-gradient(115deg, #fffaf1 0%, #fff 50%, #fff8ec 100%);
+  border: 1px solid rgba(255, 183, 36, 0.16);
+  border-radius: 10px;
+  box-shadow: 0 24px 70px rgba(20, 23, 40, 0.08);
+  display: grid;
+  gap: 34px;
+  grid-template-columns: minmax(340px, 0.9fr) minmax(440px, 1.1fr);
+  overflow: hidden;
+  padding: 56px 64px 0;
+  position: relative;
+}
+
+.englishtaAppPromo__copy {
+  padding-bottom: 36px;
+  position: relative;
+  z-index: 2;
+}
+
+.englishtaAppPromo__badge {
+  background: #ffc04f;
+  border-radius: 8px;
+  color: #070b1f;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.2px;
+  margin-bottom: 22px;
+  padding: 10px 18px;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.englishtaAppPromo__badge::after {
+  background: #ffad00;
+  clip-path: polygon(50% 0, 100% 100%, 0 72%);
+  content: "";
+  height: 18px;
+  position: absolute;
+  right: -24px;
+  top: -13px;
+  transform: rotate(25deg);
+  width: 14px;
+}
+
+.englishtaAppPromo__copy h2 {
+  color: #080b2b;
+  font-size: clamp(34px, 3.6vw, 52px);
+  font-weight: 900;
+  line-height: 1.08;
+  margin: 0 0 16px;
+}
+
+.englishtaAppPromo__copy h2 span {
+  color: #ffad00;
+}
+
+.englishtaAppPromo__copy > p {
+  color: #5d6477;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.75;
+  margin: 0;
+  max-width: 520px;
+}
+
+.englishtaAppPromo__copy > p b,
+.englishtaAppPromo__copy > p strong {
+  color: #ffad00;
+}
+
+.englishtaAppPromo__features {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 38px 0 36px;
+  max-width: 560px;
+}
+
+.englishtaAppPromo__features div {
+  text-align: center;
+}
+
+.englishtaAppPromo__features i {
+  align-items: center;
+  background: #fff1d3;
+  border-radius: 50%;
+  color: #ffad00;
+  display: inline-flex;
+  font-size: 22px;
+  height: 64px;
+  justify-content: center;
+  margin-bottom: 13px;
+  width: 64px;
+}
+
+.englishtaAppPromo__features strong,
+.englishtaAppPromo__features small {
+  color: #11172b;
+  display: block;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.englishtaAppPromo__download {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(17, 23, 43, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 12px 34px rgba(20, 23, 40, 0.06);
+  display: flex;
+  gap: 22px;
+  max-width: 500px;
+  padding: 16px;
+}
+
+.englishtaAppPromo__qr {
+  background: #fff;
+  border: 8px solid #fff;
+  box-shadow: 0 0 0 1px rgba(17, 23, 43, 0.08);
+  display: grid;
+  flex: 0 0 auto;
+  gap: 3px;
+  grid-template-columns: repeat(7, 1fr);
+  height: 112px;
+  width: 112px;
+}
+
+.englishtaAppPromo__qr span {
+  background: #edf0f6;
+  border-radius: 1px;
+}
+
+.englishtaAppPromo__qr span.isFilled {
+  background: #070b1f;
+}
+
+.englishtaAppPromo__download strong {
+  color: #080b2b;
+  display: block;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.englishtaAppPromo__download p {
+  color: #5d6477;
+  font-size: 14px;
+  font-weight: 800;
+  margin: 5px 0 12px;
+}
+
+.englishtaAppPromo__stores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.englishtaAppPromo__stores button {
+  align-items: center;
+  background: #050816;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 8px;
+  min-height: 40px;
+  padding: 6px 12px;
+}
+
+.englishtaAppPromo__stores i {
+  font-size: 20px;
+}
+
+.englishtaAppPromo__stores span {
+  color: #fff;
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.englishtaAppPromo__stores b {
+  color: #fff;
+  display: block;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.englishtaAppPromo__visual {
+  min-height: 560px;
+  position: relative;
+}
+
+.englishtaAppPromo__circle {
+  background: #fff5df;
+  border-radius: 50%;
+  height: 270px;
+  left: 46%;
+  position: absolute;
+  top: 118px;
+  transform: translateX(-50%);
+  width: 270px;
+}
+
+.englishtaAppPromo__phone {
+  background: #090b13;
+  border: 7px solid #07090f;
+  border-radius: 42px;
+  box-shadow: 0 20px 46px rgba(11, 14, 26, 0.2);
+  overflow: hidden;
+  padding: 18px 16px;
+  position: absolute;
+}
+
+.englishtaAppPromo__phone::before {
+  background: #080a12;
+  border-radius: 0 0 14px 14px;
+  content: "";
+  height: 20px;
+  left: 50%;
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  width: 96px;
+  z-index: 2;
+}
+
+.englishtaAppPromo__phone--front {
+  background: #fff;
+  height: 520px;
+  left: 54px;
+  top: 0;
+  transform: rotate(-5deg);
+  width: 260px;
+  z-index: 3;
+}
+
+.englishtaAppPromo__phone--back {
+  background: #fff;
+  height: 452px;
+  right: 84px;
+  top: 68px;
+  transform: rotate(8deg);
+  width: 238px;
+  z-index: 2;
+}
+
+.englishtaAppPromo__phoneTop {
+  align-items: center;
+  color: #080b2b;
+  display: flex;
+  font-size: 10px;
+  font-weight: 900;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.englishtaAppPromo__appHeader {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.englishtaAppPromo__appHeader span {
+  background: #fff4dc;
+  border-radius: 50%;
+  display: inline-flex;
+  height: 26px;
+  overflow: hidden;
+  width: 26px;
+}
+
+.englishtaAppPromo__appHeader img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.englishtaAppPromo__appHeader strong,
+.englishtaAppPromo__phone h3 {
+  color: #080b2b;
+  font-weight: 900;
+}
+
+.englishtaAppPromo__appHeader i {
+  color: #080b2b;
+  margin-left: auto;
+}
+
+.englishtaAppPromo__phone h3 {
+  font-size: 18px;
+  margin: 0 0 4px;
+}
+
+.englishtaAppPromo__phone p {
+  color: #6a7185;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0 0 12px;
+}
+
+.englishtaAppPromo__liveCard {
+  align-items: stretch;
+  background: linear-gradient(135deg, #ffb000, #ff8c00);
+  border-radius: 12px;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 72px;
+  min-height: 112px;
+  overflow: hidden;
+  padding: 14px 0 0 14px;
+}
+
+.englishtaAppPromo__liveCard strong {
+  color: #080b2b;
+  display: block;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.englishtaAppPromo__liveCard small {
+  color: rgba(8, 11, 43, 0.76);
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.25;
+  margin: 5px 0 8px;
+}
+
+.englishtaAppPromo__liveCard button {
+  background: #080b2b;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 7px 10px;
+}
+
+.englishtaAppPromo__liveCard img {
+  align-self: end;
+  height: 100px;
+  object-fit: cover;
+  object-position: top center;
+  width: 72px;
+}
+
+.englishtaAppPromo__tiles {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 12px 0;
+}
+
+.englishtaAppPromo__tiles span,
+.englishtaAppPromo__progress,
+.englishtaAppPromo__courseMini {
+  background: #f6f7fb;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.englishtaAppPromo__tiles b,
+.englishtaAppPromo__progress strong,
+.englishtaAppPromo__courseMini strong {
+  color: #080b2b;
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.englishtaAppPromo__tiles i {
+  color: #ffad00;
+  display: block;
+  font-size: 24px;
+  margin-top: 12px;
+  text-align: right;
+}
+
+.englishtaAppPromo__progress small,
+.englishtaAppPromo__courseMini small,
+.englishtaAppPromo__courseMini em {
+  color: #6a7185;
+  display: block;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.englishtaAppPromo__progress em {
+  background: #e4e8f2;
+  border-radius: 999px;
+  display: block;
+  height: 7px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.englishtaAppPromo__progress em span {
+  background: #ffad00;
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+  width: 75%;
+}
+
+.englishtaAppPromo__tabs {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.englishtaAppPromo__tabs span {
+  background: #eef1f7;
+  border-radius: 999px;
+  color: #6a7185;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 7px 10px;
+}
+
+.englishtaAppPromo__tabs span:first-child {
+  background: #ffad00;
+  color: #fff;
+}
+
+.englishtaAppPromo__courseMini {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 42px;
+  margin-bottom: 12px;
+}
+
+.englishtaAppPromo__courseMini span {
+  align-items: center;
+  background: #ffedd0;
+  border-radius: 12px;
+  color: #ff9700;
+  display: inline-flex;
+  font-weight: 900;
+  height: 42px;
+  justify-content: center;
+  width: 42px;
+}
+
+.englishtaAppPromo__round {
+  align-items: center;
+  background: #0b1023;
+  border: 6px solid #f2e6d6;
+  border-radius: 50%;
+  box-shadow: 0 14px 30px rgba(11, 16, 35, 0.2);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 900;
+  height: 142px;
+  justify-content: center;
+  letter-spacing: 1px;
+  line-height: 1.05;
+  position: absolute;
+  right: 36px;
+  text-align: center;
+  text-transform: uppercase;
+  top: 32px;
+  width: 142px;
+  z-index: 4;
+}
+
+.englishtaAppPromo__round b {
+  color: #ffad00;
+  display: block;
+  font-size: 13px;
+}
+
+.englishtaAppPromo__benefits {
+  background: #070b1f;
+  border-radius: 8px;
+  bottom: 0;
+  box-shadow: 0 16px 40px rgba(7, 11, 31, 0.22);
+  display: grid;
+  gap: 0;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(5, 1fr);
+  margin-top: -24px;
+  overflow: hidden;
+  padding: 22px 22px;
+  position: relative;
+  z-index: 5;
+}
+
+.englishtaAppPromo__benefits div {
+  align-items: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  gap: 16px;
+  padding: 0 18px;
+}
+
+.englishtaAppPromo__benefits div:last-child {
+  border-right: 0;
+}
+
+.englishtaAppPromo__benefits i {
+  color: #ffad00;
+  flex: 0 0 auto;
+  font-size: 28px;
+}
+
+.englishtaAppPromo__benefits strong {
+  color: #fff;
+  display: block;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.englishtaAppPromo__benefits small {
+  color: rgba(255, 255, 255, 0.78);
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-top: 4px;
 }
 
 .englishtaCourseDetailHero {
@@ -3509,16 +4390,11 @@
 .englishtaVideoShowcase__intro h2 {
   margin: 0 0 24px;
   color: #fff;
-  font-size: clamp(42px, 4.2vw, 58px);
-  line-height: 1.1;
-  font-weight: 900;
-  letter-spacing: -0.03em;
   max-width: 430px;
 }
 
 .englishtaVideoShowcase__intro h2 span {
-  display: block;
-  color: #fff;
+  display: inline;
 }
 
 .englishtaVideoShowcase__intro p {
@@ -3931,7 +4807,7 @@
   }
 
   .englishtaVideoShowcase__intro h2 {
-    font-size: 46px;
+    font-size: 38px;
   }
 
   .englishtaVideoShowcase__intro p {
@@ -4040,6 +4916,61 @@
   .englishtaCourseModeTabs,
   .englishtaCourseCatalogGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .englishtaHomeWebinar__card {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaHomeWebinar__details {
+    padding: 38px 30px;
+  }
+
+  .englishtaHomeWebinar__notice {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .englishtaAppPromo__panel {
+    grid-template-columns: 1fr;
+    padding: 46px 34px 0;
+  }
+
+  .englishtaAppPromo__copy > p,
+  .englishtaAppPromo__download,
+  .englishtaAppPromo__features {
+    max-width: none;
+  }
+
+  .englishtaAppPromo__visual {
+    min-height: 560px;
+  }
+
+  .englishtaAppPromo__phone--front {
+    left: 12%;
+  }
+
+  .englishtaAppPromo__phone--back {
+    right: 10%;
+  }
+
+  .englishtaAppPromo__round {
+    right: 5%;
+  }
+
+  .englishtaAppPromo__benefits {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 0;
+  }
+
+  .englishtaAppPromo__benefits div {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    border-right: 0;
+    padding: 18px;
+  }
+
+  .englishtaAppPromo__benefits div:nth-last-child(-n + 1) {
+    border-bottom: 0;
   }
 
   .englishtaHeroShade {
@@ -4245,12 +5176,138 @@
   }
 
   .englishtaCourseCatalog__head h1 {
-    font-size: 34px;
+    font-size: 32px;
   }
 
   .englishtaCourseTile,
   .englishtaCourseBenefits {
     min-height: auto;
+  }
+
+  .englishtaHomeWebinar {
+    padding: 72px 0 58px;
+  }
+
+  .englishtaHomeWebinar__head h2 {
+    font-size: 32px;
+  }
+
+  .englishtaHomeWebinar__head > span {
+    font-size: 16px;
+  }
+
+  .englishtaHomeWebinar__visual {
+    min-height: 540px;
+  }
+
+  .englishtaHomeWebinar__visualOverlay {
+    padding: 34px 24px;
+  }
+
+  .englishtaHomeWebinar__visualOverlay h3 {
+    font-size: 36px;
+  }
+
+  .englishtaHomeWebinar__visualOverlay p {
+    font-size: 17px;
+  }
+
+  .englishtaHomeWebinar__details {
+    padding: 32px 22px;
+  }
+
+  .englishtaHomeWebinar__host {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .englishtaHomeWebinar__host b {
+    margin-left: 0;
+  }
+
+  .englishtaHomeWebinar__details h3 {
+    font-size: 28px;
+  }
+
+  .englishtaHomeWebinar__schedule {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .englishtaAppPromo {
+    padding: 10px 0 70px;
+  }
+
+  .englishtaAppPromo__panel {
+    border-radius: 0;
+    margin-left: -12px;
+    margin-right: -12px;
+    padding: 34px 20px 0;
+  }
+
+  .englishtaAppPromo__copy h2 {
+    font-size: 34px;
+  }
+
+  .englishtaAppPromo__copy > p {
+    font-size: 15px;
+  }
+
+  .englishtaAppPromo__features {
+    gap: 14px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .englishtaAppPromo__download {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .englishtaAppPromo__visual {
+    min-height: 520px;
+  }
+
+  .englishtaAppPromo__phone--front {
+    height: 462px;
+    left: 0;
+    top: 18px;
+    transform: rotate(-3deg) scale(0.88);
+    transform-origin: top left;
+    width: 252px;
+  }
+
+  .englishtaAppPromo__phone--back {
+    height: 410px;
+    right: -22px;
+    top: 72px;
+    transform: rotate(7deg) scale(0.78);
+    transform-origin: top right;
+    width: 232px;
+  }
+
+  .englishtaAppPromo__round {
+    font-size: 11px;
+    height: 104px;
+    right: 0;
+    top: 10px;
+    width: 104px;
+  }
+
+  .englishtaAppPromo__round b {
+    font-size: 10px;
+  }
+
+  .englishtaAppPromo__benefits {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .englishtaAppPromo__benefits div {
+    padding: 16px 10px;
+  }
+
+  .englishtaAppPromo__benefits div:nth-last-child(-n + 1) {
+    border-bottom: 0;
   }
 
   .englishtaHeroShade {

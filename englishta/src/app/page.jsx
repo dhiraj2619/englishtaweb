@@ -2115,6 +2115,10 @@ const pageHtml = normalizeInjectedHtml(rawPageHtml)
     "__ENGLISHTA_VIDEO_SECTION__",
   )
   .replace(
+    /<section>\s*<div class="td_height_112 td_height_lg_75"><\/div>\s*<div class="container">\s*<div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0\.2s">\s*<p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Event schedule<\/p>\s*<h2 class="td_section_title td_fs_48 mb-0">Upcoming Free English Webinar <br>Hosted by Englishta<\/h2>[\s\S]*?<\/section>/,
+    "__ENGLISHTA_WEBINAR_SECTION__",
+  )
+  .replace(
     /<section>\s*<div class="td_height_112 td_height_lg_75"><\/div>\s*<div class="container">\s*<div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">\s*<p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Departments<\/p>\s*<h2 class="td_section_title td_fs_48 mb-0">Popular Training Areas<\/h2>[\s\S]*?<\/section>/,
     "__ENGLISHTA_TRAINING_AREAS__",
   )
@@ -2122,6 +2126,9 @@ const pageHtml = normalizeInjectedHtml(rawPageHtml)
     /<section class="td_heading_bg td_hobble">[\s\S]*?<\/section>/,
     "__ENGLISHTA_TESTIMONIALS__",
   );
+
+const cleanLegacyHomeHtml = (html = "") =>
+  html.replace(/_*ENGLISHTA_[A-Z_]+_*/g, "");
 
 const Preloader = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -2163,7 +2170,7 @@ const HomeBanner = ({ isReady = false }) => {
         </h1>
         <div className="englishtaHeroShade__actions">
           <a href="/contact-us" className="englishtaHeroShade__cta englishtaHeroShade__cta--primary">
-            Join Free Demo Class
+            Start Your Journey
           </a>
           <a href="/courses" className="englishtaHeroShade__cta englishtaHeroShade__cta--secondary">
             Explore Courses
@@ -2242,14 +2249,6 @@ const homeDefaultLiveCourses = [
   ["One On One Live Batch", "Personal English coaching tailored to your goals."],
 ];
 
-const homeCourseBonusPoints = [
-  "Early Bird Offer",
-  "Free Speaking Club",
-  "Bonus PDFs",
-  "Interview Toolkit",
-  "WhatsApp Practice Group",
-];
-
 function normalizeHomeCourse(course) {
   const languages =
     Array.isArray(course.languages) && course.languages.length ? course.languages : ["marathi", "hindi", "english"];
@@ -2307,7 +2306,7 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
       <div className="container">
         <div className="englishtaCourseCatalog__head wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
           <p>Popular Courses</p>
-          <h1>Choose Your Course</h1>
+          <h1>Choose Your <span>Course</span></h1>
           <span aria-hidden="true" />
         </div>
 
@@ -2376,11 +2375,6 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                       </span>
                       <strong>{course.name}</strong>
                       <span className="englishtaCourseCard__desc">{course.shortDescription}</span>
-                      <span className="englishtaCourseCard__bonus">
-                        {homeCourseBonusPoints.map((point) => (
-                          <span key={point}>{point}</span>
-                        ))}
-                      </span>
                       <span className="englishtaCourseCard__meta">
                         <span>{formatHomeCourseFees(course.price)}</span>
                         <span>{course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}</span>
@@ -2569,8 +2563,7 @@ const VideoShowcase = ({ videos = [] }) => {
         <div className="englishtaVideoShowcase__intro wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
           <h2>
             Watch Real
-            <span>English Training</span>
-            <span>Sessions</span>
+            <span> English Training Sessions</span>
           </h2>
           <p>
             Watch practical Englishta lessons, demo classes, pronunciation tips, and speaking practice videos designed
@@ -2729,6 +2722,653 @@ const PopularTrainingAreas = () => {
   );
 };
 
+const fallbackHomeWebinar = {
+  title: "Online Demo Class for Spoken English",
+  description: "Join our expert-led free webinar and take a step towards confident communication.",
+  thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+  type: "Live",
+  dateTime: "",
+};
+
+const homeWebinarStandardOptions = [
+  "4th Standard",
+  "5th Standard",
+  "6th Standard",
+  "7th Standard",
+  "8th Standard",
+  "9th Standard",
+  "10th Standard",
+  "11th Standard",
+  "12th Standard",
+  "Diploma",
+  "Bachelor of Arts (BA)",
+  "Bachelor of Commerce (BCom)",
+  "Bachelor of Science (BSc)",
+  "Bachelor of Business Administration (BBA)",
+  "Bachelor of Computer Applications (BCA)",
+  "Bachelor of Engineering (BE)",
+  "Bachelor of Technology (BTech)",
+  "Bachelor of Education (BEd)",
+  "Bachelor of Pharmacy (BPharm)",
+  "Bachelor of Management Studies (BMS)",
+  "Master of Arts (MA)",
+  "Master of Commerce (MCom)",
+  "Master of Science (MSc)",
+  "Master of Business Administration (MBA)",
+  "Master of Computer Applications (MCA)",
+  "Master of Technology (MTech)",
+  "Master of Education (MEd)",
+  "Master of Pharmacy (MPharm)",
+];
+
+const homeWebinarPreferredLanguageOptions = [
+  ["english", "English"],
+  ["hindi", "Hindi"],
+  ["marathi", "Marathi"],
+];
+
+const HOME_WEBINAR_DISPLAY_COUNT_STARTED_AT = "2026-05-20T00:00:00+05:30";
+const HOME_WEBINAR_DISPLAY_COUNT_BASE = 120;
+const HOME_WEBINAR_DISPLAY_COUNT_STEP = 10;
+const HOME_WEBINAR_DISPLAY_COUNT_MAX = 500;
+
+function getHomeWebinarDisplayCount() {
+  const startedAt = new Date(HOME_WEBINAR_DISPLAY_COUNT_STARTED_AT).getTime();
+  const elapsedHours = Math.max(0, Math.floor((Date.now() - startedAt) / (60 * 60 * 1000)));
+  const displayCount = HOME_WEBINAR_DISPLAY_COUNT_BASE + elapsedHours * HOME_WEBINAR_DISPLAY_COUNT_STEP;
+
+  return Math.min(HOME_WEBINAR_DISPLAY_COUNT_MAX, Math.max(1, displayCount));
+}
+
+function formatHomeWebinarDate(dateTimeValue) {
+  const date = new Date(dateTimeValue);
+
+  if (!dateTimeValue || Number.isNaN(date.getTime())) {
+    return { date: "Coming Soon", time: "Live Online" };
+  }
+
+  return {
+    date: date.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }),
+    time: `${date.toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit", hour12: true })} (IST)`,
+  };
+}
+
+const HomeWebinarSection = ({ webinars = [] }) => {
+  const webinar = webinars.find((item) => item.type === "Live") || webinars[0] || fallbackHomeWebinar;
+  const schedule = formatHomeWebinarDate(webinar.dateTime);
+  const [displayRegisteredCount, setDisplayRegisteredCount] = useState(getHomeWebinarDisplayCount);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobile: "",
+    gender: "male",
+    occupation: "student",
+    preferredLanguage: "english",
+    standard: "",
+    city: "",
+    state: "",
+  });
+
+  useEffect(() => {
+    const updateDisplayCount = () => {
+      setDisplayRegisteredCount(getHomeWebinarDisplayCount());
+    };
+
+    updateDisplayCount();
+    const timerId = window.setInterval(updateDisplayCount, 60 * 1000);
+
+    return () => window.clearInterval(timerId);
+  }, []);
+
+  function openRegisterModal() {
+    setSubmitError("");
+    setIsModalOpen(true);
+  }
+
+  function closeRegisterModal() {
+    setIsModalOpen(false);
+    setSubmitError("");
+  }
+
+  function closeSuccessModal() {
+    setIsSuccessModalOpen(false);
+  }
+
+  function updateField(field, value) {
+    setForm((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  }
+
+  function handleOccupationChange(value) {
+    setForm((current) => ({
+      ...current,
+      occupation: value,
+      standard: value === "student" ? current.standard : "",
+    }));
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const response = await fetch("/api/webinar-registrations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...form,
+          webinarId: webinar._id ?? "",
+          webinarTitle: webinar.title || "Webinar Registration",
+        }),
+      });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to submit webinar registration.");
+      }
+
+      closeRegisterModal();
+      setIsSuccessModalOpen(true);
+      setForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        mobile: "",
+        gender: "male",
+        occupation: "student",
+        preferredLanguage: "english",
+        standard: "",
+        city: "",
+        state: "",
+      });
+    } catch (error) {
+      setSubmitError(error.message || "Failed to submit webinar registration.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+    <>
+      <section className="englishtaHomeWebinar">
+        <div className="container">
+          <div className="englishtaHomeWebinar__head wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
+            <p>
+              <i className="fa-regular fa-calendar" />
+              Event Schedule
+            </p>
+            <h2>Upcoming Free <span>English Webinar</span></h2>
+            <span>Join our expert-led free webinar and take a step towards confident communication.</span>
+            <em aria-hidden="true" />
+          </div>
+
+          <div className="englishtaHomeWebinar__card wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.18s">
+            <div className="englishtaHomeWebinar__visual">
+              <img src={webinar.thumbnail || fallbackHomeWebinar.thumbnail} alt={webinar.title} />
+              <div className="englishtaHomeWebinar__visualOverlay">
+                <span className="englishtaHomeWebinar__live">
+                  <i className="fa-solid fa-circle" />
+                  {webinar.type || "Live"} Webinar
+                </span>
+                <h3>{webinar.title}</h3>
+                <p>{webinar.description}</p>
+                <ul>
+                  <li>
+                    <i className="fa-regular fa-user" />
+                    Expert Trainer
+                  </li>
+                  <li>
+                    <i className="fa-regular fa-comments" />
+                    Live Interaction
+                  </li>
+                  <li>
+                    <i className="fa-regular fa-circle-question" />
+                    Q&A Session
+                  </li>
+                </ul>
+                <div className="englishtaHomeWebinar__schedule">
+                  <span>
+                    <i className="fa-regular fa-calendar-days" />
+                    {schedule.date}
+                  </span>
+                  <span>
+                    <i className="fa-regular fa-clock" />
+                    {schedule.time}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <aside className="englishtaHomeWebinar__details">
+              <div className="englishtaHomeWebinar__host">
+                <span>
+                  <i className="fa-solid fa-users" />
+                </span>
+                <div>
+                  <small>Hosted by</small>
+                  <strong>Englishta</strong>
+                </div>
+                <b>100% Free</b>
+              </div>
+
+              <h3>{webinar.title}</h3>
+
+              <div className="englishtaHomeWebinar__points">
+                <div>
+                  <i className="fa-solid fa-desktop" />
+                  <span>
+                    <strong>Live Online Learning</strong>
+                    <small>Learn from the comfort of your home</small>
+                  </span>
+                </div>
+                <div>
+                  <i className="fa-regular fa-user" />
+                  <span>
+                    <strong>Interactive Session</strong>
+                    <small>Ask questions and get real-time answers</small>
+                  </span>
+                </div>
+                <div>
+                  <i className="fa-solid fa-gift" />
+                  <span>
+                    <strong>Free Learning Resources</strong>
+                    <small>Get useful PDFs and practice materials</small>
+                  </span>
+                </div>
+              </div>
+
+              <button type="button" className="englishtaHomeWebinar__button" onClick={openRegisterModal}>
+                <i className="fa-regular fa-calendar" />
+                Register Now - It&apos;s Free!
+              </button>
+            </aside>
+          </div>
+
+          <div className="englishtaHomeWebinar__notice wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+            <span>
+              <i className="fa-regular fa-clock" />
+              <strong>Don&apos;t Miss Out!</strong>
+              Spots are limited. Register now and secure your seat.
+            </span>
+            <span>
+              Join <strong>{displayRegisteredCount.toLocaleString("en-IN")}+</strong> learners already registered
+            </span>
+          </div>
+        </div>
+      </section>
+      {isModalOpen ? (
+        <div className="englishtaWebinarModal" onClick={closeRegisterModal}>
+          <div
+            className="englishtaWebinarModal__dialog"
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="home-webinar-register-title"
+          >
+            <button type="button" className="englishtaWebinarModal__close" onClick={closeRegisterModal}>
+              <i className="fa-solid fa-xmark" />
+            </button>
+            <div className="englishtaWebinarModal__head">
+              <p>{webinar.title || "Webinar Registration"}</p>
+              <h2 id="home-webinar-register-title">Register Now</h2>
+            </div>
+
+            <form className="englishtaWebinarModal__form" onSubmit={handleSubmit}>
+              <div className="englishtaWebinarModal__grid">
+                <label>
+                  <span>First Name</span>
+                  <input
+                    type="text"
+                    value={form.firstName}
+                    onChange={(event) => updateField("firstName", event.target.value)}
+                    required
+                  />
+                </label>
+                <label>
+                  <span>Last Name</span>
+                  <input
+                    type="text"
+                    value={form.lastName}
+                    onChange={(event) => updateField("lastName", event.target.value)}
+                    required
+                  />
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(event) => updateField("email", event.target.value)}
+                    required
+                  />
+                </label>
+                <label>
+                  <span>Mobile</span>
+                  <input
+                    type="tel"
+                    value={form.mobile}
+                    onChange={(event) => updateField("mobile", event.target.value)}
+                    required
+                  />
+                </label>
+              </div>
+
+              <div className="englishtaWebinarModal__group">
+                <span>Gender</span>
+                <div className="englishtaWebinarModal__choices">
+                  <label>
+                    <input
+                      type="radio"
+                      name="homeWebinarGender"
+                      value="male"
+                      checked={form.gender === "male"}
+                      onChange={(event) => updateField("gender", event.target.value)}
+                    />
+                    <span>Male</span>
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="homeWebinarGender"
+                      value="female"
+                      checked={form.gender === "female"}
+                      onChange={(event) => updateField("gender", event.target.value)}
+                    />
+                    <span>Female</span>
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="homeWebinarGender"
+                      value="other"
+                      checked={form.gender === "other"}
+                      onChange={(event) => updateField("gender", event.target.value)}
+                    />
+                    <span>Other</span>
+                  </label>
+                </div>
+              </div>
+
+              <label className="englishtaWebinarModal__full">
+                <span>Occupation</span>
+                <select value={form.occupation} onChange={(event) => handleOccupationChange(event.target.value)}>
+                  <option value="student">Student</option>
+                  <option value="employed">Employed</option>
+                </select>
+              </label>
+
+              <label className="englishtaWebinarModal__full">
+                <span>Preferred Session Language</span>
+                <select
+                  value={form.preferredLanguage}
+                  onChange={(event) => updateField("preferredLanguage", event.target.value)}
+                  required
+                >
+                  {homeWebinarPreferredLanguageOptions.map(([value, label]) => (
+                    <option value={value} key={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              {form.occupation === "student" ? (
+                <label className="englishtaWebinarModal__full">
+                  <span>Standard</span>
+                  <select
+                    value={form.standard}
+                    onChange={(event) => updateField("standard", event.target.value)}
+                    required
+                  >
+                    <option value="">Select standard</option>
+                    {homeWebinarStandardOptions.map((option) => (
+                      <option value={option} key={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+
+              <div className="englishtaWebinarModal__grid">
+                <label>
+                  <span>City</span>
+                  <input
+                    type="text"
+                    value={form.city}
+                    onChange={(event) => updateField("city", event.target.value)}
+                    required
+                  />
+                </label>
+                <label>
+                  <span>State</span>
+                  <input
+                    type="text"
+                    value={form.state}
+                    onChange={(event) => updateField("state", event.target.value)}
+                    required
+                  />
+                </label>
+              </div>
+
+              {submitError ? <p className="englishtaWebinarModal__feedback error">{submitError}</p> : null}
+
+              <button type="submit" className="englishtaWebinarModal__submit">
+                {isSubmitting ? "Submitting..." : "Submit"}
+                <i className="fa-solid fa-arrow-right" />
+              </button>
+            </form>
+          </div>
+        </div>
+      ) : null}
+      {isSuccessModalOpen ? (
+        <div className="englishtaWebinarModal" onClick={closeSuccessModal}>
+          <div
+            className="englishtaWebinarModal__dialog englishtaWebinarModal__dialog--success"
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="home-webinar-success-title"
+          >
+            <button type="button" className="englishtaWebinarModal__close" onClick={closeSuccessModal}>
+              <i className="fa-solid fa-xmark" />
+            </button>
+            <div className="englishtaWebinarModal__successIcon">
+              <i className="fa-solid fa-check" />
+            </div>
+            <div className="englishtaWebinarModal__head englishtaWebinarModal__head--success">
+              <p>Registration Submitted</p>
+              <h2 id="home-webinar-success-title">Thank you for your response</h2>
+            </div>
+            <p className="englishtaWebinarModal__successText">
+              We have received your webinar registration successfully.
+            </p>
+            <button type="button" className="englishtaWebinarModal__submit" onClick={closeSuccessModal}>
+              Close
+              <i className="fa-solid fa-arrow-right" />
+            </button>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+};
+
+const appPromoFeatures = [
+  ["fa-solid fa-book", "Live & Interactive", "Classes"],
+  ["fa-solid fa-headphones-simple", "Recorded", "Lessons"],
+  ["fa-solid fa-chart-simple", "Track Your", "Progress"],
+  ["fa-solid fa-comments", "Speak, Practice", "& Improve"],
+];
+
+const appPromoBenefits = [
+  ["fa-solid fa-mobile-screen-button", "User Friendly", "Easy to use anytime, anywhere"],
+  ["fa-solid fa-shield-halved", "Secure & Reliable", "Your data is safe with us"],
+  ["fa-regular fa-bell", "Smart Reminders", "Never miss a class or practice session"],
+  ["fa-solid fa-award", "Expert Trainers", "Learn from experienced and friendly trainers"],
+  ["fa-solid fa-users", "Community Support", "Be a part of a community that motivates you"],
+];
+
+const appPromoCourses = [
+  ["Beginners - Promise Batch", "Live", "78% Complete"],
+  ["Spoken English Course", "Recorded", "60% Complete"],
+  ["Interview Skills Mastery", "Live", "45% Complete"],
+];
+
+const appPromoQrCells = Array.from({ length: 49 }, (_, index) =>
+  [0, 1, 2, 4, 5, 6, 7, 9, 13, 14, 16, 18, 20, 21, 23, 24, 26, 28, 30, 31, 34, 35, 37, 40, 42, 43, 44, 46, 47, 48].includes(index),
+);
+
+const MobileAppPromo = () => (
+  <section className="englishtaAppPromo">
+    <div className="container">
+      <div className="englishtaAppPromo__panel wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
+        <div className="englishtaAppPromo__copy">
+          <span className="englishtaAppPromo__badge">New App</span>
+          <h2>
+            Learn English Anytime,
+            <span> Anywhere!</span>
+          </h2>
+          <p>
+            Englishta&apos;s new app is your personal English learning companion. Practice speaking,
+            improve fluency, and build confidence - all in one place.
+          </p>
+
+          <div className="englishtaAppPromo__features">
+            {appPromoFeatures.map(([icon, title, text]) => (
+              <div key={title}>
+                <i className={icon} />
+                <strong>{title}</strong>
+                <small>{text}</small>
+              </div>
+            ))}
+          </div>
+
+          <div className="englishtaAppPromo__download">
+            <div className="englishtaAppPromo__qr" aria-label="App download QR preview">
+              {appPromoQrCells.map((isFilled, index) => (
+                <span className={isFilled ? "isFilled" : ""} key={index} />
+              ))}
+            </div>
+            <div>
+              <strong>Scan to Download</strong>
+              <p>Get the Englishta app now</p>
+              <div className="englishtaAppPromo__stores">
+                <button type="button">
+                  <i className="fa-brands fa-google-play" />
+                  <span>
+                    Get it on
+                    <b>Google Play</b>
+                  </span>
+                </button>
+                <button type="button">
+                  <i className="fa-brands fa-apple" />
+                  <span>
+                    Download on the
+                    <b>App Store</b>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="englishtaAppPromo__visual" aria-label="Englishta app preview">
+          <div className="englishtaAppPromo__circle" />
+          <div className="englishtaAppPromo__phone englishtaAppPromo__phone--front">
+            <div className="englishtaAppPromo__phoneTop">
+              <span>9:41</span>
+              <i className="fa-solid fa-wifi" />
+            </div>
+            <div className="englishtaAppPromo__appHeader">
+              <span><img src="/assets/images/aboutenglishta.png" alt="" /></span>
+              <strong>Englishta</strong>
+              <i className="fa-regular fa-bell" />
+            </div>
+            <h3>Hi, Learner!</h3>
+            <p>Let&apos;s continue your English journey.</p>
+            <div className="englishtaAppPromo__liveCard">
+              <div>
+                <strong>Live Class</strong>
+                <small>Join live sessions with expert trainers</small>
+                <button type="button">Join Now</button>
+              </div>
+              <img src="/assets/images/raajshlke.png" alt="" />
+            </div>
+            <div className="englishtaAppPromo__tiles">
+              <span>
+                <b>Speak Practice</b>
+                <i className="fa-solid fa-microphone" />
+              </span>
+              <span>
+                <b>Vocabulary</b>
+                <i className="fa-solid fa-book-open" />
+              </span>
+            </div>
+            <div className="englishtaAppPromo__progress">
+              <strong>Your Progress</strong>
+              <small>Keep going! You&apos;re doing great.</small>
+              <em><span /></em>
+            </div>
+          </div>
+
+          <div className="englishtaAppPromo__phone englishtaAppPromo__phone--back">
+            <div className="englishtaAppPromo__phoneTop">
+              <span>9:41</span>
+              <i className="fa-solid fa-signal" />
+            </div>
+            <h3>Courses</h3>
+            <div className="englishtaAppPromo__tabs">
+              <span>All</span>
+              <span>Live</span>
+              <span>Recorded</span>
+            </div>
+            {appPromoCourses.map(([title, tag, progress], index) => (
+              <div className="englishtaAppPromo__courseMini" key={title}>
+                <div>
+                  <strong>{title}</strong>
+                  <small>{tag}</small>
+                  <em>{progress}</em>
+                </div>
+                <span>{index + 1}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="englishtaAppPromo__round">
+            Learn.
+            <span>Practice.</span>
+            Speak.
+            <b>Confidently!</b>
+          </div>
+        </div>
+
+        <div className="englishtaAppPromo__benefits">
+          {appPromoBenefits.map(([icon, title, text]) => (
+            <div key={title}>
+              <i className={icon} />
+              <span>
+                <strong>{title}</strong>
+                <small>{text}</small>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
 const TestimonialsShowcase = ({ testimonials = [] }) => {
   const visibleTestimonials = testimonials.length
     ? testimonials.filter((item) => item.visible !== "No").slice(0, 6)
@@ -2752,7 +3392,9 @@ const TestimonialsShowcase = ({ testimonials = [] }) => {
       <div className="td_height_112 td_height_lg_75"></div>
       <div className="container">
         <div className="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-          <h2 className="td_section_title td_fs_48 mb-0 td_white_color">Start Speaking English With Us</h2>
+          <h2 className="td_section_title td_fs_48 mb-0 td_white_color englishtaUnifiedHeading englishtaUnifiedHeading--light">
+            Start Speaking <span>English With Us</span>
+          </h2>
           <p className="td_section_subtitle td_fs_18 mb-0 td_white_color td_opacity_7">
             Join Englishta online classes from anywhere and build fluency through
             <br />
@@ -2831,6 +3473,7 @@ const TestimonialsShowcase = ({ testimonials = [] }) => {
 const Home = () => {
   const [youtubeVideos, setYoutubeVideos] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
+  const [webinars, setWebinars] = useState([]);
   const [courses, setCourses] = useState([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
   const [coursesError, setCoursesError] = useState("");
@@ -2841,24 +3484,29 @@ const Home = () => {
   const {
     beforeCourseCatalog,
     betweenCourseCatalogAndAnywhere,
-    betweenAnywhereAndVideos,
-    betweenSections,
+    betweenAnywhereAndTraining,
+    betweenTrainingAndVideos,
+    betweenVideosAndWebinar,
+    betweenWebinarAndTestimonials,
     beforeTestimonials,
     afterTestimonials,
   } = useMemo(() => {
     const [beforeCourse = "", afterCourse = ""] = pageHtml.split("__ENGLISHTA_COURSE_CATALOG__");
     const [beforeAnywhere = "", afterAnywhere = ""] = afterCourse.split("__ENGLISHTA_ANYWHERE_SECTION__");
-    const [afterAnywhereBeforeVideo = "", afterVideo = ""] = afterAnywhere.split("__ENGLISHTA_VIDEO_SECTION__");
-    const [between = "", afterTraining = ""] = afterVideo.split("__ENGLISHTA_TRAINING_AREAS__");
-    const [beforeCustomTestimonials = "", afterCustomTestimonials = ""] = afterTraining.split("__ENGLISHTA_TESTIMONIALS__");
+    const [afterAnywhereBeforeTraining = "", afterTraining = ""] = afterAnywhere.split("__ENGLISHTA_TRAINING_AREAS__");
+    const [afterTrainingBeforeVideo = "", afterVideo = ""] = afterTraining.split("__ENGLISHTA_VIDEO_SECTION__");
+    const [afterVideoBeforeWebinar = "", afterWebinar = ""] = afterVideo.split("__ENGLISHTA_WEBINAR_SECTION__");
+    const [afterWebinarBeforeTestimonials = "", afterTestimonialsSection = ""] = afterWebinar.split("__ENGLISHTA_TESTIMONIALS__");
 
     return {
       beforeCourseCatalog: beforeCourse,
       betweenCourseCatalogAndAnywhere: beforeAnywhere,
-      betweenAnywhereAndVideos: afterAnywhereBeforeVideo,
-      betweenSections: between,
-      beforeTestimonials: beforeCustomTestimonials,
-      afterTestimonials: afterCustomTestimonials,
+      betweenAnywhereAndTraining: afterAnywhereBeforeTraining,
+      betweenTrainingAndVideos: afterTrainingBeforeVideo,
+      betweenVideosAndWebinar: afterVideoBeforeWebinar,
+      betweenWebinarAndTestimonials: afterWebinarBeforeTestimonials,
+      beforeTestimonials: "",
+      afterTestimonials: afterTestimonialsSection,
     };
   }, []);
 
@@ -2875,6 +3523,19 @@ const Home = () => {
       .catch(() => {
         if (isMounted) {
           setYoutubeVideos([]);
+        }
+      });
+
+    fetch("/api/webinars", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((payload) => {
+        if (isMounted && payload.success) {
+          setWebinars(payload.data ?? []);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setWebinars([]);
         }
       });
 
@@ -2925,17 +3586,21 @@ const Home = () => {
       <Preloader onComplete={handlePreloaderComplete} />
       <Navbar />
       <HomeBanner isReady={isHeroReady} />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: beforeCourseCatalog }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeCourseCatalog) }} />
       <HomeCourseCatalog courses={courses} loading={coursesLoading} error={coursesError} />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: betweenCourseCatalogAndAnywhere }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenCourseCatalogAndAnywhere) }} />
       <LearningAnywhereSection />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: betweenAnywhereAndVideos }} />
-      <VideoShowcase videos={youtubeVideos} />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: betweenSections }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenAnywhereAndTraining) }} />
       <PopularTrainingAreas />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: beforeTestimonials }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenTrainingAndVideos) }} />
+      <VideoShowcase videos={youtubeVideos} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenVideosAndWebinar) }} />
+      <HomeWebinarSection webinars={webinars} />
+      <MobileAppPromo />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenWebinarAndTestimonials) }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeTestimonials) }} />
       <TestimonialsShowcase testimonials={testimonials} />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: afterTestimonials }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(afterTestimonials) }} />
       <Footer />
     </>
   );
