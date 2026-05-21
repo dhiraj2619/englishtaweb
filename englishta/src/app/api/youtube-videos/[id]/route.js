@@ -7,6 +7,22 @@ import YoutubeVideo from "@/models/YoutubeVideo";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+function validateYoutubeVideoPayload(payload) {
+  if (!payload.title?.trim() || !payload.youtubeIframe?.trim()) {
+    return "Title and YouTube iframe are required.";
+  }
+
+  return null;
+}
+
+function normalizeYoutubeVideoPayload(payload) {
+  return {
+    title: payload.title?.trim() || "",
+    youtubeIframe: payload.youtubeIframe?.trim() || "",
+    visible: payload.visible === "No" ? "No" : "Yes",
+  };
+}
+
 export async function GET(_request, { params }) {
   try {
     const { id } = await params;
@@ -34,7 +50,13 @@ export async function PUT(request, { params }) {
     await requireAdminAccess();
     await connectToDatabase();
     const body = await request.json();
-    const video = await YoutubeVideo.findByIdAndUpdate(id, body, {
+    const errorMessage = validateYoutubeVideoPayload(body);
+
+    if (errorMessage) {
+      return NextResponse.json({ success: false, message: errorMessage }, { status: 400 });
+    }
+
+    const video = await YoutubeVideo.findByIdAndUpdate(id, normalizeYoutubeVideoPayload(body), {
       new: true,
       runValidators: true,
     }).lean();
@@ -49,7 +71,7 @@ export async function PUT(request, { params }) {
     console.error("Failed to update YouTube video:", error);
 
     return NextResponse.json(
-      { success: false, message: "Failed to update YouTube video.", error: error.message },
+      { success: false, message: error.message || "Failed to update YouTube video.", error: error.message },
       { status },
     );
   }

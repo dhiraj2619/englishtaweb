@@ -319,10 +319,11 @@ const CourseDetailPage = () => {
                 <aside className="englishtaCourseDetailCard wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
                   <h3>Ready to start?</h3>
                   <p>Tell us your goal and we will suggest the right English practice plan.</p>
-                  <button type="button" onClick={openJoinModal}>Register Now</button>
+                  <button type="button" onClick={openJoinModal}>Enroll Now</button>
                   <span>Flexible online batches available</span>
                 </aside>
               </div>
+              
             </section>
           </>
         ) : null}

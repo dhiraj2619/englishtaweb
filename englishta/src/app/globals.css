@@ -1124,9 +1124,290 @@
   color: #fff;
 }
 
+.englishtaWhatsAppReviews__nav {
+  position: absolute;
+  top: 112px;
+  right: 42px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: #fff;
+  font-weight: 800;
+}
+
+.englishtaWhatsAppReviews__nav button {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(255, 177, 0, 0.56);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.englishtaWhatsAppReviews__nav button:hover {
+  border-color: #ff8a00;
+  background: rgba(255, 138, 0, 0.16);
+  transform: translateY(-2px);
+}
+
+.englishtaWhatsAppReviews__grid {
+  display: grid;
+  grid-template-columns: 1.24fr 1fr 1.1fr 1fr 0.92fr 0.86fr;
+  align-items: end;
+  gap: 24px;
+  margin: 34px auto 0;
+  max-width: 1420px;
+}
+
+.englishtaWhatsAppReviews__card {
+  position: relative;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid rgba(255, 138, 0, 0.58);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 138, 0, 0.16), rgba(255, 138, 0, 0.04)),
+    rgba(13, 10, 8, 0.72);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 22px rgba(255, 138, 0, 0.16);
+  transform-origin: bottom center;
+}
+
+.englishtaWhatsAppReviews__card--1 {
+  transform: rotate(-5deg);
+}
+
+.englishtaWhatsAppReviews__card--2 {
+  transform: rotate(3deg) translateY(-2px);
+}
+
+.englishtaWhatsAppReviews__card--3 {
+  transform: rotate(1.5deg) translateY(-8px);
+}
+
+.englishtaWhatsAppReviews__card--4 {
+  transform: rotate(-3deg) translateY(8px);
+}
+
+.englishtaWhatsAppReviews__card--5 {
+  transform: rotate(4deg) translateY(18px);
+}
+
+.englishtaWhatsAppReviews__card--6 {
+  transform: rotate(5deg) translateY(26px);
+}
+
+.englishtaWhatsAppReviews__card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: 12px;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.englishtaWhatsAppReviews__imageButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.englishtaWhatsAppReviews__imageButton img {
+  transition:
+    filter 0.2s ease,
+    transform 0.2s ease;
+}
+
+.englishtaWhatsAppReviews__imageButton:hover img {
+  filter: brightness(1.08);
+  transform: scale(1.025);
+}
+
+.englishtaWhatsAppReviews__badge {
+  position: absolute;
+  top: -21px;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 3px solid rgba(199, 255, 218, 0.72);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: #fff;
+  font-size: 21px;
+  box-shadow: 0 10px 26px rgba(37, 211, 102, 0.32);
+  transform: translateX(-50%);
+}
+
+.englishtaWhatsAppReviews__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 850px;
+  min-height: 92px;
+  margin: 54px auto 0;
+  padding: 18px 26px;
+  border: 1px solid rgba(255, 138, 0, 0.38);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 0% 50%, rgba(255, 138, 0, 0.18), transparent 28%),
+    rgba(255, 255, 255, 0.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 22px 58px rgba(0, 0, 0, 0.28);
+}
+
+.englishtaWhatsAppReviews__footer > div {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+  color: #fff;
+}
+
+.englishtaWhatsAppReviews__footer > div > i {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(255, 138, 0, 0.18);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 138, 0, 0.62);
+}
+
+.englishtaWhatsAppReviews__footer strong,
+.englishtaWhatsAppReviews__footer small {
+  display: block;
+}
+
+.englishtaWhatsAppReviews__footer strong {
+  color: #fff;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.englishtaWhatsAppReviews__footer small {
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+}
+
+.englishtaWhatsAppReviews__footer a {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 34px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ff9100, #ff6414);
+  color: #fff;
+  font-weight: 900;
+  box-shadow: 0 16px 34px rgba(255, 100, 20, 0.24);
+}
+
+.englishtaWhatsAppReviewsModal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 138, 0, 0.14), transparent 34%),
+    rgba(3, 1, 2, 0.82);
+  backdrop-filter: blur(9px);
+}
+
+.englishtaWhatsAppReviewsModal__dialog {
+  position: relative;
+  width: min(430px, 92vw);
+  max-height: min(88vh, 860px);
+  padding: 12px;
+  border: 1px solid rgba(255, 177, 0, 0.52);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 138, 0, 0.15), rgba(255, 255, 255, 0.04)),
+    #100407;
+  box-shadow:
+    0 38px 110px rgba(0, 0, 0, 0.66),
+    0 0 54px rgba(255, 138, 0, 0.22);
+  animation: englishtaReviewFocusIn 0.18s ease-out both;
+}
+
+.englishtaWhatsAppReviewsModal__dialog img {
+  display: block;
+  width: 100%;
+  max-height: calc(88vh - 24px);
+  border-radius: 15px;
+  object-fit: contain;
+  background: #fff;
+}
+
+.englishtaWhatsAppReviewsModal__close {
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.34);
+}
+
+@keyframes englishtaReviewFocusIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @media (max-width: 1199px) {
   .englishtaTrainingAreas__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .englishtaWhatsAppReviews__nav {
+    position: static;
+    justify-content: center;
+    margin: 0 auto 18px;
+  }
+
+  .englishtaWhatsAppReviews__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 780px;
+  }
+
+  .englishtaWhatsAppReviews__card {
+    transform: none;
   }
 }
 
@@ -1154,6 +1435,34 @@
 
   .englishtaTrainingAreas__card {
     padding: 24px 18px 22px;
+  }
+
+  .englishtaWhatsAppReviews__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .englishtaWhatsAppReviews__nav button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .englishtaWhatsAppReviews__footer {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 18px;
+    text-align: left;
+  }
+
+  .englishtaWhatsAppReviews__footer a {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .englishtaWhatsAppReviews__grid {
+    grid-template-columns: 1fr;
+    max-width: 280px;
   }
 }
 
@@ -1371,16 +1680,16 @@
 .englishtaCourseCard__meta span {
   color: #16120b;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .englishtaCourseCard__action {
   align-items: center;
   color: #111;
   display: inline-flex;
-  font-weight: 900;
+  font-weight: 700;
   gap: 10px;
-  margin-top: 22px;
+  margin-top: 14px;
 }
 
 .englishtaCourseCard--loading {

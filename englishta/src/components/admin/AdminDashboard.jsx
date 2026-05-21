@@ -11,6 +11,7 @@ const modules = [
   { key: "webinarLeads", label: "Webinar Leads", description: "Auto-captured webinar registrations from the website." },
   { key: "courseLeads", label: "Course Leads", description: "Auto-captured course enquiries and demo requests from the website." },
   { key: "testimonials", label: "Testimonials", description: "Manage student reviews shown on the website." },
+  { key: "whatsappReviews", label: "WhatsApp Review", description: "Upload WhatsApp review screenshots shown on the website." },
   { key: "videos", label: "Videos", description: "Add YouTube learning and demo videos." },
   { key: "webinars", label: "Webinars", description: "Manage live and recorded webinar sessions." },
 ];
@@ -42,6 +43,11 @@ const emptyForms = {
     course: "",
     rating: "5",
     review: "",
+    visible: "Yes",
+  },
+  whatsappReviews: {
+    image: "",
+    displayOrder: "1",
     visible: "Yes",
   },
   videos: {
@@ -90,6 +96,7 @@ const starterData = {
       visible: "Yes",
     },
   ],
+  whatsappReviews: [],
   videos: [
     {
       _id: "video-1",
@@ -147,6 +154,11 @@ const columns = {
     ["course", "Course"],
     ["rating", "Rating"],
     ["review", "Review"],
+    ["visible", "Visible"],
+  ],
+  whatsappReviews: [
+    ["image", "Image"],
+    ["displayOrder", "Order"],
     ["visible", "Visible"],
   ],
   videos: [
@@ -215,6 +227,8 @@ export default function AdminDashboard() {
   const [videosError, setVideosError] = useState("");
   const [testimonialsLoading, setTestimonialsLoading] = useState(false);
   const [testimonialsError, setTestimonialsError] = useState("");
+  const [whatsappReviewsLoading, setWhatsappReviewsLoading] = useState(false);
+  const [whatsappReviewsError, setWhatsappReviewsError] = useState("");
   const [webinarsLoading, setWebinarsLoading] = useState(false);
   const [webinarsError, setWebinarsError] = useState("");
   const [webinarLeadsLoading, setWebinarLeadsLoading] = useState(false);
@@ -247,12 +261,17 @@ export default function AdminDashboard() {
         count: dashboardStats?.webinarRegistrationCount ?? 0,
       },
       {
+        key: "whatsAppReviewCount",
+        label: "WhatsApp Reviews",
+        count: dashboardStats?.whatsAppReviewCount ?? data.whatsappReviews?.length ?? 0,
+      },
+      {
         key: "courseEnrollmentCount",
         label: "Course Enrollments",
         count: dashboardStats?.courseEnrollmentCount ?? 0,
       },
     ],
-    [dashboardStats, data.courses?.length, data.webinars?.length],
+    [dashboardStats, data.courses?.length, data.webinars?.length, data.whatsappReviews?.length],
   );
 
   function updateField(field, value) {
@@ -270,6 +289,7 @@ export default function AdminDashboard() {
     setThumbnailUploadError("");
     setVideosError("");
     setTestimonialsError("");
+    setWhatsappReviewsError("");
     setWebinarsError("");
     setWebinarLeadsError("");
     setCourseLeadsError("");
@@ -341,6 +361,29 @@ export default function AdminDashboard() {
       setTestimonialsError(error.message || "Failed to load testimonials.");
     } finally {
       setTestimonialsLoading(false);
+    }
+  }
+
+  async function fetchWhatsappReviews() {
+    setWhatsappReviewsLoading(true);
+    setWhatsappReviewsError("");
+
+    try {
+      const response = await fetch("/api/whatsapp-reviews", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load WhatsApp reviews.");
+      }
+
+      setData((current) => ({
+        ...current,
+        whatsappReviews: payload.data,
+      }));
+    } catch (error) {
+      setWhatsappReviewsError(error.message || "Failed to load WhatsApp reviews.");
+    } finally {
+      setWhatsappReviewsLoading(false);
     }
   }
 
@@ -445,6 +488,7 @@ export default function AdminDashboard() {
       fetchCourses();
       fetchVideos();
       fetchTestimonials();
+      fetchWhatsappReviews();
       fetchWebinars();
       fetchWebinarLeads();
       fetchCourseLeads();
@@ -476,6 +520,7 @@ export default function AdminDashboard() {
     setThumbnailUploadError("");
     setVideosError("");
     setTestimonialsError("");
+    setWhatsappReviewsError("");
     setWebinarsError("");
     setWebinarLeadsError("");
     setCourseLeadsError("");
@@ -492,7 +537,12 @@ export default function AdminDashboard() {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const uploadEndpoint = moduleKey === "webinars" ? "/api/uploads/webinar-thumbnail" : "/api/uploads/course-thumbnail";
+      const uploadEndpoint =
+        moduleKey === "webinars"
+          ? "/api/uploads/webinar-thumbnail"
+          : moduleKey === "whatsappReviews"
+            ? "/api/uploads/whatsapp-review"
+            : "/api/uploads/course-thumbnail";
 
       const response = await fetch(uploadEndpoint, {
         method: "POST",
@@ -506,7 +556,7 @@ export default function AdminDashboard() {
 
       setForm((current) => ({
         ...current,
-        thumbnail: payload.data.url,
+        ...(moduleKey === "whatsappReviews" ? { image: payload.data.url } : { thumbnail: payload.data.url }),
       }));
     } catch (error) {
       setThumbnailUploadError(error.message || "Failed to upload thumbnail.");
@@ -568,20 +618,31 @@ export default function AdminDashboard() {
     }
 
     if (activeModule === "videos") {
+      const videoTitle = form.title?.trim() || "YouTube video";
+      const actionLabel = editingId ? "updated" : "added";
+
       try {
         setVideosError("");
+
+        if (!form.title?.trim() || !form.youtubeIframe?.trim()) {
+          throw new Error("Title and YouTube iframe are required.");
+        }
 
         const response = await fetch(editingId ? `/api/youtube-videos/${editingId}` : "/api/youtube-videos", {
           method: editingId ? "PUT" : "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(form),
+          body: JSON.stringify({
+            title: form.title,
+            youtubeIframe: form.youtubeIframe,
+            visible: form.visible,
+          }),
         });
         const payload = await response.json();
 
         if (!response.ok || !payload.success) {
-          throw new Error(payload.message || "Failed to save YouTube video.");
+          throw new Error(payload.message || payload.error || "Failed to save YouTube video.");
         }
 
         setData((current) => {
@@ -597,8 +658,11 @@ export default function AdminDashboard() {
 
         resetForm();
         await fetchVideos();
+        showToast("success", `Video ${videoTitle} ${actionLabel} success`);
       } catch (error) {
-        setVideosError(error.message || "Failed to save YouTube video.");
+        const message = error.message || "Failed to save YouTube video.";
+        setVideosError(message);
+        showToast("error", `Video ${videoTitle} ${actionLabel} failed: ${message}`);
       }
 
       return;
@@ -636,6 +700,112 @@ export default function AdminDashboard() {
         await fetchTestimonials();
       } catch (error) {
         setTestimonialsError(error.message || "Failed to save testimonial.");
+      }
+
+      return;
+    }
+
+    if (activeModule === "whatsappReviews") {
+      const actionLabel = editingId ? "updated" : "added";
+
+      try {
+        setWhatsappReviewsError("");
+
+        if (!form.image) {
+          throw new Error("Please upload a WhatsApp review image first.");
+        }
+
+        const displayOrder = Number(form.displayOrder);
+
+        if (!Number.isInteger(displayOrder) || displayOrder < 1) {
+          throw new Error("Please enter a valid display order.");
+        }
+
+        const duplicateOrder = (data.whatsappReviews ?? []).find((item) => {
+          const itemId = item._id ?? item.id;
+          return itemId !== editingId && Number(item.displayOrder) === displayOrder;
+        });
+
+        if (duplicateOrder) {
+          throw new Error(`Display order ${displayOrder} is already used. Please choose a different order.`);
+        }
+
+        const response = await fetch(editingId ? `/api/whatsapp-reviews/${editingId}` : "/api/whatsapp-reviews", {
+          method: editingId ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            image: form.image,
+            displayOrder,
+            visible: form.visible,
+          }),
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || payload.error || "Failed to save WhatsApp review.");
+        }
+
+        setData((current) => {
+          const list = current.whatsappReviews ?? [];
+
+          return {
+            ...current,
+            whatsappReviews: editingId
+              ? list.map((item) => ((item._id ?? item.id) === editingId ? payload.data : item))
+              : [payload.data, ...list],
+          };
+        });
+
+        resetForm();
+        await fetchWhatsappReviews();
+        await fetchDashboardStats();
+        showToast("success", `WhatsApp review ${actionLabel} success`);
+      } catch (error) {
+        const message = error.message || "Failed to save WhatsApp review.";
+        setWhatsappReviewsError(message);
+        showToast("error", `WhatsApp review ${actionLabel} failed: ${message}`);
+      }
+
+      return;
+    }
+
+    if (activeModule === "whatsappReviews") {
+      const confirmed = window.confirm("Delete this WhatsApp review?");
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        setWhatsappReviewsError("");
+
+        const response = await fetch(`/api/whatsapp-reviews/${id}`, {
+          method: "DELETE",
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to delete WhatsApp review.");
+        }
+
+        setData((current) => ({
+          ...current,
+          whatsappReviews: current.whatsappReviews.filter((item) => (item._id ?? item.id) !== id),
+        }));
+
+        if (editingId === id) {
+          resetForm();
+        }
+
+        await fetchWhatsappReviews();
+        await fetchDashboardStats();
+        showToast("success", "WhatsApp review deleted success");
+      } catch (error) {
+        const message = error.message || "Failed to delete WhatsApp review.";
+        setWhatsappReviewsError(message);
+        showToast("error", `WhatsApp review delete failed: ${message}`);
       }
 
       return;
@@ -781,8 +951,11 @@ export default function AdminDashboard() {
         }
 
         await fetchVideos();
+        showToast("success", "YouTube video deleted success");
       } catch (error) {
-        setVideosError(error.message || "Failed to delete YouTube video.");
+        const message = error.message || "Failed to delete YouTube video.";
+        setVideosError(message);
+        showToast("error", `YouTube video delete failed: ${message}`);
       }
 
       return;
@@ -941,7 +1114,11 @@ export default function AdminDashboard() {
               </div>
               {activeModule !== "dashboard" && activeModule !== "webinarLeads" && activeModule !== "courseLeads" ? (
                 <button type="button" className="adminButton adminButtonAlt" onClick={resetForm}>
-                  {activeModule === "videos" ? "New YouTube Video" : `New ${activeConfig.label.slice(0, -1)}`}
+              {activeModule === "videos"
+                ? "New YouTube Video"
+                : activeModule === "whatsappReviews"
+                  ? "New WhatsApp Review"
+                  : `New ${activeConfig.label.slice(0, -1)}`}
                 </button>
               ) : null}
             </div>
@@ -967,6 +1144,9 @@ export default function AdminDashboard() {
             {activeModule === "courses" && coursesError ? <div className="adminEmpty">{coursesError}</div> : null}
             {activeModule === "videos" && videosError ? <div className="adminEmpty">{videosError}</div> : null}
             {activeModule === "testimonials" && testimonialsError ? <div className="adminEmpty">{testimonialsError}</div> : null}
+            {activeModule === "whatsappReviews" && whatsappReviewsError ? (
+              <div className="adminEmpty">{whatsappReviewsError}</div>
+            ) : null}
             {activeModule === "webinars" && webinarsError ? <div className="adminEmpty">{webinarsError}</div> : null}
             {activeModule === "webinarLeads" && webinarLeadsError ? <div className="adminEmpty">{webinarLeadsError}</div> : null}
             {activeModule === "courseLeads" && courseLeadsError ? <div className="adminEmpty">{courseLeadsError}</div> : null}
@@ -981,6 +1161,7 @@ export default function AdminDashboard() {
                   (activeModule === "courses" && coursesLoading) ||
                   (activeModule === "videos" && videosLoading) ||
                   (activeModule === "testimonials" && testimonialsLoading) ||
+                  (activeModule === "whatsappReviews" && whatsappReviewsLoading) ||
                   (activeModule === "webinars" && webinarsLoading) ||
                   (activeModule === "webinarLeads" && webinarLeadsLoading) ||
                   (activeModule === "courseLeads" && courseLeadsLoading)
@@ -1029,6 +1210,10 @@ function AdminForm({
       ["visible", "Display on Website", "select", ["Yes", "No"]],
       ["review", "Review", "textarea", "adminFull"],
     ],
+    whatsappReviews: [
+      ["displayOrder", "Display Order", "number"],
+      ["visible", "Display on Website", "select", ["Yes", "No"]],
+    ],
     videos: [
       ["title", "Video Title", "input"],
       ["youtubeIframe", "YouTube Iframe Embed Code", "textarea", "adminFull"],
@@ -1045,9 +1230,15 @@ function AdminForm({
 
   return (
     <form className="adminForm" onSubmit={onSubmit}>
-      {moduleKey === "courses" || moduleKey === "webinars" ? (
+      {moduleKey === "courses" || moduleKey === "webinars" || moduleKey === "whatsappReviews" ? (
         <div className="adminField adminFull">
-          <label htmlFor="thumbnailFile">{moduleKey === "webinars" ? "Webinar Thumbnail" : "Course Thumbnail"}</label>
+          <label htmlFor="thumbnailFile">
+            {moduleKey === "webinars"
+              ? "Webinar Thumbnail"
+              : moduleKey === "whatsappReviews"
+                ? "WhatsApp Review Image"
+                : "Course Thumbnail"}
+          </label>
           <input
             id="thumbnailFile"
             type="file"
@@ -1056,12 +1247,17 @@ function AdminForm({
           />
           {thumbnailUploading ? <small>Uploading thumbnail...</small> : null}
           {thumbnailUploadError ? <small>{thumbnailUploadError}</small> : null}
-          {form.thumbnail ? (
+          {form.thumbnail || form.image ? (
             <div style={{ marginTop: "12px" }}>
               <img
-                src={form.thumbnail}
-                alt={`${moduleKey === "webinars" ? "Webinar" : "Course"} thumbnail preview`}
-                style={{ width: "180px", height: "110px", objectFit: "cover", borderRadius: "10px" }}
+                src={form.thumbnail || form.image}
+                alt={`${moduleKey === "webinars" ? "Webinar" : moduleKey === "whatsappReviews" ? "WhatsApp review" : "Course"} preview`}
+                style={{
+                  width: moduleKey === "whatsappReviews" ? "150px" : "180px",
+                  height: moduleKey === "whatsappReviews" ? "190px" : "110px",
+                  objectFit: "cover",
+                  borderRadius: "10px",
+                }}
               />
             </div>
           ) : null}
@@ -1246,11 +1442,16 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
             <tr key={item._id ?? item.id}>
               {columns[moduleKey].map(([key]) => (
                 <td key={key}>
-                  {key === "thumbnail" ? (
+                  {key === "thumbnail" || key === "image" ? (
                     <img
                       src={item[key]}
-                      alt={item.name ?? item.title ?? "Thumbnail"}
-                      style={{ width: "72px", height: "48px", objectFit: "cover", borderRadius: "8px" }}
+                      alt={item.name ?? item.title ?? "Preview"}
+                      style={{
+                        width: key === "image" ? "58px" : "72px",
+                        height: key === "image" ? "72px" : "48px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                      }}
                     />
                   ) : key === "youtubeIframe" ? (
                     <div className="adminYoutubePreview" dangerouslySetInnerHTML={{ __html: item[key] }} />

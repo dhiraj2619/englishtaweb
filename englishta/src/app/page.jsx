@@ -2437,53 +2437,6 @@ const videoCards = [
   },
 ];
 
-const trainingAreas = [
-  {
-    title: "Conversation Practice",
-    description:
-      "Build fluency and confidence through real-life conversations and interactive speaking sessions.",
-    highlight: "Speak Naturally",
-    detail: "in Everyday Situations",
-    logo: "/assets/images/logo/conversation.png",
-    icon: "fa-solid fa-comments",
-    pillIcon: "fa-solid fa-users",
-    tone: "gold",
-  },
-  {
-    title: "Interview Preparation",
-    description:
-      "Master interview skills with expert guidance, mock interviews, and personalized feedback.",
-    highlight: "Crack Interviews",
-    detail: "with Confidence",
-    logo: "/assets/images/logo/interviewpre.png",
-    icon: "fa-solid fa-clipboard-list",
-    pillIcon: "fa-solid fa-trophy",
-    tone: "orange",
-  },
-  {
-    title: "Pronunciation Training",
-    description:
-      "Improve your pronunciation, clarity, and accent with focused practice and expert correction.",
-    highlight: "Speak Clearly",
-    detail: "and Confidently",
-    logo: "/assets/images/logo/pronounce.png",
-    icon: "fa-solid fa-head-side-volume",
-    pillIcon: "fa-solid fa-wave-square",
-    tone: "violet",
-  },
-  {
-    title: "Corporate Communication",
-    description:
-      "Enhance professional communication skills for meetings, presentations, emails, and more.",
-    highlight: "Communicate Professionally",
-    detail: "in the Workplace",
-    logo: "/assets/images/logo/corporate.png",
-    icon: "fa-solid fa-building",
-    pillIcon: "fa-solid fa-briefcase",
-    tone: "blue",
-  },
-];
-
 const videoCardClasses = [
   "englishtaVideoShowcase__card--featured englishtaVideoShowcase__card--tiltLeft",
   "englishtaVideoShowcase__card--tiltRight",
@@ -2672,66 +2625,122 @@ const LearningAnywhereSection = () => {
   );
 };
 
-const PopularTrainingAreas = () => {
+const WhatsAppReviewsShowcase = ({ reviews = [] }) => {
+  const visibleReviews = reviews.filter((item) => item.visible !== "No" && item.image);
+  const reviewsPerPage = 6;
+  const totalPages = Math.max(1, Math.ceil(visibleReviews.length / reviewsPerPage));
+  const [activePage, setActivePage] = useState(0);
+  const [focusedReview, setFocusedReview] = useState(null);
+
+  if (!visibleReviews.length) {
+    return null;
+  }
+
+  const currentPage = Math.min(activePage, totalPages - 1);
+  const pageStart = currentPage * reviewsPerPage;
+  const activeReviews = visibleReviews.slice(pageStart, pageStart + reviewsPerPage);
+
+  function goToPreviousPage() {
+    setActivePage((current) => {
+      const normalizedPage = Math.min(current, totalPages - 1);
+      return normalizedPage === 0 ? totalPages - 1 : normalizedPage - 1;
+    });
+  }
+
+  function goToNextPage() {
+    setActivePage((current) => (Math.min(current, totalPages - 1) + 1) % totalPages);
+  }
+
   return (
-    <section className="englishtaTrainingAreas">
-      <div className="container">
-        <div className="englishtaTrainingAreas__header wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
-          <p className="englishtaTrainingAreas__eyebrow">
-            <span>Why Englishta</span>
-          </p>
-          <h2>
-            Speak Confidently. Achieve Your Goals.
-          </h2>
-          <p>
-            Improve spoken English with our structured courses designed to build fluency,
-            pronunciation correction, and confidence-focused coaching.
-          </p>
-          <span className="englishtaTrainingAreas__divider" aria-hidden="true" />
-        </div>
+    <>
+      <section className="englishtaTrainingAreas">
+        <div className="container">
+          <div className="englishtaTrainingAreas__header wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
+            <p className="englishtaTrainingAreas__eyebrow">
+              <span>Success Stories</span>
+            </p>
+            <h2>
+              Real Results. Real People. Real Confidence.
+            </h2>
+            <p>
+              Hear from our learners who transformed their English skills and achieved their goals with Englishta.
+            </p>
+            <span className="englishtaTrainingAreas__divider" aria-hidden="true" />
+          </div>
 
-        <div className="englishtaTrainingAreas__grid">
-          {trainingAreas.map((item, index) => (
-            <article
-              key={item.title}
-              className={`englishtaTrainingAreas__card englishtaTrainingAreas__card--${item.tone} wow fadeInUp`}
-              data-wow-duration="1s"
-              data-wow-delay={`${0.2 + index * 0.1}s`}
-            >
-              <div className="englishtaTrainingAreas__iconWrap">
-                <span className="englishtaTrainingAreas__iconGlow" aria-hidden="true" />
-                <i className={item.icon} />
-              </div>
-              <h3>{item.title}</h3>
-              <span className="englishtaTrainingAreas__line" aria-hidden="true" />
-              <p>{item.description}</p>
-
-              <div className="englishtaTrainingAreas__pill">
-                <i className={item.pillIcon} />
-                <div className="text-center">
-                  <strong>{item.highlight}</strong>
-                  <span className="mt-1">{item.detail}</span>
-                </div>
-              </div>
-
-              <a href="/courses" className="englishtaTrainingAreas__arrow">
-                <i className="fa-solid fa-arrow-right" />
-              </a>
-            </article>
-          ))}
-        </div>
-
-        <div className="englishtaTrainingAreas__footer wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.35s">
-          <a href="/courses" className="englishtaTrainingAreas__cta">
-            <i className="fa-solid fa-star" />
-            <span>Join course now </span>
-            <span className="englishtaTrainingAreas__ctaArrow">
-              <i className="fa-solid fa-arrow-right" />
+          <div className="englishtaWhatsAppReviews__nav" aria-label="WhatsApp reviews navigation">
+            <button type="button" onClick={goToPreviousPage} aria-label="Previous WhatsApp reviews">
+              <i className="fa-solid fa-arrow-left" />
+            </button>
+            <span>
+              {currentPage + 1} / {totalPages}
             </span>
-          </a>
+            <button type="button" onClick={goToNextPage} aria-label="Next WhatsApp reviews">
+              <i className="fa-solid fa-arrow-right" />
+            </button>
+          </div>
+
+          <div className="englishtaWhatsAppReviews__grid">
+            {activeReviews.map((item, index) => (
+              <article
+                className={`englishtaWhatsAppReviews__card englishtaWhatsAppReviews__card--${(index % 6) + 1} wow fadeInUp`}
+                data-wow-duration="1s"
+                data-wow-delay={`${0.18 + index * 0.05}s`}
+                key={item._id ?? item.image}
+              >
+                <span className="englishtaWhatsAppReviews__badge" aria-hidden="true">
+                  <i className="fa-brands fa-whatsapp" />
+                </span>
+                <button
+                  type="button"
+                  className="englishtaWhatsAppReviews__imageButton"
+                  onClick={() => setFocusedReview(item)}
+                  aria-label="Open WhatsApp learner review"
+                >
+                  <img src={item.image} alt="WhatsApp learner review" />
+                </button>
+              </article>
+            ))}
+          </div>
+
+          <div className="englishtaWhatsAppReviews__footer wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.35s">
+            <div>
+              <i className="fa-solid fa-star" />
+              <span>
+                <strong>Thousands Are Transforming Their Lives</strong>
+                <small>Join Englishta and start your journey towards confident communication.</small>
+              </span>
+            </div>
+            <a href="/courses">
+              Join Englishta Today
+              <i className="fa-solid fa-arrow-right" />
+            </a>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {focusedReview ? (
+        <div className="englishtaWhatsAppReviewsModal" onClick={() => setFocusedReview(null)}>
+          <div
+            className="englishtaWhatsAppReviewsModal__dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-label="WhatsApp learner review"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="englishtaWhatsAppReviewsModal__close"
+              onClick={() => setFocusedReview(null)}
+              aria-label="Close WhatsApp review"
+            >
+              <i className="fa-solid fa-xmark" />
+            </button>
+            <img src={focusedReview.image} alt="Focused WhatsApp learner review" />
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 };
 
@@ -3486,6 +3495,7 @@ const TestimonialsShowcase = ({ testimonials = [] }) => {
 const Home = () => {
   const [youtubeVideos, setYoutubeVideos] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
+  const [whatsappReviews, setWhatsappReviews] = useState([]);
   const [webinars, setWebinars] = useState([]);
   const [courses, setCourses] = useState([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
@@ -3589,6 +3599,19 @@ const Home = () => {
         }
       });
 
+    fetch("/api/whatsapp-reviews", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((payload) => {
+        if (isMounted && payload.success) {
+          setWhatsappReviews((payload.data ?? []).filter((item) => item.visible !== "No" && item.image));
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setWhatsappReviews([]);
+        }
+      });
+
     return () => {
       isMounted = false;
     };
@@ -3607,7 +3630,7 @@ const Home = () => {
       <MobileAppPromo />
       <LearningAnywhereSection />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenAnywhereAndTraining) }} />
-      <PopularTrainingAreas />
+      <WhatsAppReviewsShowcase reviews={whatsappReviews} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: blogTipsSectionHtml }} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeTestimonials) }} />
       <TestimonialsShowcase testimonials={testimonials} />

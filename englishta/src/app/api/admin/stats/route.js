@@ -6,6 +6,7 @@ import Course from "@/models/Course";
 import CourseLead from "@/models/CourseLead";
 import Webinar from "@/models/Webinar";
 import WebinarRegistration from "@/models/WebinarRegistration";
+import WhatsAppReview from "@/models/WhatsAppReview";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,11 +16,19 @@ export async function GET() {
     await requireAdminAccess();
     await connectToDatabase();
 
-    const [coursesCount, webinarsCount, courseInquiryCount, webinarRegistrationCount, courses] = await Promise.all([
+    const [
+      coursesCount,
+      webinarsCount,
+      courseInquiryCount,
+      webinarRegistrationCount,
+      whatsAppReviewCount,
+      courses,
+    ] = await Promise.all([
       Course.countDocuments(),
       Webinar.countDocuments(),
       CourseLead.countDocuments(),
       WebinarRegistration.countDocuments(),
+      WhatsAppReview.countDocuments(),
       Course.find({}, { studentsEnrolled: 1 }).lean(),
     ]);
 
@@ -32,6 +41,7 @@ export async function GET() {
         webinarsCount,
         courseInquiryCount,
         webinarRegistrationCount,
+        whatsAppReviewCount,
         courseEnrollmentCount,
       },
     });
