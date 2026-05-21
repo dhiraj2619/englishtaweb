@@ -2189,7 +2189,7 @@ const HomeBanner = ({ isReady = false }) => {
           <span>Anytime. Anywhere.</span>
         </h1>
         <div className="englishtaHeroShade__actions">
-          <a href="/contact-us" className="englishtaHeroShade__cta englishtaHeroShade__cta--primary">
+          <a href="#home-webinar" className="englishtaHeroShade__cta englishtaHeroShade__cta--primary">
             Start Your Journey
           </a>
           <a href="/courses" className="englishtaHeroShade__cta englishtaHeroShade__cta--secondary">
@@ -2913,7 +2913,7 @@ const HomeWebinarSection = ({ webinars = [] }) => {
 
   return (
     <>
-      <section className="englishtaHomeWebinar">
+      <section className="englishtaHomeWebinar" id="home-webinar">
         <div className="container">
           <div className="englishtaHomeWebinar__head wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
             <p>
