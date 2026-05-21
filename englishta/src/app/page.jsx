@@ -10,7 +10,7 @@ const rawPageHtml = `
       <div className="container">
         <div className="td_hero_text wow fadeInRight" data-wow-duration="0.9s" data-wow-delay="0.35s">
           <p className="td_hero_subtitle_up td_fs_18 td_white_color td_spacing_1 td_semibold text-uppercase td_mb_10 td_opacity_9">Speak English With Confidence</p>
-          <h1 className="td_hero_title td_fs_64 td_white_color td_mb_12"><span>Englishta</span> - Online English Speaking Academy</h1>
+          <h1 className="td_hero_title td_fs_64 td_white_color td_mb_12"><span>Englishta</span> - Online English Speaking Platform</h1>
           <p className="td_hero_subtitle td_fs_18 td_white_color td_opacity_7 td_mb_30">Learn spoken English online with practical conversation practice, pronunciation correction, grammar support, and confidence-building sessions from anywhere.</p>
           <a href="courses-grid-view.html" className="td_btn td_style_1 td_radius_10 td_medium">
             <span className="td_btn_in td_white_color td_accent_bg">
@@ -82,7 +82,7 @@ const rawPageHtml = `
             <div className="col-lg-6 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.25s">
               <div className="td_about_thumb_wrap">
                 <div className="td_about_thumb_1">
-                  <img src="/assets/images/aboutenglishta.png" alt="Online English teaching academy">
+                  <img src="/assets/images/aboutenglishta.png" alt="Online English teaching platform">
                 </div>
               
                
@@ -91,8 +91,8 @@ const rawPageHtml = `
             <div className="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
               <div className="td_section_heading td_style_1 td_mb_30">
                 <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">About us</p>
-                <h2 className="td_section_title td_fs_48 mb-0">Online English Teaching Academy for Spoken English and Confidence</h2>
-                <p className="td_section_subtitle td_fs_18 mb-0">Englishta is a trusted online English speaking academy helping students, job seekers, and working professionals improve spoken English, interview communication, pronunciation, vocabulary, and daily fluency through practical online and guided learning sessions.</p>
+                <h2 className="td_section_title td_fs_48 mb-0">Online English Teaching Platform for Spoken English and Confidence</h2>
+                <p className="td_section_subtitle td_fs_18 mb-0">Englishta is a trusted online English speaking platform helping students, job seekers, and working professionals improve spoken English, interview communication, pronunciation, vocabulary, and daily fluency through practical online and guided learning sessions.</p>
               </div>
               <div className="td_mb_40">
                 <ul className="td_list td_style_5 td_mp_0">
@@ -106,15 +106,26 @@ const rawPageHtml = `
                   </li>
                 </ul>
               </div>
-              <a href="/about-us" className="td_btn td_style_1 td_radius_10 td_medium">
-                <span className="td_btn_in td_white_color td_accent_bg">
-                  <span>Know More</span>
-                  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M15.157 11.4142C15.157 11.4142 16.0887 5.2748 15.157 4.34311C14.2253 3.41142 8.08594 4.34314 8.08594 4.34314" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg> 
-                </span>             
-              </a>
+              <div className="englishtaAboutActions">
+                <a href="/about-us" className="td_btn td_style_1 td_radius_10 td_medium">
+                  <span className="td_btn_in td_white_color td_accent_bg">
+                    <span>Know More</span>
+                    <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M15.157 11.4142C15.157 11.4142 16.0887 5.2748 15.157 4.34311C14.2253 3.41142 8.08594 4.34314 8.08594 4.34314" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg> 
+                  </span>             
+                </a>
+                <a href="/courses" className="td_btn td_style_1 td_radius_10 td_medium englishtaAboutActions__outline">
+                  <span className="td_btn_in">
+                    <span>Start Learning With Us</span>
+                    <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M15.157 11.4142C15.157 11.4142 16.0887 5.2748 15.157 4.34311C14.2253 3.41142 8.08594 4.34314 8.08594 4.34314" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -2101,7 +2112,12 @@ const normalizeInjectedHtml = (html) =>
     .replaceAll("strokeLinecap=", "stroke-linecap=")
     .replaceAll("strokeLinejoin=", "stroke-linejoin=");
 
-const pageHtml = normalizeInjectedHtml(rawPageHtml)
+const normalizedPageHtml = normalizeInjectedHtml(rawPageHtml);
+const blogTipsSectionPattern =
+  /<section>\s*<div class="td_height_112 td_height_lg_75"><\/div>\s*<div class="container">\s*<div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0\.2s">\s*<p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">BLOG & TIPS<\/p>\s*<h2 class="td_section_title td_fs_48 mb-0">English Speaking Tips <br>From Englishta<\/h2>[\s\S]*?<\/section>/;
+const blogTipsSectionHtml = normalizedPageHtml.match(blogTipsSectionPattern)?.[0] ?? "";
+
+const pageHtml = normalizedPageHtml
   .replace(
     /<section class="td_gray_bg_3">\s*<div class="td_height_112 td_height_lg_75"><\/div>\s*<div class="container">\s*<div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0\.15s">\s*<p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">Popular Courses<\/p>\s*<h2 class="td_section_title td_fs_48 mb-0">English Speaking Courses<\/h2>[\s\S]*?<\/section>/,
     "__ENGLISHTA_COURSE_CATALOG__",
@@ -2125,6 +2141,10 @@ const pageHtml = normalizeInjectedHtml(rawPageHtml)
   .replace(
     /<section class="td_heading_bg td_hobble">[\s\S]*?<\/section>/,
     "__ENGLISHTA_TESTIMONIALS__",
+  )
+  .replace(
+    blogTipsSectionPattern,
+    "__ENGLISHTA_BLOG_TIPS__",
   );
 
 const cleanLegacyHomeHtml = (html = "") =>
@@ -2299,8 +2319,6 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
 
     return adminCourses.length ? adminCourses : getHomeFallbackCourses();
   }, [activeMode, visibleCourses]);
-  const activeModeDetails = homeCourseModeDetails[activeMode];
-
   return (
     <section className="englishtaCourseCatalog englishtaHomeCourseCatalog">
       <div className="container">
@@ -2324,14 +2342,6 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
               {label}
             </button>
           ))}
-        </div>
-
-        <div className="englishtaCourseModeHead">
-          <i className={activeModeDetails.icon} />
-          <div>
-            <h2>{activeModeDetails.title}</h2>
-            <p>{activeModeDetails.text}</p>
-          </div>
         </div>
 
         {loading ? (
@@ -2373,8 +2383,8 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                       <span className="englishtaCourseCard__tag">
                         Language: {course.languages.map((language) => homeLanguageLabels[language] || language).join(" + ")}
                       </span>
-                      <strong>{course.name}</strong>
-                      <span className="englishtaCourseCard__desc">{course.shortDescription}</span>
+                      <h4>{course.name}</h4>
+
                       <span className="englishtaCourseCard__meta">
                         <span>{formatHomeCourseFees(course.price)}</span>
                         <span>{course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}</span>
@@ -2435,6 +2445,8 @@ const trainingAreas = [
     highlight: "Speak Naturally",
     detail: "in Everyday Situations",
     logo: "/assets/images/logo/conversation.png",
+    icon: "fa-solid fa-comments",
+    pillIcon: "fa-solid fa-users",
     tone: "gold",
   },
   {
@@ -2444,6 +2456,8 @@ const trainingAreas = [
     highlight: "Crack Interviews",
     detail: "with Confidence",
     logo: "/assets/images/logo/interviewpre.png",
+    icon: "fa-solid fa-clipboard-list",
+    pillIcon: "fa-solid fa-trophy",
     tone: "orange",
   },
   {
@@ -2453,6 +2467,8 @@ const trainingAreas = [
     highlight: "Speak Clearly",
     detail: "and Confidently",
     logo: "/assets/images/logo/pronounce.png",
+    icon: "fa-solid fa-head-side-volume",
+    pillIcon: "fa-solid fa-wave-square",
     tone: "violet",
   },
   {
@@ -2462,6 +2478,8 @@ const trainingAreas = [
     highlight: "Communicate Professionally",
     detail: "in the Workplace",
     logo: "/assets/images/logo/corporate.png",
+    icon: "fa-solid fa-building",
+    pillIcon: "fa-solid fa-briefcase",
     tone: "blue",
   },
 ];
@@ -2660,16 +2678,14 @@ const PopularTrainingAreas = () => {
       <div className="container">
         <div className="englishtaTrainingAreas__header wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
           <p className="englishtaTrainingAreas__eyebrow">
-            <i className="fa-solid fa-graduation-cap" />
-            <span>Our Departments</span>
+            <span>Why Englishta</span>
           </p>
           <h2>
-            Popular <span>Training Areas</span>
+            Speak Confidently. Achieve Your Goals.
           </h2>
           <p>
-            Improve spoken English online with structured lessons, live practice,
-            vocabulary building, pronunciation correction, and confidence-focused
-            coaching.
+            Improve spoken English with our structured courses designed to build fluency,
+            pronunciation correction, and confidence-focused coaching.
           </p>
           <span className="englishtaTrainingAreas__divider" aria-hidden="true" />
         </div>
@@ -2682,19 +2698,16 @@ const PopularTrainingAreas = () => {
               data-wow-duration="1s"
               data-wow-delay={`${0.2 + index * 0.1}s`}
             >
-              <div className="englishtaTrainingAreas__art" aria-hidden="true">
-                <img src={item.logo} alt="" />
-              </div>
               <div className="englishtaTrainingAreas__iconWrap">
                 <span className="englishtaTrainingAreas__iconGlow" aria-hidden="true" />
-                <img src={item.logo} alt={item.title} className="englishtaTrainingAreas__iconImage" />
+                <i className={item.icon} />
               </div>
               <h3>{item.title}</h3>
               <span className="englishtaTrainingAreas__line" aria-hidden="true" />
               <p>{item.description}</p>
 
-              <div className="englishtaTrainingAreas__pill d-flex justify-content-center">
-
+              <div className="englishtaTrainingAreas__pill">
+                <i className={item.pillIcon} />
                 <div className="text-center">
                   <strong>{item.highlight}</strong>
                   <span className="mt-1">{item.detail}</span>
@@ -2711,7 +2724,7 @@ const PopularTrainingAreas = () => {
         <div className="englishtaTrainingAreas__footer wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.35s">
           <a href="/courses" className="englishtaTrainingAreas__cta">
             <i className="fa-solid fa-star" />
-            <span>Explore All Courses</span>
+            <span>Join course now </span>
             <span className="englishtaTrainingAreas__ctaArrow">
               <i className="fa-solid fa-arrow-right" />
             </span>
@@ -3588,19 +3601,25 @@ const Home = () => {
       <HomeBanner isReady={isHeroReady} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeCourseCatalog) }} />
       <HomeCourseCatalog courses={courses} loading={coursesLoading} error={coursesError} />
+
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenCourseCatalogAndAnywhere) }} />
+      <HomeWebinarSection webinars={webinars} />
+      <MobileAppPromo />
       <LearningAnywhereSection />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenAnywhereAndTraining) }} />
       <PopularTrainingAreas />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenTrainingAndVideos) }} />
-      <VideoShowcase videos={youtubeVideos} />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenVideosAndWebinar) }} />
-      <HomeWebinarSection webinars={webinars} />
-      <MobileAppPromo />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenWebinarAndTestimonials) }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: blogTipsSectionHtml }} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeTestimonials) }} />
       <TestimonialsShowcase testimonials={testimonials} />
+      <VideoShowcase videos={youtubeVideos} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenTrainingAndVideos) }} />
+     
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenVideosAndWebinar) }} />
+
+      
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenWebinarAndTestimonials) }} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(afterTestimonials) }} />
+      <div className="englishtaBeforeFooterSpace" aria-hidden="true" />
       <Footer />
     </>
   );

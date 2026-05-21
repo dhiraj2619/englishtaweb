@@ -4,7 +4,7 @@ export default function HeroBanner() {
   return (
 
     <>
-      <section className="histudy-showcase" aria-label="Englishta spoken English academy">
+      <section className="histudy-showcase" aria-label="Englishta spoken English platform">
 
 
         <div className="histudy-hero">

@@ -4,7 +4,7 @@ import WowInit from '@/components/WowInit';
 
 export const metadata = {
   title: 'Englishta',
-  description: 'Spoken English Academy',
+  description: 'Spoken English Platform',
 };
 
 export default function RootLayout({ children }) {

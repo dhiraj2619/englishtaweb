@@ -180,7 +180,6 @@ const CoursesPage = () => {
     return adminCourses.length ? adminCourses : getFallbackCourses();
   }, [activeMode, visibleCourses]);
 
-  const activeModeDetails = courseModeDetails[activeMode];
   const diagnosticDetails = diagnostics?.diagnostics;
   const shouldShowDiagnostics = !loading && diagnostics && (error || courses.length === 0);
 
@@ -224,14 +223,6 @@ const CoursesPage = () => {
                   {label}
                 </button>
               ))}
-            </div>
-
-            <div className="englishtaCourseModeHead">
-              <i className={activeModeDetails.icon} />
-              <div>
-                <h2>{activeModeDetails.title}</h2>
-                <p>{activeModeDetails.text}</p>
-              </div>
             </div>
 
             {loading ? (
