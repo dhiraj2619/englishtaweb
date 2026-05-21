@@ -301,7 +301,7 @@ const CoursesPage = () => {
                             Language: {course.languages.map((language) => languageLabels[language] || language).join(" + ")}
                           </span>
                           <strong>{course.name}</strong>
-                          <span className="englishtaCourseCard__desc">{course.shortDescription}</span>
+                        
                           <span className="englishtaCourseCard__meta">
                             <span>{formatCourseFees(course.price)}</span>
                             <span>{course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}</span>
