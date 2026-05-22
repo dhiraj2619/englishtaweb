@@ -79,8 +79,7 @@ export default function RootLayout({ children }) {
         />
         <Script id="tawk-to-chat" strategy="afterInteractive">
           {`
-            var Tawk_API = Tawk_API || {};
-            var Tawk_LoadStart = new Date();
+            var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             (function(){
               var s1 = document.createElement("script");
               var s0 = document.getElementsByTagName("script")[0];

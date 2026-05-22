@@ -6874,7 +6874,7 @@ html .ui-button.ui-state-disabled:active {
   color: var(--accent-color);
   border-radius: 50%;
   position: fixed;
-  bottom: 20px;
+  bottom: 120px;
   right: 20px;
   -webkit-transform: scale(0);
           transform: scale(0);
