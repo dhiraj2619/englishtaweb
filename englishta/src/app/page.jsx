@@ -2143,9 +2143,18 @@ const pageHtml = normalizedPageHtml
     "__ENGLISHTA_TESTIMONIALS__",
   )
   .replace(
+    /<section>\s*<div class="td_video_block td_style_1 td_accent_bg td_bg_filed td_center text-center" data-src="https:\/\/picsum\.photos\/seed\/englishta-99\/1600\/900">[\s\S]*?<h2 class="td_fs_48 td_white_color mb-0 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0\.2s">Watch How Englishta Helps You <br>Speak Better English<\/h2>[\s\S]*?<\/section>/,
+    "__ENGLISHTA_DEMO_VIDEO__",
+  )
+  .replace(
     blogTipsSectionPattern,
     "__ENGLISHTA_BLOG_TIPS__",
   );
+
+const getDemoLectureEmbedSrc = (embedCode = "") => {
+  const srcMatch = embedCode.match(/\ssrc=["']([^"']+)["']/i);
+  return srcMatch?.[1] || "";
+};
 
 const cleanLegacyHomeHtml = (html = "") =>
   html.replace(/_*ENGLISHTA_[A-Z_]+_*/g, "");
@@ -2516,7 +2525,7 @@ const renderStars = (ratingValue) => {
   ));
 };
 
-const VideoShowcase = ({ videos = [] }) => {
+const VideoShowcase = ({ videos = [], demoLecture = null }) => {
   const displayVideos = videos.length
     ? videos.slice(0, 4).map((video, index) => ({
       ...video,
@@ -2524,6 +2533,7 @@ const VideoShowcase = ({ videos = [] }) => {
     }))
     : videoCards;
   const hasBackendVideos = videos.length > 0;
+  const demoLectureEmbed = demoLecture?.youtubeEmbedCode || demoLecture?.youtubeIframe || "";
 
   return (
     <section className="englishtaVideoShowcase">
@@ -2533,8 +2543,8 @@ const VideoShowcase = ({ videos = [] }) => {
       <div className="englishtaVideoShowcase__shell">
         <div className="englishtaVideoShowcase__intro wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
           <h2>
-            Watch Real
-            <span> English Training Sessions</span>
+            Learn English With
+            <span> Englishta Videos</span>
           </h2>
           <p>
             Watch practical Englishta lessons, demo classes, pronunciation tips, and speaking practice videos designed
@@ -2546,6 +2556,22 @@ const VideoShowcase = ({ videos = [] }) => {
             <span className="englishtaVideoShowcase__trailTag">Videos</span>
           </div>
         </div>
+
+        {demoLectureEmbed ? (
+          <div className="englishtaVideoShowcase__demo wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+            <div
+              className="englishtaVideoShowcase__demoPlayer"
+              dangerouslySetInnerHTML={{ __html: demoLectureEmbed }}
+            />
+            {demoLecture?.thumbnail ? (
+              <img
+                className="englishtaVideoShowcase__demoThumb"
+                src={demoLecture.thumbnail}
+                alt="Demo lecture thumbnail"
+              />
+            ) : null}
+          </div>
+        ) : null}
 
         <div className="englishtaVideoShowcase__grid">
           {displayVideos.map((video, index) => (
@@ -2588,6 +2614,65 @@ const VideoShowcase = ({ videos = [] }) => {
               ) : null}
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const DemoLectureSection = ({ demoLecture = null }) => {
+  const thumbnail = demoLecture?.thumbnail || "https://picsum.photos/seed/englishta-99/1600/900";
+  const videoUrl =
+    getDemoLectureEmbedSrc(demoLecture?.youtubeEmbedCode || demoLecture?.youtubeIframe || "") ||
+    demoLecture?.youtubeUrl ||
+    "https://www.youtube.com/embed/rRid6GCJtgc";
+
+  return (
+    <section>
+      <div
+        className="td_video_block td_style_1 td_accent_bg td_bg_filed td_center text-center"
+        data-src={thumbnail}
+        style={{ backgroundImage: `url(${thumbnail})` }}
+      >
+        <div className="container">
+          <a
+            href={videoUrl}
+            className="td_player_btn_wrap_2 td_video_open wow zoomIn"
+            data-wow-duration="1s"
+            data-wow-delay="0.2s"
+          >
+            <span className="td_player_btn td_center">
+              <span></span>
+            </span>
+          </a>
+          <div className="td_height_70 td_height_lg_50"></div>
+          <h2
+            className="td_fs_48 td_white_color mb-0 wow fadeInUp"
+            data-wow-duration="1s"
+            data-wow-delay="0.2s"
+          >
+            Watch How Englishta Helps You <br />
+            Speak Better English
+          </h2>
+        </div>
+      </div>
+      <div className="container wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
+        <div className="td_contact_box td_style_1 td_accent_bg td_radius_10">
+          <div className="td_contact_box_left">
+            <p className="td_fs_18 td_light td_white_color td_mb_4">Get In Touch:</p>
+            <h3 className="td_fs_36 mb-0 td_white_color">
+              <a href="mailto:hello@englishta.com">hello@englishta.com</a>
+            </h3>
+          </div>
+          <div className="td_contact_box_or td_fs_24 td_medium td_white_bg td_white_bg td_center rounded-circle td_accent_color">
+            or
+          </div>
+          <div className="td_contact_box_right">
+            <p className="td_fs_18 td_light td_white_color td_mb_4">Get In Touch:</p>
+            <h3 className="td_fs_36 mb-0 td_white_color">
+              <a href="tel:+919876543210">+91 98765 43210</a>
+            </h3>
+          </div>
         </div>
       </div>
     </section>
@@ -3494,6 +3579,7 @@ const TestimonialsShowcase = ({ testimonials = [] }) => {
 
 const Home = () => {
   const [youtubeVideos, setYoutubeVideos] = useState([]);
+  const [demoLectureVideo, setDemoLectureVideo] = useState(null);
   const [testimonials, setTestimonials] = useState([]);
   const [whatsappReviews, setWhatsappReviews] = useState([]);
   const [webinars, setWebinars] = useState([]);
@@ -3509,16 +3595,19 @@ const Home = () => {
     betweenCourseCatalogAndAnywhere,
     betweenAnywhereAndTraining,
     betweenTrainingAndVideos,
-    betweenVideosAndWebinar,
     betweenWebinarAndTestimonials,
     beforeTestimonials,
     afterTestimonials,
+    beforeDemoVideo,
+    afterDemoVideo,
   } = useMemo(() => {
     const [beforeCourse = "", afterCourse = ""] = pageHtml.split("__ENGLISHTA_COURSE_CATALOG__");
     const [beforeAnywhere = "", afterAnywhere = ""] = afterCourse.split("__ENGLISHTA_ANYWHERE_SECTION__");
     const [afterAnywhereBeforeTraining = "", afterTraining = ""] = afterAnywhere.split("__ENGLISHTA_TRAINING_AREAS__");
     const [afterTrainingBeforeVideo = "", afterVideo = ""] = afterTraining.split("__ENGLISHTA_VIDEO_SECTION__");
     const [afterVideoBeforeWebinar = "", afterWebinar = ""] = afterVideo.split("__ENGLISHTA_WEBINAR_SECTION__");
+    const [beforeDemo = afterVideoBeforeWebinar, afterDemo = ""] =
+      afterVideoBeforeWebinar.split("__ENGLISHTA_DEMO_VIDEO__");
     const [afterWebinarBeforeTestimonials = "", afterTestimonialsSection = ""] = afterWebinar.split("__ENGLISHTA_TESTIMONIALS__");
 
     return {
@@ -3526,10 +3615,11 @@ const Home = () => {
       betweenCourseCatalogAndAnywhere: beforeAnywhere,
       betweenAnywhereAndTraining: afterAnywhereBeforeTraining,
       betweenTrainingAndVideos: afterTrainingBeforeVideo,
-      betweenVideosAndWebinar: afterVideoBeforeWebinar,
       betweenWebinarAndTestimonials: afterWebinarBeforeTestimonials,
       beforeTestimonials: "",
       afterTestimonials: afterTestimonialsSection,
+      beforeDemoVideo: beforeDemo,
+      afterDemoVideo: afterDemo,
     };
   }, []);
 
@@ -3540,12 +3630,27 @@ const Home = () => {
       .then((response) => response.json())
       .then((payload) => {
         if (isMounted && payload.success) {
-          setYoutubeVideos(payload.data.filter((video) => video.visible !== "No"));
+          setYoutubeVideos((payload.data ?? []).filter((video) => video.visible !== "No"));
         }
       })
       .catch(() => {
         if (isMounted) {
           setYoutubeVideos([]);
+        }
+      });
+
+    fetch("/api/demo-lecture-video", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((payload) => {
+        if (isMounted && payload.success) {
+          const [firstVideo] = payload.data ?? [];
+          const embedCode = firstVideo?.youtubeEmbedCode || firstVideo?.youtubeIframe || firstVideo?.youtubeUrl;
+          setDemoLectureVideo(embedCode ? firstVideo : null);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setDemoLectureVideo(null);
         }
       });
 
@@ -3637,7 +3742,9 @@ const Home = () => {
       <VideoShowcase videos={youtubeVideos} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenTrainingAndVideos) }} />
      
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenVideosAndWebinar) }} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeDemoVideo) }} />
+      <DemoLectureSection demoLecture={demoLectureVideo} />
+      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(afterDemoVideo) }} />
 
       
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenWebinarAndTestimonials) }} />

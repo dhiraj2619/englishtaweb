@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const tutorImage =
-  "/assets/images/raajshlke.png";
+  "/assets/images/rajshelkewebinar.png";
 
 const fallbackWebinars = [
   {
@@ -280,7 +280,7 @@ const WebinarPage = () => {
               <div className="englishtaWebinarHero__rings" />
               <div className="englishtaWebinarHero__card">
                 <span>Live</span>
-                <img src={tutorImage} alt="Prof. Raj Shelke" />
+                <img style={{objectPosition:'center'}} src={tutorImage} alt="Prof. Raj Shelke" />
                 <div>
                   <i className="fa-solid fa-microphone" />
                   <strong>Prof. Raj Shelke</strong>
@@ -322,7 +322,7 @@ const WebinarPage = () => {
                       {webinar.time ? <p><i className="fa-regular fa-clock" />{webinar.time}</p> : null}
                     </div>
                     <h3>{webinar.title}</h3>
-                    <p>{webinar.text}</p>
+                    {/* <p>{webinar.text}</p> */}
                   </div>
                   <div className="englishtaWebinarCard__footer">
                     {webinar.type === "Recorded" ? (

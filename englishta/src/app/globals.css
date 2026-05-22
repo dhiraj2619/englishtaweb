@@ -102,6 +102,52 @@ iframe[title*="Chat"] {
   height: 72px;
 }
 
+.legacyHomeContent .td_video_block.td_style_1 {
+  background-position: center;
+  background-size: cover;
+  border-radius: 22px;
+  isolation: isolate;
+  min-height: clamp(430px, 72vh, 820px);
+  overflow: hidden;
+  position: relative;
+}
+
+.legacyHomeContent .td_video_block.td_style_1::before {
+  background:
+    linear-gradient(180deg, rgba(3, 2, 3, 0.56) 0%, rgba(3, 2, 3, 0.78) 62%, rgba(3, 2, 3, 0.86) 100%),
+    radial-gradient(circle at 50% 36%, rgba(254, 182, 12, 0.2), transparent 22%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.legacyHomeContent .td_video_block.td_style_1::after {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.42), transparent 24%, transparent 76%, rgba(0, 0, 0, 0.42)),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.14), transparent 34%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.legacyHomeContent .td_video_block.td_style_1 .td_player_btn_wrap_2 {
+  margin-bottom: 72px;
+}
+
+.legacyHomeContent .td_video_block.td_style_1 h2 {
+  font-size: clamp(38px, 5vw, 74px);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.18;
+  text-shadow:
+    0 4px 2px rgba(0, 0, 0, 0.28),
+    0 14px 34px rgba(0, 0, 0, 0.9);
+}
+
 .englishtaNavbar__leftLogo {
   align-items: center;
   display: inline-flex;
@@ -2511,7 +2557,7 @@ iframe[title*="Chat"] {
 }
 
 .englishtaHomeWebinar__host strong {
-  color:rgb(255, 173, 0);
+  color: rgb(255, 173, 0);
   display: block;
   font-size: 22px;
   font-weight: 700;
@@ -2527,7 +2573,7 @@ iframe[title*="Chat"] {
   font-weight: 600;
   margin-left: auto;
   padding: 10px 14px;
-   font-family: "Nunito", sans-serif;
+  font-family: "Nunito", sans-serif;
   text-transform: uppercase;
 }
 
@@ -2537,7 +2583,7 @@ iframe[title*="Chat"] {
   font-size: 32px;
   font-weight: 700;
   line-height: 1.1;
-   font-family: "Nunito", sans-serif;
+  font-family: "Nunito", sans-serif;
   margin: 0 0 28px;
   padding-bottom: 28px;
 }
@@ -2571,7 +2617,7 @@ iframe[title*="Chat"] {
 
 .englishtaHomeWebinar__button {
   align-items: center;
-  background:#2d030d;
+  background: #2d030d;
   border: 0;
   border-radius: 8px;
   /* box-shadow: 0 14px 26px rgba(255, 121, 0, 0.24); */
@@ -4446,7 +4492,7 @@ iframe[title*="Chat"] {
   align-items: center;
   display: flex;
   gap: 14px;
-  justify-content: flex-end;
+  justify-content: flex-start;
   padding: 0 24px 24px;
 }
 
@@ -4685,37 +4731,14 @@ iframe[title*="Chat"] {
   position: relative;
   overflow: hidden;
   padding: 70px 22px 90px;
-  background:
-    radial-gradient(
-      circle at 36% 12%,
-      rgba(254, 182, 12, 0.16),
-      transparent 11%
-    ),
-    radial-gradient(
-      circle at 72% 60%,
-      rgba(254, 182, 12, 0.1),
-      transparent 24%
-    ),
-    linear-gradient(135deg, #0d0a00 0%, #1a1202 46%, #080600 100%);
+  background: #150005;
 }
 
 .englishtaVideoShowcase::before {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(254, 182, 12, 0.06),
-      transparent 26%,
-      transparent 74%,
-      rgba(254, 182, 12, 0.05)
-    ),
-    radial-gradient(
-      circle at 52% 48%,
-      rgba(255, 181, 15, 0.09),
-      transparent 18%
-    );
+  background: transparent;
   animation: englishtaGoldGlow 8s ease-in-out infinite alternate;
   pointer-events: none;
 }
@@ -4858,6 +4881,7 @@ iframe[title*="Chat"] {
   justify-content: center;
   padding: 54px 8px 0 28px;
   position: relative;
+  grid-row: 1 / span 2;
 }
 
 .englishtaVideoShowcase__intro::after {
@@ -4946,8 +4970,48 @@ iframe[title*="Chat"] {
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26);
 }
 
+.englishtaVideoShowcase__demo {
+  align-self: end;
+  display: grid;
+  grid-column: 2;
+  grid-template-columns: minmax(0, 1fr) 132px;
+  gap: 14px;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.englishtaVideoShowcase__demoPlayer {
+  aspect-ratio: 16 / 9;
+  background: #070707;
+  border: 1px solid rgba(254, 182, 12, 0.24);
+  border-radius: 10px;
+  box-shadow: 0 26px 58px rgba(0, 0, 0, 0.38);
+  overflow: hidden;
+  width: 100%;
+}
+
+.englishtaVideoShowcase__demoPlayer iframe {
+  border: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.englishtaVideoShowcase__demoThumb {
+  align-self: stretch;
+  border: 1px solid rgba(254, 182, 12, 0.24);
+  border-radius: 10px;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+  height: 100%;
+  min-height: 120px;
+  object-fit: cover;
+  width: 100%;
+}
+
 .englishtaVideoShowcase__grid {
   display: grid;
+  grid-column: 2;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px;
   padding-top: 34px;
@@ -5263,7 +5327,13 @@ iframe[title*="Chat"] {
   }
 
   .englishtaVideoShowcase__intro {
+    grid-row: auto;
     padding-top: 12px;
+  }
+
+  .englishtaVideoShowcase__demo,
+  .englishtaVideoShowcase__grid {
+    grid-column: auto;
   }
 
   .englishtaVideoShowcase__card--tiltLeft,
@@ -5317,6 +5387,14 @@ iframe[title*="Chat"] {
 
   .englishtaVideoShowcase__grid {
     grid-template-columns: 1fr;
+  }
+
+  .englishtaVideoShowcase__demo {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaVideoShowcase__demoThumb {
+    display: none;
   }
 
   .englishtaVideoShowcase__card,
@@ -5654,15 +5732,41 @@ iframe[title*="Chat"] {
 
   .englishtaCourseModeTabs,
   .englishtaCourseCatalogGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
+  .englishtaCourseModeTabs button {
+    color: #11162a;
+    text-transform: uppercase;
+    background: #fff;
+    border: 1px solid #dce3ee;
+    border-radius: 53px;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    min-height: 15px;
+    text-align: center;
+    padding: 7px 21px;
+    font-family: Nunito, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    transition: background-color .2s, border-color .2s, box-shadow .2s, color .2s, transform .2s;
+    display: inline-flex;
+}
 
   .englishtaCourseModeTabs button {
     justify-content: flex-start;
   }
 
   .englishtaCourseCatalog__head h1 {
-    font-size: 32px;
+    font-size: 28px;
+    line-height: 1.12;
+  }
+
+  .englishtaCourseCatalog__head p,
+  .englishtaHomeWebinar__head p,
+  .englishtaTrainingAreas__eyebrow,
+  .englishtaVideoShowcase__trailTag {
+    font-size: 12px;
   }
 
   .englishtaCourseTile,
@@ -5675,11 +5779,12 @@ iframe[title*="Chat"] {
   }
 
   .englishtaHomeWebinar__head h2 {
-    font-size: 32px;
+    font-size: 28px;
+    line-height: 1.14;
   }
 
   .englishtaHomeWebinar__head > span {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .englishtaHomeWebinar__visual {
@@ -5691,11 +5796,12 @@ iframe[title*="Chat"] {
   }
 
   .englishtaHomeWebinar__visualOverlay h3 {
-    font-size: 36px;
+    font-size: 30px;
+    line-height: 1.08;
   }
 
   .englishtaHomeWebinar__visualOverlay p {
-    font-size: 17px;
+    font-size: 15px;
   }
 
   .englishtaHomeWebinar__details {
@@ -5712,7 +5818,14 @@ iframe[title*="Chat"] {
   }
 
   .englishtaHomeWebinar__details h3 {
-    font-size: 28px;
+    font-size: 24px;
+    line-height: 1.12;
+  }
+
+  .englishtaHomeWebinar__points strong,
+  .englishtaHomeWebinar__button,
+  .englishtaHomeWebinar__notice span {
+    font-size: 14px;
   }
 
   .englishtaHomeWebinar__schedule {
@@ -5732,11 +5845,25 @@ iframe[title*="Chat"] {
   }
 
   .englishtaAppPromo__copy h2 {
-    font-size: 34px;
+    font-size: 28px;
+    line-height: 1.12;
   }
 
   .englishtaAppPromo__copy > p {
-    font-size: 15px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .englishtaAppPromo__features strong,
+  .englishtaAppPromo__download strong,
+  .englishtaAppPromo__benefits strong {
+    font-size: 13px;
+  }
+
+  .englishtaAppPromo__features small,
+  .englishtaAppPromo__download p,
+  .englishtaAppPromo__benefits small {
+    font-size: 12px;
   }
 
   .englishtaAppPromo__features {
@@ -5803,16 +5930,20 @@ iframe[title*="Chat"] {
   }
 
   .englishtaHeroShade__content {
-    padding: 100px 18px 220px;
+    padding: 100px 18px 80px;
+  }
+  .englishtaHeroShade__feature span {
+    font-size: 17px;
   }
 
   .englishtaHeroShade h1 {
-    font-size: 38px;
-    margin-bottom: 34px;
+    font-size: 30px;
+    line-height: 1.12;
+    margin-bottom: 24px;
   }
 
   .englishtaHeroShade__proof {
-    font-size: 16px;
+    font-size: 13px;
   }
 
   .englishtaHeroShade__actions {
@@ -5820,14 +5951,21 @@ iframe[title*="Chat"] {
   }
 
   .englishtaHeroShade__cta {
-    font-size: 15px;
-    min-height: 52px;
+    font-size: 14px;
+    min-height: 48px;
     min-width: min(100%, 210px);
-    padding: 14px 28px;
+    padding: 12px 22px;
   }
 
+  .td_fs_18 {
+    font-size: 14px;
+}
+.td_about.td_style_1 .td_about_thumb_wrap {
+   
+    padding-bottom: 10.7%;
+}
   .englishtaHeroShade__features {
-    bottom: -430px;
+    bottom: -360px;
     padding: 0 16px;
   }
 
@@ -5850,16 +5988,49 @@ iframe[title*="Chat"] {
 
   .englishtaHeroShade__feature i {
     font-size: 24px;
-    height: 64px;
-    width: 64px;
+    height: 50px;
+    width: 50px;
+  }
+  .td_fs_48 {
+    font-size: 28px !important;
   }
 
   .englishtaHeroShade__feature strong {
-    font-size: 19px;
+    font-size: 16px;
   }
 
   .englishtaHeroShade__feature small {
+    font-size: 13px;
+  }
+
+  .englishtaTrainingAreas__header h2,
+  .englishtaVideoShowcase__intro h2 {
+    font-size: 28px;
+    line-height: 1.14;
+  }
+
+  .englishtaTrainingAreas__header > p:last-of-type,
+  .englishtaVideoShowcase__intro p {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .englishtaWhatsAppReviews__footer strong {
     font-size: 16px;
+  }
+
+  .englishtaWhatsAppReviews__footer small,
+  .englishtaWhatsAppReviews__footer a {
+    font-size: 13px;
+  }
+
+  .englishtaTestimonialsCard h3,
+  .englishtaTestimonialsCard strong {
+    font-size: 18px;
+  }
+
+  .englishtaTestimonialsCard p {
+    font-size: 14px;
   }
 }
 
@@ -22103,6 +22274,56 @@ body {
 .englishta-contact-feedback.error {
   background: #fee2e2;
   color: #b91c1c;
+}
+
+.englishtaAboutPage :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--heading-font) !important;
+}
+
+.englishtaWebinarPage
+  :is(
+    .englishtaWebinarHero__actions button,
+    .englishtaWebinarHero__actions a:first-child,
+    .englishtaWebinarSectionHead a,
+    .englishtaWebinarCard__footer a,
+    .englishtaWebinarCard__footer button,
+    .englishtaWebinarCta__panel button,
+    .englishtaWebinarModal__submit
+  ) {
+  background: #feb60c !important;
+  background-color: #feb60c !important;
+  border-color: #feb60c !important;
+  color: #080604 !important;
+}
+
+.englishtaWebinarPage
+  :is(
+    .englishtaWebinarHero__actions button,
+    .englishtaWebinarHero__actions a:first-child,
+    .englishtaWebinarSectionHead a,
+    .englishtaWebinarCard__footer a,
+    .englishtaWebinarCard__footer button,
+    .englishtaWebinarCta__panel button,
+    .englishtaWebinarModal__submit
+  )
+  * {
+  color: #080604 !important;
+}
+
+.englishtaWebinarPage
+  :is(
+    .englishtaWebinarHero__actions button,
+    .englishtaWebinarHero__actions a:first-child,
+    .englishtaWebinarSectionHead a,
+    .englishtaWebinarCard__footer a,
+    .englishtaWebinarCard__footer button,
+    .englishtaWebinarCta__panel button,
+    .englishtaWebinarModal__submit
+  ):hover {
+  background: #ffcb3d !important;
+  background-color: #ffcb3d !important;
+  border-color: #ffcb3d !important;
+  color: #080604 !important;
 }
 
 .td_nav_list_wrap_in ul li a {

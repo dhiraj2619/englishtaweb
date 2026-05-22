@@ -12,6 +12,7 @@ const modules = [
   { key: "courseLeads", label: "Course Leads", description: "Auto-captured course enquiries and demo requests from the website." },
   { key: "testimonials", label: "Testimonials", description: "Manage student reviews shown on the website." },
   { key: "whatsappReviews", label: "WhatsApp Review", description: "Upload WhatsApp review screenshots shown on the website." },
+  { key: "demoLecture", label: "Demo Lecture Video", description: "Manage the single demo lecture video shown on the website." },
   { key: "videos", label: "Videos", description: "Add YouTube learning and demo videos." },
   { key: "webinars", label: "Webinars", description: "Manage live and recorded webinar sessions." },
 ];
@@ -49,6 +50,10 @@ const emptyForms = {
     image: "",
     displayOrder: "1",
     visible: "Yes",
+  },
+  demoLecture: {
+    youtubeEmbedCode: "",
+    thumbnail: "",
   },
   videos: {
     title: "",
@@ -97,6 +102,7 @@ const starterData = {
     },
   ],
   whatsappReviews: [],
+  demoLecture: [],
   videos: [
     {
       _id: "video-1",
@@ -161,6 +167,10 @@ const columns = {
     ["displayOrder", "Order"],
     ["visible", "Visible"],
   ],
+  demoLecture: [
+    ["thumbnail", "Thumbnail"],
+    ["youtubeEmbedCode", "YouTube Embed Code"],
+  ],
   videos: [
     ["title", "Title"],
     ["youtubeIframe", "YouTube Thumbnail"],
@@ -199,6 +209,14 @@ function normalizeCourseRecord(course) {
   };
 }
 
+function normalizeDemoLectureRecord(video) {
+  return {
+    ...video,
+    youtubeEmbedCode: video.youtubeEmbedCode || video.youtubeUrl || "",
+    thumbnail: video.thumbnail || "",
+  };
+}
+
 function loadData() {
   if (typeof window === "undefined") return starterData;
 
@@ -229,6 +247,8 @@ export default function AdminDashboard() {
   const [testimonialsError, setTestimonialsError] = useState("");
   const [whatsappReviewsLoading, setWhatsappReviewsLoading] = useState(false);
   const [whatsappReviewsError, setWhatsappReviewsError] = useState("");
+  const [demoLectureLoading, setDemoLectureLoading] = useState(false);
+  const [demoLectureError, setDemoLectureError] = useState("");
   const [webinarsLoading, setWebinarsLoading] = useState(false);
   const [webinarsError, setWebinarsError] = useState("");
   const [webinarLeadsLoading, setWebinarLeadsLoading] = useState(false);
@@ -241,6 +261,14 @@ export default function AdminDashboard() {
   const [thumbnailUploadError, setThumbnailUploadError] = useState("");
   const [toast, setToast] = useState(null);
   const activeConfig = modules.find((item) => item.key === activeModule);
+  const demoLectureExists = (data.demoLecture ?? []).length > 0;
+  const canCreateRecord =
+    activeModule !== "demoLecture" || !demoLectureExists || Boolean(editingId);
+  const showRecordForm =
+    activeModule !== "dashboard" &&
+    activeModule !== "webinarLeads" &&
+    activeModule !== "courseLeads" &&
+    canCreateRecord;
 
   const stats = useMemo(
     () => [
@@ -266,12 +294,17 @@ export default function AdminDashboard() {
         count: dashboardStats?.whatsAppReviewCount ?? data.whatsappReviews?.length ?? 0,
       },
       {
+        key: "demoLectureCount",
+        label: "Demo Lecture",
+        count: data.demoLecture?.length ?? 0,
+      },
+      {
         key: "courseEnrollmentCount",
         label: "Course Enrollments",
         count: dashboardStats?.courseEnrollmentCount ?? 0,
       },
     ],
-    [dashboardStats, data.courses?.length, data.webinars?.length, data.whatsappReviews?.length],
+    [dashboardStats, data.courses?.length, data.webinars?.length, data.whatsappReviews?.length, data.demoLecture?.length],
   );
 
   function updateField(field, value) {
@@ -290,6 +323,7 @@ export default function AdminDashboard() {
     setVideosError("");
     setTestimonialsError("");
     setWhatsappReviewsError("");
+    setDemoLectureError("");
     setWebinarsError("");
     setWebinarLeadsError("");
     setCourseLeadsError("");
@@ -384,6 +418,29 @@ export default function AdminDashboard() {
       setWhatsappReviewsError(error.message || "Failed to load WhatsApp reviews.");
     } finally {
       setWhatsappReviewsLoading(false);
+    }
+  }
+
+  async function fetchDemoLecture() {
+    setDemoLectureLoading(true);
+    setDemoLectureError("");
+
+    try {
+      const response = await fetch("/api/demo-lecture-video", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load demo lecture video.");
+      }
+
+      setData((current) => ({
+        ...current,
+        demoLecture: (payload.data ?? []).map(normalizeDemoLectureRecord),
+      }));
+    } catch (error) {
+      setDemoLectureError(error.message || "Failed to load demo lecture video.");
+    } finally {
+      setDemoLectureLoading(false);
     }
   }
 
@@ -489,6 +546,7 @@ export default function AdminDashboard() {
       fetchVideos();
       fetchTestimonials();
       fetchWhatsappReviews();
+      fetchDemoLecture();
       fetchWebinars();
       fetchWebinarLeads();
       fetchCourseLeads();
@@ -521,6 +579,7 @@ export default function AdminDashboard() {
     setVideosError("");
     setTestimonialsError("");
     setWhatsappReviewsError("");
+    setDemoLectureError("");
     setWebinarsError("");
     setWebinarLeadsError("");
     setCourseLeadsError("");
@@ -542,6 +601,8 @@ export default function AdminDashboard() {
           ? "/api/uploads/webinar-thumbnail"
           : moduleKey === "whatsappReviews"
             ? "/api/uploads/whatsapp-review"
+            : moduleKey === "demoLecture"
+              ? "/api/uploads/demo-lecture-thumbnail"
             : "/api/uploads/course-thumbnail";
 
       const response = await fetch(uploadEndpoint, {
@@ -663,6 +724,63 @@ export default function AdminDashboard() {
         const message = error.message || "Failed to save YouTube video.";
         setVideosError(message);
         showToast("error", `Video ${videoTitle} ${actionLabel} failed: ${message}`);
+      }
+
+      return;
+    }
+
+    if (activeModule === "demoLecture") {
+      const actionLabel = editingId ? "updated" : "added";
+
+      try {
+        setDemoLectureError("");
+
+        if (!form.youtubeEmbedCode?.trim()) {
+          throw new Error("YouTube embed code is required.");
+        }
+
+        if (!form.thumbnail) {
+          throw new Error("Please upload a demo lecture thumbnail first.");
+        }
+
+        if (!editingId && (data.demoLecture ?? []).length >= 1) {
+          throw new Error("Only one demo lecture video is allowed. Please edit or delete the existing record.");
+        }
+
+        const response = await fetch(editingId ? `/api/demo-lecture-video/${editingId}` : "/api/demo-lecture-video", {
+          method: editingId ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            youtubeEmbedCode: form.youtubeEmbedCode,
+            thumbnail: form.thumbnail,
+          }),
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || payload.error || "Failed to save demo lecture video.");
+        }
+
+        setData((current) => {
+          const list = current.demoLecture ?? [];
+
+          return {
+            ...current,
+            demoLecture: editingId
+              ? list.map((item) => ((item._id ?? item.id) === editingId ? payload.data : item))
+              : [payload.data],
+          };
+        });
+
+        resetForm();
+        await fetchDemoLecture();
+        showToast("success", `Demo lecture video ${actionLabel} success`);
+      } catch (error) {
+        const message = error.message || "Failed to save demo lecture video.";
+        setDemoLectureError(message);
+        showToast("error", `Demo lecture video ${actionLabel} failed: ${message}`);
       }
 
       return;
@@ -877,7 +995,12 @@ export default function AdminDashboard() {
 
   function editItem(item) {
     const defaults = emptyForms[activeModule] ?? {};
-    const sourceItem = activeModule === "courses" ? normalizeCourseRecord(item) : item;
+    const sourceItem =
+      activeModule === "courses"
+        ? normalizeCourseRecord(item)
+        : activeModule === "demoLecture"
+          ? normalizeDemoLectureRecord(item)
+          : item;
 
     setForm(
       Object.keys(defaults).reduce(
@@ -956,6 +1079,45 @@ export default function AdminDashboard() {
         const message = error.message || "Failed to delete YouTube video.";
         setVideosError(message);
         showToast("error", `YouTube video delete failed: ${message}`);
+      }
+
+      return;
+    }
+
+    if (activeModule === "demoLecture") {
+      const confirmed = window.confirm("Delete this demo lecture video?");
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        setDemoLectureError("");
+
+        const response = await fetch(`/api/demo-lecture-video/${id}`, {
+          method: "DELETE",
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to delete demo lecture video.");
+        }
+
+        setData((current) => ({
+          ...current,
+          demoLecture: current.demoLecture.filter((item) => (item._id ?? item.id) !== id),
+        }));
+
+        if (editingId === id) {
+          resetForm();
+        }
+
+        await fetchDemoLecture();
+        showToast("success", "Demo lecture video deleted success");
+      } catch (error) {
+        const message = error.message || "Failed to delete demo lecture video.";
+        setDemoLectureError(message);
+        showToast("error", `Demo lecture video delete failed: ${message}`);
       }
 
       return;
@@ -1112,13 +1274,18 @@ export default function AdminDashboard() {
                 <h2>{activeConfig.label} Management</h2>
                 <p>{activeConfig.description}</p>
               </div>
-              {activeModule !== "dashboard" && activeModule !== "webinarLeads" && activeModule !== "courseLeads" ? (
+              {activeModule !== "dashboard" &&
+              activeModule !== "webinarLeads" &&
+              activeModule !== "courseLeads" &&
+              (activeModule !== "demoLecture" || !demoLectureExists || editingId) ? (
                 <button type="button" className="adminButton adminButtonAlt" onClick={resetForm}>
               {activeModule === "videos"
                 ? "New YouTube Video"
                 : activeModule === "whatsappReviews"
                   ? "New WhatsApp Review"
-                  : `New ${activeConfig.label.slice(0, -1)}`}
+                  : activeModule === "demoLecture"
+                    ? "New Demo Lecture Video"
+                    : `New ${activeConfig.label.slice(0, -1)}`}
                 </button>
               ) : null}
             </div>
@@ -1127,7 +1294,7 @@ export default function AdminDashboard() {
               <DashboardOverview stats={stats} error={dashboardError} />
             ) : null}
 
-            {activeModule !== "dashboard" && activeModule !== "webinarLeads" && activeModule !== "courseLeads" ? (
+            {showRecordForm ? (
               <AdminForm
                 moduleKey={activeModule}
                 form={form}
@@ -1140,6 +1307,9 @@ export default function AdminDashboard() {
                 thumbnailUploadError={thumbnailUploadError}
               />
             ) : null}
+            {activeModule === "demoLecture" && demoLectureExists && !editingId ? (
+              <div className="adminEmpty">One demo lecture video is already added. Use Edit or Delete below.</div>
+            ) : null}
 
             {activeModule === "courses" && coursesError ? <div className="adminEmpty">{coursesError}</div> : null}
             {activeModule === "videos" && videosError ? <div className="adminEmpty">{videosError}</div> : null}
@@ -1147,6 +1317,7 @@ export default function AdminDashboard() {
             {activeModule === "whatsappReviews" && whatsappReviewsError ? (
               <div className="adminEmpty">{whatsappReviewsError}</div>
             ) : null}
+            {activeModule === "demoLecture" && demoLectureError ? <div className="adminEmpty">{demoLectureError}</div> : null}
             {activeModule === "webinars" && webinarsError ? <div className="adminEmpty">{webinarsError}</div> : null}
             {activeModule === "webinarLeads" && webinarLeadsError ? <div className="adminEmpty">{webinarLeadsError}</div> : null}
             {activeModule === "courseLeads" && courseLeadsError ? <div className="adminEmpty">{courseLeadsError}</div> : null}
@@ -1162,6 +1333,7 @@ export default function AdminDashboard() {
                   (activeModule === "videos" && videosLoading) ||
                   (activeModule === "testimonials" && testimonialsLoading) ||
                   (activeModule === "whatsappReviews" && whatsappReviewsLoading) ||
+                  (activeModule === "demoLecture" && demoLectureLoading) ||
                   (activeModule === "webinars" && webinarsLoading) ||
                   (activeModule === "webinarLeads" && webinarLeadsLoading) ||
                   (activeModule === "courseLeads" && courseLeadsLoading)
@@ -1214,6 +1386,9 @@ function AdminForm({
       ["displayOrder", "Display Order", "number"],
       ["visible", "Display on Website", "select", ["Yes", "No"]],
     ],
+    demoLecture: [
+      ["youtubeEmbedCode", "YouTube Embed Code", "textarea", "adminFull"],
+    ],
     videos: [
       ["title", "Video Title", "input"],
       ["youtubeIframe", "YouTube Iframe Embed Code", "textarea", "adminFull"],
@@ -1230,14 +1405,16 @@ function AdminForm({
 
   return (
     <form className="adminForm" onSubmit={onSubmit}>
-      {moduleKey === "courses" || moduleKey === "webinars" || moduleKey === "whatsappReviews" ? (
+      {moduleKey === "courses" || moduleKey === "webinars" || moduleKey === "whatsappReviews" || moduleKey === "demoLecture" ? (
         <div className="adminField adminFull">
           <label htmlFor="thumbnailFile">
             {moduleKey === "webinars"
               ? "Webinar Thumbnail"
               : moduleKey === "whatsappReviews"
                 ? "WhatsApp Review Image"
-                : "Course Thumbnail"}
+                : moduleKey === "demoLecture"
+                  ? "Demo Lecture Thumbnail"
+                  : "Course Thumbnail"}
           </label>
           <input
             id="thumbnailFile"
@@ -1251,7 +1428,15 @@ function AdminForm({
             <div style={{ marginTop: "12px" }}>
               <img
                 src={form.thumbnail || form.image}
-                alt={`${moduleKey === "webinars" ? "Webinar" : moduleKey === "whatsappReviews" ? "WhatsApp review" : "Course"} preview`}
+                alt={`${
+                  moduleKey === "webinars"
+                    ? "Webinar"
+                    : moduleKey === "whatsappReviews"
+                      ? "WhatsApp review"
+                      : moduleKey === "demoLecture"
+                        ? "Demo lecture"
+                        : "Course"
+                } preview`}
                 style={{
                   width: moduleKey === "whatsappReviews" ? "150px" : "180px",
                   height: moduleKey === "whatsappReviews" ? "190px" : "110px",
@@ -1454,6 +1639,8 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                       }}
                     />
                   ) : key === "youtubeIframe" ? (
+                    <div className="adminYoutubePreview" dangerouslySetInnerHTML={{ __html: item[key] }} />
+                  ) : key === "youtubeEmbedCode" ? (
                     <div className="adminYoutubePreview" dangerouslySetInnerHTML={{ __html: item[key] }} />
                   ) : key === "phone" ? (
                     item.phone || item.mobile
