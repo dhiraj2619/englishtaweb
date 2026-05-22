@@ -2943,7 +2943,7 @@ const HomeWebinarSection = ({ webinars = [] }) => {
                   {webinar.type || "Live"} Webinar
                 </span>
                 <h3>{webinar.title}</h3>
-                <p>{webinar.description}</p>
+               
                 <ul>
                   <li>
                     <i className="fa-regular fa-user" />
@@ -3627,7 +3627,7 @@ const Home = () => {
 
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenCourseCatalogAndAnywhere) }} />
       <HomeWebinarSection webinars={webinars} />
-      <MobileAppPromo />
+      {/* <MobileAppPromo /> */}
       <LearningAnywhereSection />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenAnywhereAndTraining) }} />
       <WhatsAppReviewsShowcase reviews={whatsappReviews} />
