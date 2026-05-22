@@ -2630,7 +2630,7 @@ const DemoLectureSection = ({ demoLecture = null }) => {
   return (
     <section>
       <div
-        className="td_video_block td_style_1 td_accent_bg td_bg_filed td_center text-center"
+        className="td_video_block td_style_1 td_accent_bg td_bg_filed td_center text-center englishtaDemoVideoBlock"
         data-src={thumbnail}
         style={{ backgroundImage: `url(${thumbnail})` }}
       >
@@ -2668,10 +2668,9 @@ const DemoLectureSection = ({ demoLecture = null }) => {
             or
           </div>
           <div className="td_contact_box_right">
-            <p className="td_fs_18 td_light td_white_color td_mb_4">Get In Touch:</p>
-            <h3 className="td_fs_36 mb-0 td_white_color">
-              <a href="tel:+919876543210">+91 98765 43210</a>
-            </h3>
+            <a href="/contact-us" className="englishtaDemoVideoBlock__contactButton">
+              Get In Touch
+            </a>
           </div>
         </div>
       </div>
