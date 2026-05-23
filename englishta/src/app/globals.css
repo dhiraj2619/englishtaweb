@@ -98,6 +98,29 @@ iframe[title*="Chat"] {
   color: #fff !important;
 }
 
+
+.legacyHomeContent .td_about.td_style_1 .row.align-items-center > .col-lg-6:first-child {
+  align-items: center;
+  display: flex;
+}
+
+.legacyHomeContent .td_about.td_style_1 .td_about_thumb_wrap {
+  align-items: center;
+  display: flex;
+  margin-right: 0;
+  padding-bottom: 0;
+  width: 100%;
+}
+
+.legacyHomeContent .td_about.td_style_1 .td_about_thumb_1 {
+  padding-right: 0;
+  width: 100%;
+}
+
+.legacyHomeContent .td_about.td_style_1 .td_about_thumb_1 img {
+  display: block;
+  margin-top: 0 !important;
+}
 .englishtaBeforeFooterSpace {
   height: 72px;
 }
@@ -22386,3 +22409,4 @@ body {
 .td_nav_list ul li a {
   font-size: 17px !important;
 }
+

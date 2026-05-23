@@ -74,15 +74,15 @@ const rawPageHtml = `
     </div>
     
     
-    <section>
-      <div className="td_height_120 td_height_lg_80"></div>
-      <div className="td_about td_style_1">
+    <section className="mt-0 pt-0 mt-sm-5 pt-sm-5">
+    
+      <div className="td_about td_style_1 mt-5 pt-5">
         <div className="container">
           <div className="row align-items-center td_gap_y_40">
             <div className="col-lg-6 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.25s">
               <div className="td_about_thumb_wrap">
                 <div className="td_about_thumb_1">
-                  <img src="/assets/images/aboutenglishta.png" alt="Online English teaching platform">
+                  <img src="/assets/images/aboutenglishta.png" alt="Online English teaching platform" className="mt-0 mt-sm-5">
                 </div>
               
                
@@ -90,7 +90,7 @@ const rawPageHtml = `
             </div>
             <div className="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
               <div className="td_section_heading td_style_1 td_mb_30">
-                <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">About us</p>
+                
                 <h2 className="td_section_title td_fs_48 mb-0">Online English Teaching Platform for Spoken English and Confidence</h2>
                 <p className="td_section_subtitle td_fs_18 mb-0">Englishta is a trusted online English speaking platform helping students, job seekers, and working professionals improve spoken English, interview communication, pronunciation, vocabulary, and daily fluency through practical online and guided learning sessions.</p>
               </div>
