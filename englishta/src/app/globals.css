@@ -541,12 +541,14 @@ iframe[title*="Chat"] {
 .englishtaAnywhereSection {
   position: relative;
   padding: 0 0 120px;
-  background: #f8f5ef;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255, 195, 65, 0.1), transparent 28%),
+    linear-gradient(180deg, #17110b 0%, #0f0b08 44%, #fbf8f2 44%, #f8f5ef 100%);
 }
 
 .englishtaAnywhereSection__image {
   position: relative;
-  min-height: 88vh;
+  min-height: 64vh;
   overflow: hidden;
 }
 
@@ -556,14 +558,14 @@ iframe[title*="Chat"] {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(11, 9, 4, 0.06),
-    rgba(11, 9, 4, 0.26)
+    rgba(11, 9, 4, 0.48),
+    rgba(11, 9, 4, 0.72)
   );
 }
 
 .englishtaAnywhereSection__image img {
   width: 100%;
-  height: 88vh;
+  height: 64vh;
   display: block;
   object-fit: cover;
   object-position: center;
@@ -571,38 +573,97 @@ iframe[title*="Chat"] {
 
 .englishtaAnywhereSection .container {
   position: relative;
-  margin-top: -150px;
+  margin-top: -330px;
   z-index: 2;
 }
 
-.englishtaAnywhereSection__card {
-  background: #fffffff5;
-  border-radius: 18px;
-  width: min(100%, 1171px);
-  margin: auto;
-  padding: 34px;
-  box-shadow: 0 26px 60px #18120824;
-}
-
 .englishtaAnywhereSection__heading {
-  margin-bottom: 24px;
+  margin-bottom: 26px;
+  max-width: 480px;
+  position: relative;
+  z-index: 3;
 }
 
 .englishtaAnywhereSection__heading p {
-  color: #feb60c;
-  font-size: 14px;
-  font-weight: 900;
-  margin: 0 0 10px;
-  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .englishtaAnywhereSection__heading h2 {
-  color: #10112d;
-  font-size: clamp(40px, 4.2vw, 64px);
+  color: #fff;
+  font-size: 49px;
   font-weight: 900;
-  line-height: 1.04;
-  margin: 0;
+  line-height: 1.03;
+  margin: 0 0 16px;
   max-width: 540px;
+   font-family: "Nunito", sans-serif;
+}
+
+.englishtaAnywhereSection__heading h2 span {
+  display: block;
+  color: #feb60c;
+}
+
+.englishtaAnywhereSection__line {
+  display: inline-flex;
+  width: 56px;
+  height: 4px;
+  margin-top: 16px;
+  border-radius: 999px;
+  background: #feb60c;
+}
+
+.englishtaAnywhereSection__card {
+  position: relative;
+  background: #fffffff5;
+  border-radius: 28px;
+  width: min(100%, 1171px);
+  margin: auto;
+  padding: 34px 34px 28px;
+  border: 1px solid rgba(255, 186, 28, 0.12);
+  box-shadow: 0 26px 60px rgba(24, 18, 8, 0.14);
+  overflow: visible;
+}
+
+.englishtaAnywhereSection__bird {
+  position: absolute;
+  right: 36px;
+  top: -132px;
+  width: clamp(120px, 15vw, 176px);
+  height: auto;
+  z-index: 3;
+  filter: drop-shadow(0 18px 26px rgba(0, 0, 0, 0.22));
+}
+
+.englishtaAnywhereSection__dash {
+  position: absolute;
+  border: 2px dashed rgba(254, 182, 12, 0.62);
+  pointer-events: none;
+}
+
+.englishtaAnywhereSection__dash--one {
+  right: 18px;
+  top: -46px;
+  width: 64px;
+  height: 44px;
+  border-left: 0;
+  border-bottom: 0;
+  border-radius: 0 44px 0 0;
+  transform: rotate(8deg);
+}
+
+.englishtaAnywhereSection__dash--two {
+  right: -24px;
+  top: 86px;
+  width: 72px;
+  height: 94px;
+  border-left: 0;
+  border-top: 0;
+  border-radius: 0 0 72px 0;
+  opacity: 0.5;
 }
 
 .englishtaAnywhereSection__grid {
@@ -613,12 +674,15 @@ iframe[title*="Chat"] {
 
 .englishtaAnywhereFeature {
   display: grid;
-  grid-template-columns: 74px minmax(0, 1fr);
+  grid-template-columns: 92px minmax(0, 1fr);
   gap: 16px;
   align-items: start;
-  padding: 16px;
-  border-radius: 16px;
-  background: #fffaf0;
+  padding: 22px 20px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(23, 18, 8, 0.05);
+  background: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  min-height: 100%;
 }
 
 .englishtaAnywhereFeature__icon {
@@ -627,24 +691,93 @@ iframe[title*="Chat"] {
   display: grid;
   place-items: center;
   border-radius: 16px;
+  font-size: 28px;
+  box-shadow: none;
+}
+
+.englishtaAnywhereFeature--gold .englishtaAnywhereFeature__icon {
   background: #fff3d3;
   color: #feb60c;
-  font-size: 28px;
+}
+
+.englishtaAnywhereFeature--blue .englishtaAnywhereFeature__icon {
+  background: #dff0ff;
+  color: #2a82ff;
+}
+
+.englishtaAnywhereFeature--violet .englishtaAnywhereFeature__icon {
+  background: #ede0ff;
+  color: #7a49ff;
+}
+
+.englishtaAnywhereFeature--green .englishtaAnywhereFeature__icon {
+  background: #dcf7df;
+  color: #2ea84d;
+}
+
+.englishtaAnywhereFeature__content {
+  min-width: 0;
 }
 
 .englishtaAnywhereFeature h3 {
   color: #10112d;
-  font-size: 24px;
-  font-weight: 900;
-  line-height: 1.15;
-  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 2px 0 8px;
+  font-family: "Nunito", sans-serif;
 }
 
 .englishtaAnywhereFeature p {
   color: #5c6172;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.7;
   margin: 0;
+}
+
+.englishtaAnywhereFeature__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.englishtaAnywhereFeature__tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(23, 18, 8, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.84);
+  color: #40445a;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.englishtaAnywhereFeature--gold {
+  background:
+    radial-gradient(circle at 18% 14%, rgba(255, 207, 82, 0.2), transparent 24%),
+    linear-gradient(135deg, #fffdf7, #fff9ec);
+}
+
+.englishtaAnywhereFeature--blue {
+  background:
+    radial-gradient(circle at 18% 14%, rgba(84, 157, 255, 0.16), transparent 24%),
+    linear-gradient(135deg, #f8fbff, #eef5ff);
+}
+
+.englishtaAnywhereFeature--violet {
+  background:
+    radial-gradient(circle at 18% 14%, rgba(149, 98, 255, 0.16), transparent 24%),
+    linear-gradient(135deg, #fbf9ff, #f4efff);
+}
+
+.englishtaAnywhereFeature--green {
+  background:
+    radial-gradient(circle at 18% 14%, rgba(82, 199, 112, 0.15), transparent 24%),
+    linear-gradient(135deg, #f9fff8, #effaf0);
 }
 
 @media (max-width: 1199px) {
@@ -654,12 +787,12 @@ iframe[title*="Chat"] {
 
   .englishtaAnywhereSection__image,
   .englishtaAnywhereSection__image img {
-    min-height: 74vh;
-    height: 74vh;
+    min-height: 58vh;
+    height: 58vh;
   }
 
   .englishtaAnywhereSection .container {
-    margin-top: -110px;
+    margin-top: -250px;
   }
 
   .englishtaAnywhereSection__card {
@@ -670,6 +803,12 @@ iframe[title*="Chat"] {
   .englishtaAnywhereSection__heading h2 {
     max-width: 100%;
   }
+
+  .englishtaAnywhereSection__bird {
+    right: 24px;
+    top: -114px;
+    width: 140px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -679,25 +818,40 @@ iframe[title*="Chat"] {
 
   .englishtaAnywhereSection__image,
   .englishtaAnywhereSection__image img {
-    min-height: 56vh;
-    height: 56vh;
+    min-height: 48vh;
+    height: 48vh;
   }
 
   .englishtaAnywhereSection .container {
-    margin-top: -64px;
+    margin-top: -158px;
   }
 
   .englishtaAnywhereSection__card {
-    padding: 22px 18px;
-    border-radius: 16px;
+    padding: 22px 18px 18px;
+    border-radius: 20px;
   }
 
   .englishtaAnywhereSection__heading {
     margin-bottom: 18px;
+    max-width: 100%;
   }
 
   .englishtaAnywhereSection__heading h2 {
     font-size: 34px;
+  }
+
+  .englishtaAnywhereSection__heading p {
+    font-size: 14px;
+  }
+
+  .englishtaAnywhereSection__bird {
+    right: 12px;
+    top: -92px;
+    width: 112px;
+  }
+
+  .englishtaAnywhereSection__dash {
+    display: none;
   }
 
   .englishtaAnywhereSection__grid {
@@ -706,7 +860,7 @@ iframe[title*="Chat"] {
   }
 
   .englishtaAnywhereFeature {
-    grid-template-columns: 60px minmax(0, 1fr);
+    grid-template-columns: 72px minmax(0, 1fr);
     gap: 14px;
     padding: 14px;
   }
@@ -718,7 +872,7 @@ iframe[title*="Chat"] {
   }
 
   .englishtaAnywhereFeature h3 {
-    font-size: 20px;
+    font-size: 17px;
   }
 }
 
@@ -6507,53 +6661,51 @@ textarea {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #fff;
+  display: grid;
+  place-items: center;
+  background: transparent;
   z-index: 99999;
-}
-.td_preloader::before {
-  content: "";
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-  background-color: var(--accent-color);
-  opacity: 0.2;
+  pointer-events: none;
 }
 
 .td_preloader_in {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 50px;
-  height: 50px;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
   font-size: 0;
-  display: inline-block;
-  margin: -25px 0 0 -25px;
-  text-indent: -9999em;
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   z-index: 3;
 }
 
-.td_preloader_in span {
-  background-color: var(--accent-color);
-  display: inline-block;
-  float: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50px;
-  height: 50px;
-  opacity: 0.5;
-  border-radius: 50%;
-  -webkit-animation: ballPulseDouble 2s ease-in-out infinite;
-  animation: ballPulseDouble 2s ease-in-out infinite;
+.td_preloader_video {
+  display: block;
+  width: auto;
+  height: 30vh;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  object-position: center center;
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  justify-self: center;
+  transform: scale(1);
+  transform-origin: center center;
 }
 
-.td_preloader_in span:last-child {
-  -webkit-animation-delay: -1s;
-  animation-delay: -1s;
+@media (max-width: 767px) {
+  .td_preloader_in {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .td_preloader_video {
+    height: 40vh;
+  }
 }
 
 @-webkit-keyframes ballPulseDouble {

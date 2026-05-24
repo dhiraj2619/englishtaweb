@@ -2161,15 +2161,23 @@ const cleanLegacyHomeHtml = (html = "") =>
 
 const Preloader = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
+  const handleComplete = useCallback(() => {
+    setIsVisible((current) => {
+      if (!current) {
+        return current;
+      }
+      onComplete?.();
+      return false;
+    });
+  }, [onComplete]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      setIsVisible(false);
-      onComplete?.();
-    }, 300);
+      handleComplete();
+    }, 12000);
 
     return () => window.clearTimeout(timer);
-  }, [onComplete]);
+  }, [handleComplete]);
 
   if (!isVisible) {
     return null;
@@ -2178,8 +2186,15 @@ const Preloader = ({ onComplete }) => {
   return (
     <div className="td_preloader">
       <div className="td_preloader_in">
-        <span />
-        <span />
+        <video
+          className="td_preloader_video"
+          src="/assets/images/tukomood2.webm"
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          onEnded={handleComplete}
+        />
       </div>
     </div>
   );
@@ -2493,24 +2508,32 @@ const heroMarqueeItems = [
 
 const learningAnywhereFeatures = [
   {
+    tone: "gold",
     icon: "fa-solid fa-video",
     title: "Live Online Classes",
     text: "Join guided English sessions from home with real speaking practice and live correction.",
+    tags: ["Live Sessions", "Real-Time Correction", "Expert Teachers"],
   },
   {
+    tone: "blue",
     icon: "fa-solid fa-comments",
     title: "Daily Speaking Practice",
     text: "Build fluency step by step through conversation tasks, confidence drills, and repetition.",
+    tags: ["Conversation Tasks", "Confidence Drills", "Daily Practice"],
   },
   {
+    tone: "violet",
     icon: "fa-solid fa-user-check",
     title: "Personal Feedback",
     text: "Get direct support on pronunciation, grammar usage, clarity, and interview communication.",
+    tags: ["Pronunciation", "Grammar", "Clarity", "Interviews"],
   },
   {
+    tone: "green",
     icon: "fa-solid fa-briefcase",
     title: "Career-Focused English",
     text: "Prepare for interviews, workplace communication, public speaking, and professional growth.",
+    tags: ["Interviews", "Workplace", "Public Speaking", "Growth"],
   },
 ];
 
@@ -2685,20 +2708,39 @@ const LearningAnywhereSection = () => {
         <img src="/assets/images/whyenglishta.jpg" alt="Learn English from anywhere with Englishta" />
       </div>
       <div className="container">
+        <div className="englishtaAnywhereSection__heading">
+          <h2>
+            Learn English
+            <span>From Anywhere</span>
+          </h2>
+          <p>
+            Live classes, speaking practice, and expert feedback to help you
+            speak English with confidence.
+          </p>
+          <span className="englishtaAnywhereSection__line" aria-hidden="true" />
+        </div>
         <div className="englishtaAnywhereSection__card wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
-          <div className="englishtaAnywhereSection__heading">
-
-            <h3>Learn English From Anywhere</h3>
-          </div>
+          <img
+            src="/assets/images/tuko.png"
+            alt="Englishta mascot"
+            className="englishtaAnywhereSection__bird"
+          />
+          <span className="englishtaAnywhereSection__dash englishtaAnywhereSection__dash--one" aria-hidden="true" />
+          <span className="englishtaAnywhereSection__dash englishtaAnywhereSection__dash--two" aria-hidden="true" />
           <div className="englishtaAnywhereSection__grid">
             {learningAnywhereFeatures.map((item) => (
-              <article className="englishtaAnywhereFeature" key={item.title}>
+              <article className={`englishtaAnywhereFeature englishtaAnywhereFeature--${item.tone}`} key={item.title}>
                 <span className="englishtaAnywhereFeature__icon">
                   <i className={item.icon} />
                 </span>
-                <div>
-                  <h5>{item.title}</h5>
+                <div className="englishtaAnywhereFeature__content">
+                  <h3>{item.title}</h3>
                   <p>{item.text}</p>
+                  <div className="englishtaAnywhereFeature__tags">
+                    {item.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
                 </div>
               </article>
             ))}
