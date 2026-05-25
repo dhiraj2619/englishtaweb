@@ -278,7 +278,7 @@ const CoursesPage = () => {
               <>
                 {activeCourses.length === 0 ? (
                   <div className="englishtaCoursesNotice wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
-                    No courses found in this section.
+                    Coming soon
                   </div>
                 ) : null}
 
@@ -302,12 +302,14 @@ const CoursesPage = () => {
                           </span>
                           <strong>{course.name}</strong>
                         
-                          <span className="englishtaCourseCard__meta">
-                            <span>{formatCourseFees(course.price)}</span>
-                            <span>{course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}</span>
+                          <span className="englishtaCourseCard__footer">
+                            <span className="englishtaCourseCard__fees">{formatCourseFees(course.price)}</span>
+                            <span className="englishtaCourseCard__students">
+                              {course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}
+                            </span>
                           </span>
                           <span className="englishtaCourseCard__action">
-                            {course.isFallback ? "Enquire Now" : "View Course"}
+                            {course.isFallback ? "Enquire Now" : "Join Now"}
                             <i className="fa-solid fa-arrow-right" />
                           </span>
                         </span>

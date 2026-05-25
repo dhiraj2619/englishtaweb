@@ -110,7 +110,7 @@ const AboutUsPage = () => {
         <section className="englishtaAboutTutor">
           <div className="container">
             <h2 className="wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
-              Meet Your <span>Tutor</span>
+              Meet Your <span>Mentor</span>
             </h2>
             <div className="englishtaAboutLine englishtaAboutLine--center" />
             <div className="englishtaAboutTutor__grid">

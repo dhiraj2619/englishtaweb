@@ -98,8 +98,10 @@ iframe[title*="Chat"] {
   color: #fff !important;
 }
 
-
-.legacyHomeContent .td_about.td_style_1 .row.align-items-center > .col-lg-6:first-child {
+.legacyHomeContent
+  .td_about.td_style_1
+  .row.align-items-center
+  > .col-lg-6:first-child {
   align-items: center;
   display: flex;
 }
@@ -158,7 +160,13 @@ iframe[title*="Chat"] {
 .englishtaDemoVideoBlock::after,
 .legacyHomeContent .td_video_block.td_style_1::after {
   background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.28), transparent 24%, transparent 76%, rgba(0, 0, 0, 0.28)),
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.28),
+      transparent 24%,
+      transparent 76%,
+      rgba(0, 0, 0, 0.28)
+    ),
     radial-gradient(ellipse at 50% 58%, rgba(0, 0, 0, 0.48), transparent 34%);
   content: "";
   inset: 0;
@@ -542,7 +550,11 @@ iframe[title*="Chat"] {
   position: relative;
   padding: 0 0 120px;
   background:
-    radial-gradient(circle at 50% 28%, rgba(255, 195, 65, 0.1), transparent 28%),
+    radial-gradient(
+      circle at 50% 28%,
+      rgba(255, 195, 65, 0.1),
+      transparent 28%
+    ),
     linear-gradient(180deg, #17110b 0%, #0f0b08 44%, #fbf8f2 44%, #f8f5ef 100%);
 }
 
@@ -599,7 +611,7 @@ iframe[title*="Chat"] {
   line-height: 1.03;
   margin: 0 0 16px;
   max-width: 540px;
-   font-family: "Nunito", sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 .englishtaAnywhereSection__heading h2 span {
@@ -631,7 +643,7 @@ iframe[title*="Chat"] {
 .englishtaAnywhereSection__bird {
   position: absolute;
   right: 36px;
-  top: -132px;
+  top: -127px;
   width: clamp(120px, 15vw, 176px);
   height: auto;
   z-index: 3;
@@ -758,25 +770,41 @@ iframe[title*="Chat"] {
 
 .englishtaAnywhereFeature--gold {
   background:
-    radial-gradient(circle at 18% 14%, rgba(255, 207, 82, 0.2), transparent 24%),
+    radial-gradient(
+      circle at 18% 14%,
+      rgba(255, 207, 82, 0.2),
+      transparent 24%
+    ),
     linear-gradient(135deg, #fffdf7, #fff9ec);
 }
 
 .englishtaAnywhereFeature--blue {
   background:
-    radial-gradient(circle at 18% 14%, rgba(84, 157, 255, 0.16), transparent 24%),
+    radial-gradient(
+      circle at 18% 14%,
+      rgba(84, 157, 255, 0.16),
+      transparent 24%
+    ),
     linear-gradient(135deg, #f8fbff, #eef5ff);
 }
 
 .englishtaAnywhereFeature--violet {
   background:
-    radial-gradient(circle at 18% 14%, rgba(149, 98, 255, 0.16), transparent 24%),
+    radial-gradient(
+      circle at 18% 14%,
+      rgba(149, 98, 255, 0.16),
+      transparent 24%
+    ),
     linear-gradient(135deg, #fbf9ff, #f4efff);
 }
 
 .englishtaAnywhereFeature--green {
   background:
-    radial-gradient(circle at 18% 14%, rgba(82, 199, 112, 0.15), transparent 24%),
+    radial-gradient(
+      circle at 18% 14%,
+      rgba(82, 199, 112, 0.15),
+      transparent 24%
+    ),
     linear-gradient(135deg, #f9fff8, #effaf0);
 }
 
@@ -2001,7 +2029,9 @@ iframe[title*="Chat"] {
   margin: 16px 0 22px;
 }
 
+.englishtaCourseCard__footer,
 .englishtaCourseCard__meta {
+  align-items: center;
   border-top: 1px solid rgba(15, 15, 15, 0.08);
   display: flex;
   gap: 10px;
@@ -2010,10 +2040,26 @@ iframe[title*="Chat"] {
   padding-top: 18px;
 }
 
+.englishtaCourseCard__footer span,
 .englishtaCourseCard__meta span {
   color: #16120b;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 800;
+}
+
+.englishtaCourseCard__fees {
+  background: var(--englishta-button-bg);
+  border-radius: 999px;
+  color: #fff !important;
+  display: inline-flex;
+  line-height: 1;
+  padding: 9px 12px;
+  white-space: nowrap;
+}
+
+.englishtaCourseCard__students {
+  color: #16120b !important;
+  text-align: right;
 }
 
 .englishtaCourseCard__action {
@@ -4003,12 +4049,13 @@ iframe[title*="Chat"] {
 .englishtaAboutFaq h2 {
   color: #21180d;
   font-size: 28px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0;
   line-height: 1.25;
+    font-family: Nunito, sans-serif !important;
   margin: 0;
   text-align: center;
-  text-transform: uppercase;
+  
 }
 
 .englishtaAboutStats__panel h2 {
@@ -4204,9 +4251,10 @@ iframe[title*="Chat"] {
 .englishtaAboutFaq summary {
   color: #21180d;
   cursor: pointer;
-  font-weight: 900;
+  font-weight: 700;
   list-style: none;
   padding: 20px 58px 20px 28px;
+   font-family: Nunito, sans-serif;
   position: relative;
 }
 
@@ -5947,6 +5995,7 @@ iframe[title*="Chat"] {
 
   .englishtaCoursesHero__stats,
   .englishtaCourseDetailHero__actions,
+  .englishtaCourseCard__footer,
   .englishtaCourseCard__meta {
     flex-direction: column;
   }
@@ -5980,9 +6029,14 @@ iframe[title*="Chat"] {
     font-family: Nunito, sans-serif;
     font-size: 11px;
     font-weight: 700;
-    transition: background-color .2s, border-color .2s, box-shadow .2s, color .2s, transform .2s;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s,
+      box-shadow 0.2s,
+      color 0.2s,
+      transform 0.2s;
     display: inline-flex;
-}
+  }
 
   .englishtaCourseModeTabs button {
     justify-content: flex-start;
@@ -6190,11 +6244,10 @@ iframe[title*="Chat"] {
 
   .td_fs_18 {
     font-size: 14px;
-}
-.td_about.td_style_1 .td_about_thumb_wrap {
-   
+  }
+  .td_about.td_style_1 .td_about_thumb_wrap {
     padding-bottom: 10.7%;
-}
+  }
   .englishtaHeroShade__features {
     bottom: -360px;
     padding: 0 16px;
@@ -22505,9 +22558,7 @@ body {
   color: #b91c1c;
 }
 
-.englishtaAboutPage :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--heading-font) !important;
-}
+
 
 .englishtaWebinarPage
   :is(
@@ -22561,4 +22612,3 @@ body {
 .td_nav_list ul li a {
   font-size: 17px !important;
 }
-

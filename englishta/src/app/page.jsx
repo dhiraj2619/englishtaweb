@@ -2213,11 +2213,11 @@ const HomeBanner = ({ isReady = false }) => {
           <span>Anytime. Anywhere.</span>
         </h1>
         <div className="englishtaHeroShade__actions">
-          <a href="#home-webinar" className="englishtaHeroShade__cta englishtaHeroShade__cta--primary">
+          <a href="#home-courses" className="englishtaHeroShade__cta englishtaHeroShade__cta--primary">
             Start Your Journey
           </a>
-          <a href="/courses" className="englishtaHeroShade__cta englishtaHeroShade__cta--secondary">
-            Explore Courses
+          <a href="/webinar" className="englishtaHeroShade__cta englishtaHeroShade__cta--secondary">
+            Join upcoming webinar
           </a>
         </div>
       </div>
@@ -2344,7 +2344,7 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
     return adminCourses.length ? adminCourses : getHomeFallbackCourses();
   }, [activeMode, visibleCourses]);
   return (
-    <section className="englishtaCourseCatalog englishtaHomeCourseCatalog">
+    <section className="englishtaCourseCatalog englishtaHomeCourseCatalog" id="home-courses">
       <div className="container">
         <div className="englishtaCourseCatalog__head wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
           <p>Popular Courses</p>
@@ -2386,7 +2386,7 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
         {!loading && !error ? (
           <>
             {activeCourses.length === 0 ? (
-              <div className="englishtaCoursesNotice">No courses found in this section.</div>
+              <div className="englishtaCoursesNotice">Coming soon</div>
             ) : null}
 
             <div className="englishtaCoursesGrid">
@@ -2409,12 +2409,14 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                       </span>
                       <h4>{course.name}</h4>
 
-                      <span className="englishtaCourseCard__meta">
-                        <span>{formatHomeCourseFees(course.price)}</span>
-                        <span>{course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}</span>
+                      <span className="englishtaCourseCard__footer">
+                        <span className="englishtaCourseCard__fees">{formatHomeCourseFees(course.price)}</span>
+                        <span className="englishtaCourseCard__students">
+                          {course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}
+                        </span>
                       </span>
                       <span className="englishtaCourseCard__action">
-                        {course.isFallback ? "Enquire Now" : "View Course"}
+                        {course.isFallback ? "Enquire Now" : "Join Now"}
                         <i className="fa-solid fa-arrow-right" />
                       </span>
                     </span>
@@ -2509,31 +2511,31 @@ const heroMarqueeItems = [
 const learningAnywhereFeatures = [
   {
     tone: "gold",
-    icon: "fa-solid fa-video",
-    title: "Live Online Classes",
-    text: "Join guided English sessions from home with real speaking practice and live correction.",
-    tags: ["Live Sessions", "Real-Time Correction", "Expert Teachers"],
+    icon: "fa-solid fa-award",
+    title: "Grand Experience of 25+ Years",
+    text: "Learn from a strong teaching journey built through years of practical English training.",
+    tags: [],
   },
   {
     tone: "blue",
-    icon: "fa-solid fa-comments",
-    title: "Daily Speaking Practice",
-    text: "Build fluency step by step through conversation tasks, confidence drills, and repetition.",
-    tags: ["Conversation Tasks", "Confidence Drills", "Daily Practice"],
+    icon: "fa-solid fa-users",
+    title: "Live Interaction With Approx 5 Lakh Students in 20 Years",
+    text: "Experience learning shaped by direct classroom and live-session interaction with learners.",
+    tags: [],
   },
   {
     tone: "violet",
-    icon: "fa-solid fa-user-check",
-    title: "Personal Feedback",
-    text: "Get direct support on pronunciation, grammar usage, clarity, and interview communication.",
-    tags: ["Pronunciation", "Grammar", "Clarity", "Interviews"],
+    icon: "fa-solid fa-seedling",
+    title: "Transformed the Lives of Thousands of Learners",
+    text: "Build confidence, communication skills, and a better learning mindset with guided support.",
+    tags: [],
   },
   {
     tone: "green",
     icon: "fa-solid fa-briefcase",
-    title: "Career-Focused English",
+    title: "Career Focused English",
     text: "Prepare for interviews, workplace communication, public speaking, and professional growth.",
-    tags: ["Interviews", "Workplace", "Public Speaking", "Growth"],
+    tags: [],
   },
 ];
 
@@ -2682,7 +2684,7 @@ const DemoLectureSection = ({ demoLecture = null }) => {
       <div className="container wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
         <div className="td_contact_box td_style_1 td_accent_bg td_radius_10">
           <div className="td_contact_box_left">
-            <p className="td_fs_18 td_light td_white_color td_mb_4">Get In Touch:</p>
+            <p className="td_fs_18 td_light td_white_color td_mb_4">Mail Us:</p>
             <h3 className="td_fs_36 mb-0 td_white_color">
               <a href="mailto:hello@englishta.com">hello@englishta.com</a>
             </h3>
@@ -2692,7 +2694,7 @@ const DemoLectureSection = ({ demoLecture = null }) => {
           </div>
           <div className="td_contact_box_right">
             <a href="/contact-us" className="englishtaDemoVideoBlock__contactButton">
-              Get In Touch
+              Talk to Us
             </a>
           </div>
         </div>
@@ -2736,11 +2738,13 @@ const LearningAnywhereSection = () => {
                 <div className="englishtaAnywhereFeature__content">
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
-                  <div className="englishtaAnywhereFeature__tags">
-                    {item.tags.map((tag) => (
-                      <span key={tag}>{tag}</span>
-                    ))}
-                  </div>
+                  {item.tags.length ? (
+                    <div className="englishtaAnywhereFeature__tags">
+                      {item.tags.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               </article>
             ))}
@@ -3069,7 +3073,7 @@ const HomeWebinarSection = ({ webinars = [] }) => {
                   {webinar.type || "Live"} Webinar
                 </span>
                 <h3>{webinar.title}</h3>
-               
+
                 <ul>
                   <li>
                     <i className="fa-regular fa-user" />
@@ -3782,12 +3786,12 @@ const Home = () => {
       <TestimonialsShowcase testimonials={testimonials} />
       <VideoShowcase videos={youtubeVideos} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenTrainingAndVideos) }} />
-     
+
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeDemoVideo) }} />
       <DemoLectureSection demoLecture={demoLectureVideo} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(afterDemoVideo) }} />
 
-      
+
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenWebinarAndTestimonials) }} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(afterTestimonials) }} />
       <div className="englishtaBeforeFooterSpace" aria-hidden="true" />

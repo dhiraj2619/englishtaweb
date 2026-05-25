@@ -32,7 +32,7 @@ const ContactUs = () => {
     const body = [
       `Name: ${form.name.trim()}`,
       `Email: ${form.email.trim()}`,
-      `Phone: ${form.phone.trim()}`,
+      `WhatsApp Number: ${form.phone.trim()}`,
       "",
       "Message:",
       form.message.trim(),
@@ -125,10 +125,10 @@ const ContactUs = () => {
                     />
                   </label>
                   <label>
-                    Phone Number
+                    WhatsApp Number
                     <input
                       type="tel"
-                      placeholder="Your phone number"
+                      placeholder="Your WhatsApp number"
                       value={form.phone}
                       onChange={(event) => updateField("phone", event.target.value)}
                       required
@@ -136,10 +136,10 @@ const ContactUs = () => {
                   </label>
                 </div>
                 <label>
-                  Subject
+                  What&apos;s Your Query About?
                   <input
                     type="text"
-                    placeholder="Inquiry subject"
+                    placeholder="Tell us your query topic"
                     value={form.subject}
                     onChange={(event) => updateField("subject", event.target.value)}
                   />
