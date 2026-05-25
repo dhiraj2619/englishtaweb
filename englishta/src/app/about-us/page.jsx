@@ -47,7 +47,7 @@ const AboutUsPage = () => {
                 <img src={tutorImage} alt="Prof. Raj Shelke" />
               </div>
               <div className="englishtaAboutHero__badge">
-                <span>Founder & Tutor</span>
+                <span>Founder & Mentor</span>
                 <strong>Prof. Raj Shelke</strong>
                 <p>10,000+ Learners Guided</p>
                 <p>15+ Years of Teaching Experience</p>

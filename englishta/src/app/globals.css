@@ -3872,17 +3872,24 @@ iframe[title*="Chat"] {
 }
 
 .englishtaAboutPage {
-  background:
-    radial-gradient(
-      circle at 82% 4%,
-      rgba(254, 182, 12, 0.16),
-      transparent 16%
-    ),
-    linear-gradient(180deg, #fffdf8 0%, #fbf7ee 100%);
+  background: linear-gradient(180deg, #fffdf8 0%, #fbf7ee 100%);
   color: #20180d;
 }
 
 .englishtaAboutHero {
+  background:
+    radial-gradient(
+      circle at 84% 10%,
+      rgba(254, 182, 12, 0.18),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 6% 0%,
+      rgba(254, 182, 12, 0.08),
+      transparent 24%
+    ),
+    linear-gradient(180deg, #080604 0%, #120d05 48%, #080604 100%);
+  color: #fff;
   padding: 175px 0 78px;
   position: relative;
 }
@@ -3904,7 +3911,7 @@ iframe[title*="Chat"] {
 }
 
 .englishtaAboutHero h1 {
-  color: #21180d;
+  color: #fff;
   font-size: clamp(42px, 5vw, 66px);
   font-weight: 900;
   line-height: 1.22;
@@ -3937,7 +3944,7 @@ iframe[title*="Chat"] {
 }
 
 .englishtaAboutHero__copy > p:last-child {
-  color: #5e574c;
+  color: rgba(255, 255, 255, 0.76);
   font-size: 17px;
   line-height: 1.85;
   max-width: 520px;
@@ -3950,9 +3957,9 @@ iframe[title*="Chat"] {
 
 .englishtaAboutHero__photo,
 .englishtaAboutTutor__image {
-  background: #feb60c;
+  background: #211607;
   border-radius: 44px;
-  box-shadow: 0 28px 70px rgba(35, 25, 8, 0.16);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
   overflow: hidden;
 }
 
@@ -3978,15 +3985,16 @@ iframe[title*="Chat"] {
 }
 
 .englishtaAboutHero__badge {
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(18, 18, 18, 0.08);
+  background: rgba(8, 6, 4, 0.86);
+  border: 1px solid rgba(254, 182, 12, 0.2);
   border-radius: 18px;
   bottom: 40px;
-  box-shadow: 0 20px 58px rgba(25, 20, 12, 0.14);
+  box-shadow: 0 20px 58px rgba(0, 0, 0, 0.28);
   min-width: 300px;
   padding: 24px 26px;
   position: absolute;
   right: 0;
+  backdrop-filter: blur(8px);
 }
 
 .englishtaAboutHero__badge span {
@@ -4002,7 +4010,7 @@ iframe[title*="Chat"] {
 }
 
 .englishtaAboutHero__badge strong {
-  color: #21180d;
+  color: #fff;
   display: block;
   font-size: 20px;
   font-weight: 900;
@@ -4010,7 +4018,7 @@ iframe[title*="Chat"] {
 }
 
 .englishtaAboutHero__badge p {
-  color: #5c554a;
+  color: rgba(255, 255, 255, 0.74);
   font-weight: 800;
   margin: 5px 0 0;
 }
@@ -4153,9 +4161,9 @@ iframe[title*="Chat"] {
 .englishtaAboutMission h3 {
   color: #21180d;
   font-size: 22px;
-  font-weight: 900;
+  font-weight: 700;
   margin: 0 0 14px;
-  text-transform: uppercase;
+  font-family: Nunito, sans-serif;
 }
 
 .englishtaAboutMission p {
