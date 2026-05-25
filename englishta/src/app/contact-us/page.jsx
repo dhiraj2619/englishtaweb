@@ -67,24 +67,10 @@ const ContactUs = () => {
             <div className="englishta-contact-grid">
               <div className="englishta-contact-info wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
                 <div className="englishta-contact-card">
-                  <i className="fa-solid fa-phone" />
-                  <div>
-                    <h2>Call or WhatsApp</h2>
-                    <a href="tel:+919876543210">+91 98765 43210</a>
-                  </div>
-                </div>
-                <div className="englishta-contact-card">
                   <i className="fa-solid fa-envelope" />
                   <div>
                     <h2>Email Us</h2>
                     <a href="mailto:hello@englishta.com">hello@englishta.com</a>
-                  </div>
-                </div>
-                <div className="englishta-contact-card">
-                  <i className="fa-solid fa-location-dot" />
-                  <div>
-                    <h2>Class Mode</h2>
-                    <p>Live online classes available from anywhere.</p>
                   </div>
                 </div>
                 <div className="englishta-contact-note">

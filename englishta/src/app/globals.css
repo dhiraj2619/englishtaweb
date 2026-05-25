@@ -257,7 +257,6 @@ iframe[title*="Chat"] {
 .englishtaCourseDetailHero__secondary,
 .englishtaCourseDetailCard a,
 .englishtaCourseDetailCard button,
-.englishtaAboutCta a,
 .englishtaHomeWebinar__button,
 .englishtaAppPromo__stores button,
 .englishtaAppPromo__liveCard button,
@@ -286,7 +285,6 @@ iframe[title*="Chat"] {
 .englishtaCourseDetailHero__secondary *,
 .englishtaCourseDetailCard a *,
 .englishtaCourseDetailCard button *,
-.englishtaAboutCta a *,
 .englishtaHomeWebinar__button *,
 .englishtaAppPromo__stores button *,
 .englishtaAppPromo__liveCard button *,
@@ -343,7 +341,6 @@ iframe[title*="Chat"] {
 .englishtaCourseDetailHero__primary:hover,
 .englishtaCourseDetailCard a:hover,
 .englishtaCourseDetailCard button:hover,
-.englishtaAboutCta a:hover,
 .englishtaWebinarHero__actions a:first-child:hover,
 .englishtaWebinarHero__actions button:first-child:hover,
 .englishtaWebinarSectionHead a:hover,
@@ -364,7 +361,6 @@ iframe[title*="Chat"] {
 .englishtaCourseDetailHero__primary:hover i,
 .englishtaCourseDetailCard a:hover i,
 .englishtaCourseDetailCard button:hover i,
-.englishtaAboutCta a:hover i,
 .englishtaWebinarHero__actions a:first-child:hover i,
 .englishtaWebinarHero__actions button:first-child:hover i,
 .englishtaWebinarSectionHead a:hover i,
@@ -3576,6 +3572,22 @@ iframe[title*="Chat"] {
   color: #101010;
 }
 
+.englishtaCourseDetailHero__actions .englishtaCourseDetailHero__primary,
+.englishtaCourseDetailHero__actions .englishtaCourseDetailHero__secondary {
+  background: #feb60c !important;
+  background-color: #feb60c !important;
+  border-color: #feb60c !important;
+  color: #101010 !important;
+}
+
+.englishtaCourseDetailHero__actions .englishtaCourseDetailHero__primary:hover,
+.englishtaCourseDetailHero__actions .englishtaCourseDetailHero__secondary:hover {
+  background: #ffcb3d !important;
+  background-color: #ffcb3d !important;
+  border-color: #ffcb3d !important;
+  color: #101010 !important;
+}
+
 .englishtaCourseDetailHero__secondary {
   border: 1px solid rgba(255, 255, 255, 0.32);
   color: #fff;
@@ -4304,10 +4316,10 @@ iframe[title*="Chat"] {
 .englishtaAboutCta h3 {
   color: #fff;
   font-size: 25px;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.3;
   margin: 0 0 24px;
-  text-transform: uppercase;
+  font-family: Nunito, sans-serif;
 }
 
 .englishtaAboutCta img {
@@ -4329,12 +4341,19 @@ iframe[title*="Chat"] {
   border-radius: 16px;
   color: #21180d;
   display: inline-flex;
-  font-weight: 900;
+  font-weight: 700;
   gap: 12px;
   justify-content: center;
-  padding: 16px 22px;
+  min-height: 43px;
+  padding: 8px 17px;
+  font-family: Nunito, sans-serif;
   text-decoration: none;
-  text-transform: uppercase;
+
+}
+
+.englishtaAboutCta a:hover {
+  background: #ffcb3d;
+  color: #21180d;
 }
 
 .englishtaAboutCta ul {
@@ -4568,19 +4587,38 @@ iframe[title*="Chat"] {
 }
 
 .englishtaWebinarHero__card {
-  background: linear-gradient(
-    145deg,
-    rgba(254, 182, 12, 0.22),
-    rgba(254, 182, 12, 0.05)
-  );
-  border: 1px solid rgba(254, 182, 12, 0.24);
-  border-radius: 18px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  background:
+    radial-gradient(circle at 58% 26%, rgba(254, 182, 12, 0.2), transparent 34%),
+    linear-gradient(135deg, rgba(254, 182, 12, 0.1), transparent 60%);
+  border: 0;
+  border-radius: 28px;
+  box-shadow: none;
+  isolation: isolate;
   margin-left: auto;
-  max-width: 430px;
+  max-width: 470px;
   min-height: 440px;
   overflow: hidden;
   position: relative;
+}
+
+.englishtaWebinarHero__card::before,
+.englishtaWebinarHero__card::after {
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.englishtaWebinarHero__card::before {
+  background:
+    linear-gradient(90deg, #1f1708 0%, rgba(31, 23, 8, 0) 24%, rgba(31, 23, 8, 0) 76%, #080604 100%),
+    linear-gradient(180deg, #1f1708 0%, rgba(31, 23, 8, 0) 22%, rgba(8, 6, 4, 0) 66%, #080604 100%);
+}
+
+.englishtaWebinarHero__card::after {
+  background: radial-gradient(circle at 50% 44%, transparent 38%, rgba(12, 8, 4, 0.48) 72%, #080604 100%);
+  mix-blend-mode: multiply;
 }
 
 .englishtaWebinarHero__card > span {
@@ -4600,16 +4638,20 @@ iframe[title*="Chat"] {
 .englishtaWebinarHero__card > img {
   display: block;
   height: 430px;
+  filter: saturate(0.96) contrast(1.02);
+  mix-blend-mode: screen;
   object-fit: cover;
   object-position: center top;
+  opacity: 0.9;
   width: 100%;
 }
 
 .englishtaWebinarHero__card > div {
   align-items: center;
-  background: rgba(0, 0, 0, 0.88);
+  background: rgba(0, 0, 0, 0.78);
   border-radius: 14px;
   bottom: 48px;
+  backdrop-filter: blur(8px);
   display: grid;
   gap: 0 15px;
   grid-template-columns: auto 1fr;
@@ -4617,6 +4659,7 @@ iframe[title*="Chat"] {
   padding: 16px 22px;
   position: absolute;
   right: 34px;
+  z-index: 2;
 }
 
 .englishtaWebinarHero__card div i {
@@ -4978,23 +5021,33 @@ iframe[title*="Chat"] {
 .englishtaWebinarCta__panel h2 {
   color: #17130b;
   font-size: 34px;
-  font-weight: 900;
+  font-weight: 700;
+  font-family: Nunito, sans-serif;
   margin: 0 0 8px;
 }
 
 .englishtaWebinarCta__panel p {
   color: #17130b;
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 600;
   line-height: 1.5;
   margin: 0;
 }
 
-.englishtaWebinarCta__panel a {
-  background: #17130b;
+.englishtaWebinarCta__panel a,
+.englishtaWebinarCta__panel button {
+  background: var(--englishta-button-bg);
+  box-shadow: 0 14px 30px rgba(21, 0, 5, 0.22);
   color: #fff;
   min-height: 60px;
   padding: 16px 24px;
+}
+
+.englishtaWebinarCta__panel a:hover,
+.englishtaWebinarCta__panel button:hover {
+  background: var(--englishta-button-bg-hover);
+  box-shadow: 0 18px 36px rgba(21, 0, 5, 0.28);
+  color: #fff;
 }
 
 @keyframes englishtaWebinarOrbit {
@@ -5289,13 +5342,17 @@ iframe[title*="Chat"] {
 }
 
 .englishtaVideoShowcase__grid {
+  align-content: center;
+  align-self: center;
   display: grid;
   grid-column: 2;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px;
+  justify-self: center;
+  max-width: 900px;
   padding-top: 34px;
   position: relative;
-  align-content: start;
+  width: 100%;
 }
 
 .englishtaVideoShowcase__grid::before,
@@ -22567,7 +22624,6 @@ body {
     .englishtaWebinarSectionHead a,
     .englishtaWebinarCard__footer a,
     .englishtaWebinarCard__footer button,
-    .englishtaWebinarCta__panel button,
     .englishtaWebinarModal__submit
   ) {
   background: #feb60c !important;
@@ -22583,7 +22639,6 @@ body {
     .englishtaWebinarSectionHead a,
     .englishtaWebinarCard__footer a,
     .englishtaWebinarCard__footer button,
-    .englishtaWebinarCta__panel button,
     .englishtaWebinarModal__submit
   )
   * {
@@ -22597,13 +22652,30 @@ body {
     .englishtaWebinarSectionHead a,
     .englishtaWebinarCard__footer a,
     .englishtaWebinarCard__footer button,
-    .englishtaWebinarCta__panel button,
     .englishtaWebinarModal__submit
   ):hover {
   background: #ffcb3d !important;
   background-color: #ffcb3d !important;
   border-color: #ffcb3d !important;
   color: #080604 !important;
+}
+
+.englishtaWebinarPage .englishtaWebinarCta__panel button {
+  background: #150005 !important;
+  background-color: #150005 !important;
+  border-color: #150005 !important;
+  color: #fff !important;
+}
+
+.englishtaWebinarPage .englishtaWebinarCta__panel button * {
+  color: #fff !important;
+}
+
+.englishtaWebinarPage .englishtaWebinarCta__panel button:hover {
+  background: #2a000a !important;
+  background-color: #2a000a !important;
+  border-color: #2a000a !important;
+  color: #fff !important;
 }
 
 .td_nav_list_wrap_in ul li a {

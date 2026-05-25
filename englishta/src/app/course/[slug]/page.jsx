@@ -245,12 +245,12 @@ const CourseDetailPage = () => {
                   <div className="englishtaCourseDetailHero__actions">
                     {course.allowBooking === "Yes" ? (
                       <button type="button" className="englishtaCourseDetailHero__primary" onClick={openJoinModal}>
-                        Book Free Demo
+                        Join Course
                       </button>
                     ) : null}
-                    <a href="#syllabus" className="englishtaCourseDetailHero__secondary">
-                      View Syllabus
-                    </a>
+                    <Link href="/contact-us" className="englishtaCourseDetailHero__secondary">
+                      Give Feedback
+                    </Link>
                   </div>
                 </div>
                 <div className="englishtaCourseDetailHero__media wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">

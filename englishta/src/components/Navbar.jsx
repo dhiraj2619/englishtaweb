@@ -68,16 +68,8 @@ const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky
           <h3 class="td_side_header_title td_heading_color">Contact Us</h3>
           <ul class="td_side_header_contact_info td_mp_0">
             <li>
-              <i class="fa-solid fa-phone"></i>
-              <span><a href="tel:+444547800112">+91 98765 43210</a></span>
-            </li>
-            <li>
               <i class="fa-solid fa-envelope"></i>             
               <span><a href="mailto:hello@englishta.com">hello@englishta.com</a></span>
-            </li>
-            <li>
-              <i class="fa-solid fa-location-dot"></i>            
-              <span>Live Online Classes <br>Learn From Anywhere</span>
             </li>
           </ul>
         </div>
@@ -98,16 +90,19 @@ const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky
           <h3 class="td_side_header_title td_heading_color">Follow Us</h3>
           <div class="td_social_btns td_style_1 td_heading_color">
             <a href="#" class="td_center">
-              <i class="fa-brands fa-linkedin-in"></i>
+              <i class="fa-brands fa-instagram"></i>
             </a>
             <a href="#" class="td_center">
-              <i class="fa-brands fa-twitter"></i>
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="#" class="td_center">
+              <i class="fa-brands fa-whatsapp"></i>
             </a>
             <a href="#" class="td_center">
               <i class="fa-brands fa-youtube"></i>
             </a>
             <a href="#" class="td_center">
-              <i class="fa-brands fa-facebook-f"></i>
+              <i class="fa-brands fa-pinterest-p"></i>
             </a>
           </div>
         </div>

@@ -1702,13 +1702,6 @@ const rawPageHtml = `
             <p className="td_fs_18 td_light td_white_color td_mb_4">Get In Touch:</p>
             <h3 className="td_fs_36 mb-0 td_white_color"><a href="mailto:hello@englishta.com">hello@englishta.com</a></h3>
           </div>
-          <div className="td_contact_box_or td_fs_24 td_medium td_white_bg td_white_bg td_center rounded-circle td_accent_color">
-            or
-          </div>
-          <div className="td_contact_box_right">
-            <p className="td_fs_18 td_light td_white_color td_mb_4">Get In Touch:</p>
-            <h3 className="td_fs_36 mb-0 td_white_color"><a href="tel:+019987698870">+91 98765 43210</a></h3>
-          </div>
         </div>
       </div>
     </section>
@@ -2552,11 +2545,11 @@ const renderStars = (ratingValue) => {
 
 const VideoShowcase = ({ videos = [], demoLecture = null }) => {
   const displayVideos = videos.length
-    ? videos.slice(0, 4).map((video, index) => ({
+    ? videos.slice(0, 2).map((video, index) => ({
       ...video,
       className: videoCardClasses[index] ?? videoCardClasses[videoCardClasses.length - 1],
     }))
-    : videoCards;
+    : videoCards.slice(0, 2);
   const hasBackendVideos = videos.length > 0;
   const demoLectureEmbed = demoLecture?.youtubeEmbedCode || demoLecture?.youtubeIframe || "";
 

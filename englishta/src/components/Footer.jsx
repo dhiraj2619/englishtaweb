@@ -7,10 +7,6 @@ const footerHtml = `<footer class="td_footer td_style_1">
                 <img src="/assets/images/logo/logoenglishta.png" alt="Englishta Logo">
                 <p>Englishta is an online English speaking platform helping learners speak confidently in study, work, interviews, and daily life.</p>
               </div>
-              <ul class="td_footer_address_widget td_medium td_mp_0">
-                <li><i class="fa-solid fa-phone-volume"></i><a href="cal:+23(000)68603">+91 98765 43210</a></li>
-                <li><i class="fa-solid fa-location-dot"></i>Live Online Classes <br>Learn from anywhere</li>
-              </ul>
             </div>
           </div>
           <div class="td_footer_col">
@@ -49,13 +45,16 @@ const footerHtml = `<footer class="td_footer td_style_1">
               </div>
               <div class="td_footer_social_btns td_fs_20">
                 <a href="#" class="td_center">
+                  <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="#" class="td_center">
                   <i class="fa-brands fa-facebook-f"></i>
                 </a>
                 <a href="#" class="td_center">
-                  <i class="fa-brands fa-x-twitter"></i>
+                  <i class="fa-brands fa-whatsapp"></i>
                 </a>
                 <a href="#" class="td_center">
-                  <i class="fa-brands fa-instagram"></i>
+                  <i class="fa-brands fa-youtube"></i>
                 </a>
                 <a href="#" class="td_center">
                   <i class="fa-brands fa-pinterest-p"></i>

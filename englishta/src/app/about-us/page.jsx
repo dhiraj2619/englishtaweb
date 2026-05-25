@@ -160,15 +160,15 @@ const AboutUsPage = () => {
               </h3>
               <img src="/assets/images/aboutenglishta.png" alt="Englishta mascot" />
               <p>Join our live batches and start your speaking journey today!</p>
-              <a href="/contact-us">
+              <a href="/courses">
                 Join Your Batch Now
                 <i className="fa-solid fa-arrow-right" />
               </a>
-              <ul>
+              {/* <ul>
                 <li>Live Classes</li>
                 <li>Expert Guidance</li>
                 <li>Real Results</li>
-              </ul>
+              </ul> */}
             </aside>
           </div>
         </section>
