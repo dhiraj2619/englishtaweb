@@ -113,6 +113,8 @@ const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky
 export default function Navbar() {
   const [hasScrolledPastThreshold, setHasScrolledPastThreshold] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authMobile, setAuthMobile] = useState("");
+  const [authMobileError, setAuthMobileError] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -128,6 +130,7 @@ export default function Navbar() {
   useEffect(() => {
     const handleAuthTriggerClick = (event) => {
       if (event.target.closest("[data-auth-modal-trigger]")) {
+        setAuthMobileError("");
         setIsAuthModalOpen(true);
       }
     };
@@ -202,9 +205,15 @@ export default function Navbar() {
               className="englishtaAuthModal__form"
               onSubmit={(event) => {
                 event.preventDefault();
+                if (authMobile.length !== 10) {
+                  setAuthMobileError("Please enter a valid 10 digit mobile number.");
+                  return;
+                }
+
+                setAuthMobileError("");
               }}
             >
-              <h3 className="mt-5">Login / Signup with Mobile</h3>
+              <h3 className="mt-5">Please enter your Mobile Number</h3>
               <p>We&apos;ll send you a One Time Password (OTP) on your mobile number</p>
 
               <div className="englishtaAuthModal__phoneRow">
@@ -213,8 +222,29 @@ export default function Navbar() {
                   <strong>+91</strong>
                   <i className="fa-solid fa-caret-down" aria-hidden="true" />
                 </button>
-                <input type="tel" inputMode="numeric" placeholder="Enter your mobile number" aria-label="Mobile number" />
+                <input
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength={10}
+                  placeholder="Enter your mobile number"
+                  aria-label="Mobile number"
+                  aria-invalid={authMobileError ? "true" : "false"}
+                  value={authMobile}
+                  onChange={(event) => {
+                    const nextMobile = event.target.value.replace(/\D/g, "").slice(0, 10);
+                    setAuthMobile(nextMobile);
+                    if (authMobileError && nextMobile.length === 10) {
+                      setAuthMobileError("");
+                    }
+                  }}
+                  onBlur={() => {
+                    if (authMobile && authMobile.length !== 10) {
+                      setAuthMobileError("Please enter a valid 10 digit mobile number.");
+                    }
+                  }}
+                />
               </div>
+              {authMobileError ? <p className="englishtaAuthModal__error">{authMobileError}</p> : null}
 
               <button className="englishtaAuthModal__submit" type="submit">
                 Send OTP
@@ -244,5 +274,4 @@ export default function Navbar() {
     </>
   );
 }
-
 
