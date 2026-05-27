@@ -229,6 +229,48 @@
   width: auto;
 }
 
+.adminStudentSelector {
+  background: #fff;
+  border: 1px solid #d9deea;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.adminStudentSelector label {
+  align-items: center;
+  border: 1px solid #edf0f5;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+.adminStudentSelector input {
+  min-height: auto;
+  padding: 0;
+  width: auto;
+}
+
+.adminStudentSelector strong,
+.adminStudentSelector small {
+  display: block;
+}
+
+.adminStudentSelector strong {
+  color: #172033;
+  font-size: 14px;
+}
+
+.adminStudentSelector small {
+  color: #647084;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
 .adminRichText {
   border: 1px solid #d9deea;
   border-radius: 7px;
@@ -342,6 +384,23 @@
   font-weight: 800;
   padding: 5px 9px;
   white-space: nowrap;
+}
+
+.adminAssignedStudents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 360px;
+}
+
+.adminAssignedStudents span {
+  background: #eef2f7;
+  border-radius: 999px;
+  color: #172033;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 5px 8px;
 }
 
 .adminEmpty {

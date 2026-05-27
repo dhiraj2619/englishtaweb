@@ -10,11 +10,17 @@ const modules = [
   { key: "courses", label: "Courses", description: "Add, edit, and delete courses." },
   { key: "webinarLeads", label: "Webinar Leads", description: "Auto-captured webinar registrations from the website." },
   { key: "courseLeads", label: "Course Leads", description: "Auto-captured course enquiries and demo requests from the website." },
-  { key: "testimonials", label: "Testimonials", description: "Manage student reviews shown on the website." },
-  { key: "whatsappReviews", label: "WhatsApp Review", description: "Upload WhatsApp review screenshots shown on the website." },
+  { key: "users", label: "Users", description: "View registered students from the website." },
+  { key: "batches", label: "Batches", description: "Create batches and assign students." },
+  { key: "reviews", label: "Reviews", description: "Manage testimonials and WhatsApp review screenshots." },
   { key: "demoLecture", label: "Demo Lecture Video", description: "Manage the single demo lecture video shown on the website." },
   { key: "videos", label: "Videos", description: "Add YouTube learning and demo videos." },
   { key: "webinars", label: "Webinars", description: "Manage live and recorded webinar sessions." },
+];
+
+const reviewTabs = [
+  { key: "testimonials", label: "Testimonials" },
+  { key: "whatsappReviews", label: "WhatsApp Reviews" },
 ];
 
 const emptyForms = {
@@ -38,6 +44,11 @@ const emptyForms = {
   },
   courseLeads: {
     status: "New",
+  },
+  users: {},
+  batches: {
+    name: "",
+    studentIds: [],
   },
   testimonials: {
     studentName: "",
@@ -91,6 +102,8 @@ const starterData = {
   ],
   webinarLeads: [],
   courseLeads: [],
+  users: [],
+  batches: [],
   testimonials: [
     {
       id: "testimonial-1",
@@ -154,6 +167,19 @@ const columns = {
     ["occupation", "Occupation"],
     ["city", "City"],
     ["status", "Status"],
+  ],
+  users: [
+    ["name", "Name"],
+    ["email", "Email"],
+    ["phone", "Phone"],
+    ["authProvider", "Provider"],
+    ["createdAt", "Registered On"],
+    ["lastLoginAt", "Last Login"],
+  ],
+  batches: [
+    ["name", "Batch Name"],
+    ["studentIds", "Assigned Students"],
+    ["createdAt", "Created On"],
   ],
   testimonials: [
     ["studentName", "Student"],
@@ -236,6 +262,7 @@ function makeId(moduleKey) {
 
 export default function AdminDashboard() {
   const [activeModule, setActiveModule] = useState("dashboard");
+  const [activeReviewTab, setActiveReviewTab] = useState("testimonials");
   const [data, setData] = useState(loadData);
   const [form, setForm] = useState(emptyForms.dashboard);
   const [editingId, setEditingId] = useState(null);
@@ -255,19 +282,25 @@ export default function AdminDashboard() {
   const [webinarLeadsError, setWebinarLeadsError] = useState("");
   const [courseLeadsLoading, setCourseLeadsLoading] = useState(false);
   const [courseLeadsError, setCourseLeadsError] = useState("");
+  const [usersLoading, setUsersLoading] = useState(false);
+  const [usersError, setUsersError] = useState("");
+  const [batchesLoading, setBatchesLoading] = useState(false);
+  const [batchesError, setBatchesError] = useState("");
   const [dashboardStats, setDashboardStats] = useState(null);
   const [dashboardError, setDashboardError] = useState("");
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
   const [thumbnailUploadError, setThumbnailUploadError] = useState("");
   const [toast, setToast] = useState(null);
+  const currentModule = activeModule === "reviews" ? activeReviewTab : activeModule;
   const activeConfig = modules.find((item) => item.key === activeModule);
   const demoLectureExists = (data.demoLecture ?? []).length > 0;
   const canCreateRecord =
-    activeModule !== "demoLecture" || !demoLectureExists || Boolean(editingId);
+    currentModule !== "demoLecture" || !demoLectureExists || Boolean(editingId);
   const showRecordForm =
-    activeModule !== "dashboard" &&
-    activeModule !== "webinarLeads" &&
-    activeModule !== "courseLeads" &&
+    currentModule !== "dashboard" &&
+    currentModule !== "webinarLeads" &&
+    currentModule !== "courseLeads" &&
+    currentModule !== "users" &&
     canCreateRecord;
 
   const stats = useMemo(
@@ -303,8 +336,26 @@ export default function AdminDashboard() {
         label: "Course Enrollments",
         count: dashboardStats?.courseEnrollmentCount ?? 0,
       },
+      {
+        key: "usersCount",
+        label: "Registered Users",
+        count: data.users?.length ?? 0,
+      },
+      {
+        key: "batchesCount",
+        label: "Batches",
+        count: data.batches?.length ?? 0,
+      },
     ],
-    [dashboardStats, data.courses?.length, data.webinars?.length, data.whatsappReviews?.length, data.demoLecture?.length],
+    [
+      dashboardStats,
+      data.courses?.length,
+      data.webinars?.length,
+      data.whatsappReviews?.length,
+      data.demoLecture?.length,
+      data.users?.length,
+      data.batches?.length,
+    ],
   );
 
   function updateField(field, value) {
@@ -317,7 +368,12 @@ export default function AdminDashboard() {
 
   function selectModule(moduleKey) {
     setActiveModule(moduleKey);
-    setForm(emptyForms[moduleKey]);
+    if (moduleKey === "reviews") {
+      setActiveReviewTab("testimonials");
+      setForm(emptyForms.testimonials);
+    } else {
+      setForm(emptyForms[moduleKey]);
+    }
     setEditingId(null);
     setThumbnailUploadError("");
     setVideosError("");
@@ -327,6 +383,24 @@ export default function AdminDashboard() {
     setWebinarsError("");
     setWebinarLeadsError("");
     setCourseLeadsError("");
+    setUsersError("");
+    setBatchesError("");
+  }
+
+  function selectReviewTab(tabKey) {
+    setActiveReviewTab(tabKey);
+    setForm(emptyForms[tabKey]);
+    setEditingId(null);
+    setThumbnailUploadError("");
+    setVideosError("");
+    setTestimonialsError("");
+    setWhatsappReviewsError("");
+    setDemoLectureError("");
+    setWebinarsError("");
+    setWebinarLeadsError("");
+    setCourseLeadsError("");
+    setUsersError("");
+    setBatchesError("");
   }
 
   async function fetchCourses() {
@@ -523,6 +597,52 @@ export default function AdminDashboard() {
     }
   }
 
+  async function fetchUsers() {
+    setUsersLoading(true);
+    setUsersError("");
+
+    try {
+      const response = await fetch("/api/admin/users", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load users.");
+      }
+
+      setData((current) => ({
+        ...current,
+        users: payload.data ?? [],
+      }));
+    } catch (error) {
+      setUsersError(error.message || "Failed to load users.");
+    } finally {
+      setUsersLoading(false);
+    }
+  }
+
+  async function fetchBatches() {
+    setBatchesLoading(true);
+    setBatchesError("");
+
+    try {
+      const response = await fetch("/api/batches", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load batches.");
+      }
+
+      setData((current) => ({
+        ...current,
+        batches: payload.data ?? [],
+      }));
+    } catch (error) {
+      setBatchesError(error.message || "Failed to load batches.");
+    } finally {
+      setBatchesLoading(false);
+    }
+  }
+
   async function fetchDashboardStats() {
     setDashboardError("");
 
@@ -550,6 +670,8 @@ export default function AdminDashboard() {
       fetchWebinars();
       fetchWebinarLeads();
       fetchCourseLeads();
+      fetchUsers();
+      fetchBatches();
       fetchDashboardStats();
     }, 0);
 
@@ -573,7 +695,7 @@ export default function AdminDashboard() {
   }, [toast]);
 
   function resetForm() {
-    setForm(emptyForms[activeModule]);
+    setForm(emptyForms[currentModule]);
     setEditingId(null);
     setThumbnailUploadError("");
     setVideosError("");
@@ -583,6 +705,8 @@ export default function AdminDashboard() {
     setWebinarsError("");
     setWebinarLeadsError("");
     setCourseLeadsError("");
+    setUsersError("");
+    setBatchesError("");
   }
 
   async function uploadThumbnail(file, moduleKey = "courses") {
@@ -628,8 +752,9 @@ export default function AdminDashboard() {
 
   async function saveItem(event) {
     event.preventDefault();
+    const moduleKey = currentModule;
 
-    if (activeModule === "courses") {
+    if (moduleKey === "courses") {
       const courseName = form.name?.trim() || "Course";
       const actionLabel = editingId ? "updated" : "added";
 
@@ -678,7 +803,7 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (activeModule === "videos") {
+    if (moduleKey === "videos") {
       const videoTitle = form.title?.trim() || "YouTube video";
       const actionLabel = editingId ? "updated" : "added";
 
@@ -729,7 +854,7 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (activeModule === "demoLecture") {
+    if (moduleKey === "demoLecture") {
       const actionLabel = editingId ? "updated" : "added";
 
       try {
@@ -786,7 +911,7 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (activeModule === "testimonials") {
+    if (moduleKey === "testimonials") {
       try {
         setTestimonialsError("");
 
@@ -823,7 +948,7 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (activeModule === "whatsappReviews") {
+    if (moduleKey === "whatsappReviews") {
       const actionLabel = editingId ? "updated" : "added";
 
       try {
@@ -889,47 +1014,7 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (activeModule === "whatsappReviews") {
-      const confirmed = window.confirm("Delete this WhatsApp review?");
-
-      if (!confirmed) {
-        return;
-      }
-
-      try {
-        setWhatsappReviewsError("");
-
-        const response = await fetch(`/api/whatsapp-reviews/${id}`, {
-          method: "DELETE",
-        });
-        const payload = await response.json();
-
-        if (!response.ok || !payload.success) {
-          throw new Error(payload.message || "Failed to delete WhatsApp review.");
-        }
-
-        setData((current) => ({
-          ...current,
-          whatsappReviews: current.whatsappReviews.filter((item) => (item._id ?? item.id) !== id),
-        }));
-
-        if (editingId === id) {
-          resetForm();
-        }
-
-        await fetchWhatsappReviews();
-        await fetchDashboardStats();
-        showToast("success", "WhatsApp review deleted success");
-      } catch (error) {
-        const message = error.message || "Failed to delete WhatsApp review.";
-        setWhatsappReviewsError(message);
-        showToast("error", `WhatsApp review delete failed: ${message}`);
-      }
-
-      return;
-    }
-
-    if (activeModule === "webinars") {
+    if (moduleKey === "webinars") {
       try {
         setWebinarsError("");
 
@@ -971,20 +1056,70 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (activeModule === "dashboard" || activeModule === "webinarLeads" || activeModule === "courseLeads") {
+    if (moduleKey === "batches") {
+      const batchName = form.name?.trim() || "Batch";
+      const actionLabel = editingId ? "updated" : "added";
+
+      try {
+        setBatchesError("");
+
+        if (!form.name?.trim()) {
+          throw new Error("Batch name is required.");
+        }
+
+        const response = await fetch(editingId ? `/api/batches/${editingId}` : "/api/batches", {
+          method: editingId ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: form.name,
+            studentIds: Array.isArray(form.studentIds) ? form.studentIds : [],
+          }),
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to save batch.");
+        }
+
+        setData((current) => {
+          const list = current.batches ?? [];
+
+          return {
+            ...current,
+            batches: editingId
+              ? list.map((item) => ((item._id ?? item.id) === editingId ? payload.data : item))
+              : [payload.data, ...list],
+          };
+        });
+
+        resetForm();
+        await fetchBatches();
+        showToast("success", `Batch ${batchName} ${actionLabel} success`);
+      } catch (error) {
+        const message = error.message || "Failed to save batch.";
+        setBatchesError(message);
+        showToast("error", `Batch ${batchName} ${actionLabel} failed: ${message}`);
+      }
+
+      return;
+    }
+
+    if (moduleKey === "dashboard" || moduleKey === "webinarLeads" || moduleKey === "courseLeads" || moduleKey === "users") {
       return;
     }
 
     setData((current) => {
-      const list = current[activeModule] ?? [];
+      const list = current[moduleKey] ?? [];
       const nextItem = {
         ...form,
-        id: editingId ?? makeId(activeModule),
+        id: editingId ?? makeId(moduleKey),
       };
 
       return {
         ...current,
-        [activeModule]: editingId
+        [moduleKey]: editingId
           ? list.map((item) => (item.id === editingId ? nextItem : item))
           : [nextItem, ...list],
       };
@@ -994,13 +1129,16 @@ export default function AdminDashboard() {
   }
 
   function editItem(item) {
-    const defaults = emptyForms[activeModule] ?? {};
+    const moduleKey = currentModule;
+    const defaults = emptyForms[moduleKey] ?? {};
     const sourceItem =
-      activeModule === "courses"
+      moduleKey === "courses"
         ? normalizeCourseRecord(item)
-        : activeModule === "demoLecture"
+        : moduleKey === "demoLecture"
           ? normalizeDemoLectureRecord(item)
-          : item;
+          : moduleKey === "batches"
+            ? { ...item, studentIds: (item.studentIds ?? []).map((student) => String(student._id ?? student.id ?? student)) }
+            : item;
 
     setForm(
       Object.keys(defaults).reduce(
@@ -1015,7 +1153,9 @@ export default function AdminDashboard() {
   }
 
   async function deleteItem(id) {
-    if (activeModule === "courses") {
+    const moduleKey = currentModule;
+
+    if (moduleKey === "courses") {
       try {
         setCoursesError("");
 
@@ -1045,7 +1185,7 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (activeModule === "videos") {
+    if (moduleKey === "videos") {
       const confirmed = window.confirm("Delete this YouTube video?");
 
       if (!confirmed) {
@@ -1084,7 +1224,7 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (activeModule === "demoLecture") {
+    if (moduleKey === "demoLecture") {
       const confirmed = window.confirm("Delete this demo lecture video?");
 
       if (!confirmed) {
@@ -1123,7 +1263,7 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (activeModule === "testimonials") {
+    if (moduleKey === "testimonials") {
       const confirmed = window.confirm("Delete this testimonial?");
 
       if (!confirmed) {
@@ -1159,7 +1299,47 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (activeModule === "webinars") {
+    if (moduleKey === "whatsappReviews") {
+      const confirmed = window.confirm("Delete this WhatsApp review?");
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        setWhatsappReviewsError("");
+
+        const response = await fetch(`/api/whatsapp-reviews/${id}`, {
+          method: "DELETE",
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to delete WhatsApp review.");
+        }
+
+        setData((current) => ({
+          ...current,
+          whatsappReviews: current.whatsappReviews.filter((item) => (item._id ?? item.id) !== id),
+        }));
+
+        if (editingId === id) {
+          resetForm();
+        }
+
+        await fetchWhatsappReviews();
+        await fetchDashboardStats();
+        showToast("success", "WhatsApp review deleted success");
+      } catch (error) {
+        const message = error.message || "Failed to delete WhatsApp review.";
+        setWhatsappReviewsError(message);
+        showToast("error", `WhatsApp review delete failed: ${message}`);
+      }
+
+      return;
+    }
+
+    if (moduleKey === "webinars") {
       const confirmed = window.confirm("Delete this webinar?");
 
       if (!confirmed) {
@@ -1196,9 +1376,48 @@ export default function AdminDashboard() {
       return;
     }
 
+    if (moduleKey === "batches") {
+      const confirmed = window.confirm("Delete this batch?");
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        setBatchesError("");
+
+        const response = await fetch(`/api/batches/${id}`, {
+          method: "DELETE",
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to delete batch.");
+        }
+
+        setData((current) => ({
+          ...current,
+          batches: current.batches.filter((item) => (item._id ?? item.id) !== id),
+        }));
+
+        if (editingId === id) {
+          resetForm();
+        }
+
+        await fetchBatches();
+        showToast("success", "Batch deleted success");
+      } catch (error) {
+        const message = error.message || "Failed to delete batch.";
+        setBatchesError(message);
+        showToast("error", `Batch delete failed: ${message}`);
+      }
+
+      return;
+    }
+
     setData((current) => ({
       ...current,
-      [activeModule]: current[activeModule].filter((item) => item.id !== id),
+      [moduleKey]: current[moduleKey].filter((item) => item.id !== id),
     }));
 
     if (editingId === id) resetForm();
@@ -1230,7 +1449,11 @@ export default function AdminDashboard() {
                 key={module.key}
               >
                 <span>{module.label}</span>
-                <span>{data[module.key]?.length ?? 0}</span>
+                <span>
+                  {module.key === "reviews"
+                    ? (data.testimonials?.length ?? 0) + (data.whatsappReviews?.length ?? 0)
+                    : data[module.key]?.length ?? 0}
+                </span>
               </button>
             ))}
           </nav>
@@ -1274,21 +1497,44 @@ export default function AdminDashboard() {
                 <h2>{activeConfig.label} Management</h2>
                 <p>{activeConfig.description}</p>
               </div>
-              {activeModule !== "dashboard" &&
-              activeModule !== "webinarLeads" &&
-              activeModule !== "courseLeads" &&
-              (activeModule !== "demoLecture" || !demoLectureExists || editingId) ? (
+              {currentModule !== "dashboard" &&
+              currentModule !== "webinarLeads" &&
+              currentModule !== "courseLeads" &&
+              currentModule !== "users" &&
+              (currentModule !== "demoLecture" || !demoLectureExists || editingId) ? (
                 <button type="button" className="adminButton adminButtonAlt" onClick={resetForm}>
-              {activeModule === "videos"
+              {currentModule === "videos"
                 ? "New YouTube Video"
-                : activeModule === "whatsappReviews"
+                : currentModule === "whatsappReviews"
                   ? "New WhatsApp Review"
-                  : activeModule === "demoLecture"
+                  : currentModule === "demoLecture"
                     ? "New Demo Lecture Video"
-                    : `New ${activeConfig.label.slice(0, -1)}`}
+                    : currentModule === "batches"
+                      ? "New Batch"
+                    : currentModule === "testimonials"
+                      ? "New Testimonial"
+                      : `New ${activeConfig.label.slice(0, -1)}`}
                 </button>
               ) : null}
             </div>
+
+            {activeModule === "reviews" ? (
+              <div className="adminSubTabs" role="tablist" aria-label="Review sections">
+                {reviewTabs.map((tab) => (
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeReviewTab === tab.key}
+                    className={activeReviewTab === tab.key ? "isActive" : ""}
+                    onClick={() => selectReviewTab(tab.key)}
+                    key={tab.key}
+                  >
+                    <span>{tab.label}</span>
+                    <strong>{data[tab.key]?.length ?? 0}</strong>
+                  </button>
+                ))}
+              </div>
+            ) : null}
 
             {activeModule === "dashboard" ? (
               <DashboardOverview stats={stats} error={dashboardError} />
@@ -1296,7 +1542,7 @@ export default function AdminDashboard() {
 
             {showRecordForm ? (
               <AdminForm
-                moduleKey={activeModule}
+                moduleKey={currentModule}
                 form={form}
                 editingId={editingId}
                 onChange={updateField}
@@ -1305,38 +1551,43 @@ export default function AdminDashboard() {
                 onThumbnailUpload={uploadThumbnail}
                 thumbnailUploading={thumbnailUploading}
                 thumbnailUploadError={thumbnailUploadError}
+                users={data.users ?? []}
               />
             ) : null}
-            {activeModule === "demoLecture" && demoLectureExists && !editingId ? (
+            {currentModule === "demoLecture" && demoLectureExists && !editingId ? (
               <div className="adminEmpty">One demo lecture video is already added. Use Edit or Delete below.</div>
             ) : null}
 
-            {activeModule === "courses" && coursesError ? <div className="adminEmpty">{coursesError}</div> : null}
-            {activeModule === "videos" && videosError ? <div className="adminEmpty">{videosError}</div> : null}
-            {activeModule === "testimonials" && testimonialsError ? <div className="adminEmpty">{testimonialsError}</div> : null}
-            {activeModule === "whatsappReviews" && whatsappReviewsError ? (
+            {currentModule === "courses" && coursesError ? <div className="adminEmpty">{coursesError}</div> : null}
+            {currentModule === "videos" && videosError ? <div className="adminEmpty">{videosError}</div> : null}
+            {currentModule === "testimonials" && testimonialsError ? <div className="adminEmpty">{testimonialsError}</div> : null}
+            {currentModule === "whatsappReviews" && whatsappReviewsError ? (
               <div className="adminEmpty">{whatsappReviewsError}</div>
             ) : null}
-            {activeModule === "demoLecture" && demoLectureError ? <div className="adminEmpty">{demoLectureError}</div> : null}
-            {activeModule === "webinars" && webinarsError ? <div className="adminEmpty">{webinarsError}</div> : null}
-            {activeModule === "webinarLeads" && webinarLeadsError ? <div className="adminEmpty">{webinarLeadsError}</div> : null}
-            {activeModule === "courseLeads" && courseLeadsError ? <div className="adminEmpty">{courseLeadsError}</div> : null}
+            {currentModule === "demoLecture" && demoLectureError ? <div className="adminEmpty">{demoLectureError}</div> : null}
+            {currentModule === "webinars" && webinarsError ? <div className="adminEmpty">{webinarsError}</div> : null}
+            {currentModule === "webinarLeads" && webinarLeadsError ? <div className="adminEmpty">{webinarLeadsError}</div> : null}
+            {currentModule === "courseLeads" && courseLeadsError ? <div className="adminEmpty">{courseLeadsError}</div> : null}
+            {currentModule === "users" && usersError ? <div className="adminEmpty">{usersError}</div> : null}
+            {currentModule === "batches" && batchesError ? <div className="adminEmpty">{batchesError}</div> : null}
 
             {activeModule !== "dashboard" ? (
               <AdminTable
-                moduleKey={activeModule}
-                items={data[activeModule] ?? []}
+                moduleKey={currentModule}
+                items={data[currentModule] ?? []}
                 onEdit={editItem}
                 onDelete={deleteItem}
                 loading={
-                  (activeModule === "courses" && coursesLoading) ||
-                  (activeModule === "videos" && videosLoading) ||
-                  (activeModule === "testimonials" && testimonialsLoading) ||
-                  (activeModule === "whatsappReviews" && whatsappReviewsLoading) ||
-                  (activeModule === "demoLecture" && demoLectureLoading) ||
-                  (activeModule === "webinars" && webinarsLoading) ||
-                  (activeModule === "webinarLeads" && webinarLeadsLoading) ||
-                  (activeModule === "courseLeads" && courseLeadsLoading)
+                  (currentModule === "courses" && coursesLoading) ||
+                  (currentModule === "videos" && videosLoading) ||
+                  (currentModule === "testimonials" && testimonialsLoading) ||
+                  (currentModule === "whatsappReviews" && whatsappReviewsLoading) ||
+                  (currentModule === "demoLecture" && demoLectureLoading) ||
+                  (currentModule === "webinars" && webinarsLoading) ||
+                  (currentModule === "webinarLeads" && webinarLeadsLoading) ||
+                  (currentModule === "courseLeads" && courseLeadsLoading) ||
+                  (currentModule === "users" && usersLoading) ||
+                  (currentModule === "batches" && batchesLoading)
                 }
               />
             ) : null}
@@ -1357,6 +1608,7 @@ function AdminForm({
   onThumbnailUpload,
   thumbnailUploading,
   thumbnailUploadError,
+  users,
 }) {
   const fields = {
     dashboard: [],
@@ -1375,6 +1627,11 @@ function AdminForm({
     ],
     webinarLeads: [],
     courseLeads: [],
+    users: [],
+    batches: [
+      ["name", "Batch Name", "input", "adminFull"],
+      ["studentIds", "Assign Students", "studentSelector", "adminFull"],
+    ],
     testimonials: [
       ["studentName", "Student Name", "input"],
       ["course", "Course", "input"],
@@ -1468,6 +1725,36 @@ function AdminForm({
                   </option>
                 ))}
               </select>
+            ) : type === "studentSelector" ? (
+              <div className="adminStudentSelector">
+                {users?.length ? (
+                  users.map((user) => {
+                    const userId = String(user._id ?? user.id);
+                    const checkedValues = Array.isArray(form[name]) ? form[name].map(String) : [];
+
+                    return (
+                      <label key={userId}>
+                        <input
+                          type="checkbox"
+                          checked={checkedValues.includes(userId)}
+                          onChange={(event) => {
+                            const nextValues = event.target.checked
+                              ? [...checkedValues, userId]
+                              : checkedValues.filter((item) => item !== userId);
+                            onChange(name, nextValues);
+                          }}
+                        />
+                        <span>
+                          <strong>{user.name || "Student"}</strong>
+                          <small>{user.email}</small>
+                        </span>
+                      </label>
+                    );
+                  })
+                ) : (
+                  <div className="adminEmpty">No registered users yet.</div>
+                )}
+              </div>
             ) : type === "checkboxes" ? (
               <div className="adminCheckboxGroup">
                 {options.map((option) => {
@@ -1603,6 +1890,8 @@ function RichTextEditor({ id, value, onChange }) {
 }
 
 function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
+  const showActions = !["webinarLeads", "courseLeads", "users"].includes(moduleKey);
+
   if (loading) {
     return <div className="adminEmpty">Loading records...</div>;
   }
@@ -1619,7 +1908,7 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
             {columns[moduleKey].map(([, label]) => (
               <th key={label}>{label}</th>
             ))}
-            {moduleKey !== "webinarLeads" && moduleKey !== "courseLeads" ? <th>Actions</th> : null}
+            {showActions ? <th>Actions</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -1644,6 +1933,20 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                     <div className="adminYoutubePreview" dangerouslySetInnerHTML={{ __html: item[key] }} />
                   ) : key === "phone" ? (
                     item.phone || item.mobile
+                  ) : key === "studentIds" ? (
+                    Array.isArray(item.studentIds) && item.studentIds.length ? (
+                      <div className="adminAssignedStudents">
+                        {item.studentIds.map((student) => (
+                          <span key={student._id ?? student.id ?? student.email ?? student}>
+                            {typeof student === "object" ? student.name || student.email || "Student" : student}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      "-"
+                    )
+                  ) : ["createdAt", "lastLoginAt", "dateTime"].includes(key) ? (
+                    item[key] ? new Date(item[key]).toLocaleString("en-IN") : "-"
                   ) : key === "preferredLanguage" ? (
                     languageLabels[item[key]] || item[key] || "-"
                   ) : key === "courseMode" ? (
@@ -1659,7 +1962,7 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                   )}
                 </td>
               ))}
-              {moduleKey !== "webinarLeads" && moduleKey !== "courseLeads" ? (
+              {showActions ? (
                 <td>
                   <div className="adminActions">
                     <button type="button" className="adminButton adminButtonGhost" onClick={() => onEdit(item)}>

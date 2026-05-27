@@ -245,6 +245,12 @@ iframe[title*="Chat"] {
   width: auto;
 }
 
+.englishtaNavbarAuthSlot {
+  align-items: center;
+  display: inline-flex;
+  position: relative;
+}
+
 .englishtaNavbarLoginButton {
   align-items: center;
   background: #150005;
@@ -254,7 +260,7 @@ iframe[title*="Chat"] {
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font-family:Nunito, sans-serif;
+  font-family: Nunito, sans-serif;
   font-size: 14px;
   font-weight: 700;
   justify-content: center;
@@ -274,11 +280,276 @@ iframe[title*="Chat"] {
   transform: translateY(-2px);
 }
 
+.englishtaNavbarProfile {
+  position: relative;
+}
+
+.englishtaNavbarProfile__button {
+  align-items: center;
+  background: #150005;
+  border: 0;
+  border-radius: 999px;
+  box-shadow: 0 12px 26px rgba(21, 0, 5, 0.18);
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 9px;
+  min-height: 46px;
+  padding: 6px 13px 6px 6px;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.englishtaNavbarProfile__button:hover {
+  background: #2a000a;
+  box-shadow: 0 16px 32px rgba(21, 0, 5, 0.24);
+  transform: translateY(-2px);
+}
+
+.englishtaNavbarProfile__button span {
+  align-items: center;
+  background: #feb60c;
+  border-radius: 50%;
+  color: #150005;
+  display: inline-flex;
+  font-family: var(--heading-font);
+  font-size: 17px;
+  font-weight: 900;
+  height: 34px;
+  justify-content: center;
+  width: 34px;
+}
+
+.englishtaNavbarProfile__button i {
+  color: #fff;
+  font-size: 11px;
+}
+
+.englishtaNavbarProfile__dropdown {
+  animation: englishtaProfileMenuIn 0.24s ease both;
+  background: #fff;
+  border: 1px solid rgba(21, 0, 5, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 22px 55px rgba(21, 0, 5, 0.18);
+  min-width: 238px;
+  overflow: hidden;
+  padding: 8px;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 12px);
+  z-index: 10000;
+}
+
+.englishtaNavbarProfile__dropdown::before {
+  background: #fff;
+  border-left: 1px solid rgba(21, 0, 5, 0.1);
+  border-top: 1px solid rgba(21, 0, 5, 0.1);
+  content: "";
+  height: 12px;
+  position: absolute;
+  right: 21px;
+  top: -6px;
+  transform: rotate(45deg);
+  width: 12px;
+}
+
+.englishtaNavbarProfile__head {
+  border-bottom: 1px solid #f0e8df;
+  padding: 10px 12px 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.englishtaNavbarProfile__head strong,
+.englishtaNavbarProfile__head span {
+  display: block;
+  font-family: var(--heading-font);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.englishtaNavbarProfile__head strong {
+  color: #150005;
+  font-size: 16px;
+  font-family: Nunito, sans-serif;
+  font-weight: 800;
+}
+
+.englishtaNavbarProfile__head span {
+  color: #786f78;
+  font-size: 13px;
+  margin-top: 2px;
+  font-family: Nunito, sans-serif;
+}
+
+.englishtaNavbarProfile__dropdown a,
+.englishtaNavbarProfile__dropdown button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  color: #21151c;
+  display: flex;
+  cursor: pointer;
+  font-family: Nunito, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  gap: 11px;
+  padding: 9px;
+  position: relative;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+  text-align: left;
+  width: 100%;
+  z-index: 1;
+}
+
+.englishtaNavbarProfile__dropdown a:hover,
+.englishtaNavbarProfile__dropdown button:hover {
+  background: #fff4d8;
+  color: #150005;
+  transform: translateX(2px);
+}
+
+.englishtaNavbarProfile__dropdown a i,
+.englishtaNavbarProfile__dropdown button i {
+  align-items: center;
+  background: rgba(254, 182, 12, 0.18);
+  border-radius: 50%;
+  color: #b47b00;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 13px;
+  height: 28px;
+  justify-content: center;
+  width: 28px;
+}
+
+.englishtaNavbarProfile__dropdown button {
+  border-top: 1px solid #f0e8df;
+  border-radius: 0 0 10px 10px;
+  margin-top: 4px;
+}
+
+.englishtaStudentShell {
+  background:
+    radial-gradient(
+      circle at 80% 8%,
+      rgba(254, 182, 12, 0.18),
+      transparent 25%
+    ),
+    linear-gradient(180deg, #fffdf8 0%, #fbf7ee 100%);
+  min-height: 100vh;
+  padding: 160px 0 90px;
+}
+
+.englishtaStudentPanel {
+  background: #fff;
+  border: 1px solid rgba(21, 0, 5, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(21, 0, 5, 0.08);
+  margin: 0 auto;
+  max-width: 880px;
+  padding: 44px;
+}
+
+.englishtaStudentPanel__eyebrow {
+  color: #b47b00;
+  font-family: var(--heading-font);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.englishtaStudentPanel h1 {
+  color: #150005;
+  font-family: var(--heading-font);
+  font-size: clamp(34px, 5vw, 52px);
+  font-weight: 900;
+  line-height: 1.08;
+  margin: 0 0 16px;
+}
+
+.englishtaStudentPanel > p {
+  color: #5f5660;
+  font-size: 17px;
+  line-height: 1.75;
+  margin: 0;
+  max-width: 680px;
+}
+
+.englishtaStudentPanel__grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 32px;
+}
+
+.englishtaStudentPanel__card {
+  background: #fff9ea;
+  border: 1px solid rgba(254, 182, 12, 0.22);
+  border-radius: 14px;
+  padding: 22px;
+}
+
+.englishtaStudentPanel__card i {
+  align-items: center;
+  background: #feb60c;
+  border-radius: 50%;
+  color: #150005;
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  margin-bottom: 16px;
+  width: 42px;
+}
+
+.englishtaStudentPanel__card strong {
+  color: #150005;
+  display: block;
+  font-family: var(--heading-font);
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+
+.englishtaStudentPanel__card span {
+  color: #685e66;
+  display: block;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@keyframes englishtaProfileMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .englishtaAuthModal {
   align-items: center;
   animation: englishtaAuthBackdropIn 0.32s ease both;
   background:
-    radial-gradient(circle at 50% 12%, rgba(254, 182, 12, 0.08), transparent 28%),
+    radial-gradient(
+      circle at 50% 12%,
+      rgba(254, 182, 12, 0.08),
+      transparent 28%
+    ),
     rgba(8, 12, 18, 0.78);
   backdrop-filter: blur(7px);
   display: flex;
@@ -292,7 +563,11 @@ iframe[title*="Chat"] {
 .englishtaAuthModal__card {
   animation: englishtaAuthCardIn 0.56s cubic-bezier(0.16, 1, 0.3, 1) both;
   background:
-    radial-gradient(circle at 50% 16%, rgba(254, 182, 12, 0.1), transparent 28%),
+    radial-gradient(
+      circle at 50% 16%,
+      rgba(254, 182, 12, 0.1),
+      transparent 28%
+    ),
     linear-gradient(180deg, #fffdf9 0%, #fff 100%);
   border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 28px;
@@ -460,7 +735,7 @@ iframe[title*="Chat"] {
 
 .englishtaAuthModal__form h3 {
   color: #3a0628;
-  font-family:Nunito, sans-serif;
+  font-family: Nunito, sans-serif;
   font-size: 24px;
   font-weight: 700;
   letter-spacing: 0;
@@ -512,8 +787,7 @@ iframe[title*="Chat"] {
 }
 
 .englishtaAuthModal__flag {
-  background:
-    linear-gradient(#ff9933 0 33%, #fff 33% 66%, #138808 66% 100%);
+  background: linear-gradient(#ff9933 0 33%, #fff 33% 66%, #138808 66% 100%);
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 3px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -547,11 +821,12 @@ iframe[title*="Chat"] {
 }
 
 .englishtaAuthModal__error {
-  color: #d93025 !important;
-  font-size: 14px !important;
+  color: #cd3d32 !important;
+  font-size: 13px !important;
+  font-family: Nunito, sans-serif !important;
   font-weight: 700;
   line-height: 1.4 !important;
-  margin: 8px 0 0 164px !important;
+  margin: 6px 0 0 164px !important;
   text-align: left !important;
 }
 
@@ -766,6 +1041,34 @@ iframe[title*="Chat"] {
     font-size: 13px;
     min-height: 40px;
     padding: 11px 15px;
+  }
+
+  .englishtaNavbarProfile__button {
+    min-height: 40px;
+    padding: 5px 10px 5px 5px;
+  }
+
+  .englishtaNavbarProfile__button span {
+    font-size: 15px;
+    height: 30px;
+    width: 30px;
+  }
+
+  .englishtaNavbarProfile__dropdown {
+    min-width: 220px;
+    right: -8px;
+  }
+
+  .englishtaStudentShell {
+    padding: 124px 0 64px;
+  }
+
+  .englishtaStudentPanel {
+    padding: 30px 22px;
+  }
+
+  .englishtaStudentPanel__grid {
+    grid-template-columns: 1fr;
   }
 
   .englishtaAuthModal {
@@ -4081,7 +4384,8 @@ iframe[title*="Chat"] {
 }
 
 .englishtaCourseDetailHero__actions .englishtaCourseDetailHero__primary:hover,
-.englishtaCourseDetailHero__actions .englishtaCourseDetailHero__secondary:hover {
+.englishtaCourseDetailHero__actions
+  .englishtaCourseDetailHero__secondary:hover {
   background: #ffcb3d !important;
   background-color: #ffcb3d !important;
   border-color: #ffcb3d !important;
@@ -4383,11 +4687,7 @@ iframe[title*="Chat"] {
       rgba(254, 182, 12, 0.18),
       transparent 22%
     ),
-    radial-gradient(
-      circle at 6% 0%,
-      rgba(254, 182, 12, 0.08),
-      transparent 24%
-    ),
+    radial-gradient(circle at 6% 0%, rgba(254, 182, 12, 0.08), transparent 24%),
     linear-gradient(180deg, #080604 0%, #120d05 48%, #080604 100%);
   color: #fff;
   padding: 175px 0 78px;
@@ -4572,10 +4872,9 @@ iframe[title*="Chat"] {
   font-weight: 800;
   letter-spacing: 0;
   line-height: 1.25;
-    font-family: Nunito, sans-serif !important;
+  font-family: Nunito, sans-serif !important;
   margin: 0;
   text-align: center;
-  
 }
 
 .englishtaAboutStats__panel h2 {
@@ -4774,7 +5073,7 @@ iframe[title*="Chat"] {
   font-weight: 700;
   list-style: none;
   padding: 20px 58px 20px 28px;
-   font-family: Nunito, sans-serif;
+  font-family: Nunito, sans-serif;
   position: relative;
 }
 
@@ -4856,7 +5155,6 @@ iframe[title*="Chat"] {
   padding: 8px 17px;
   font-family: Nunito, sans-serif;
   text-decoration: none;
-
 }
 
 .englishtaAboutCta a:hover {
@@ -5096,7 +5394,11 @@ iframe[title*="Chat"] {
 
 .englishtaWebinarHero__card {
   background:
-    radial-gradient(circle at 58% 26%, rgba(254, 182, 12, 0.2), transparent 34%),
+    radial-gradient(
+      circle at 58% 26%,
+      rgba(254, 182, 12, 0.2),
+      transparent 34%
+    ),
     linear-gradient(135deg, rgba(254, 182, 12, 0.1), transparent 60%);
   border: 0;
   border-radius: 28px;
@@ -5120,12 +5422,29 @@ iframe[title*="Chat"] {
 
 .englishtaWebinarHero__card::before {
   background:
-    linear-gradient(90deg, #1f1708 0%, rgba(31, 23, 8, 0) 24%, rgba(31, 23, 8, 0) 76%, #080604 100%),
-    linear-gradient(180deg, #1f1708 0%, rgba(31, 23, 8, 0) 22%, rgba(8, 6, 4, 0) 66%, #080604 100%);
+    linear-gradient(
+      90deg,
+      #1f1708 0%,
+      rgba(31, 23, 8, 0) 24%,
+      rgba(31, 23, 8, 0) 76%,
+      #080604 100%
+    ),
+    linear-gradient(
+      180deg,
+      #1f1708 0%,
+      rgba(31, 23, 8, 0) 22%,
+      rgba(8, 6, 4, 0) 66%,
+      #080604 100%
+    );
 }
 
 .englishtaWebinarHero__card::after {
-  background: radial-gradient(circle at 50% 44%, transparent 38%, rgba(12, 8, 4, 0.48) 72%, #080604 100%);
+  background: radial-gradient(
+    circle at 50% 44%,
+    transparent 38%,
+    rgba(12, 8, 4, 0.48) 72%,
+    #080604 100%
+  );
   mix-blend-mode: multiply;
 }
 
@@ -23123,8 +23442,6 @@ body {
   color: #b91c1c;
 }
 
-
-
 .englishtaWebinarPage
   :is(
     .englishtaWebinarHero__actions button,
@@ -23191,4 +23508,492 @@ body {
 }
 .td_nav_list ul li a {
   font-size: 17px !important;
+}
+
+.englishtaAuthModal {
+  align-items: center;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(254, 182, 12, 0.08),
+      transparent 30%
+    ),
+    rgba(8, 12, 18, 0.76);
+  padding: 18px;
+}
+
+.englishtaAuthToast {
+  align-items: center;
+  animation: englishtaAuthToastIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(255, 250, 238, 0.98)
+  );
+  border: 1px solid rgba(254, 182, 12, 0.32);
+  border-radius: 16px;
+  box-shadow: 0 18px 45px rgba(21, 0, 5, 0.18);
+  color: #2c1624;
+  display: flex;
+  gap: 13px;
+  min-width: 310px;
+  padding: 14px 18px;
+  position: fixed;
+  right: 24px;
+  top: 24px;
+  z-index: 100000;
+}
+
+.englishtaAuthToast::after {
+  background: linear-gradient(90deg, #feb60c, #ffcf4a);
+  border-radius: 0 0 16px 16px;
+  bottom: 0;
+  content: "";
+  height: 4px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.englishtaAuthToast span {
+  align-items: center;
+  background: #f9b400;
+  border-radius: 50%;
+  box-shadow: 0 10px 20px rgba(249, 180, 0, 0.28);
+  color: #211307;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 38px;
+  justify-content: center;
+  width: 38px;
+}
+
+.englishtaAuthToast p {
+  color: #2c1624;
+  font-family: Nunito, sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.englishtaAuthModal__card {
+  color: #35112d;
+  background: #fff;
+  border: 1px solid #ffffffd1;
+  border-radius: 14px;
+  width: min(100%, 480px);
+  max-width: 480px;
+  max-height: calc(100vh - 24px);
+  padding: 28px 32px 26px;
+  box-shadow: 0 26px 75px #00000057;
+  transform-origin: right center;
+}
+
+.englishtaAuthModal__card--register {
+  width: min(100%, 680px);
+  max-width: 680px;
+}
+
+.englishtaAuthModal__card--settled:not(.englishtaAuthModal__card--flipRight) {
+  animation: none !important;
+}
+
+.englishtaAuthModal__card--flipRight {
+  animation: englishtaAuthFlipRight 0.68s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.englishtaAuthModal__close,
+.englishtaAuthModal__back {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #3a3942;
+  cursor: pointer;
+  display: inline-flex;
+  height: 30px;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  top: 20px;
+  width: 30px;
+}
+
+.englishtaAuthModal__close {
+  right: 12px;
+  cursor: pointer;
+}
+
+.englishtaAuthModal__back {
+  font-size: 15px;
+  left: 22px;
+}
+
+.englishtaAuthModal__close span {
+  height: 17px;
+  width: 1.8px;
+}
+
+.englishtaAuthModal__brand {
+  margin-bottom: 18px;
+}
+
+.englishtaAuthModal__brand img {
+  border-radius: 0;
+  height: 188px;
+  margin: 0 auto -18px;
+  object-fit: contain;
+  object-position: center;
+  width: 230px;
+}
+
+.englishtaAuthModal__sparkles {
+  inset: 26px 38px auto;
+}
+
+.englishtaAuthModal__sparkles span:nth-child(1) {
+  left: 18px;
+  top: 24px;
+}
+
+.englishtaAuthModal__sparkles span:nth-child(2) {
+  left: 250px;
+  top: 52px;
+}
+
+.englishtaAuthModal__sparkles span:nth-child(3) {
+  left: 292px;
+  top: 125px;
+}
+
+.englishtaAuthModal__sparkles span:nth-child(4) {
+  left: 42px;
+  top: 106px;
+}
+
+.englishtaAuthModal__sparkles span:nth-child(5) {
+  left: 185px;
+  top: -2px;
+}
+
+.englishtaAuthModal__sparkles span:nth-child(6) {
+  left: 292px;
+  top: 88px;
+}
+
+.englishtaAuthModal__form {
+  margin-top: 0;
+}
+
+.englishtaAuthModal__form h3 {
+  color: #3a0628;
+  letter-spacing: 0;
+  text-align: center;
+  margin: 0 0 15px;
+  font-family: Nunito, sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.englishtaAuthModal__form > p {
+  color: #4e505b;
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0 0 24px;
+  text-align: left;
+}
+
+.englishtaAuthModal__field {
+  display: block;
+  margin: 20px 0;
+}
+
+.englishtaAuthModal__field > span {
+  color: #36333c;
+  display: block;
+  font-size: 13px;
+  font-family: Nunito, sans-serif;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.englishtaAuthModal__inputWrap {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ded6d8;
+  border-radius: 5px;
+  color: #4c4f5a;
+  display: flex;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 13px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.englishtaAuthModal__inputWrap:focus-within {
+  border-color: #feb60c;
+  box-shadow: 0 0 0 3px rgba(254, 182, 12, 0.12);
+}
+
+.englishtaAuthModal__inputWrap input {
+  border: 0;
+  color: #252630;
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: Nunito, sans-serif;
+  min-width: 0;
+  outline: 0;
+}
+
+.englishtaAuthModal__inputWrap input::placeholder {
+  color: #9ca0aa;
+}
+
+.englishtaAuthModal__passwordGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.englishtaAuthModal__passwordGrid .englishtaAuthModal__field {
+  margin-top: 20px;
+}
+
+.englishtaAuthModal__passwordToggle {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #5f626d;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 14px;
+  height: 28px;
+  justify-content: center;
+  padding: 0;
+  width: 28px;
+}
+
+.englishtaAuthModal__passwordToggle:hover {
+  color: #3a0628;
+}
+
+.englishtaAuthModal__emailPreview strong {
+  color: #252630;
+  flex: 1;
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.englishtaAuthModal__emailPreview button {
+  background: transparent;
+  border: 0;
+  color: #3a0628;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: Nunito, sans-serif;
+  padding: 0;
+}
+
+.englishtaAuthModal__error {
+  color: #d93025 !important;
+  font-size: 12px !important;
+  font-weight: 700;
+  line-height: 1.4 !important;
+  margin: -4px 0 12px !important;
+  text-align: left !important;
+}
+
+.englishtaAuthModal__options {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: -2px 0 14px;
+}
+
+.englishtaAuthModal__options label {
+  align-items: center;
+  color: #565964;
+  display: inline-flex;
+  font-size: 12px;
+  gap: 7px;
+}
+
+.englishtaAuthModal__options input {
+  accent-color: #feb60c;
+  height: 14px;
+  width: 14px;
+}
+
+.englishtaAuthModal__options a {
+  color: #3a0628;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.englishtaAuthModal__submit {
+  background: #f9b400;
+  border-radius: 5px;
+  color: #1d1410;
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 4px;
+  min-height: 45px;
+  font-family: Nunito, sans-serif;
+  padding: 12px 20px;
+}
+
+.englishtaAuthModal__submit:hover {
+  box-shadow: 0 14px 28px rgba(249, 180, 0, 0.24);
+  transform: translateY(-1px);
+}
+
+.englishtaAuthModal__divider {
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.englishtaAuthModal__divider em {
+  color: #72737b;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.englishtaAuthModal__google {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ded6d8;
+  border-radius: 5px;
+  color: #23242c;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: Nunito, sans-serif;
+  gap: 12px;
+  justify-content: center;
+  min-height: 44px;
+  width: 100%;
+}
+
+.englishtaAuthModal__google svg {
+  height: 18px;
+  width: 18px;
+}
+
+.englishtaAuthModal__safe {
+  gap: 13px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.englishtaAuthModal__safe i {
+  background: rgba(254, 182, 12, 0.18);
+  font-size: 17px;
+  height: 38px;
+  width: 38px;
+}
+
+.englishtaAuthModal__safe p {
+  color: #6a6870;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.englishtaAuthModal__safe strong {
+  color: #57535b;
+  font-size: 12px;
+}
+
+.englishtaAuthModal__terms {
+  color: #6c6d74;
+  font-size: 10px;
+  line-height: 1.5;
+  margin-top: 30px;
+}
+
+.englishtaAuthModal__terms a {
+  color: #3a0628;
+  font-weight: 900;
+}
+
+@keyframes englishtaAuthToastIn {
+  from {
+    opacity: 0;
+    transform: translate(24px, -12px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes englishtaAuthFlipRight {
+  0% {
+    opacity: 1;
+    transform: perspective(1100px) rotateY(0deg) translateX(0) scale(1);
+  }
+
+  45% {
+    opacity: 0.18;
+    transform: perspective(1100px) rotateY(-18deg) translateX(78px) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: perspective(1100px) rotateY(0deg) translateX(0) scale(1);
+  }
+}
+
+@media (max-width: 767px) {
+  .englishtaAuthToast {
+    left: 14px;
+    min-width: 0;
+    right: 14px;
+    top: 14px;
+  }
+
+  .englishtaAuthModal {
+    align-items: center;
+    padding: 10px;
+  }
+
+  .englishtaAuthModal__card {
+    border-radius: 14px;
+    max-height: calc(100vh - 20px);
+    padding: 26px 22px 24px;
+  }
+
+  .englishtaAuthModal__card--register {
+    max-width: 480px;
+  }
+
+  .englishtaAuthModal__brand img {
+    height: 170px;
+    margin-bottom: -16px;
+    width: 210px;
+  }
+
+  .englishtaAuthModal__form h3 {
+    font-size: 19px;
+  }
+
+  .englishtaAuthModal__passwordGrid {
+    gap: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaAuthModal__safe {
+    align-items: center;
+  }
 }
