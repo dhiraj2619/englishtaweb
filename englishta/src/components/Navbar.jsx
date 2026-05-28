@@ -130,7 +130,7 @@ export default function Navbar() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isCredentialLoading, setIsCredentialLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  const googleAuthInitializedRef = useRef(false);
+  const googleCodeClientRef = useRef(null);
   const [authToast, setAuthToast] = useState(null);
   const [isAuthCardFlipping, setIsAuthCardFlipping] = useState(false);
   const [isAuthCardSettled, setIsAuthCardSettled] = useState(false);
@@ -419,13 +419,14 @@ export default function Navbar() {
 
     setIsGoogleLoading(true);
 
-    const submitGoogleCredential = (credential) => {
+    const submitGoogleCode = (code) => {
       fetch("/api/auth/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-Requested-With": "XmlHttpRequest",
         },
-        body: JSON.stringify({ credential }),
+        body: JSON.stringify({ code }),
       })
         .then(async (response) => {
           const payload = await response.json();
@@ -443,34 +444,41 @@ export default function Navbar() {
         .finally(() => setIsGoogleLoading(false));
     };
 
-    const promptGoogle = () => {
-      window.google.accounts.id.prompt((notification) => {
-        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-          setIsGoogleLoading(false);
-        }
-      });
-    };
-
     const initializeGoogle = () => {
-      if (!googleAuthInitializedRef.current) {
-        window.google.accounts.id.initialize({
+      if (!window.google?.accounts?.oauth2) {
+        setAuthError("Unable to load Google login.");
+        setIsGoogleLoading(false);
+        return;
+      }
+
+      if (!googleCodeClientRef.current) {
+        googleCodeClientRef.current = window.google.accounts.oauth2.initCodeClient({
           client_id: googleClientId,
+          scope: "openid email profile",
+          ux_mode: "popup",
           callback: (response) => {
-            if (response.credential) {
-              submitGoogleCredential(response.credential);
+            if (!response?.code) {
+              setAuthError("Google login was cancelled.");
+              setIsGoogleLoading(false);
               return;
             }
-            setAuthError("Google login was cancelled.");
+
+            submitGoogleCode(response.code);
+          },
+          error_callback: (error) => {
+            if (error?.type !== "popup_closed") {
+              setAuthError("Google login failed.");
+            }
+
             setIsGoogleLoading(false);
           },
         });
-        googleAuthInitializedRef.current = true;
       }
 
-      promptGoogle();
+      googleCodeClientRef.current.requestCode();
     };
 
-    if (window.google?.accounts?.id) {
+    if (window.google?.accounts?.oauth2) {
       initializeGoogle();
       return;
     }
