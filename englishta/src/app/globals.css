@@ -529,6 +529,825 @@ iframe[title*="Chat"] {
   line-height: 1.5;
 }
 
+.englishtaStudentProfilePage {
+  background:
+    radial-gradient(circle at 90% 6%, rgba(254, 182, 12, 0.14), transparent 22%),
+    linear-gradient(180deg, #fffdf8 0%, #f7f2e8 100%);
+  min-height: 100vh;
+  padding: 136px 0 86px;
+}
+
+.englishtaStudentProfile {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 278px minmax(0, 1fr);
+  align-items: start;
+}
+
+.englishtaStudentProfile__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: sticky;
+  top: 136px;
+}
+
+.englishtaStudentProfile__userCard,
+.englishtaStudentProfile__promoCard,
+.englishtaStudentProfile__helpCard,
+.englishtaStudentProfile__whyCard,
+.englishtaStudentProfile__tip,
+.englishtaStudentProfile__banner,
+.englishtaStudentProfile__hero,
+.englishtaStudentProfile__step {
+  background: #fff;
+  border: 1px solid rgba(21, 0, 5, 0.08);
+  box-shadow: 0 22px 60px rgba(21, 0, 5, 0.06);
+}
+
+.englishtaStudentProfile__userCard,
+.englishtaStudentProfile__promoCard,
+.englishtaStudentProfile__helpCard {
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.englishtaStudentProfile__avatar {
+  align-items: center;
+  background: linear-gradient(180deg, #fff7d8 0%, #fffdf4 100%);
+  border: 1px solid rgba(254, 182, 12, 0.18);
+  border-radius: 999px;
+  display: flex;
+  height: 98px;
+  justify-content: center;
+  margin: 0 auto 16px;
+  overflow: hidden;
+  width: 98px;
+}
+
+.englishtaStudentProfile__avatar img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.englishtaStudentProfile__avatar span {
+  color: #150005;
+  font-family: var(--heading-font);
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.englishtaStudentProfile__userCard h2 {
+  color: #150005;
+  font-family: var(--heading-font);
+  font-size: 22px;
+  font-weight: 900;
+  margin: 0;
+  text-align: center;
+}
+
+.englishtaStudentProfile__userCard p {
+  color: #665d66;
+  font-size: 14px;
+  margin: 8px 0 0;
+  text-align: center;
+  word-break: break-word;
+}
+
+.englishtaStudentProfile__nav {
+  background: #fff;
+  border: 1px solid rgba(21, 0, 5, 0.08);
+  border-radius: 18px;
+  padding: 12px;
+}
+
+.englishtaStudentProfile__navItem {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 14px;
+  color: #3b3340;
+  display: flex;
+  gap: 14px;
+  padding: 16px 16px;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+  width: 100%;
+}
+
+.englishtaStudentProfile__navItem i {
+  color: #a39aa5;
+  font-size: 18px;
+  width: 20px;
+}
+
+.englishtaStudentProfile__navItem:hover {
+  background: #fff7dc;
+  color: #8a5a00;
+}
+
+.englishtaStudentProfile__navItem:hover i,
+.englishtaStudentProfile__navItem.is-active i {
+  color: #feb60c;
+}
+
+.englishtaStudentProfile__navItem.is-active {
+  background: #fff6d3;
+  color: #7f3f00;
+  font-weight: 700;
+}
+
+.englishtaStudentProfile__navItem--button {
+  font: inherit;
+  text-align: left;
+}
+
+.englishtaStudentProfile__promoCard {
+  background: linear-gradient(180deg, #fffaf0 0%, #fffdf8 100%);
+}
+
+.englishtaStudentProfile__promoIcon,
+.englishtaStudentProfile__helpIcon {
+  align-items: center;
+  background: #fff0c1;
+  border-radius: 14px;
+  color: #bd8400;
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  margin-bottom: 14px;
+  width: 42px;
+}
+
+.englishtaStudentProfile__promoCard strong,
+.englishtaStudentProfile__helpCard strong {
+  color: #150005;
+  display: block;
+  font-family: var(--heading-font);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.englishtaStudentProfile__promoCard p,
+.englishtaStudentProfile__helpCard p {
+  color: #665d66;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 10px 0 18px;
+}
+
+.englishtaStudentProfile__promoButton,
+.englishtaStudentProfile__helpCard a {
+  color: #150005;
+  display: inline-flex;
+  gap: 10px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.englishtaStudentProfile__promoButton {
+  align-items: center;
+  background: #feb60c;
+  border-radius: 10px;
+  color: #150005;
+  padding: 12px 16px;
+}
+
+.englishtaStudentProfile__helpCard a i {
+  transition: transform 0.2s ease;
+}
+
+.englishtaStudentProfile__helpCard a:hover i {
+  transform: translateX(2px);
+}
+
+.englishtaStudentProfile__main {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+}
+
+.englishtaStudentProfile__hero {
+  align-items: center;
+  background: linear-gradient(135deg, #fff7d5 0%, #fffdf7 52%, #fff7e5 100%);
+  border-radius: 28px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  overflow: hidden;
+  padding: 34px 34px 30px;
+}
+
+.englishtaStudentProfile__heroContent {
+  min-width: 0;
+}
+
+.englishtaStudentProfile__eyebrow {
+  color: #8d5c00;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.26em;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.englishtaStudentProfile__hero h1 {
+  color: #2e1a2a;
+  font-family: var(--heading-font);
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1.06;
+  margin: 0;
+}
+
+.englishtaStudentProfile__hero h1 span {
+  color: #1f1320;
+}
+
+.englishtaStudentProfile__heroText {
+  color: #635a67;
+  font-size: 17px;
+  line-height: 1.7;
+  margin: 16px 0 0;
+  max-width: 520px;
+}
+
+.englishtaStudentProfile__progressRow {
+  align-items: flex-end;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.englishtaStudentProfile__progressRow strong {
+  color: #2a1824;
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.englishtaStudentProfile__progressRow span {
+  color: #f0a800;
+  font-family: var(--heading-font);
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.englishtaStudentProfile__progressRow p {
+  color: #6a5f69;
+  font-size: 15px;
+  margin: 0;
+}
+
+.englishtaStudentProfile__progressBar {
+  background: rgba(21, 0, 5, 0.08);
+  border-radius: 999px;
+  height: 10px;
+  margin-top: 12px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.englishtaStudentProfile__progressBar span {
+  background: linear-gradient(90deg, #fdb307 0%, #ffcb34 100%);
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+}
+
+.englishtaStudentProfile__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.englishtaStudentProfile__meta div {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.64);
+  border: 1px solid rgba(21, 0, 5, 0.08);
+  border-radius: 999px;
+  color: #4f4450;
+  display: inline-flex;
+  gap: 10px;
+  padding: 12px 16px;
+}
+
+.englishtaStudentProfile__meta i {
+  color: #feb60c;
+}
+
+.englishtaStudentProfile__heroArt {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 320px;
+  position: relative;
+}
+
+.englishtaStudentProfile__heroHalo {
+  background: radial-gradient(circle, rgba(254, 182, 12, 0.38) 0%, rgba(254, 182, 12, 0.14) 40%, transparent 70%);
+  border-radius: 50%;
+  height: 280px;
+  position: absolute;
+  width: 280px;
+}
+
+.englishtaStudentProfile__heroArt img {
+  display: block;
+  max-width: 92%;
+  position: relative;
+  width: 390px;
+}
+
+.englishtaStudentProfile__sectionHead {
+  align-items: start;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+
+.englishtaStudentProfile__sectionHead h2 {
+  color: #2a1824;
+  font-family: var(--heading-font);
+  font-size: 30px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.englishtaStudentProfile__sectionHead p {
+  color: #6a606b;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 8px 0 0;
+}
+
+.englishtaStudentProfile__whyCard {
+  align-items: center;
+  border-radius: 18px;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 42px minmax(0, 1fr) 18px;
+  padding: 20px 22px;
+}
+
+.englishtaStudentProfile__whyCard i:first-child {
+  align-items: center;
+  background: #fff3c8;
+  border-radius: 999px;
+  color: #f0a800;
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  width: 42px;
+}
+
+.englishtaStudentProfile__whyCard strong {
+  color: #2c1b25;
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.englishtaStudentProfile__whyCard span {
+  color: #6a606b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.englishtaStudentProfile__whyCard i:last-child {
+  color: #927e83;
+}
+
+.englishtaStudentProfile__steps {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.englishtaStudentProfile__step {
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 20px;
+}
+
+.englishtaStudentProfile__stepTop {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.englishtaStudentProfile__stepBadge {
+  align-items: center;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-weight: 900;
+  height: 36px;
+  justify-content: center;
+  width: 36px;
+}
+
+.englishtaStudentProfile__stepBadge--green {
+  background: linear-gradient(180deg, #35bc4f 0%, #2aa63d 100%);
+}
+
+.englishtaStudentProfile__stepBadge--amber {
+  background: linear-gradient(180deg, #ffc229 0%, #f0a800 100%);
+}
+
+.englishtaStudentProfile__stepBadge--purple {
+  background: linear-gradient(180deg, #9b4cff 0%, #7d2df0 100%);
+}
+
+.englishtaStudentProfile__stepStatus {
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 8px 14px;
+}
+
+.englishtaStudentProfile__step--green .englishtaStudentProfile__stepStatus {
+  background: #eefaf0;
+  color: #2f9950;
+}
+
+.englishtaStudentProfile__stepStatus--complete {
+  background: #eefaf0;
+  color: #2f9950;
+}
+
+.englishtaStudentProfile__stepStatus--pending {
+  background: #fff3d4;
+  color: #b17700;
+}
+
+.englishtaStudentProfile__step--amber .englishtaStudentProfile__stepStatus {
+  background: #fff3d4;
+  color: #b17700;
+}
+
+.englishtaStudentProfile__step--purple .englishtaStudentProfile__stepStatus {
+  background: #f3e9ff;
+  color: #9046e5;
+}
+
+.englishtaStudentProfile__stepArt {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 12px;
+  min-height: 172px;
+}
+
+.englishtaStudentProfile__stepArt i {
+  color: #ffb400;
+  font-size: 112px;
+}
+
+.englishtaStudentProfile__step--green .englishtaStudentProfile__stepArt i {
+  color: #35bc4f;
+}
+
+.englishtaStudentProfile__step--purple .englishtaStudentProfile__stepArt i {
+  color: #9b4cff;
+}
+
+.englishtaStudentProfile__step h3 {
+  color: #2a1824;
+  font-family: var(--heading-font);
+  font-size: 24px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.englishtaStudentProfile__step p {
+  color: #6a606b;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 10px 0 0;
+}
+
+.englishtaStudentProfile__step ul {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 18px 0 22px;
+  padding: 0;
+}
+
+.englishtaStudentProfile__step li {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.englishtaStudentProfile__step li i {
+  color: #34b94f;
+  font-size: 15px;
+}
+
+.englishtaStudentProfile__step--amber .englishtaStudentProfile__step li i {
+  color: #f0a800;
+}
+
+.englishtaStudentProfile__step--purple .englishtaStudentProfile__step li i {
+  color: #9b4cff;
+}
+
+.englishtaStudentProfile__step li span {
+  color: #2d2430;
+  font-size: 14px;
+}
+
+.englishtaStudentProfile__stepButton {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  display: inline-flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: auto;
+  min-height: 46px;
+  padding: 12px 16px;
+  text-decoration: none;
+}
+
+.englishtaStudentProfile__stepButton--green {
+  border-color: #bfe8c8;
+  color: #2e9a49;
+}
+
+.englishtaStudentProfile__stepButton--amber {
+  background: #feb60c;
+  color: #2d1700;
+}
+
+.englishtaStudentProfile__stepButton--purple {
+  border-color: #d9c2ff;
+  color: #7f3fe0;
+}
+
+.englishtaStudentProfile__stepButton:disabled {
+  cursor: default;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.englishtaStudentProfile__banner {
+  align-items: center;
+  background: linear-gradient(135deg, #fff6d9 0%, #fffdf7 100%);
+  border-radius: 22px;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 72px minmax(0, 1fr);
+  padding: 24px 26px;
+}
+
+.englishtaStudentProfile__bannerGift {
+  align-items: center;
+  background: #fff0c3;
+  border-radius: 18px;
+  color: #f0a800;
+  display: inline-flex;
+  height: 72px;
+  justify-content: center;
+  width: 72px;
+}
+
+.englishtaStudentProfile__bannerGift i {
+  font-size: 28px;
+}
+
+.englishtaStudentProfile__bannerContent h3 {
+  color: #2a1824;
+  font-family: var(--heading-font);
+  font-size: 24px;
+  font-weight: 900;
+  margin: 0 0 18px;
+}
+
+.englishtaStudentProfile__bannerFeatures {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.englishtaStudentProfile__bannerFeatures div {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.englishtaStudentProfile__bannerFeatures i {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 999px;
+  color: #a36a00;
+  display: inline-flex;
+  height: 38px;
+  justify-content: center;
+  width: 38px;
+}
+
+.englishtaStudentProfile__bannerFeatures span {
+  color: #4d4350;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.englishtaStudentProfile__tip {
+  align-items: center;
+  border-radius: 18px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 54px minmax(0, 1fr) 24px;
+  padding: 20px 22px;
+}
+
+.englishtaStudentProfile__tipIcon {
+  align-items: center;
+  background: #fff0c3;
+  border-radius: 999px;
+  color: #a36a00;
+  display: inline-flex;
+  height: 54px;
+  justify-content: center;
+  width: 54px;
+}
+
+.englishtaStudentProfile__tip p {
+  color: #5f5561;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.englishtaStudentProfile__tip strong {
+  color: #2a1824;
+}
+
+.englishtaStudentProfile__tip button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #a59aa0;
+  display: inline-flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.englishtaStudentProfile__loading {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(21, 0, 5, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 18px 44px rgba(21, 0, 5, 0.08);
+  color: #6d6068;
+  font-size: 14px;
+  left: 16px;
+  padding: 12px 16px;
+  position: fixed;
+  top: 16px;
+  z-index: 10;
+}
+
+.englishtaStudentProfile__modal {
+  align-items: center;
+  background: rgba(8, 12, 18, 0.72);
+  backdrop-filter: blur(6px);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 20px;
+  position: fixed;
+  z-index: 9999;
+}
+
+.englishtaStudentProfile__modalCard {
+  background: linear-gradient(180deg, #fffdf8 0%, #ffffff 100%);
+  border: 1px solid rgba(21, 0, 5, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 34px 88px rgba(0, 0, 0, 0.32);
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+  padding: 28px;
+  position: relative;
+  width: min(100%, 680px);
+}
+
+.englishtaStudentProfile__modalClose {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #605560;
+  cursor: pointer;
+  display: inline-flex;
+  height: 40px;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  width: 40px;
+}
+
+.englishtaStudentProfile__modalEyebrow {
+  color: #b17700;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.24em;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+.englishtaStudentProfile__modalCard h3 {
+  color: #2a1824;
+  font-family: var(--heading-font);
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.englishtaStudentProfile__modalText {
+  color: #675d69;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 12px 0 22px;
+}
+
+.englishtaStudentProfile__modalForm {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.englishtaStudentProfile__modalForm label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.englishtaStudentProfile__modalForm label span {
+  color: #2a1824;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.englishtaStudentProfile__modalForm input,
+.englishtaStudentProfile__modalForm select {
+  background: #fff;
+  border: 1px solid #ddd3d7;
+  border-radius: 12px;
+  color: #2a1824;
+  font: inherit;
+  min-height: 48px;
+  padding: 12px 14px;
+  width: 100%;
+}
+
+.englishtaStudentProfile__modalForm input:focus,
+.englishtaStudentProfile__modalForm select:focus {
+  border-color: #feb60c;
+  box-shadow: 0 0 0 3px rgba(254, 182, 12, 0.18);
+  outline: none;
+}
+
+.englishtaStudentProfile__modalFormFull {
+  grid-column: 1 / -1;
+}
+
+.englishtaStudentProfile__modalError {
+  color: #c43b28;
+  font-size: 14px;
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.englishtaStudentProfile__modalSubmit {
+  align-items: center;
+  background: #feb60c;
+  border: 0;
+  border-radius: 12px;
+  color: #150005;
+  display: inline-flex;
+  font-weight: 900;
+  grid-column: 1 / -1;
+  justify-content: center;
+  min-height: 50px;
+  padding: 14px 18px;
+}
+
 @keyframes englishtaProfileMenuIn {
   from {
     opacity: 0;
@@ -1068,6 +1887,64 @@ iframe[title*="Chat"] {
   }
 
   .englishtaStudentPanel__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaStudentProfilePage {
+    padding: 112px 0 64px;
+  }
+
+  .englishtaStudentProfile {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaStudentProfile__sidebar {
+    position: static;
+  }
+
+  .englishtaStudentProfile__hero {
+    grid-template-columns: 1fr;
+    padding: 24px 18px 22px;
+  }
+
+  .englishtaStudentProfile__hero h1 {
+    font-size: 34px;
+  }
+
+  .englishtaStudentProfile__heroArt {
+    min-height: 220px;
+  }
+
+  .englishtaStudentProfile__heroArt img {
+    width: 280px;
+  }
+
+  .englishtaStudentProfile__sectionHead {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaStudentProfile__steps {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaStudentProfile__banner {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaStudentProfile__bannerFeatures {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .englishtaStudentProfile__tip {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaStudentProfile__modalCard {
+    max-height: calc(100vh - 20px);
+    padding: 22px 18px;
+  }
+
+  .englishtaStudentProfile__modalForm {
     grid-template-columns: 1fr;
   }
 
