@@ -130,6 +130,7 @@ export default function Navbar() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isCredentialLoading, setIsCredentialLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const googleAuthInitializedRef = useRef(false);
   const [authToast, setAuthToast] = useState(null);
   const [isAuthCardFlipping, setIsAuthCardFlipping] = useState(false);
   const [isAuthCardSettled, setIsAuthCardSettled] = useState(false);
@@ -442,23 +443,31 @@ export default function Navbar() {
         .finally(() => setIsGoogleLoading(false));
     };
 
-    const initializeGoogle = () => {
-      window.google.accounts.id.initialize({
-        client_id: googleClientId,
-        callback: (response) => {
-          if (response.credential) {
-            submitGoogleCredential(response.credential);
-            return;
-          }
-          setAuthError("Google login was cancelled.");
-          setIsGoogleLoading(false);
-        },
-      });
+    const promptGoogle = () => {
       window.google.accounts.id.prompt((notification) => {
         if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
           setIsGoogleLoading(false);
         }
       });
+    };
+
+    const initializeGoogle = () => {
+      if (!googleAuthInitializedRef.current) {
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: (response) => {
+            if (response.credential) {
+              submitGoogleCredential(response.credential);
+              return;
+            }
+            setAuthError("Google login was cancelled.");
+            setIsGoogleLoading(false);
+          },
+        });
+        googleAuthInitializedRef.current = true;
+      }
+
+      promptGoogle();
     };
 
     if (window.google?.accounts?.id) {
