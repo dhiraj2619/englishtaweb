@@ -537,6 +537,16 @@ iframe[title*="Chat"] {
   padding: 136px 0 86px;
 }
 
+.englishtaStudentProfilePage h1,
+.englishtaStudentProfilePage h2,
+.englishtaStudentProfilePage h3,
+.englishtaStudentProfilePage h4,
+.englishtaStudentProfilePage h5,
+.englishtaStudentProfilePage h6 {
+  font-family: Nunito, sans-serif;
+  font-weight: 700;
+}
+
 .englishtaStudentProfile {
   display: grid;
   gap: 24px;
@@ -594,16 +604,16 @@ iframe[title*="Chat"] {
 
 .englishtaStudentProfile__avatar span {
   color: #150005;
-  font-family: var(--heading-font);
+  font-family: Nunito, sans-serif;
   font-size: 34px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .englishtaStudentProfile__userCard h2 {
   color: #150005;
-  font-family: var(--heading-font);
+  font-family: Nunito, sans-serif;
   font-size: 22px;
-  font-weight: 900;
+  font-weight: 700;
   margin: 0;
   text-align: center;
 }
@@ -688,9 +698,9 @@ iframe[title*="Chat"] {
 .englishtaStudentProfile__helpCard strong {
   color: #150005;
   display: block;
-  font-family: var(--heading-font);
+  font-family: Nunito, sans-serif;
   font-size: 18px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .englishtaStudentProfile__promoCard p,
@@ -759,9 +769,9 @@ iframe[title*="Chat"] {
 
 .englishtaStudentProfile__hero h1 {
   color: #2e1a2a;
-  font-family: var(--heading-font);
+  font-family: Nunito, sans-serif;
   font-size: 48px;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.06;
   margin: 0;
 }
@@ -795,9 +805,9 @@ iframe[title*="Chat"] {
 
 .englishtaStudentProfile__progressRow span {
   color: #f0a800;
-  font-family: var(--heading-font);
+  font-family: Nunito, sans-serif;
   font-size: 26px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .englishtaStudentProfile__progressRow p {
@@ -876,9 +886,9 @@ iframe[title*="Chat"] {
 
 .englishtaStudentProfile__sectionHead h2 {
   color: #2a1824;
-  font-family: var(--heading-font);
+  font-family: Nunito, sans-serif;
   font-size: 30px;
-  font-weight: 900;
+  font-weight: 700;
   margin: 0;
 }
 
@@ -1025,9 +1035,9 @@ iframe[title*="Chat"] {
 
 .englishtaStudentProfile__step h3 {
   color: #2a1824;
-  font-family: var(--heading-font);
+  font-family: Nunito, sans-serif;
   font-size: 24px;
-  font-weight: 900;
+  font-weight: 700;
   margin: 0;
 }
 
@@ -1131,9 +1141,9 @@ iframe[title*="Chat"] {
 
 .englishtaStudentProfile__bannerContent h3 {
   color: #2a1824;
-  font-family: var(--heading-font);
+  font-family: Nunito, sans-serif;
   font-size: 24px;
-  font-weight: 900;
+  font-weight: 700;
   margin: 0 0 18px;
 }
 
@@ -1272,9 +1282,9 @@ iframe[title*="Chat"] {
 
 .englishtaStudentProfile__modalCard h3 {
   color: #2a1824;
-  font-family: var(--heading-font);
+  font-family: Nunito, sans-serif;
   font-size: 30px;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.08;
   margin: 0;
 }
