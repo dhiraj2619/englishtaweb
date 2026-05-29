@@ -52,6 +52,13 @@ export function sanitizeUser(user) {
     currentStreak: user.currentStreak ?? 0,
     totalPracticeMinutes: user.totalPracticeMinutes ?? 0,
     totalTestsCompleted: user.totalTestsCompleted ?? 0,
+    averageScore: user.averageScore ?? 0,
+    overallProgress: user.overallProgress ?? 0,
+    skillProgress: user.skillProgress || {},
+    weeklyChallenge: user.weeklyChallenge || {},
+    dailySpeakingTask: user.dailySpeakingTask || {},
+    scoreHistory: Array.isArray(user.scoreHistory) ? user.scoreHistory : [],
+    recentTestHistory: Array.isArray(user.recentTestHistory) ? user.recentTestHistory : [],
     joinedCourses: Array.isArray(user.joinedCourses) ? user.joinedCourses : [],
   };
 }

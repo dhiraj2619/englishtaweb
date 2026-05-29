@@ -1,5 +1,116 @@
 import mongoose from "mongoose";
 
+const skillProgressSchema = new mongoose.Schema(
+  {
+    speakingConfidence: {
+      type: Number,
+      default: 0,
+    },
+    vocabulary: {
+      type: Number,
+      default: 0,
+    },
+    grammar: {
+      type: Number,
+      default: 0,
+    },
+    communication: {
+      type: Number,
+      default: 0,
+    },
+  },
+  { _id: false },
+);
+
+const weeklyChallengeSchema = new mongoose.Schema(
+  {
+    goalTitle: {
+      type: String,
+      default: "Complete 3 Tests",
+    },
+    targetCount: {
+      type: Number,
+      default: 3,
+    },
+    completedCount: {
+      type: Number,
+      default: 0,
+    },
+    rewardTitle: {
+      type: String,
+      default: "Consistency Badge",
+    },
+    weekLabel: {
+      type: String,
+      default: "This Week",
+    },
+  },
+  { _id: false },
+);
+
+const speakingTaskSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      default: "Describe your daily routine in English.",
+    },
+    estimatedMinutes: {
+      type: Number,
+      default: 5,
+    },
+    last7Days: {
+      type: [Boolean],
+      default: [true, true, true, false, true, true, true],
+    },
+  },
+  { _id: false },
+);
+
+const scoreHistorySchema = new mongoose.Schema(
+  {
+    label: {
+      type: String,
+      default: "",
+    },
+    score: {
+      type: Number,
+      default: 0,
+    },
+  },
+  { _id: false },
+);
+
+const recentTestHistorySchema = new mongoose.Schema(
+  {
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+    testName: {
+      type: String,
+      default: "",
+    },
+    type: {
+      type: String,
+      default: "",
+    },
+    score: {
+      type: Number,
+      default: 0,
+    },
+    totalScore: {
+      type: Number,
+      default: 0,
+    },
+    result: {
+      type: String,
+      enum: ["Excellent", "Good", "Average", "Improving"],
+      default: "Average",
+    },
+  },
+  { _id: false },
+);
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -160,6 +271,39 @@ const userSchema = new mongoose.Schema(
     totalTestsCompleted: {
       type: Number,
       default: 0,
+    },
+    averageScore: {
+      type: Number,
+      default: 0,
+    },
+    overallProgress: {
+      type: Number,
+      default: 0,
+    },
+    skillProgress: {
+      type: skillProgressSchema,
+      default: () => ({}),
+    },
+    weeklyChallenge: {
+      type: weeklyChallengeSchema,
+      default: () => ({}),
+    },
+    dailySpeakingTask: {
+      type: speakingTaskSchema,
+      default: () => ({}),
+    },
+    scoreHistory: {
+      type: [scoreHistorySchema],
+      default: [
+        { label: "Week 1", score: 45 },
+        { label: "Week 2", score: 58 },
+        { label: "Week 3", score: 67 },
+        { label: "Week 4", score: 78 },
+      ],
+    },
+    recentTestHistory: {
+      type: [recentTestHistorySchema],
+      default: [],
     },
     isActive: {
       type: Boolean,

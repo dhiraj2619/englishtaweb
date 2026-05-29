@@ -17,6 +17,15 @@ function getResultLevel(score, totalMarks) {
   return "beginner";
 }
 
+function getResultLabel(score, totalMarks) {
+  const percentage = totalMarks > 0 ? (score / totalMarks) * 100 : 0;
+
+  if (percentage >= 85) return "Excellent";
+  if (percentage >= 70) return "Good";
+  if (percentage >= 50) return "Average";
+  return "Improving";
+}
+
 function normalizeAnswers(value) {
   return Array.isArray(value)
     ? value.map((answer) => ({
@@ -91,6 +100,7 @@ export async function POST(request) {
     });
 
     const resultLevel = getResultLevel(score, totalMarks);
+    const percentageScore = totalMarks > 0 ? Math.round((score / totalMarks) * 100) : 0;
 
     await SkillCheckAttempt.create({
       userId: user._id,
@@ -114,6 +124,33 @@ export async function POST(request) {
     user.confidenceScore = categoryScores.confidence;
     user.englishLevel = resultLevel;
     user.totalTestsCompleted = (user.totalTestsCompleted || 0) + 1;
+    user.averageScore = percentageScore;
+    user.overallProgress = Math.max(user.overallProgress || 0, percentageScore);
+    user.skillProgress = {
+      speakingConfidence: Math.max(user.skillProgress?.speakingConfidence || 0, Math.min(100, categoryScores.speaking * 20 || percentageScore)),
+      vocabulary: Math.max(user.skillProgress?.vocabulary || 0, Math.min(100, categoryScores.vocabulary * 20 || percentageScore)),
+      grammar: Math.max(user.skillProgress?.grammar || 0, Math.min(100, categoryScores.grammar * 20 || percentageScore)),
+      communication: Math.max(user.skillProgress?.communication || 0, Math.min(100, categoryScores.confidence * 20 || percentageScore)),
+    };
+    user.weeklyChallenge = {
+      ...(user.weeklyChallenge?.toObject?.() || user.weeklyChallenge || {}),
+      completedCount: Math.min(3, (user.weeklyChallenge?.completedCount || 0) + 1),
+    };
+    user.scoreHistory = [
+      ...(Array.isArray(user.scoreHistory) ? user.scoreHistory.slice(-3) : []),
+      { label: `Test ${user.totalTestsCompleted}`, score: percentageScore },
+    ];
+    user.recentTestHistory = [
+      {
+        date: new Date(),
+        testName: test.title,
+        type: "Skill Check",
+        score,
+        totalScore: totalMarks,
+        result: getResultLabel(score, totalMarks),
+      },
+      ...(Array.isArray(user.recentTestHistory) ? user.recentTestHistory.slice(0, 3) : []),
+    ];
     await user.save();
 
     return NextResponse.json({
