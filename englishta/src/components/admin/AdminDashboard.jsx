@@ -12,6 +12,7 @@ const modules = [
   { key: "courseLeads", label: "Course Leads", description: "Auto-captured course enquiries and demo requests from the website." },
   { key: "users", label: "Users", description: "View registered students from the website." },
   { key: "batches", label: "Batches", description: "Create batches and assign students." },
+  { key: "skillCheckTests", label: "Skill Check Tests", description: "Create MCQ test sets for student skill checking." },
   { key: "reviews", label: "Reviews", description: "Manage testimonials and WhatsApp review screenshots." },
   { key: "demoLecture", label: "Demo Lecture Video", description: "Manage the single demo lecture video shown on the website." },
   { key: "videos", label: "Videos", description: "Add YouTube learning and demo videos." },
@@ -49,6 +50,23 @@ const emptyForms = {
   batches: {
     name: "",
     studentIds: [],
+  },
+  skillCheckTests: {
+    setCode: "A",
+    title: "",
+    description: "",
+    timeLimitMinutes: "15",
+    passingScore: "5",
+    visible: "Yes",
+    questions: [
+      {
+        question: "",
+        category: "vocabulary",
+        options: ["", "", "", ""],
+        correctOptionIndex: 0,
+        marks: "1",
+      },
+    ],
   },
   testimonials: {
     studentName: "",
@@ -104,6 +122,7 @@ const starterData = {
   courseLeads: [],
   users: [],
   batches: [],
+  skillCheckTests: [],
   testimonials: [
     {
       id: "testimonial-1",
@@ -180,6 +199,14 @@ const columns = {
     ["name", "Batch Name"],
     ["studentIds", "Assigned Students"],
     ["createdAt", "Created On"],
+  ],
+  skillCheckTests: [
+    ["setCode", "Set"],
+    ["title", "Test Title"],
+    ["questions", "Questions"],
+    ["timeLimitMinutes", "Time Limit"],
+    ["passingScore", "Passing Score"],
+    ["visible", "Visible"],
   ],
   testimonials: [
     ["studentName", "Student"],
@@ -286,6 +313,8 @@ export default function AdminDashboard() {
   const [usersError, setUsersError] = useState("");
   const [batchesLoading, setBatchesLoading] = useState(false);
   const [batchesError, setBatchesError] = useState("");
+  const [skillCheckTestsLoading, setSkillCheckTestsLoading] = useState(false);
+  const [skillCheckTestsError, setSkillCheckTestsError] = useState("");
   const [dashboardStats, setDashboardStats] = useState(null);
   const [dashboardError, setDashboardError] = useState("");
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
@@ -346,6 +375,11 @@ export default function AdminDashboard() {
         label: "Batches",
         count: data.batches?.length ?? 0,
       },
+      {
+        key: "skillCheckTestsCount",
+        label: "Skill Tests",
+        count: data.skillCheckTests?.length ?? 0,
+      },
     ],
     [
       dashboardStats,
@@ -355,6 +389,7 @@ export default function AdminDashboard() {
       data.demoLecture?.length,
       data.users?.length,
       data.batches?.length,
+      data.skillCheckTests?.length,
     ],
   );
 
@@ -364,6 +399,17 @@ export default function AdminDashboard() {
 
   function showToast(type, message) {
     setToast({ type, message });
+  }
+
+  function getNewRecordLabel() {
+    if (currentModule === "videos") return "New YouTube Video";
+    if (currentModule === "whatsappReviews") return "New WhatsApp Review";
+    if (currentModule === "demoLecture") return "New Demo Lecture Video";
+    if (currentModule === "batches") return "New Batch";
+    if (currentModule === "skillCheckTests") return "New Skill Test";
+    if (currentModule === "testimonials") return "New Testimonial";
+
+    return `New ${activeConfig.label.slice(0, -1)}`;
   }
 
   function selectModule(moduleKey) {
@@ -385,6 +431,7 @@ export default function AdminDashboard() {
     setCourseLeadsError("");
     setUsersError("");
     setBatchesError("");
+    setSkillCheckTestsError("");
   }
 
   function selectReviewTab(tabKey) {
@@ -401,6 +448,7 @@ export default function AdminDashboard() {
     setCourseLeadsError("");
     setUsersError("");
     setBatchesError("");
+    setSkillCheckTestsError("");
   }
 
   async function fetchCourses() {
@@ -643,6 +691,29 @@ export default function AdminDashboard() {
     }
   }
 
+  async function fetchSkillCheckTests() {
+    setSkillCheckTestsLoading(true);
+    setSkillCheckTestsError("");
+
+    try {
+      const response = await fetch("/api/skill-check-tests", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load skill check tests.");
+      }
+
+      setData((current) => ({
+        ...current,
+        skillCheckTests: payload.data ?? [],
+      }));
+    } catch (error) {
+      setSkillCheckTestsError(error.message || "Failed to load skill check tests.");
+    } finally {
+      setSkillCheckTestsLoading(false);
+    }
+  }
+
   async function fetchDashboardStats() {
     setDashboardError("");
 
@@ -672,6 +743,7 @@ export default function AdminDashboard() {
       fetchCourseLeads();
       fetchUsers();
       fetchBatches();
+      fetchSkillCheckTests();
       fetchDashboardStats();
     }, 0);
 
@@ -707,6 +779,7 @@ export default function AdminDashboard() {
     setCourseLeadsError("");
     setUsersError("");
     setBatchesError("");
+    setSkillCheckTestsError("");
   }
 
   async function uploadThumbnail(file, moduleKey = "courses") {
@@ -1106,6 +1179,59 @@ export default function AdminDashboard() {
       return;
     }
 
+    if (moduleKey === "skillCheckTests") {
+      const testTitle = form.title?.trim() || "Skill check test";
+      const actionLabel = editingId ? "updated" : "added";
+
+      try {
+        setSkillCheckTestsError("");
+
+        if (!form.title?.trim()) {
+          throw new Error("Test title is required.");
+        }
+
+        const questions = Array.isArray(form.questions) ? form.questions : [];
+
+        if (!questions.length) {
+          throw new Error("Please add at least one question.");
+        }
+
+        const response = await fetch(editingId ? `/api/skill-check-tests/${editingId}` : "/api/skill-check-tests", {
+          method: editingId ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to save skill check test.");
+        }
+
+        setData((current) => {
+          const list = current.skillCheckTests ?? [];
+
+          return {
+            ...current,
+            skillCheckTests: editingId
+              ? list.map((item) => ((item._id ?? item.id) === editingId ? payload.data : item))
+              : [payload.data, ...list],
+          };
+        });
+
+        resetForm();
+        await fetchSkillCheckTests();
+        showToast("success", `${testTitle} ${actionLabel} success`);
+      } catch (error) {
+        const message = error.message || "Failed to save skill check test.";
+        setSkillCheckTestsError(message);
+        showToast("error", `${testTitle} ${actionLabel} failed: ${message}`);
+      }
+
+      return;
+    }
+
     if (moduleKey === "dashboard" || moduleKey === "webinarLeads" || moduleKey === "courseLeads" || moduleKey === "users") {
       return;
     }
@@ -1415,6 +1541,45 @@ export default function AdminDashboard() {
       return;
     }
 
+    if (moduleKey === "skillCheckTests") {
+      const confirmed = window.confirm("Delete this skill check test?");
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        setSkillCheckTestsError("");
+
+        const response = await fetch(`/api/skill-check-tests/${id}`, {
+          method: "DELETE",
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to delete skill check test.");
+        }
+
+        setData((current) => ({
+          ...current,
+          skillCheckTests: current.skillCheckTests.filter((item) => (item._id ?? item.id) !== id),
+        }));
+
+        if (editingId === id) {
+          resetForm();
+        }
+
+        await fetchSkillCheckTests();
+        showToast("success", "Skill check test deleted success");
+      } catch (error) {
+        const message = error.message || "Failed to delete skill check test.";
+        setSkillCheckTestsError(message);
+        showToast("error", `Skill check test delete failed: ${message}`);
+      }
+
+      return;
+    }
+
     setData((current) => ({
       ...current,
       [moduleKey]: current[moduleKey].filter((item) => item.id !== id),
@@ -1503,17 +1668,7 @@ export default function AdminDashboard() {
               currentModule !== "users" &&
               (currentModule !== "demoLecture" || !demoLectureExists || editingId) ? (
                 <button type="button" className="adminButton adminButtonAlt" onClick={resetForm}>
-              {currentModule === "videos"
-                ? "New YouTube Video"
-                : currentModule === "whatsappReviews"
-                  ? "New WhatsApp Review"
-                  : currentModule === "demoLecture"
-                    ? "New Demo Lecture Video"
-                    : currentModule === "batches"
-                      ? "New Batch"
-                    : currentModule === "testimonials"
-                      ? "New Testimonial"
-                      : `New ${activeConfig.label.slice(0, -1)}`}
+                  {getNewRecordLabel()}
                 </button>
               ) : null}
             </div>
@@ -1570,6 +1725,9 @@ export default function AdminDashboard() {
             {currentModule === "courseLeads" && courseLeadsError ? <div className="adminEmpty">{courseLeadsError}</div> : null}
             {currentModule === "users" && usersError ? <div className="adminEmpty">{usersError}</div> : null}
             {currentModule === "batches" && batchesError ? <div className="adminEmpty">{batchesError}</div> : null}
+            {currentModule === "skillCheckTests" && skillCheckTestsError ? (
+              <div className="adminEmpty">{skillCheckTestsError}</div>
+            ) : null}
 
             {activeModule !== "dashboard" ? (
               <AdminTable
@@ -1587,7 +1745,8 @@ export default function AdminDashboard() {
                   (currentModule === "webinarLeads" && webinarLeadsLoading) ||
                   (currentModule === "courseLeads" && courseLeadsLoading) ||
                   (currentModule === "users" && usersLoading) ||
-                  (currentModule === "batches" && batchesLoading)
+                  (currentModule === "batches" && batchesLoading) ||
+                  (currentModule === "skillCheckTests" && skillCheckTestsLoading)
                 }
               />
             ) : null}
@@ -1631,6 +1790,14 @@ function AdminForm({
     batches: [
       ["name", "Batch Name", "input", "adminFull"],
       ["studentIds", "Assign Students", "studentSelector", "adminFull"],
+    ],
+    skillCheckTests: [
+      ["setCode", "Test Set", "select", ["A", "B", "C", "D"]],
+      ["title", "Test Title", "input"],
+      ["timeLimitMinutes", "Time Limit (Minutes)", "number"],
+      ["passingScore", "Passing Score", "number"],
+      ["visible", "Display for Students", "select", ["Yes", "No"]],
+      ["description", "Test Description", "textarea", "adminFull"],
     ],
     testimonials: [
       ["studentName", "Student Name", "input"],
@@ -1789,6 +1956,9 @@ function AdminForm({
           </div>
         );
       })}
+      {moduleKey === "skillCheckTests" ? (
+        <SkillCheckQuestionBuilder questions={form.questions ?? []} onChange={(questions) => onChange("questions", questions)} />
+      ) : null}
       <div className="adminActions adminFull">
         <button type="submit" className="adminButton">
           {editingId ? "Update" : "Add"} Record
@@ -1800,6 +1970,136 @@ function AdminForm({
         ) : null}
       </div>
     </form>
+  );
+}
+
+function createEmptySkillQuestion() {
+  return {
+    question: "",
+    category: "vocabulary",
+    options: ["", "", "", ""],
+    correctOptionIndex: 0,
+    marks: "1",
+  };
+}
+
+function SkillCheckQuestionBuilder({ questions, onChange }) {
+  const normalizedQuestions = questions.length ? questions : [createEmptySkillQuestion()];
+
+  function updateQuestion(index, field, value) {
+    const nextQuestions = normalizedQuestions.map((question, questionIndex) =>
+      questionIndex === index ? { ...question, [field]: value } : question,
+    );
+    onChange(nextQuestions);
+  }
+
+  function updateOption(questionIndex, optionIndex, value) {
+    const nextQuestions = normalizedQuestions.map((question, currentQuestionIndex) => {
+      if (currentQuestionIndex !== questionIndex) {
+        return question;
+      }
+
+      const options = Array.isArray(question.options) ? [...question.options] : ["", "", "", ""];
+      options[optionIndex] = value;
+
+      return { ...question, options };
+    });
+
+    onChange(nextQuestions);
+  }
+
+  function addQuestion() {
+    onChange([...normalizedQuestions, createEmptySkillQuestion()]);
+  }
+
+  function removeQuestion(index) {
+    const nextQuestions = normalizedQuestions.filter((_, questionIndex) => questionIndex !== index);
+    onChange(nextQuestions.length ? nextQuestions : [createEmptySkillQuestion()]);
+  }
+
+  return (
+    <div className="adminSkillBuilder adminFull">
+      <div className="adminSkillBuilderHeader">
+        <div>
+          <h3>MCQ Questions</h3>
+          <p>Add options and choose the correct answer for auto-checking.</p>
+        </div>
+        <button type="button" className="adminButton adminButtonAlt" onClick={addQuestion}>
+          Add Question
+        </button>
+      </div>
+
+      {normalizedQuestions.map((question, questionIndex) => {
+        const options = Array.isArray(question.options) && question.options.length ? question.options : ["", "", "", ""];
+
+        return (
+          <div className="adminSkillQuestion" key={question._id ?? questionIndex}>
+            <div className="adminSkillQuestionTop">
+              <strong>Question {questionIndex + 1}</strong>
+              <button type="button" className="adminButton adminButtonDanger" onClick={() => removeQuestion(questionIndex)}>
+                Remove
+              </button>
+            </div>
+
+            <div className="adminField adminFull">
+              <label htmlFor={`skill-question-${questionIndex}`}>Question Text</label>
+              <textarea
+                id={`skill-question-${questionIndex}`}
+                value={question.question ?? ""}
+                onChange={(event) => updateQuestion(questionIndex, "question", event.target.value)}
+              />
+            </div>
+
+            <div className="adminSkillMeta">
+              <div className="adminField">
+                <label htmlFor={`skill-category-${questionIndex}`}>Category</label>
+                <select
+                  id={`skill-category-${questionIndex}`}
+                  value={question.category ?? "vocabulary"}
+                  onChange={(event) => updateQuestion(questionIndex, "category", event.target.value)}
+                >
+                  <option value="speaking">Speaking Assessment</option>
+                  <option value="vocabulary">Vocabulary Test</option>
+                  <option value="confidence">Confidence Check</option>
+                  <option value="grammar">Grammar</option>
+                </select>
+              </div>
+
+              <div className="adminField">
+                <label htmlFor={`skill-marks-${questionIndex}`}>Marks</label>
+                <input
+                  id={`skill-marks-${questionIndex}`}
+                  type="number"
+                  min="1"
+                  value={question.marks ?? "1"}
+                  onChange={(event) => updateQuestion(questionIndex, "marks", event.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="adminSkillOptions">
+              {options.map((option, optionIndex) => (
+                <label className="adminSkillOption" key={optionIndex}>
+                  <input
+                    type="radio"
+                    name={`correct-option-${questionIndex}`}
+                    checked={Number(question.correctOptionIndex ?? 0) === optionIndex}
+                    onChange={() => updateQuestion(questionIndex, "correctOptionIndex", optionIndex)}
+                  />
+                  <span>Option {optionIndex + 1}</span>
+                  <input
+                    type="text"
+                    value={option}
+                    onChange={(event) => updateOption(questionIndex, optionIndex, event.target.value)}
+                    placeholder={`Enter option ${optionIndex + 1}`}
+                  />
+                </label>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -1945,6 +2245,10 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                     ) : (
                       "-"
                     )
+                  ) : key === "questions" ? (
+                    Array.isArray(item.questions) ? `${item.questions.length} Questions` : "0 Questions"
+                  ) : key === "timeLimitMinutes" ? (
+                    item[key] ? `${item[key]} min` : "-"
                   ) : ["createdAt", "lastLoginAt", "dateTime"].includes(key) ? (
                     item[key] ? new Date(item[key]).toLocaleString("en-IN") : "-"
                   ) : key === "preferredLanguage" ? (

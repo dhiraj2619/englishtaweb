@@ -27,7 +27,7 @@ const learningSteps = [
     description: "Take a quick test to find your current English level.",
     bullets: ["Speaking Assessment", "Vocabulary Test", "Confidence Check"],
     cta: "Test English Skills",
-    ctaHref: "/courses",
+    ctaHref: "/skill-assessment",
     ctaIcon: "fa-solid fa-arrow-right",
   },
   {
@@ -327,7 +327,7 @@ export default function StudentProfileDashboard() {
                 <span style={{ width: `${profileState.percent}%` }} />
               </div>
 
-              <div className="englishtaStudentProfile__meta">
+              {/* <div className="englishtaStudentProfile__meta">
                 <div>
                   <i className="fa-regular fa-envelope" aria-hidden="true" />
                   <span>{displayEmail}</span>
@@ -344,12 +344,12 @@ export default function StudentProfileDashboard() {
                   <i className="fa-solid fa-bullseye" aria-hidden="true" />
                   <span>{displayGoal}</span>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="englishtaStudentProfile__heroArt">
               <div className="englishtaStudentProfile__heroHalo" aria-hidden="true" />
-              <img src="/assets/images/aboutenglishta.png" alt="Learning illustration" />
+              <img src="/assets/images/tukoprofile.png" alt="Learning illustration" />
             </div>
           </div>
 

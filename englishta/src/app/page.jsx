@@ -2194,6 +2194,14 @@ const Preloader = ({ onComplete }) => {
 };
 
 const HomeBanner = ({ isReady = false }) => {
+  const handleStartJourney = () => {
+    window.dispatchEvent(
+      new CustomEvent("englishta:protected-navigation", {
+        detail: { href: "/student-profile" },
+      }),
+    );
+  };
+
   return (
     <section
       className={isReady ? "englishtaHeroShade englishtaHeroShade--ready" : "englishtaHeroShade"}
@@ -2206,9 +2214,13 @@ const HomeBanner = ({ isReady = false }) => {
           <span>Anytime. Anywhere.</span>
         </h1>
         <div className="englishtaHeroShade__actions">
-          <a href="#home-courses" className="englishtaHeroShade__cta englishtaHeroShade__cta--primary">
+          <button
+            type="button"
+            className="englishtaHeroShade__cta englishtaHeroShade__cta--primary"
+            onClick={handleStartJourney}
+          >
             Start Your Journey
-          </a>
+          </button>
           <a href="/webinar" className="englishtaHeroShade__cta englishtaHeroShade__cta--secondary">
             Join upcoming webinar
           </a>

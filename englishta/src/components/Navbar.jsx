@@ -132,6 +132,7 @@ export default function Navbar() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const googleCodeClientRef = useRef(null);
   const [authToast, setAuthToast] = useState(null);
+  const [pendingAuthRedirect, setPendingAuthRedirect] = useState("");
   const [isAuthCardFlipping, setIsAuthCardFlipping] = useState(false);
   const [isAuthCardSettled, setIsAuthCardSettled] = useState(false);
   const authTransitionTimeoutRef = useRef(null);
@@ -140,12 +141,24 @@ export default function Navbar() {
   const authToastTimeoutRef = useRef(null);
   const profileMenuRef = useRef(null);
 
-  const openAuthModal = () => {
+  const openAuthModal = (redirectTo = "") => {
     setAuthStep(1);
     setAuthError("");
+    setPendingAuthRedirect(redirectTo);
     setIsAuthCardFlipping(false);
     setIsAuthCardSettled(false);
     setIsAuthModalOpen(true);
+  };
+
+  const completeAuthFlow = (user) => {
+    setCurrentUser(user || null);
+
+    if (pendingAuthRedirect) {
+      window.location.assign(pendingAuthRedirect);
+      return;
+    }
+
+    closeAuthModal();
   };
 
   useEffect(() => {
@@ -183,6 +196,25 @@ export default function Navbar() {
         setCurrentUser(null);
       });
   }, []);
+
+  useEffect(() => {
+    const handleProtectedNavigation = (event) => {
+      const redirectTo = event.detail?.href || "/student-profile";
+
+      if (currentUser) {
+        window.location.assign(redirectTo);
+        return;
+      }
+
+      openAuthModal(redirectTo);
+    };
+
+    window.addEventListener("englishta:protected-navigation", handleProtectedNavigation);
+
+    return () => {
+      window.removeEventListener("englishta:protected-navigation", handleProtectedNavigation);
+    };
+  }, [currentUser]);
 
   useEffect(() => {
     if (!isAuthModalOpen) return undefined;
@@ -257,6 +289,7 @@ export default function Navbar() {
 
     setIsAuthModalOpen(false);
     setAuthError("");
+    setPendingAuthRedirect("");
     setIsAuthCardFlipping(false);
     setIsAuthCardSettled(false);
   };
@@ -400,8 +433,7 @@ export default function Navbar() {
           return;
         }
 
-        setCurrentUser(payload.user || null);
-        closeAuthModal();
+        completeAuthFlow(payload.user || null);
       })
       .catch((error) => {
         setAuthError(error.message || "Authentication failed.");
@@ -435,8 +467,7 @@ export default function Navbar() {
         })
         .then((payload) => {
           setAuthError("");
-          setCurrentUser(payload.user || null);
-          closeAuthModal();
+          completeAuthFlow(payload.user || null);
         })
         .catch((error) => {
           setAuthError(error.message || "Google login failed.");
@@ -549,7 +580,7 @@ export default function Navbar() {
     }
 
     return (
-      <button className="englishtaNavbarLoginButton" type="button" onClick={openAuthModal}>
+      <button className="englishtaNavbarLoginButton" type="button" onClick={() => openAuthModal()}>
         Login / Register
       </button>
     );
@@ -627,7 +658,7 @@ export default function Navbar() {
             {authStep === 1 ? (
               <form className="englishtaAuthModal__form" onSubmit={handleEmailContinue}>
                 <h3 id="englishta-auth-title">Sign in with your email to continue</h3>
-            
+
 
                 <label className="englishtaAuthModal__field">
                   <span>Email Address</span>
@@ -805,15 +836,15 @@ export default function Navbar() {
 
                 {authMode === "login" ? (
                   <div className="englishtaAuthModal__options">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={(event) => setRememberMe(event.target.checked)}
-                    />
-                    Remember me
-                  </label>
-                  <a href="/forgot-password">Forgot Password?</a>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(event) => setRememberMe(event.target.checked)}
+                      />
+                      Remember me
+                    </label>
+                    <a href="/forgot-password">Forgot Password?</a>
                   </div>
                 ) : null}
 
@@ -839,7 +870,7 @@ export default function Navbar() {
               {isGoogleLoading ? "Please wait..." : "Sign in with Google"}
             </button>
 
-            
+
           </section>
         </div>
       ) : null}

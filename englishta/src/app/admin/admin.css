@@ -168,6 +168,46 @@
   margin: 0;
 }
 
+.adminSubTabs {
+  border-bottom: 1px solid #edf0f5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: -2px 0 18px;
+  padding-bottom: 14px;
+}
+
+.adminSubTabs button {
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #d9deea;
+  border-radius: 999px;
+  color: #172033;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 10px;
+  min-height: 40px;
+  padding: 8px 13px;
+}
+
+.adminSubTabs button.isActive {
+  background: #111827;
+  border-color: #111827;
+  color: #fff;
+}
+
+.adminSubTabs strong {
+  align-items: center;
+  background: #feb60c;
+  border-radius: 999px;
+  color: #111827;
+  display: inline-flex;
+  font-size: 12px;
+  justify-content: center;
+  min-width: 24px;
+  padding: 4px 7px;
+}
+
 .adminForm {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -313,6 +353,87 @@
 
 .adminFull {
   grid-column: 1 / -1;
+}
+
+.adminSkillBuilder {
+  display: grid;
+  gap: 14px;
+}
+
+.adminSkillBuilderHeader,
+.adminSkillQuestionTop {
+  align-items: flex-start;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+}
+
+.adminSkillBuilderHeader {
+  background: #f9fafc;
+  border: 1px solid #edf0f5;
+  border-radius: 10px;
+  padding: 12px;
+  position: sticky;
+  top: 14px;
+  z-index: 5;
+}
+
+.adminSkillBuilderHeader h3 {
+  color: #111827;
+  font-size: 18px;
+  margin: 0 0 4px;
+}
+
+.adminSkillBuilderHeader p {
+  color: #647084;
+  margin: 0;
+}
+
+.adminSkillQuestion {
+  background: #fff;
+  border: 1px solid #d9deea;
+  border-radius: 10px;
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+}
+
+.adminSkillQuestionTop strong {
+  color: #111827;
+  font-size: 16px;
+}
+
+.adminSkillMeta {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.adminSkillOptions {
+  display: grid;
+  gap: 10px;
+}
+
+.adminSkillOption {
+  align-items: center;
+  border: 1px solid #edf0f5;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 82px minmax(0, 1fr);
+  padding: 10px;
+}
+
+.adminSkillOption input[type="radio"] {
+  min-height: auto;
+  padding: 0;
+  width: auto;
+}
+
+.adminSkillOption span {
+  color: #647084;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .adminActions {
@@ -555,7 +676,21 @@
 
   .adminForm,
   .adminStatGrid,
+  .adminSkillMeta,
   .adminDashboardOverview__grid {
     grid-template-columns: 1fr;
+  }
+
+  .adminSkillBuilderHeader,
+  .adminSkillQuestionTop {
+    display: grid;
+  }
+
+  .adminSkillOption {
+    grid-template-columns: auto 1fr;
+  }
+
+  .adminSkillOption input[type="text"] {
+    grid-column: 1 / -1;
   }
 }
