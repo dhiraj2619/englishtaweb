@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -17,7 +18,7 @@ const courseModeTabs = [
   ["live", "Live Courses", "fa-solid fa-tower-broadcast"],
   ["recorded", "Recorded Courses", "fa-regular fa-circle-play"],
   ["audio", "Audio Course", "fa-solid fa-headphones-simple"],
-  ["progress", "Check Your Progress", "fa-solid fa-chart-line"],
+  ["progress", "Track Your Progress", "fa-solid fa-chart-line"],
 ];
 
 const courseModeDetails = {
@@ -37,7 +38,7 @@ const courseModeDetails = {
     icon: "fa-solid fa-headphones-simple",
   },
   progress: {
-    title: "Check Your Progress",
+    title: "Track Your Progress",
     text: "Track your speaking confidence, grammar, and fluency growth",
     icon: "fa-solid fa-chart-line",
   },
@@ -47,6 +48,24 @@ const languageLabels = {
   marathi: "Marathi",
   hindi: "Hindi",
   english: "English",
+};
+
+const recommendationCopy = {
+  beginner: {
+    title: "Recommended for your score: Beginners - Promise Batch",
+    text: "Start with confidence, basic grammar, vocabulary, and guided speaking practice.",
+    keywords: ["beginner", "promise", "basic"],
+  },
+  intermediate: {
+    title: "Recommended for your score: Advanced Confidence Batch",
+    text: "Build stronger fluency, sentence flow, and confidence in real conversations.",
+    keywords: ["advanced", "confidence", "speaker", "expression"],
+  },
+  advanced: {
+    title: "Recommended for your score: Interview or One On One Batch",
+    text: "Sharpen professional communication, interviews, expression, and personal fluency.",
+    keywords: ["interview", "one on one", "super", "professional"],
+  },
 };
 
 const defaultLiveCourses = [
@@ -87,18 +106,76 @@ const getFallbackCourses = () =>
 const getCourseImage = (course, index) =>
   course.thumbnail || `https://picsum.photos/seed/englishta-course-${index}/900/600`;
 
-const formatCourseFees = (price) => {
-  if (!price) return "Fees: Contact Us";
+const normalizePrice = (price) => {
   const normalizedPrice = String(price).trim();
+  const lowerPrice = normalizedPrice.toLowerCase();
 
-  if (/^(rs\.?|₹)/i.test(normalizedPrice)) {
-    return `Fees: ${normalizedPrice}`;
+  if (lowerPrice.startsWith("rs") || normalizedPrice.startsWith("\u20b9")) {
+    return normalizedPrice;
   }
 
-  return `Fees: ₹${normalizedPrice}`;
+  return `\u20b9${normalizedPrice}`;
 };
 
+const getCourseFees = (course) => {
+  const discountedPrice = course.discountedPrice || course.price;
+  const actualPrice = course.actualPrice;
+
+  if (!discountedPrice && !actualPrice) {
+    return null;
+  }
+
+  return {
+    actual: actualPrice ? normalizePrice(actualPrice) : "",
+    discounted: discountedPrice ? normalizePrice(discountedPrice) : normalizePrice(actualPrice),
+  };
+};
+function CourseCard({ course, index }) {
+  const slug = slugifyCourseName(course.name);
+  const fees = getCourseFees(course);
+
+  return (
+    <Link
+      href={course.isFallback ? "/contact-us" : `/course/${slug}`}
+      className="englishtaCourseCard"
+    >
+      <span className="englishtaCourseCard__image">
+        <img src={getCourseImage(course, index)} alt={course.name} />
+        <span>{courseModeDetails[course.courseMode]?.title || "Course"}</span>
+      </span>
+      <span className="englishtaCourseCard__body">
+        <span className="englishtaCourseCard__tag">
+          Language: {course.languages.map((language) => languageLabels[language] || language).join(" + ")}
+        </span>
+        <strong>{course.name}</strong>
+
+        <span className="englishtaCourseCard__footer">
+          <span className="englishtaCourseCard__fees">
+            {fees ? (
+              <>
+                <span>Fees: {fees.discounted}</span>
+                {fees.actual ? <del>{fees.actual}</del> : null}
+              </>
+            ) : (
+              "Fees: Contact Us"
+            )}
+          </span>
+          <span className="englishtaCourseCard__students">
+            {course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}
+          </span>
+        </span>
+        <span className="englishtaCourseCard__action">
+          {course.isFallback ? "Enquire Now" : "Join Now"}
+          <i className="fa-solid fa-arrow-right" />
+        </span>
+      </span>
+    </Link>
+  );
+}
+
 const CoursesPage = () => {
+  const searchParams = useSearchParams();
+  const recommendedLevel = searchParams.get("recommended");
   const [courses, setCourses] = useState([]);
   const [activeMode, setActiveMode] = useState("live");
   const [loading, setLoading] = useState(true);
@@ -180,6 +257,22 @@ const CoursesPage = () => {
     return adminCourses.length ? adminCourses : getFallbackCourses();
   }, [activeMode, visibleCourses]);
 
+  const recommendation = recommendationCopy[recommendedLevel] || null;
+
+  const recommendedCourses = useMemo(() => {
+    if (!recommendation) return [];
+
+    const coursesToSearch = activeCourses.length ? activeCourses : visibleCourses;
+    const matches = coursesToSearch.filter((course) => {
+      const name = String(course.name || "").toLowerCase();
+      const description = String(course.shortDescription || "").toLowerCase();
+
+      return recommendation.keywords.some((keyword) => name.includes(keyword) || description.includes(keyword));
+    });
+
+    return matches.length ? matches : coursesToSearch.slice(0, 1);
+  }, [activeCourses, recommendation, visibleCourses]);
+
   const diagnosticDetails = diagnostics?.diagnostics;
   const shouldShowDiagnostics = !loading && diagnostics && (error || courses.length === 0);
 
@@ -209,6 +302,17 @@ const CoursesPage = () => {
               <span aria-hidden="true" />
             </div>
 
+            {recommendation ? (
+              <div className="englishtaRecommendedCourse">
+                <div>
+                  <p>Your Suitable Course</p>
+                  <h2>{recommendation.title}</h2>
+                  <span>{recommendation.text}</span>
+                </div>
+                <a href="#recommended-courses">View Recommendation</a>
+              </div>
+            ) : null}
+
             <div className="englishtaCourseModeTabs" role="tablist" aria-label="Course modes">
               {courseModeTabs.map(([value, label, icon]) => (
                 <button
@@ -225,7 +329,18 @@ const CoursesPage = () => {
               ))}
             </div>
 
-            {loading ? (
+            {recommendation && recommendedCourses.length ? (
+              <div className="englishtaCoursesRecommendedBlock" id="recommended-courses">
+                <h2>Best Match For You</h2>
+                <div className="englishtaCoursesGrid">
+                  {recommendedCourses.map((course, index) => (
+                    <CourseCard course={course} index={index} key={`recommended-${course._id ?? course.name}`} />
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
+            {!recommendation && loading ? (
               <div className="englishtaCoursesGrid">
                 {[1, 2, 3, 4].map((item) => (
                   <div className="englishtaCourseCard englishtaCourseCard--loading" key={item}>
@@ -274,7 +389,7 @@ const CoursesPage = () => {
               </div>
             ) : null}
 
-            {!loading && !error ? (
+            {!recommendation && !loading && !error ? (
               <>
                 {activeCourses.length === 0 ? (
                   <div className="englishtaCoursesNotice wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
@@ -283,39 +398,9 @@ const CoursesPage = () => {
                 ) : null}
 
                 <div className="englishtaCoursesGrid">
-                  {activeCourses.map((course, index) => {
-                    const slug = slugifyCourseName(course.name);
-
-                    return (
-                      <Link
-                        href={course.isFallback ? "/contact-us" : `/course/${slug}`}
-                        className="englishtaCourseCard"
-                        key={course._id ?? slug}
-                      >
-                        <span className="englishtaCourseCard__image">
-                          <img src={getCourseImage(course, index)} alt={course.name} />
-                          <span>{courseModeDetails[course.courseMode]?.title || "Course"}</span>
-                        </span>
-                        <span className="englishtaCourseCard__body">
-                          <span className="englishtaCourseCard__tag">
-                            Language: {course.languages.map((language) => languageLabels[language] || language).join(" + ")}
-                          </span>
-                          <strong>{course.name}</strong>
-                        
-                          <span className="englishtaCourseCard__footer">
-                            <span className="englishtaCourseCard__fees">{formatCourseFees(course.price)}</span>
-                            <span className="englishtaCourseCard__students">
-                              {course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}
-                            </span>
-                          </span>
-                          <span className="englishtaCourseCard__action">
-                            {course.isFallback ? "Enquire Now" : "Join Now"}
-                            <i className="fa-solid fa-arrow-right" />
-                          </span>
-                        </span>
-                      </Link>
-                    );
-                  })}
+                  {activeCourses.map((course, index) => (
+                    <CourseCard course={course} index={index} key={course._id ?? slugifyCourseName(course.name)} />
+                  ))}
                 </div>
               </>
             ) : null}
@@ -328,3 +413,4 @@ const CoursesPage = () => {
 };
 
 export default CoursesPage;
+

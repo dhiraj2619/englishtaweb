@@ -66,6 +66,16 @@ const sanitizeCourseHtml = (html = "") =>
     .replace(/\son\w+='[^']*'/gi, "")
     .replace(/\sjavascript:/gi, "");
 
+const normalizePrice = (price) => {
+  const normalizedPrice = String(price || "").trim();
+  const lowerPrice = normalizedPrice.toLowerCase();
+
+  if (!normalizedPrice) return "";
+  if (lowerPrice.startsWith("rs") || normalizedPrice.startsWith("\u20b9")) return normalizedPrice;
+
+  return `\u20b9${normalizedPrice}`;
+};
+
 const CourseDetailPage = () => {
   const { slug } = useParams();
   const [courses, setCourses] = useState([]);
@@ -126,6 +136,8 @@ const CourseDetailPage = () => {
 
   const rawSyllabus = course?.syllabus ?? "";
   const rawLongDescription = course?.longDescription ?? "";
+  const discountedPrice = normalizePrice(course?.discountedPrice || course?.price);
+  const actualPrice = normalizePrice(course?.actualPrice);
   const hasRichLongDescription = /<\/?(h[1-6]|ul|ol|li|p|strong|em|br|blockquote)\b/i.test(rawLongDescription);
   const longDescriptionHtml = sanitizeCourseHtml(rawLongDescription);
   const hasRichSyllabus = /<\/?(h[1-6]|ul|ol|li|p|strong|em|br)\b/i.test(rawSyllabus);
@@ -256,7 +268,10 @@ const CourseDetailPage = () => {
                 <div className="englishtaCourseDetailHero__media wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
                   <img src={course.thumbnail} alt={course.name} />
                   <div>
-                    <strong>Starting from {course.price}</strong>
+                    <strong>
+                      Starting from {discountedPrice || "Contact Us"}
+                      {actualPrice ? <del>{actualPrice}</del> : null}
+                    </strong>
                     <span>{course.studentsEnrolled} learners enrolled</span>
                   </div>
                 </div>

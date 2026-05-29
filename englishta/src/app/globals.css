@@ -531,7 +531,11 @@ iframe[title*="Chat"] {
 
 .englishtaStudentProfilePage {
   background:
-    radial-gradient(circle at 90% 6%, rgba(254, 182, 12, 0.14), transparent 22%),
+    radial-gradient(
+      circle at 90% 6%,
+      rgba(254, 182, 12, 0.14),
+      transparent 22%
+    ),
     linear-gradient(180deg, #fffdf8 0%, #f7f2e8 100%);
   min-height: 100vh;
   padding: 136px 0 86px;
@@ -717,6 +721,7 @@ iframe[title*="Chat"] {
   display: inline-flex;
   gap: 10px;
   font-weight: 800;
+  align-items: center;
   text-decoration: none;
 }
 
@@ -863,7 +868,12 @@ iframe[title*="Chat"] {
 }
 
 .englishtaStudentProfile__heroHalo {
-  background: radial-gradient(circle, rgba(254, 182, 12, 0.38) 0%, rgba(254, 182, 12, 0.14) 40%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(254, 182, 12, 0.38) 0%,
+    rgba(254, 182, 12, 0.14) 40%,
+    transparent 70%
+  );
   border-radius: 50%;
   height: 280px;
   position: absolute;
@@ -871,10 +881,10 @@ iframe[title*="Chat"] {
 }
 
 .englishtaStudentProfile__heroArt img {
-    width: 347px;
-    max-width: 60%;
-    display: block;
-    position: relative;
+  width: 347px;
+  max-width: 60%;
+  display: block;
+  position: relative;
 }
 
 .englishtaStudentProfile__sectionHead {
@@ -1104,7 +1114,7 @@ iframe[title*="Chat"] {
 }
 .englishtaStudentProfile__stepButton--amber:hover {
   background: #150005;
-  color:#fff;
+  color: #fff;
 }
 
 .englishtaStudentProfile__stepButton--purple {
@@ -3740,13 +3750,26 @@ iframe[title*="Chat"] {
 }
 
 .englishtaCourseCard__fees {
+  align-items: center;
   background: var(--englishta-button-bg);
   border-radius: 999px;
   color: #fff !important;
   display: inline-flex;
+  gap: 7px;
   line-height: 1;
   padding: 9px 12px;
   white-space: nowrap;
+}
+
+.englishtaCourseCard__fees span {
+  color: #fff !important;
+  font-size: inherit;
+}
+
+.englishtaCourseCard__fees del {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .englishtaCourseCard__students {
@@ -5323,8 +5346,17 @@ iframe[title*="Chat"] {
 }
 
 .englishtaCourseDetailHero__media strong {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   font-size: 24px;
   font-weight: 900;
+}
+
+.englishtaCourseDetailHero__media strong del {
+  color: rgba(0, 0, 0, 0.58);
+  font-size: 16px;
 }
 
 .englishtaCourseDetailHero__media span {
@@ -24890,11 +24922,77 @@ body {
     align-items: center;
   }
 }
+/* Course recommendation */
+.englishtaRecommendedCourse {
+  align-items: center;
+  background: #160006;
+  border-radius: 16px;
+  color: #fff;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin: 0 auto 28px;
+  padding: 22px;
+}
+
+.englishtaRecommendedCourse p {
+  color: #feb60c;
+  font-weight: 900;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+
+.englishtaRecommendedCourse h2 {
+  color: #fff;
+  font-family: var(--font-nunito), Nunito, sans-serif;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 900;
+  margin: 0 0 8px;
+}
+
+.englishtaRecommendedCourse span {
+  color: rgba(255, 255, 255, 0.76);
+  display: block;
+}
+
+.englishtaRecommendedCourse a {
+  background: #feb60c;
+  border-radius: 999px;
+  color: #160006;
+  flex: 0 0 auto;
+  font-weight: 900;
+  padding: 13px 18px;
+  text-decoration: none;
+}
+
+.englishtaCoursesRecommendedBlock {
+  margin-bottom: 34px;
+}
+
+.englishtaCoursesRecommendedBlock > h2 {
+  color: #160006;
+  font-family: var(--font-nunito), Nunito, sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  margin: 0 0 16px;
+}
+
+@media (max-width: 700px) {
+  .englishtaRecommendedCourse {
+    align-items: flex-start;
+    display: grid;
+  }
+}
+
 /* Skill assessment */
 .englishtaSkillTest {
   align-items: center;
   background:
-    radial-gradient(circle at 20% 15%, rgba(254, 182, 12, 0.2), transparent 28%),
+    radial-gradient(
+      circle at 20% 15%,
+      rgba(254, 182, 12, 0.2),
+      transparent 28%
+    ),
     linear-gradient(135deg, #160006, #17120a);
   color: #fff;
   display: grid;
@@ -24934,9 +25032,9 @@ body {
 .englishtaSkillTest__intro h1,
 .englishtaSkillTest__result h1,
 .englishtaSkillTest__empty h1 {
-  font-family: var(--font-nunito), Nunito, sans-serif;
+  font-family: Nunito, sans-serif;
   font-size: clamp(32px, 5vw, 58px);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.05;
   margin: 0 0 14px;
 }

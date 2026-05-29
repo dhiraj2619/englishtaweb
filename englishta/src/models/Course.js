@@ -49,9 +49,19 @@ const courseSchema = new mongoose.Schema(
       enum: ["Yes", "No"],
       default: "Yes",
     },
+    actualPrice: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    discountedPrice: {
+      type: String,
+      default: "",
+      trim: true,
+    },
     price: {
       type: String,
-      required: true,
+      default: "",
       trim: true,
     },
     studentsEnrolled: {

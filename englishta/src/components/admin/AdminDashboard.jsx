@@ -36,6 +36,8 @@ const emptyForms = {
     timeline: "",
     languages: ["marathi", "hindi", "english"],
     allowBooking: "Yes",
+    actualPrice: "",
+    discountedPrice: "",
     price: "",
     studentsEnrolled: "",
     visible: "Yes",
@@ -113,6 +115,8 @@ const starterData = {
       timeline: "8 weeks live online training with guided speaking practice.",
       languages: ["marathi", "hindi", "english"],
       allowBooking: "Yes",
+      actualPrice: "4999",
+      discountedPrice: "3999",
       price: "999",
       studentsEnrolled: "128",
       visible: "Yes",
@@ -163,6 +167,8 @@ const columns = {
   courses: [
     ["name", "Course"],
     ["courseMode", "Mode"],
+    ["actualPrice", "Actual Price"],
+    ["discountedPrice", "Discounted Price"],
     ["shortDescription", "Short Description"],
     ["visible", "Visible"],
     ["allowBooking", "Booking"],
@@ -249,7 +255,7 @@ const courseModeLabels = {
   live: "Live Courses",
   recorded: "Recorded Courses",
   audio: "Audio Course",
-  progress: "Check Your Progress",
+  progress: "Track Your Progress",
 };
 
 function normalizeCourseRecord(course) {
@@ -1774,7 +1780,8 @@ function AdminForm({
     courses: [
       ["name", "Course Name", "input"],
       ["courseMode", "Course Mode", "select", Object.keys(courseModeLabels)],
-      ["price", "Starting From Pricing", "input"],
+      ["actualPrice", "Actual Price (Cut Mark)", "input"],
+      ["discountedPrice", "Discounted Price", "input"],
       ["studentsEnrolled", "Students Enrolled", "input"],
       ["visible", "Display on Website", "select", ["Yes", "No"]],
       ["allowBooking", "Allow Booking Option", "select", ["Yes", "No"]],

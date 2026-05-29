@@ -2256,7 +2256,7 @@ const homeCourseModeTabs = [
   ["live", "Live Courses", "fa-solid fa-tower-broadcast"],
   ["recorded", "Recorded Courses", "fa-regular fa-circle-play"],
   ["audio", "Audio Course", "fa-solid fa-headphones-simple"],
-  ["progress", "Check Your Progress", "fa-solid fa-chart-line"],
+  ["progress", "Track Your Progress", "fa-solid fa-chart-line"],
 ];
 
 const homeCourseModeDetails = {
@@ -2276,7 +2276,7 @@ const homeCourseModeDetails = {
     icon: "fa-solid fa-headphones-simple",
   },
   progress: {
-    title: "Check Your Progress",
+    title: "Track Your Progress",
     text: "Track your speaking confidence, grammar, and fluency growth",
     icon: "fa-solid fa-chart-line",
   },
@@ -2325,17 +2325,30 @@ const getHomeFallbackCourses = () =>
 const getHomeCourseImage = (course, index) =>
   course.thumbnail || `https://picsum.photos/seed/englishta-course-${index}/900/600`;
 
-const formatHomeCourseFees = (price) => {
-  if (!price) return "Fees: Contact Us";
+const normalizeHomeCoursePrice = (price) => {
   const normalizedPrice = String(price).trim();
+  const lowerPrice = normalizedPrice.toLowerCase();
 
-  if (/^(rs\.?|₹)/i.test(normalizedPrice)) {
-    return `Fees: ${normalizedPrice}`;
+  if (lowerPrice.startsWith("rs") || normalizedPrice.startsWith("\u20b9")) {
+    return normalizedPrice;
   }
 
-  return `Fees: ₹${normalizedPrice}`;
+  return `\u20b9${normalizedPrice}`;
 };
 
+const getHomeCourseFees = (course) => {
+  const discountedPrice = course.discountedPrice || course.price;
+  const actualPrice = course.actualPrice;
+
+  if (!discountedPrice && !actualPrice) {
+    return null;
+  }
+
+  return {
+    actual: actualPrice ? normalizeHomeCoursePrice(actualPrice) : "",
+    discounted: discountedPrice ? normalizeHomeCoursePrice(discountedPrice) : normalizeHomeCoursePrice(actualPrice),
+  };
+};
 const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
   const [activeMode, setActiveMode] = useState("live");
   const visibleCourses = useMemo(() => courses.filter((course) => course.visible !== "No"), [courses]);
@@ -2397,6 +2410,7 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
             <div className="englishtaCoursesGrid">
               {activeCourses.map((course, index) => {
                 const slug = slugifyCourseName(course.name);
+                const fees = getHomeCourseFees(course);
 
                 return (
                   <Link
@@ -2415,7 +2429,16 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                       <h4>{course.name}</h4>
 
                       <span className="englishtaCourseCard__footer">
-                        <span className="englishtaCourseCard__fees">{formatHomeCourseFees(course.price)}</span>
+                        <span className="englishtaCourseCard__fees">
+                          {fees ? (
+                            <>
+                              <span>Fees: {fees.discounted}</span>
+                              {fees.actual ? <del>{fees.actual}</del> : null}
+                            </>
+                          ) : (
+                            "Fees: Contact Us"
+                          )}
+                        </span>
                         <span className="englishtaCourseCard__students">
                           {course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}
                         </span>
@@ -3806,4 +3829,5 @@ const Home = () => {
 };
 
 export default Home;
+
 

@@ -148,6 +148,11 @@ function createPersonalForm(user) {
   };
 }
 
+function getSuitableCourseHref(user) {
+  const level = user?.englishLevel || "beginner";
+  return `/courses?recommended=${encodeURIComponent(level)}`;
+}
+
 export default function StudentProfileDashboard() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -194,6 +199,7 @@ export default function StudentProfileDashboard() {
   const displayGoal = formatLearningGoal(currentUser?.learningGoal);
   const initial = (displayName || displayEmail || "S").trim().charAt(0).toUpperCase();
   const isSkillTestCompleted = Boolean(currentUser?.skillTestCompleted);
+  const suitableCourseHref = getSuitableCourseHref(currentUser);
 
   const openPersonalModal = () => {
     setPersonalForm(createPersonalForm(currentUser));
@@ -423,8 +429,16 @@ export default function StudentProfileDashboard() {
                     <span className={`englishtaStudentProfile__stepBadge englishtaStudentProfile__stepBadge--${step.accent}`}>
                       {step.badge}
                     </span>
-                    <span className={`englishtaStudentProfile__stepStatus englishtaStudentProfile__stepStatus--${step.accent}`}>
-                      {step.id === "skills" ? "In Progress" : "Pending"}
+                    <span className={`englishtaStudentProfile__stepStatus englishtaStudentProfile__stepStatus--${
+                      step.id === "skills" && isSkillTestCompleted ? "complete" : step.accent
+                    }`}>
+                      {step.id === "skills" && isSkillTestCompleted
+                        ? "Completed"
+                        : step.id === "skills"
+                          ? "In Progress"
+                          : isSkillTestCompleted
+                            ? "Unlocked"
+                            : "Pending"}
                     </span>
                   </div>
 
@@ -451,15 +465,25 @@ export default function StudentProfileDashboard() {
                   </ul>
 
                   {step.id === "skills" ? (
-                    <Link
-                      href={step.ctaHref}
-                      className={`englishtaStudentProfile__stepButton englishtaStudentProfile__stepButton--${step.accent}`}
-                    >
-                      {step.cta} <i className={step.ctaIcon} aria-hidden="true" />
-                    </Link>
+                    isSkillTestCompleted ? (
+                      <button
+                        className="englishtaStudentProfile__stepButton englishtaStudentProfile__stepButton--green"
+                        type="button"
+                        disabled
+                      >
+                        Completed <i className="fa-solid fa-check" aria-hidden="true" />
+                      </button>
+                    ) : (
+                      <Link
+                        href={step.ctaHref}
+                        className={`englishtaStudentProfile__stepButton englishtaStudentProfile__stepButton--${step.accent}`}
+                      >
+                        {step.cta} <i className={step.ctaIcon} aria-hidden="true" />
+                      </Link>
+                    )
                   ) : isSkillTestCompleted ? (
                     <Link
-                      href={step.ctaHref}
+                      href={suitableCourseHref}
                       className={`englishtaStudentProfile__stepButton englishtaStudentProfile__stepButton--${step.accent}`}
                     >
                       Get Suitable Course <i className={step.ctaIcon} aria-hidden="true" />
