@@ -84,12 +84,16 @@ const parsePriceAmount = (price) => {
 const CourseDetailPage = () => {
   const { slug } = useParams();
   const [courses, setCourses] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isEnrolling, setIsEnrolling] = useState(false);
+  const [enrollFeedback, setEnrollFeedback] = useState({ type: "", message: "" });
   const [submitError, setSubmitError] = useState("");
   const [form, setForm] = useState({
     firstName: "",
@@ -135,6 +139,36 @@ const CourseDetailPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/auth/me", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) return null;
+        const payload = await response.json();
+        return payload?.user || null;
+      })
+      .then((user) => {
+        if (isMounted) {
+          setCurrentUser(user);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setCurrentUser(null);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsAuthLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const course = useMemo(
     () => courses.find((item) => slugifyCourseName(item.name) === slug),
     [courses, slug],
@@ -152,6 +186,12 @@ const CourseDetailPage = () => {
   const hasRichSyllabus = /<\/?(h[1-6]|ul|ol|li|p|strong|em|br)\b/i.test(rawSyllabus);
   const syllabusHtml = sanitizeCourseHtml(rawSyllabus);
   const syllabusItems = splitSyllabus(rawSyllabus);
+  const isCurrentUserEnrolled = Array.isArray(currentUser?.joinedCourses)
+    ? currentUser.joinedCourses.some((joinedCourse) => {
+        const joinedCourseId = joinedCourse?.course?._id || joinedCourse?.course;
+        return String(joinedCourseId) === String(course?._id);
+      })
+    : false;
 
   function updateField(field, value) {
     setForm((current) => ({
@@ -179,11 +219,24 @@ const CourseDetailPage = () => {
   }
 
   function openEnrollModal() {
+    if (isAuthLoading) return;
+
+    if (!isAuthLoading && !currentUser) {
+      window.dispatchEvent(
+        new CustomEvent("englishta:protected-navigation", {
+          detail: { href: window.location.pathname },
+        }),
+      );
+      return;
+    }
+
+    setEnrollFeedback({ type: "", message: "" });
     setIsEnrollModalOpen(true);
   }
 
   function closeEnrollModal() {
     setIsEnrollModalOpen(false);
+    setEnrollFeedback({ type: "", message: "" });
   }
 
   function closeSuccessModal() {
@@ -231,6 +284,54 @@ const CourseDetailPage = () => {
       setSubmitError(submitCourseError.message || "Failed to submit course lead.");
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  async function handleCourseEnrollment() {
+    if (!course?._id) {
+      setEnrollFeedback({ type: "error", message: "Course is not ready yet." });
+      return;
+    }
+
+    if (!currentUser) {
+      closeEnrollModal();
+      window.dispatchEvent(
+        new CustomEvent("englishta:protected-navigation", {
+          detail: { href: window.location.pathname },
+        }),
+      );
+      return;
+    }
+
+    setIsEnrolling(true);
+    setEnrollFeedback({ type: "", message: "" });
+
+    try {
+      const response = await fetch("/api/courses/enroll", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ courseId: course._id }),
+      });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Unable to enroll in this course.");
+      }
+
+      setCurrentUser(payload.user || currentUser);
+      setEnrollFeedback({
+        type: "success",
+        message: payload.message || "You are enrolled in this course.",
+      });
+    } catch (enrollError) {
+      setEnrollFeedback({
+        type: "error",
+        message: enrollError.message || "Unable to enroll in this course.",
+      });
+    } finally {
+      setIsEnrolling(false);
     }
   }
 
@@ -355,6 +456,7 @@ const CourseDetailPage = () => {
                     type="button"
                     className="englishtaCourseDetailCard__primary"
                     onClick={openEnrollModal}
+                    disabled={isAuthLoading}
                   >
                     Enroll Now
                   </button>
@@ -554,9 +656,24 @@ const CourseDetailPage = () => {
                   Secure &amp; Safe Payment
                 </p>
 
-                <button type="button" className="englishtaCourseEnrollModal__reserve">
+                {enrollFeedback.message ? (
+                  <p className={`englishtaCourseEnrollModal__feedback ${enrollFeedback.type}`}>
+                    {enrollFeedback.message}
+                  </p>
+                ) : null}
+
+                <button
+                  type="button"
+                  className="englishtaCourseEnrollModal__reserve"
+                  onClick={handleCourseEnrollment}
+                  disabled={isEnrolling || isCurrentUserEnrolled}
+                >
                   <i className="fa-solid fa-lock" />
-                  Pay ₹{advanceBookingAmount} &amp; Reserve Seat
+                  {isEnrolling
+                    ? "Enrolling..."
+                    : isCurrentUserEnrolled
+                      ? "Already Enrolled"
+                      : `Pay ₹${advanceBookingAmount} & Reserve Seat`}
                 </button>
 
                 <small>Your seat will be reserved after successful payment.</small>

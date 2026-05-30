@@ -5,11 +5,55 @@ const tutorImage =
   "/assets/images/raajshlke.png";
 
 const stats = [
-  ["fa-regular fa-user", "10,000+", "Happy Learners"],
-  ["fa-solid fa-chalkboard-user", "2,500+", "Live Classes Conducted"],
-  ["fa-regular fa-circle-play", "1,000+", "Practice Videos & Lessons"],
-  ["fa-solid fa-globe", "45+", "Countries Reached"],
-  ["fa-regular fa-star", "4.9/5", "Learner Rating"],
+  ["fa-regular fa-user", "5+ Lakh", "Learners Guided"],
+  ["fa-solid fa-chalkboard-user", "28+ Years", "Teaching & Training"],
+  ["fa-solid fa-building-columns", "Founder", "GuruMantra Knowledge Institute"],
+  ["fa-solid fa-pen-nib", "Author", "Poet • Trainer • Speaker"],
+  ["fa-regular fa-star", "BEC", "University of Cambridge"],
+];
+
+const profileHighlights = [
+  "Founder Director - GuruMantra Knowledge Institute",
+  "Master's Degree in English Literature",
+  "First Rank in District during Teachers' Training",
+  "BEC - Business English Certificate, University of Cambridge",
+  "Member of the All India English Language Teachers' Association",
+];
+
+const profileSections = [
+  {
+    title: "28+ Years of Teaching & Training Experience",
+    text:
+      "For nearly three decades, Prof. Raj Shelke has taught English communication skills to learners ranging from beginners to advanced-level speakers. His experience includes training students, teachers, faculty members, working professionals, and English-medium school teachers.",
+  },
+  {
+    title: "Educational Leadership & Social Impact",
+    text:
+      "He has served as an Honourable Principal at a CBSE school and junior college, and has also worked extensively for the educational upliftment of students in tribal regions of Maharashtra for five years.",
+  },
+  {
+    title: "Impact on Students & Professionals",
+    text:
+      "Through seminars, workshops, and training programmes over the last 20 years, Prof. Raj Shelke has helped more than 5 lakh learners improve their English communication and confidence, including professionals from sectors such as the IT industry.",
+  },
+  {
+    title: "Teaching Philosophy",
+    text:
+      "He believes language learning should be simple, enjoyable, practical, and confidence-building. Fluent in English, Hindi, and Marathi, he creates a comfortable learning atmosphere focused on real-life communication needs.",
+  },
+  {
+    title: "Author, Poet & Columnist",
+    text:
+      "Prof. Raj Shelke is the author of the bestselling books Best of Luck - English is Easy! and Ujed Perat Jato - Sowing the Seeds of Light. He has translated more than 20 books between Marathi, Hindi, and English, writes on social issues, and has authored an English Communication Skills book for B.A. students for a renowned university.",
+  },
+];
+
+const awards = [
+  "Shabda Gandha Award",
+  "Shabda Pera Award",
+  "Late Daulatrao Gaikwad Award",
+  "Shiva Garjana Award",
+  "Shabda Prabha Award",
 ];
 
 const faqs = [
@@ -49,8 +93,8 @@ const AboutUsPage = () => {
               <div className="englishtaAboutHero__badge">
                 <span>Founder & Mentor</span>
                 <strong>Prof. Raj Shelke</strong>
-                <p>10,000+ Learners Guided</p>
-                <p>15+ Years of Teaching Experience</p>
+                <p>5+ Lakh Learners Guided</p>
+                <p>28+ Years of Teaching Experience</p>
               </div>
             </div>
           </div>
@@ -120,19 +164,94 @@ const AboutUsPage = () => {
               </div>
               <div className="englishtaAboutTutor__copy wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
                 <h3>Prof. Raj Shelke</h3>
-                <p className="englishtaAboutTutor__role">Founder & English Communication Expert</p>
+                <p className="englishtaAboutTutor__role">Founder Director, GuruMantra Knowledge Institute</p>
                 <p>
-                  With over 15 years of teaching experience, Prof. Raj Shelke has helped thousands of learners overcome
-                  their fear of speaking English. His practical methods, friendly approach, and real-life examples make
-                  learning simple, effective, and enjoyable.
+                  Prof. Rajeshwar Shashikala Pandurang Shelke, popularly known as Prof. Raj Shelke Sir, is a renowned
+                  English Communication Trainer, educator, author, poet, translator, columnist, and motivational speaker
+                  with over 28 years of experience in teaching, training, and inspiring learners from diverse
+                  backgrounds.
                 </p>
                 <div className="englishtaAboutTutor__points">
-                  <span><i className="fa-solid fa-check" />15+ Years of Experience</span>
-                  <span><i className="fa-solid fa-check" />Personalized Guidance</span>
-                  <span><i className="fa-solid fa-check" />Expert in Spoken English</span>
-                  <span><i className="fa-solid fa-check" />Real-life Communication Focus</span>
+                  <span><i className="fa-solid fa-check" />28+ Years Experience</span>
+                  <span><i className="fa-solid fa-check" />5+ Lakh Learners Guided</span>
+                  <span><i className="fa-solid fa-check" />Author • Poet • Trainer • Speaker</span>
+                  <span><i className="fa-solid fa-check" />Confidence & Communication Focus</span>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="englishtaAboutProfile">
+          <div className="container">
+            <div className="englishtaAboutProfile__intro wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
+              <p className="englishtaAboutEyebrow">Founder Profile</p>
+              <h2>
+                Prof. Raj Shelke <span>Sir</span>
+              </h2>
+              <p>
+                Founder Director, GuruMantra Knowledge Institute | English Communication Trainer | Author | Poet |
+                Motivational Speaker
+              </p>
+            </div>
+
+            <div className="englishtaAboutProfile__grid">
+              <article className="englishtaAboutProfile__card englishtaAboutProfile__card--wide wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
+                <h3>Academic Excellence</h3>
+                <p>
+                  Prof. Raj Shelke holds a Master&apos;s Degree in English Literature and secured First Rank in the
+                  District during his Teachers&apos; Training programme. He has also earned the prestigious BEC
+                  (Business English Certificate) awarded by University of Cambridge.
+                </p>
+                <ul>
+                  {profileHighlights.map((item) => (
+                    <li key={item}><i className="fa-solid fa-check" />{item}</li>
+                  ))}
+                </ul>
+              </article>
+
+              <aside className="englishtaAboutProfile__focus wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
+                <strong>Focus</strong>
+                <span>28+ Years Experience</span>
+                <span>5+ Lakh Learners Guided</span>
+                <span>Founder Director - GuruMantra Knowledge Institute</span>
+                <span>Author • Poet • Trainer • Speaker</span>
+              </aside>
+            </div>
+
+            <div className="englishtaAboutProfile__sections">
+              {profileSections.map((section, index) => (
+                <article
+                  className="wow fadeInUp"
+                  data-wow-duration="1s"
+                  data-wow-delay={`${0.12 + index * 0.05}s`}
+                  key={section.title}
+                >
+                  <h3>{section.title}</h3>
+                  <p>{section.text}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="englishtaAboutProfile__recognition">
+              <article className="wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.15s">
+                <h3>Awards & Recognition</h3>
+                <ul>
+                  {awards.map((award) => (
+                    <li key={award}><i className="fa-solid fa-award" />{award}</li>
+                  ))}
+                </ul>
+              </article>
+              <article className="wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
+                <h3>Connect with Prof. Raj Shelke</h3>
+                <p>
+                  Follow Prof. Raj Shelke Sir on social media platforms for English learning guidance, motivational
+                  content, communication tips, poetry, and educational insights.
+                </p>
+                <blockquote>
+                  Teaching English beyond grammar - for confidence, expression, and success.
+                </blockquote>
+              </article>
             </div>
           </div>
         </section>
