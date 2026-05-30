@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -173,7 +173,7 @@ function CourseCard({ course, index }) {
   );
 }
 
-const CoursesPage = () => {
+const CoursesPageContent = () => {
   const searchParams = useSearchParams();
   const recommendedLevel = searchParams.get("recommended");
   const [courses, setCourses] = useState([]);
@@ -411,6 +411,37 @@ const CoursesPage = () => {
     </>
   );
 };
+
+const CoursesPage = () => (
+  <Suspense
+    fallback={
+      <>
+        <Navbar />
+        <main className="englishtaCoursesPage englishtaCoursesPage--catalog">
+          <section className="englishtaCoursesHero">
+            <div className="container">
+              <p>English Speaking Courses</p>
+              <h1>Choose the Right English Course for Your Confidence</h1>
+              <div className="englishtaCoursesHero__stats" aria-label="Course highlights">
+                <span>Live Online Sessions</span>
+                <span>Marathi + Hindi + English</span>
+                <span>Expert Tutor Feedback</span>
+              </div>
+            </div>
+          </section>
+          <section className="englishtaCourseCatalog">
+            <div className="container">
+              <div className="englishtaCoursesNotice">Loading courses...</div>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </>
+    }
+  >
+    <CoursesPageContent />
+  </Suspense>
+);
 
 export default CoursesPage;
 
