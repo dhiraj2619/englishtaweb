@@ -76,12 +76,18 @@ const normalizePrice = (price) => {
   return `\u20b9${normalizedPrice}`;
 };
 
+const parsePriceAmount = (price) => {
+  const amount = Number(String(price || "").replace(/[^\d.]/g, ""));
+  return Number.isFinite(amount) ? amount : 0;
+};
+
 const CourseDetailPage = () => {
   const { slug } = useParams();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -138,6 +144,9 @@ const CourseDetailPage = () => {
   const rawLongDescription = course?.longDescription ?? "";
   const discountedPrice = normalizePrice(course?.discountedPrice || course?.price);
   const actualPrice = normalizePrice(course?.actualPrice);
+  const advanceBookingAmount = 999;
+  const courseFeeAmount = parsePriceAmount(course?.discountedPrice || course?.price);
+  const remainingAmount = courseFeeAmount > advanceBookingAmount ? courseFeeAmount - advanceBookingAmount : 0;
   const hasRichLongDescription = /<\/?(h[1-6]|ul|ol|li|p|strong|em|br|blockquote)\b/i.test(rawLongDescription);
   const longDescriptionHtml = sanitizeCourseHtml(rawLongDescription);
   const hasRichSyllabus = /<\/?(h[1-6]|ul|ol|li|p|strong|em|br)\b/i.test(rawSyllabus);
@@ -167,6 +176,14 @@ const CourseDetailPage = () => {
   function closeJoinModal() {
     setIsModalOpen(false);
     setSubmitError("");
+  }
+
+  function openEnrollModal() {
+    setIsEnrollModalOpen(true);
+  }
+
+  function closeEnrollModal() {
+    setIsEnrollModalOpen(false);
   }
 
   function closeSuccessModal() {
@@ -334,7 +351,20 @@ const CourseDetailPage = () => {
                 <aside className="englishtaCourseDetailCard wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
                   <h3>Ready to start?</h3>
                   <p>Tell us your goal and we will suggest the right English practice plan.</p>
-                  <button type="button" onClick={openJoinModal}>Enroll Now</button>
+                  <button
+                    type="button"
+                    className="englishtaCourseDetailCard__primary"
+                    onClick={openEnrollModal}
+                  >
+                    Enroll Now
+                  </button>
+                  <button
+                    type="button"
+                    className="englishtaCourseDetailCard__outline"
+                    onClick={openJoinModal}
+                  >
+                    Enquire Now
+                  </button>
                   <span>Flexible online batches available</span>
                 </aside>
               </div>
@@ -451,6 +481,87 @@ const CourseDetailPage = () => {
                 <i className="fa-solid fa-arrow-right" />
               </button>
             </form>
+          </div>
+        </div>
+      ) : null}
+      {isEnrollModalOpen && course ? (
+        <div className="englishtaWebinarModal" onClick={closeEnrollModal}>
+          <div
+            className="englishtaWebinarModal__dialog englishtaCourseEnrollModal"
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="course-enroll-title"
+          >
+            <button type="button" className="englishtaWebinarModal__close" onClick={closeEnrollModal}>
+              <i className="fa-solid fa-xmark" />
+            </button>
+
+            <div className="englishtaCourseEnrollModal__layout">
+              <section className="englishtaCourseEnrollModal__summary">
+                <h2 id="course-enroll-title">Join This Course</h2>
+                <p>
+                  Start your English speaking journey today.
+                  <strong> Secure your seat by paying the advance amount online.</strong>
+                </p>
+
+                <div className="englishtaCourseEnrollModal__details">
+                  <article>
+                    <span><i className="fa-solid fa-book-open" /></span>
+                    <div>
+                      <strong>Course Name</strong>
+                      <p>{course.name}</p>
+                    </div>
+                  </article>
+                  <article>
+                    <span><i className="fa-regular fa-calendar-days" /></span>
+                    <div>
+                      <strong>Duration</strong>
+                      <p>{course.duration || "3 Months"}</p>
+                    </div>
+                  </article>
+                  <article>
+                    <span><i className="fa-solid fa-users" /></span>
+                    <div>
+                      <strong>Batch</strong>
+                      <p>Flexible Online Batch</p>
+                    </div>
+                  </article>
+                </div>
+
+                <div className="englishtaCourseEnrollModal__benefits">
+                  <span><i className="fa-solid fa-circle-check" />Reserve your seat instantly</span>
+                  <span><i className="fa-solid fa-circle-check" />Personal guidance call</span>
+                  <span><i className="fa-solid fa-circle-check" />Batch preference support</span>
+                  <span><i className="fa-solid fa-circle-check" />Flexible payment options</span>
+                </div>
+              </section>
+
+              <section className="englishtaCourseEnrollModal__payment">
+                <h3>Payment Details</h3>
+                <div className="englishtaCourseEnrollModal__amountCard">
+                  <span>Advance Booking Amount</span>
+                  <strong>₹{advanceBookingAmount}</strong>
+                  <hr />
+                  <span>Remaining Amount</span>
+                  <p>
+                    {remainingAmount ? `₹${remainingAmount}` : "Pay after counsellor confirmation"}
+                  </p>
+                </div>
+
+                <p className="englishtaCourseEnrollModal__secure">
+                  <i className="fa-solid fa-lock" />
+                  Secure &amp; Safe Payment
+                </p>
+
+                <button type="button" className="englishtaCourseEnrollModal__reserve">
+                  <i className="fa-solid fa-lock" />
+                  Pay ₹{advanceBookingAmount} &amp; Reserve Seat
+                </button>
+
+                <small>Your seat will be reserved after successful payment.</small>
+              </section>
+            </div>
           </div>
         </div>
       ) : null}

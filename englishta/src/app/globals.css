@@ -5976,6 +5976,7 @@ iframe[title*="Chat"] {
   min-height: 56px;
   padding: 15px 28px;
   text-decoration: none;
+  font-family: "Nunito", sans-serif;
 }
 
 .englishtaCourseDetailHero__primary,
@@ -6253,6 +6254,30 @@ iframe[title*="Chat"] {
 .englishtaCourseDetailCard a,
 .englishtaCourseDetailCard button {
   width: 100%;
+}
+
+.englishtaCourseDetailCard button + button {
+  margin-top: 12px;
+}
+
+.englishtaCourseDetailCard .englishtaCourseDetailCard__primary {
+  background: #150005;
+  border: 2px solid #150005;
+  color: #fff;
+}
+
+.englishtaCourseDetailCard .englishtaCourseDetailCard__outline {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 2px solid #150005;
+  color: #150005 !important;
+  font-family: "Nunito", sans-serif;
+}
+
+.englishtaCourseDetailCard .englishtaCourseDetailCard__outline:hover {
+  background: #150005;
+  background-color: #150005;
+  color: #fff;
 }
 
 .englishtaCourseDetailCard > span {
@@ -25020,6 +25045,201 @@ body {
   line-height: 1.7;
 }
 
+.englishtaCourseEnrollModal {
+  width: min(100%, 940px);
+  padding: 36px;
+  background: #fff;
+}
+
+.englishtaCourseEnrollModal__layout {
+  display: grid;
+  gap: 34px;
+  grid-template-columns: minmax(0, 1.08fr) minmax(310px, 0.92fr);
+}
+
+.englishtaCourseEnrollModal__summary h2 {
+  color: #111111;
+  font-family: Nunito, sans-serif;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.05;
+  margin: 0 0 12px;
+}
+
+.englishtaCourseEnrollModal__summary > p {
+  color: #2d2b2b;
+  font-size: 15px;
+  line-height: 1.45;
+  margin: 0 0 24px;
+  max-width: 360px;
+}
+
+.englishtaCourseEnrollModal__summary > p strong {
+  display: block;
+  font-weight: 900;
+}
+
+.englishtaCourseEnrollModal__details {
+  border-top: 1px solid #ded8cf;
+  display: grid;
+  gap: 22px;
+  padding: 24px 0;
+}
+
+.englishtaCourseEnrollModal__details article {
+  align-items: center;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 48px minmax(0, 1fr);
+}
+
+.englishtaCourseEnrollModal__details article > span {
+  align-items: center;
+  background: #f8f0df;
+  border-radius: 50%;
+  color: #5b5143;
+  display: inline-flex;
+  font-size: 20px;
+  height: 44px;
+  justify-content: center;
+  width: 44px;
+}
+
+.englishtaCourseEnrollModal__details strong,
+.englishtaCourseEnrollModal__details p {
+  display: block;
+  margin: 0;
+}
+
+.englishtaCourseEnrollModal__details strong {
+  color: #111;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.englishtaCourseEnrollModal__details p {
+  color: #232323;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.englishtaCourseEnrollModal__benefits {
+  background: #fff7e8;
+  border-radius: 12px;
+  display: grid;
+  gap: 16px 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 16px;
+}
+
+.englishtaCourseEnrollModal__benefits span {
+  align-items: center;
+  color: #161616;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 800;
+  gap: 8px;
+  line-height: 1.25;
+}
+
+.englishtaCourseEnrollModal__benefits i {
+  color: #150005;
+  flex: 0 0 auto;
+}
+
+.englishtaCourseEnrollModal__payment {
+  border: 1px solid #dfddd9;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.englishtaCourseEnrollModal__payment h3 {
+  color: #111;
+  font-size: 18px;
+  font-weight: 900;
+  margin: 0 0 18px;
+}
+
+.englishtaCourseEnrollModal__amountCard {
+  border: 1px solid #e4e1dc;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.englishtaCourseEnrollModal__amountCard span {
+  color: #161616;
+  display: block;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.englishtaCourseEnrollModal__amountCard strong {
+  color: #150005;
+  display: block;
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1;
+  margin: 8px 0 18px;
+}
+
+.englishtaCourseEnrollModal__amountCard hr {
+  border: 0;
+  border-top: 1px solid #ded8cf;
+  margin: 0 0 18px;
+}
+
+.englishtaCourseEnrollModal__amountCard p {
+  color: #282828;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.45;
+  margin: 4px 0 0;
+}
+
+.englishtaCourseEnrollModal__secure {
+  align-items: center;
+  color: #6c6760;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 800;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+
+.englishtaCourseEnrollModal__reserve {
+  align-items: center;
+  background: #150005;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 15px;
+  font-weight: 900;
+  gap: 10px;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 18px;
+  width: 100%;
+}
+
+.englishtaCourseEnrollModal__reserve:hover {
+  background: #2a000a;
+}
+
+.englishtaCourseEnrollModal small {
+  color: #77716a;
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.35;
+  margin-top: 14px;
+  text-align: center;
+}
+
 @media (max-width: 767px) {
   .englishtaWebinarModal {
     padding: 14px;
@@ -25040,6 +25260,18 @@ body {
 
   .englishtaWebinarModal__choices {
     display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaCourseEnrollModal {
+    padding: 24px 18px;
+  }
+
+  .englishtaCourseEnrollModal__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaCourseEnrollModal__benefits {
     grid-template-columns: 1fr;
   }
 }
