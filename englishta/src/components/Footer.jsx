@@ -69,8 +69,7 @@ const footerHtml = `<footer class="td_footer td_style_1">
           <div class="td_footer_bottom_in">
             <p class="td_copyright mb-0">Copyright &copy; Englishta | All Rights Reserved</p>
             <ul class="td_footer_widget_menu">
-              <li><a href="/about-us">About</a></li>
-              <li><a href="/contact-us">Contact</a></li>
+              <li><a href="/policy">Policy</a></li>
             </ul>
           </div>
         </div>

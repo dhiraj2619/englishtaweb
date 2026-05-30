@@ -26405,6 +26405,86 @@ body {
   text-decoration: none;
 }
 
+.englishtaPolicyPage {
+  background: #fbfaf7;
+  min-height: 100vh;
+}
+
+.englishtaPolicyHero {
+  background:
+    radial-gradient(circle at 76% 12%, rgba(254, 182, 12, 0.24), transparent 30%),
+    linear-gradient(135deg, #160006, #211006);
+  color: #fff;
+  padding: 150px 0 76px;
+}
+
+.englishtaPolicyHero p {
+  color: #feb60c;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+.englishtaPolicyHero h1 {
+  color: #fff;
+  font-family: Nunito, sans-serif;
+  font-size: clamp(42px, 5vw, 68px);
+  font-weight: 900;
+  line-height: 1.02;
+  margin: 0 0 14px;
+}
+
+.englishtaPolicyHero span {
+  color: rgba(255, 255, 255, 0.78);
+  display: block;
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 720px;
+}
+
+.englishtaPolicyContent {
+  padding: 64px 0 96px;
+}
+
+.englishtaPolicyContent .container {
+  display: grid;
+  gap: 24px;
+  max-width: 980px;
+}
+
+.englishtaPolicyContent article {
+  background: #fff;
+  border: 1px solid rgba(22, 10, 27, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(22, 18, 8, 0.08);
+  padding: 32px;
+}
+
+.englishtaPolicyContent h2 {
+  color: #160006;
+  font-family: Nunito, sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  margin: 0 0 18px;
+}
+
+.englishtaPolicyContent p {
+  color: #5b554b;
+  font-size: 16px;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.englishtaPolicyContent p + p {
+  margin-top: 14px;
+}
+
+.englishtaPolicyContent a {
+  color: #150005;
+  font-weight: 900;
+}
+
 @media (max-width: 700px) {
   .englishtaRecommendedCourse {
     align-items: flex-start;
@@ -26427,6 +26507,14 @@ body {
   .englishtaJoinedCourseCard__footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .englishtaPolicyHero {
+    padding: 120px 0 58px;
+  }
+
+  .englishtaPolicyContent article {
+    padding: 24px;
   }
 }
 
