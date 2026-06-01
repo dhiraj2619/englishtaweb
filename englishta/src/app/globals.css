@@ -572,6 +572,20 @@ iframe[title*="Chat"] {
 }
 
 @media (max-width: 760px) {
+  .englishtaHelpsSection {
+    padding: 64px 0 68px;
+  }
+
+  .englishtaHelpsSection ul {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaHelpsSection li {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 760px) {
   .englishtaSolutionPin {
     min-height: 155vh;
   }
@@ -5470,6 +5484,301 @@ iframe[title*="Chat"] {
   padding: 27px 0 92px;
 }
 
+.englishtaSuccessStories {
+  background: #fff;
+  padding: 42px 0 34px;
+}
+
+.englishtaSuccessStories .container {
+  max-width: 1320px;
+}
+
+.englishtaSuccessStories__panel {
+  background:
+    radial-gradient(circle at 100% 100%, rgba(254, 182, 12, 0.24), transparent 17%),
+    radial-gradient(circle at 8% 14%, rgba(255, 255, 255, 0.08), transparent 28%),
+    linear-gradient(135deg, #160006 0%, #3b0014 48%, #160006 100%);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(22, 0, 6, 0.18);
+  color: #fff;
+  display: grid;
+  gap: 34px;
+  grid-template-columns: minmax(320px, 0.85fr) minmax(0, 1.45fr);
+  min-height: 350px;
+  overflow: hidden;
+  padding: 72px 48px 64px;
+  position: relative;
+}
+
+.englishtaSuccessStories__panel::after {
+  background:
+    repeating-radial-gradient(ellipse at bottom right, transparent 0 18px, rgba(254, 182, 12, 0.16) 19px 20px, transparent 21px 34px);
+  bottom: -90px;
+  content: "";
+  height: 240px;
+  opacity: 0.9;
+  pointer-events: none;
+  position: absolute;
+  right: -70px;
+  transform: rotate(-8deg);
+  width: 760px;
+}
+
+.englishtaSuccessStories__intro,
+.englishtaSuccessStories__stats {
+  position: relative;
+  z-index: 1;
+}
+
+.englishtaSuccessStories__intro {
+  align-self: center;
+}
+
+.englishtaSuccessStories__intro h2 {
+  color: #fff;
+  font-family: Nunito, sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 34px;
+}
+
+.englishtaSuccessStories__intro h2::after {
+  background: #feb60c;
+  content: "";
+  display: block;
+  height: 3px;
+  margin-top: 20px;
+  width: 54px;
+}
+
+.englishtaSuccessStories__intro h2 span {
+  color: #feb60c;
+  display: block;
+}
+
+.englishtaSuccessStories__intro p {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 17px;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 360px;
+}
+
+.englishtaSuccessStories__stats {
+  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.englishtaSuccessStories__stats article {
+  align-items: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 220px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.englishtaSuccessStories__icon {
+  align-items: center;
+  border: 2px solid rgba(254, 182, 12, 0.5);
+  border-radius: 50%;
+  color: #feb60c;
+  display: inline-flex;
+  font-size: 34px;
+  height: 92px;
+  justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+  width: 92px;
+}
+
+.englishtaSuccessStories__orbit {
+  animation: englishtaSuccessOrbit 4.5s linear infinite;
+  border-radius: inherit;
+  inset: -2px;
+  position: absolute;
+}
+
+.englishtaSuccessStories__orbit span {
+  background: #feb60c;
+  border-radius: 50%;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: rotate(var(--dot-angle)) translateX(47px);
+}
+
+.englishtaSuccessStories__orbit span:first-child {
+  --dot-angle: -62deg;
+  height: 10px;
+  width: 10px;
+}
+
+.englishtaSuccessStories__orbit span:last-child {
+  --dot-angle: -38deg;
+  height: 7px;
+  width: 7px;
+}
+
+.englishtaSuccessStories__stats strong {
+  color: #feb60c;
+  font-family: Nunito, sans-serif;
+  font-size: clamp(34px, 3.5vw, 48px);
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 18px;
+  min-width: 180px;
+}
+
+.englishtaSuccessStories__stats p {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.englishtaSuccessStories__stats p::after {
+  background: #feb60c;
+  content: "";
+  display: block;
+  height: 3px;
+  margin: 22px auto 0;
+  width: 38px;
+}
+
+@keyframes englishtaSuccessOrbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.englishtaHelpsSection {
+  background: #fff;
+  padding: 88px 0 96px;
+  position: relative;
+}
+
+.englishtaHelpsSection .container {
+  max-width: 1120px;
+}
+
+.englishtaHelpsSection__copy {
+  margin: 0 auto;
+  max-width: 1080px;
+  position: relative;
+  z-index: 1;
+}
+
+.englishtaHelpsSection__eyebrow {
+  color: #f8a800;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+.englishtaHelpsSection h2 {
+  color: #160006;
+  font-family: Nunito, sans-serif;
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 900;
+  line-height: 1.05;
+  margin: 0 0 22px;
+}
+
+.englishtaHelpsSection h2 span {
+  color: #feb60c;
+}
+
+.englishtaHelpsSection p {
+  color: #40373a;
+  font-size: 18px;
+  line-height: 1.65;
+  margin: 0 0 16px;
+}
+
+.englishtaHelpsSection ul {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 24px 0 28px;
+  padding: 0;
+}
+
+.englishtaHelpsSection li {
+  align-items: center;
+  background: #fff7df;
+  border: 1px solid rgba(254, 182, 12, 0.32);
+  border-radius: 12px;
+  color: #160006;
+  display: flex;
+  font-family: Nunito, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  gap: 14px;
+  min-height: 66px;
+  padding: 16px 22px;
+}
+
+.englishtaHelpsSection li::before {
+  align-items: center;
+  background: #feb60c;
+  border-radius: 50%;
+  color: #160006;
+  content: "\f00c";
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-family: "Font Awesome 6 Free";
+  font-size: 12px;
+  font-weight: 900;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+}
+
+.englishtaHelpsSection__link {
+  align-items: center;
+  background: #feb60c;
+  border: 2px solid #160006;
+  border-radius: 999px;
+  box-shadow: 8px 8px 0 rgba(22, 0, 6, 0.68);
+  color: #160006;
+  display: inline-flex;
+  font-family: Nunito, sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  gap: 12px;
+  justify-content: center;
+  margin: 16px auto 0;
+  min-height: 58px;
+  min-width: 270px;
+  padding: 0 34px;
+  position: relative;
+  text-decoration: none;
+  transition:
+    box-shadow 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.englishtaHelpsSection__copy > .englishtaHelpsSection__link {
+  display: flex;
+  width: fit-content;
+}
+
+.englishtaHelpsSection__link:hover {
+  box-shadow: 5px 5px 0 rgba(22, 0, 6, 0.68);
+  color: #160006;
+  transform: translate(3px, 3px);
+}
+
 .englishtaCourseCatalog .container {
   max-width: 1190px;
 }
@@ -7693,6 +8002,141 @@ iframe[title*="Chat"] {
   padding: 20px;
 }
 
+.englishtaWhyChoose {
+  background: #fff;
+  scroll-margin-top: 96px;
+  padding: 92px 0 96px;
+}
+
+.englishtaWhyChoose__intro {
+  margin: 0 auto 34px;
+  max-width: 900px;
+  text-align: center;
+}
+
+.englishtaWhyChoose h2 {
+  color: #160006;
+  font-family: Nunito, sans-serif;
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 900;
+  line-height: 1.08;
+  margin: 0 0 18px;
+}
+
+.englishtaWhyChoose h2 span,
+.englishtaWhyChoose__result h3 {
+  color: #feb60c;
+}
+
+.englishtaWhyChoose__intro p,
+.englishtaWhyChoose__result p,
+.englishtaWhyChoose__features p {
+  color: #5b554b;
+  font-size: 17px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.englishtaWhyChoose__intro p + p {
+  margin-top: 12px;
+}
+
+.englishtaWhyChoose__features {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 28px;
+}
+
+.englishtaWhyChoose__features article,
+.englishtaWhyChoose__result,
+.englishtaWhyChoose__quote {
+  background: #fffaf0;
+  border: 1px solid rgba(254, 182, 12, 0.28);
+  border-radius: 16px;
+  box-shadow: 0 18px 44px rgba(80, 45, 0, 0.06);
+}
+
+.englishtaWhyChoose__features article {
+  padding: 24px;
+}
+
+.englishtaWhyChoose__features article > i {
+  align-items: center;
+  background: #feb60c;
+  border-radius: 50%;
+  color: #160006;
+  display: inline-flex;
+  font-size: 20px;
+  height: 48px;
+  justify-content: center;
+  margin-bottom: 16px;
+  width: 48px;
+}
+
+.englishtaWhyChoose h3 {
+  color: #160006;
+  font-family: Nunito, sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  margin: 0 0 10px;
+}
+
+.englishtaWhyChoose__result {
+  align-items: center;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  margin-bottom: 26px;
+  padding: 30px;
+}
+
+.englishtaWhyChoose__result ul {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.englishtaWhyChoose__result li {
+  align-items: center;
+  background: #fff;
+  border: 1px solid rgba(254, 182, 12, 0.25);
+  border-radius: 12px;
+  color: #160006;
+  display: flex;
+  font-weight: 900;
+  gap: 10px;
+  padding: 13px 15px;
+}
+
+.englishtaWhyChoose__result li i {
+  color: #feb60c;
+}
+
+.englishtaWhyChoose__quote {
+  color: #160006;
+  margin: 0;
+  padding: 30px;
+  text-align: center;
+}
+
+.englishtaWhyChoose__quote p {
+  font-family: Nunito, sans-serif;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 900;
+  line-height: 1.2;
+  margin: 0 0 12px;
+}
+
+.englishtaWhyChoose__quote strong {
+  color: #9b5d00;
+  display: block;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
 .englishtaAboutFaq {
   padding: 28px 0 104px;
 }
@@ -9223,6 +9667,8 @@ iframe[title*="Chat"] {
   .englishtaAboutProfile__grid,
   .englishtaAboutProfile__sections,
   .englishtaAboutProfile__recognition,
+  .englishtaWhyChoose__features,
+  .englishtaWhyChoose__result,
   .englishtaAboutFaq .container,
   .englishtaWebinarHero .container,
   .englishtaWebinarCards,
@@ -9386,6 +9832,19 @@ iframe[title*="Chat"] {
   .englishtaHeroShade__feature:nth-child(-n + 2) {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
+
+  .englishtaSuccessStories__panel {
+    grid-template-columns: 1fr;
+    padding: 48px 28px;
+  }
+
+  .englishtaSuccessStories__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .englishtaSuccessStories__stats article:nth-child(odd) {
+    border-left: 0;
+  }
 }
 
 @media (max-width: 575px) {
@@ -9393,10 +9852,34 @@ iframe[title*="Chat"] {
     padding: 128px 0 56px;
   }
 
+  .englishtaSuccessStories {
+    padding: 30px 0;
+  }
+
+  .englishtaSuccessStories__panel {
+    border-radius: 14px;
+    padding: 38px 22px;
+  }
+
+  .englishtaSuccessStories__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaSuccessStories__stats article {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    min-height: 190px;
+  }
+
+  .englishtaSuccessStories__stats article:first-child {
+    border-top: 0;
+  }
+
   .englishtaAboutStats,
   .englishtaAboutMission,
   .englishtaAboutTutor,
   .englishtaAboutProfile,
+  .englishtaWhyChoose,
   .englishtaAboutFaq {
     padding-top: 34px;
     padding-bottom: 68px;
@@ -9429,12 +9912,19 @@ iframe[title*="Chat"] {
   .englishtaAboutProfile__focus,
   .englishtaAboutProfile__sections article,
   .englishtaAboutProfile__recognition article,
+  .englishtaWhyChoose__features article,
+  .englishtaWhyChoose__result,
+  .englishtaWhyChoose__quote,
   .englishtaAboutCta {
     padding: 28px 24px;
   }
 
   .englishtaAboutProfile__sections article:last-child {
     grid-column: auto;
+  }
+
+  .englishtaWhyChoose__result {
+    grid-template-columns: 1fr;
   }
 
   .englishtaAboutTutor__points {

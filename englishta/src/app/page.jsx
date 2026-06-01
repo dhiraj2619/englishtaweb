@@ -110,7 +110,7 @@ const rawPageHtml = `
                 </ul>
               </div>
               <div className="englishtaAboutActions">
-                <a href="/about-us" className="td_btn td_style_1 td_radius_10 td_medium">
+                <a href="/about-us#founderprofile" className="td_btn td_style_1 td_radius_10 td_medium">
                   <span className="td_btn_in td_white_color td_accent_bg">
                     <span>Know More</span>
                     <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2613,6 +2613,145 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
   );
 };
 
+const successStats = [
+  ["fa-solid fa-users", 4, "k+", "Students Enrolled"],
+  ["fa-solid fa-microphone-lines", 12, "+", "Live Speaking Sessions"],
+  ["fa-solid fa-briefcase", 2, "k+", "Interview Learners"],
+];
+
+const HomeSuccessStoriesSection = () => {
+  const sectionRef = useRef(null);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [counts, setCounts] = useState(() => successStats.map(() => 0));
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!hasStarted) return undefined;
+
+    const duration = 1400;
+    const startedAt = performance.now();
+    let frameId = 0;
+
+    const tick = (now) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      setCounts(successStats.map(([, target]) => Math.round(target * eased)));
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(tick);
+      }
+    };
+
+    frameId = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(frameId);
+  }, [hasStarted]);
+
+  return (
+    <section className="englishtaSuccessStories" aria-label="Englishta learner success numbers" ref={sectionRef}>
+      <div className="container">
+        <div className="englishtaSuccessStories__panel wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.1s">
+          <div className="englishtaSuccessStories__intro">
+            <h2>
+              Thousands Of <span>Learners,</span> Countless Success Stories
+            </h2>
+            <p>Join a growing community of English learners achieving real results every day.</p>
+          </div>
+
+          <div className="englishtaSuccessStories__stats">
+            {successStats.map(([icon, value, suffix, label], index) => (
+              <article
+                className="wow fadeInUp"
+                data-aos="fade-up"
+                data-wow-duration="1s"
+                data-wow-delay={`${0.15 + index * 0.06}s`}
+                key={label}
+              >
+                <span className="englishtaSuccessStories__icon">
+                  <i className={icon} aria-hidden="true" />
+                  <span className="englishtaSuccessStories__orbit" aria-hidden="true">
+                    <span />
+                    <span />
+                  </span>
+                </span>
+                <strong>
+                  {counts[index].toLocaleString("en-IN")}
+                  {hasStarted ? suffix : ""}
+                </strong>
+                <p>{label}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const HowEnglishtaHelpsSection = () => (
+  <section className="englishtaHelpsSection" aria-labelledby="englishta-helps-title">
+    <div className="container">
+      <div
+        className="englishtaHelpsSection__copy wow fadeInUp"
+        data-aos="fade-up"
+        data-wow-duration="1s"
+        data-wow-delay="0.1s"
+      >
+        <p className="englishtaHelpsSection__eyebrow">Why Englishta?</p>
+        <h2 id="englishta-helps-title">
+          How Englishta <span>Helps You</span>
+        </h2>
+        <p>
+          At Englishta, we understand the real problems learners face because we have guided thousands
+          of students from the same background.
+        </p>
+        <p>Our approach focuses on:</p>
+        <ul data-aos="fade-up">
+          <li>Practical speaking practice</li>
+          <li>Confidence building</li>
+          <li>Simple and natural English</li>
+          <li>Friendly learning atmosphere</li>
+          <li>Real-life communication skills</li>
+        </ul>
+        <p>
+          We do not believe in making learners afraid of grammar. We believe in helping learners speak
+          comfortably, clearly, and confidently.
+        </p>
+        <p>
+          No matter whether you are a beginner, a student, a job seeker, an employee, or someone who lost
+          confidence in English earlier, Englishta is here to guide you step by step.
+        </p>
+        <p>
+          You can improve your English. You can speak confidently. And Englishta will help you achieve it.
+        </p>
+        <Link href="/about-us#whychooseenglishta" className="englishtaHelpsSection__link" data-aos="fade-up">
+          Why Choose Englishta
+          <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+        </Link>
+      </div>
+    </div>
+  </section>
+);
+
 const videoCards = [
   {
     title: "Free English Speaking Demo",
@@ -3957,7 +4096,9 @@ const Home = () => {
       <LearnerStruggleSection />
       <EnglishtaSolutionSection />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeCourseCatalog) }} />
+      <HomeSuccessStoriesSection />
       <HomeCourseCatalog courses={courses} loading={coursesLoading} error={coursesError} />
+      <HowEnglishtaHelpsSection />
 
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenCourseCatalogAndAnywhere) }} />
       <HomeWebinarSection webinars={webinars} />
