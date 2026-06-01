@@ -17,6 +17,392 @@ iframe[title*="Chat"] {
   transform: translateY(-40px) !important;
 }
 
+/* Home learner struggle section */
+.englishtaStruggleSection {
+  background:
+    radial-gradient(circle at top left, rgba(254, 182, 12, 0.26) 0 70px, rgba(254, 182, 12, 0.1) 71px 150px, transparent 151px),
+    radial-gradient(circle at bottom right, rgba(254, 182, 12, 0.16) 0 110px, transparent 111px),
+    #fffaf0;
+  overflow: hidden;
+  padding: 84px 0 78px;
+  position: relative;
+}
+
+.englishtaStruggleSection::before,
+.englishtaStruggleSection::after {
+  background-image: radial-gradient(#f4c46f 3px, transparent 4px);
+  background-size: 28px 28px;
+  content: "";
+  height: 130px;
+  opacity: 0.75;
+  position: absolute;
+  width: 130px;
+}
+
+.englishtaStruggleSection::before {
+  left: 42px;
+  top: 180px;
+}
+
+.englishtaStruggleSection::after {
+  right: 64px;
+  top: 70px;
+}
+
+.englishtaStruggleSection .container {
+  max-width: 1220px;
+  position: relative;
+  z-index: 1;
+}
+
+.englishtaStruggleSection__head {
+  margin: 0 auto 48px;
+  max-width: 760px;
+  text-align: center;
+}
+
+.englishtaStruggleSection__head > span {
+  background: linear-gradient(90deg, #fff4d2, #ffd98a);
+  border-radius: 999px;
+  color: #160006;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+  padding: 8px 26px;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.englishtaStruggleSection__head > span::before,
+.englishtaStruggleSection__head > span::after {
+  color: #feb60c;
+  content: "-";
+  font-size: 28px;
+  position: absolute;
+  top: 0;
+}
+
+.englishtaStruggleSection__head > span::before {
+  left: -30px;
+}
+
+.englishtaStruggleSection__head > span::after {
+  right: -30px;
+}
+
+.englishtaStruggleSection__head h2 {
+  color: #160006;
+  font-family: var(--heading-font);
+  font-size: clamp(40px, 5.2vw, 64px);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.96;
+  margin: 0 0 18px;
+}
+
+.englishtaStruggleSection__head h2 strong {
+  color: #f2a900;
+  display: block;
+}
+
+.englishtaStruggleSection__head p {
+  color: #4c4240;
+  font-size: 19px;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.englishtaStruggleSection__head b {
+  color: #9b5d00;
+  font-weight: 900;
+}
+
+.englishtaStruggleCards {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 24px;
+}
+
+.englishtaStruggleCard {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(180, 114, 0, 0.14);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(79, 50, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  padding: 20px 22px 18px;
+}
+
+.englishtaStruggleCard__top {
+  align-items: center;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 150px minmax(0, 1fr);
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.englishtaStruggleCard__top > span {
+  align-items: center;
+  background: #feb60c;
+  border-radius: 8px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 20px;
+  font-weight: 900;
+  height: 44px;
+  justify-content: center;
+  left: -4px;
+  position: absolute;
+  top: -2px;
+  width: 44px;
+  z-index: 1;
+}
+
+.englishtaStruggleCard:nth-child(2) .englishtaStruggleCard__top > span {
+  background: #9b6109;
+}
+
+.englishtaStruggleCard img {
+  background: #fff8e9;
+  border-radius: 10px;
+  height: 140px;
+  object-fit: contain;
+  padding: 6px;
+  width: 150px;
+}
+
+.englishtaStruggleCard h3 {
+  color: #160006;
+  font-family: var(--heading-font);
+  font-size: 23px;
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.englishtaStruggleCard h3::after {
+  background: #feb60c;
+  content: "";
+  display: block;
+  height: 3px;
+  margin-top: 14px;
+  width: 46px;
+}
+
+.englishtaStruggleCard p {
+  color: #21191a;
+  font-size: 18px;
+  line-height: 1.45;
+  margin: 0 0 18px;
+}
+
+.englishtaStruggleCard a {
+  align-items: center;
+  color: #f0a500;
+  display: inline-flex;
+  font-size: 17px;
+  font-weight: 900;
+  gap: 10px;
+  margin-top: auto;
+  text-decoration: none;
+}
+
+.englishtaStruggleQuote {
+  align-items: center;
+  background: rgba(255, 250, 240, 0.86);
+  border: 1px solid rgba(254, 182, 12, 0.42);
+  border-radius: 14px;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: 170px minmax(0, 1fr) 320px;
+  margin-bottom: 16px;
+  min-height: 120px;
+  overflow: hidden;
+  padding: 20px 34px;
+}
+
+.englishtaStruggleQuote__mark {
+  align-items: center;
+  background: #fff;
+  border: 1px dashed rgba(155, 97, 9, 0.4);
+  border-radius: 50%;
+  color: #feb60c;
+  display: inline-flex;
+  font-family: Georgia, serif;
+  font-size: 88px;
+  height: 118px;
+  justify-content: center;
+  line-height: 1;
+  width: 118px;
+}
+
+.englishtaStruggleQuote p {
+  margin: 0;
+}
+
+.englishtaStruggleQuote span,
+.englishtaStruggleQuote strong {
+  display: block;
+}
+
+.englishtaStruggleQuote span {
+  color: #160006;
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.englishtaStruggleQuote strong {
+  color: #160006;
+  font-family: var(--heading-font);
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.englishtaStruggleQuote img {
+  align-self: end;
+  height: 125px;
+  object-fit: contain;
+  width: 100%;
+}
+
+.englishtaStruggleStats {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(180, 114, 0, 0.12);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(79, 50, 0, 0.06);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 20px;
+  padding: 18px 24px;
+}
+
+.englishtaStruggleStats div {
+  align-items: center;
+  border-right: 1px solid rgba(155, 97, 9, 0.22);
+  display: grid;
+  gap: 8px 14px;
+  grid-template-columns: 64px auto;
+  padding: 0 22px;
+}
+
+.englishtaStruggleStats div:last-child {
+  border-right: 0;
+}
+
+.englishtaStruggleStats i {
+  align-items: center;
+  background: #feb60c;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-flex;
+  font-size: 28px;
+  grid-row: span 2;
+  height: 62px;
+  justify-content: center;
+  width: 62px;
+}
+
+.englishtaStruggleStats div:nth-child(even) i {
+  background: linear-gradient(135deg, #9b6109, #c08218);
+}
+
+.englishtaStruggleStats strong {
+  color: #5f3500;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.englishtaStruggleStats span {
+  color: #160006;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.englishtaStruggleAction {
+  display: flex;
+  justify-content: center;
+}
+
+.englishtaStruggleAction a {
+  align-items: center;
+  background: linear-gradient(135deg, #8b5300, #b46d00);
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(139, 83, 0, 0.24);
+  color: #fff;
+  display: inline-flex;
+  font-size: 22px;
+  font-weight: 900;
+  gap: 20px;
+  min-height: 56px;
+  padding: 0 38px;
+  text-decoration: none;
+}
+
+@media (max-width: 1100px) {
+  .englishtaStruggleCards,
+  .englishtaStruggleStats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .englishtaStruggleQuote {
+    grid-template-columns: 120px minmax(0, 1fr);
+  }
+
+  .englishtaStruggleQuote img {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: 360px;
+  }
+
+  .englishtaStruggleStats div:nth-child(2) {
+    border-right: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .englishtaStruggleSection {
+    padding: 58px 0;
+  }
+
+  .englishtaStruggleCards,
+  .englishtaStruggleStats,
+  .englishtaStruggleQuote {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaStruggleCard__top {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaStruggleCard img {
+    width: 100%;
+  }
+
+  .englishtaStruggleStats div {
+    border-right: 0;
+    border-bottom: 1px solid rgba(155, 97, 9, 0.18);
+    padding: 18px 0;
+  }
+
+  .englishtaStruggleStats div:last-child {
+    border-bottom: 0;
+  }
+
+  .englishtaStruggleQuote__mark {
+    height: 92px;
+    width: 92px;
+  }
+}
+
 /* My Progress dashboard */
 .englishtaProgressPage {
   background: #fbfaf7;
@@ -2852,7 +3238,7 @@ iframe[title*="Chat"] {
 
 .englishtaHeroShade h1 {
   color: #fff;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Nunito, sans-serif;
   font-size: clamp(48px, 5vw, 74px);
   font-weight: 800;
   letter-spacing: 0;
@@ -2861,13 +3247,18 @@ iframe[title*="Chat"] {
   text-shadow: 0 8px 34px rgba(0, 0, 0, 0.42);
 }
 
+.englishtaHeroShade__proof,
 .englishtaHeroShade__headline {
   opacity: 0;
   transform: translateY(-70px);
 }
 
+.englishtaHeroShade--ready .englishtaHeroShade__proof {
+  animation: englishtaHeroRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.06s forwards;
+}
+
 .englishtaHeroShade--ready .englishtaHeroShade__headline {
-  animation: englishtaHeadlineDrop 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: englishtaHeadlineDrop 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.28s forwards;
 }
 
 .englishtaHeroShade h1 span {
@@ -2882,12 +3273,26 @@ iframe[title*="Chat"] {
   text-shadow: 0 4px 18px rgba(0, 0, 0, 0.42);
 }
 
+.englishtaHeroShade__tagline,
+.englishtaHeroShade__actions {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.englishtaHeroShade--ready .englishtaHeroShade__tagline {
+  animation: englishtaHeroRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.98s forwards;
+}
+
 .englishtaHeroShade__actions {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 18px;
   justify-content: center;
+}
+
+.englishtaHeroShade--ready .englishtaHeroShade__actions {
+  animation: englishtaHeroRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) 1.34s forwards;
 }
 
 .englishtaHeroShade__cta {
@@ -2918,6 +3323,20 @@ iframe[title*="Chat"] {
   background: rgba(0, 0, 0, 0.16);
   border: 1px solid #feb60c;
   color: #fff;
+}
+
+.englishtaHeroShade__cta--primary,
+.englishtaHeroShade__cta--secondary {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.englishtaHeroShade--ready .englishtaHeroShade__cta--primary {
+  animation: englishtaHeroRise 0.64s cubic-bezier(0.16, 1, 0.3, 1) 1.45s forwards;
+}
+
+.englishtaHeroShade--ready .englishtaHeroShade__cta--secondary {
+  animation: englishtaHeroRise 0.64s cubic-bezier(0.16, 1, 0.3, 1) 1.67s forwards;
 }
 
 .englishtaHeroShade__cta:hover {
@@ -3409,6 +3828,17 @@ iframe[title*="Chat"] {
   70% {
     opacity: 1;
     transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes englishtaHeroRise {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
   }
   100% {
     opacity: 1;
@@ -4401,6 +4831,10 @@ iframe[title*="Chat"] {
   transform: translateY(-8px);
 }
 
+.englishtaCourseCard--feature {
+  border-radius: 20px;
+}
+
 .englishtaCourseCard__image {
   aspect-ratio: 1.55;
   background: #120e0a;
@@ -4421,16 +4855,52 @@ iframe[title*="Chat"] {
   transform: scale(1.05);
 }
 
-.englishtaCourseCard__image span {
-  background: #feb60c;
+.englishtaCourseCard__image--feature {
+  aspect-ratio: 1.02;
+  height: 230px;
+}
+
+.englishtaCourseCard__image--feature::after {
+  background: linear-gradient(180deg, rgba(15, 11, 18, 0.08) 0%, rgba(15, 11, 18, 0.2) 100%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+
+
+.englishtaCourseCard__badge {
+  background: #feb60c !important;
+  border-radius: 8px !important;
+  color: #150005 !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  left: 18px;
+  letter-spacing: 0.04em;
+  padding: 8px 12px !important;
+  position: absolute;
+  text-transform: uppercase;
+  top: 18px;
+  z-index: 1;
+}
+
+.englishtaCourseCard__badge--dark {
+  left: auto;
+  right: 18px;
+}
+
+.englishtaCourseCard__imageCallout {
+  background: rgba(255, 255, 255, 0.88);
   border-radius: 999px;
-  color: #111;
-  font-size: 13px;
+  color: #150005;
+  font-size: 12px;
   font-weight: 900;
   left: 18px;
-  padding: 8px 13px;
+  padding: 8px 12px;
   position: absolute;
-  top: 18px;
+  top: 58px;
+  z-index: 1;
 }
 
 .englishtaCourseCard__body {
@@ -4440,27 +4910,168 @@ iframe[title*="Chat"] {
   padding: 24px;
 }
 
+.englishtaCourseCard__body--feature {
+  gap: 12px;
+  padding: 20px 22px 22px;
+}
+
 .englishtaCourseCard__tag {
   color: #b47b00;
-  font-size: 12px;
-  font-weight: 900;
-  margin-bottom: 10px;
-  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 2px;
+  font-family: Nunito, sans-serif;
 }
 
-.englishtaCourseCard__body strong {
+.englishtaCourseCard__topline {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.englishtaCourseCard__body--feature h4 {
   color: #101010;
-  font-size: 23px;
+  font-size: 20px;
   font-weight: 700;
-  line-height: 1.18;
+  font-family:Nunito,sans-serif;
+  line-height: 1.12;
+  margin: 0;
 }
 
-.englishtaCourseCard__desc {
-  color: #5f5b52;
-  display: block;
-  font-size: 16px;
-  line-height: 1.65;
-  margin: 16px 0 22px;
+.englishtaCourseCard__priceRow {
+  align-items: center;
+  border-top: 1px solid rgba(15, 15, 15, 0.08);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1.7fr) auto;
+  padding-top: 14px;
+}
+
+.englishtaCourseCard__price {
+  align-items: center;
+  background: #2b120b;
+  border-radius: 999px;
+  color: #fff !important;
+  display: inline-flex;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 14px;
+}
+
+.englishtaCourseCard__price strong {
+  color: #fff !important;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.englishtaCourseCard__price del {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.englishtaCourseCard__students {
+  color: #2a1824 !important;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.englishtaCourseCard__students i {
+  color: #f0a800;
+}
+
+.englishtaCourseCard__whatsApp {
+  align-items: center;
+  background: #fff;
+  border: 1px solid rgba(14, 14, 14, 0.08);
+  border-radius: 999px;
+  color: #26d366;
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  text-decoration: none;
+  flex: 0 0 42px;
+  width: 42px;
+}
+
+.englishtaCourseCard__whatsApp i {
+  font-size: 22px;
+}
+
+.englishtaCourseCard__discount {
+  align-items: center;
+  background: #eef8ea;
+  border-radius: 999px;
+  color: #2c8d35;
+  display: inline-flex;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 7px 12px;
+  width: fit-content;
+}
+
+.englishtaCourseCard__actions {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.englishtaCourseCard__button {
+  align-items: center;
+  border-radius: 12px;
+  display: inline-flex;
+  justify-content: center;
+  min-height: 42px;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.englishtaCourseCard__button i {
+  margin-right: 8px;
+}
+
+.englishtaCourseCard__button--outline {
+  border: 1px solid #c9b8ff;
+  color: #5c48f0;
+  font-weight: 900;
+  border-radius: 999px;
+  min-height: 50px;
+}
+
+.englishtaCourseCard__button--solid {
+  background: #ffbf1f;
+  border: 1px solid #1f1400;
+  border-radius: 999px;
+  font-family: Nunito, sans-serif;
+  font-size: 14px;
+  box-shadow: 6px 6px 0 rgba(36, 22, 0, 0.75);
+  color: #1d1200;
+  font-weight: 700;
+  gap: 10px;
+  padding: 7px 18px ;
+  min-height: 20px;
+
+}
+
+.englishtaCourseCard__button:hover {
+  color: inherit;
+  transform: translateY(-1px);
+}
+
+.englishtaCourseCard__button--solid:hover {
+  box-shadow: 4px 4px 0 rgba(36, 22, 0, 0.72);
+}
+
+.englishtaCourseCard__button--solid i {
+  margin-right: 0;
 }
 
 .englishtaCourseCard__footer,
@@ -4507,6 +5118,9 @@ iframe[title*="Chat"] {
 .englishtaCourseCard__students {
   color: #16120b !important;
   text-align: right;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: Nunito, sans-serif;
 }
 
 .englishtaCourseCard__action {
@@ -8726,6 +9340,26 @@ iframe[title*="Chat"] {
   .englishtaCourseDetailBody__main,
   .englishtaCourseDetailCard {
     padding: 24px;
+  }
+
+  .englishtaCourseCard__image--feature {
+    min-height: 300px;
+  }
+
+  .englishtaCourseCard__perks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .englishtaCourseCard__priceRow {
+    grid-template-columns: 1fr;
+  }
+
+  .englishtaCourseCard__students {
+    text-align: left;
+  }
+
+  .englishtaCourseCard__actions {
+    grid-template-columns: 1fr;
   }
 
   .englishtaCourseDetailBody__main h2 {

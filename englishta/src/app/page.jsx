@@ -10,8 +10,11 @@ const rawPageHtml = `
       <div className="container">
         <div className="td_hero_text wow fadeInRight" data-wow-duration="0.9s" data-wow-delay="0.35s">
           <p className="td_hero_subtitle_up td_fs_18 td_white_color td_spacing_1 td_semibold text-uppercase td_mb_10 td_opacity_9">Speak English With Confidence</p>
-          <h1 className="td_hero_title td_fs_64 td_white_color td_mb_12"><span>Englishta</span> - Online English Speaking Platform</h1>
-          <p className="td_hero_subtitle td_fs_18 td_white_color td_opacity_7 td_mb_30">Learn spoken English online with practical conversation practice, pronunciation correction, grammar support, and confidence-building sessions from anywhere.</p>
+          <h1 className="td_hero_title td_fs_64 td_white_color td_mb_12">
+            I Can Speak<br />
+            English.
+          </h1>
+          <p className="td_hero_subtitle td_fs_18 td_white_color td_opacity_7 td_mb_30">Confidence-focused English communication courses for learners who hesitate while speaking.</p>
           <a href="courses-grid-view.html" className="td_btn td_style_1 td_radius_10 td_medium">
             <span className="td_btn_in td_white_color td_accent_bg">
               <span>Explore Courses</span>
@@ -2210,9 +2213,11 @@ const HomeBanner = ({ isReady = false }) => {
       <div className="englishtaHeroShade__content wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
         <p className="englishtaHeroShade__proof">Trusted by 10,000+ learners</p>
         <h1 className="englishtaHeroShade__headline">
-          Speak English Confidently.
-          <span>Anytime. Anywhere.</span>
+          From &apos;I Understand English&apos; to &apos;I Can Speak English.&apos;
         </h1>
+        <p className="englishtaHeroShade__tagline">
+          Confidence-focused English communication courses for learners who hesitate while speaking.
+        </p>
         <div className="englishtaHeroShade__actions">
           <button
             type="button"
@@ -2243,6 +2248,95 @@ const HomeBanner = ({ isReady = false }) => {
     </section>
   );
 };
+
+const struggleCards = [
+  {
+    number: "01",
+    image: "/assets/images/char1.png",
+    title: "You know some English but cannot speak confidently?",
+    text: "Many people can understand English while reading or listening, but when they try to speak, they become blank, nervous, or hesitant...",
+  },
+  {
+    number: "02",
+    image: "/assets/images/char2.png",
+    title: "Do you translate from Marathi or Hindi before speaking?",
+    text: "Many learners first think in Marathi or Hindi and then try to convert every sentence into English. Because of this, speaking becomes slow...",
+  },
+  {
+    number: "03",
+    image: "/assets/images/char3.png",
+    title: "Do you fear making mistakes?",
+    text: "Many people think: What if I speak wrong English? What if people laugh at me? What if my grammar is incorrect?...",
+  },
+];
+
+const struggleStats = [
+  ["fa-solid fa-users", "85%", "Learners struggle with confidence"],
+  ["fa-solid fa-language", "72%", "Learners translate before speaking"],
+  ["fa-solid fa-face-frown", "68%", "Learners fear making mistakes"],
+  ["fa-solid fa-volume-xmark", "60%", "Learners don't get enough speaking practice"],
+];
+
+const LearnerStruggleSection = () => (
+  <section className="englishtaStruggleSection" aria-labelledby="learner-struggle-title">
+    <div className="container">
+      <div className="englishtaStruggleSection__head">
+        <span>The Problem</span>
+        <h2 id="learner-struggle-title">
+          Why Learners Struggle to <strong>Speak English</strong>
+        </h2>
+        <p>
+          Many learners study English for years, yet they still hesitate while speaking.
+          The problem is not a lack of intelligence or effort. In most cases, learners simply
+          <b> never get the right method, the right practice, or the right environment.</b>
+        </p>
+      </div>
+
+      <div className="englishtaStruggleCards">
+        {struggleCards.map((card) => (
+          <article className="englishtaStruggleCard" key={card.number}>
+            <div className="englishtaStruggleCard__top">
+              <span>{card.number}</span>
+              <img src={card.image} alt="" />
+              <h3>{card.title}</h3>
+            </div>
+            <p>{card.text}</p>
+            <a href="/courses">
+              Read more <i className="fa-solid fa-arrow-right" />
+            </a>
+          </article>
+        ))}
+      </div>
+
+      <div className="englishtaStruggleQuote">
+        <div className="englishtaStruggleQuote__mark">“</div>
+        <p>
+          <span>Speaking English is a practical skill.</span>
+          <strong>Confidence develops only through regular speaking practice, proper guidance, and supportive learning.</strong>
+        </p>
+        <img src="/assets/images/reachtomission.png" alt="" />
+      </div>
+
+      <div className="englishtaStruggleStats">
+        {struggleStats.map(([icon, value, label]) => (
+          <div key={label}>
+            <i className={icon} />
+            <strong>{value}</strong>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="englishtaStruggleAction">
+        <a href="/courses">
+          <i className="fa-regular fa-book-open" />
+          Read Full Blog
+          <i className="fa-solid fa-arrow-right" />
+        </a>
+      </div>
+    </div>
+  </section>
+);
 
 const slugifyCourseName = (name = "") =>
   name
@@ -2411,44 +2505,59 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
               {activeCourses.map((course, index) => {
                 const slug = slugifyCourseName(course.name);
                 const fees = getHomeCourseFees(course);
+                const detailHref = course.isFallback ? "/contact-us" : `/course/${slug}`;
+                const actionHref = course.isFallback ? "/contact-us" : `/course/${slug}`;
+                const courseLanguageLabel = course.languages.map((language) => homeLanguageLabels[language] || language).join(" + ");
+                const courseImage = getHomeCourseImage(course, index);
+                const hasFees = Boolean(fees?.discounted);
 
                 return (
-                  <Link
-                    href={course.isFallback ? "/contact-us" : `/course/${slug}`}
-                    className="englishtaCourseCard"
-                    key={course._id ?? slug}
-                  >
-                    <span className="englishtaCourseCard__image">
-                      <img src={getHomeCourseImage(course, index)} alt={course.name} />
-                      <span>{homeCourseModeDetails[course.courseMode]?.title || "Course"}</span>
-                    </span>
-                    <span className="englishtaCourseCard__body">
-                      <span className="englishtaCourseCard__tag">
-                        Language: {course.languages.map((language) => homeLanguageLabels[language] || language).join(" + ")}
-                      </span>
+                  <article className="englishtaCourseCard englishtaCourseCard--feature" key={course._id ?? slug}>
+                    <div className="englishtaCourseCard__image englishtaCourseCard__image--feature">
+                      <img src={courseImage} alt={course.name} />
+                    
+                    </div>
+
+                    <div className="englishtaCourseCard__body englishtaCourseCard__body--feature">
+                      <div className="englishtaCourseCard__topline">
+                        <span className="englishtaCourseCard__tag">Language: {courseLanguageLabel}</span>
+                        <a className="englishtaCourseCard__whatsApp" href="/contact-us" aria-label="Open WhatsApp or contact">
+                          <i className="fa-brands fa-whatsapp" aria-hidden="true" />
+                        </a>
+                      </div>
+
                       <h4>{course.name}</h4>
 
-                      <span className="englishtaCourseCard__footer">
-                        <span className="englishtaCourseCard__fees">
-                          {fees ? (
+                      <div className="englishtaCourseCard__priceRow">
+                        <span className="englishtaCourseCard__price">
+                          {hasFees ? (
                             <>
-                              <span>Fees: {fees.discounted}</span>
+                              <strong>Investment: {fees.discounted}</strong>
                               {fees.actual ? <del>{fees.actual}</del> : null}
                             </>
                           ) : (
-                            "Fees: Contact Us"
+                            <strong>Investment: Contact Us</strong>
                           )}
                         </span>
                         <span className="englishtaCourseCard__students">
-                          {course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}
+                          <i className="fa-solid fa-users" aria-hidden="true" />
+                          {course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "12 Students"}
                         </span>
+                      </div>
+
+                      <span className="englishtaCourseCard__discount">
+                        <i className="fa-solid fa-tag" aria-hidden="true" />
+                        Discount of 13% applied
                       </span>
-                      <span className="englishtaCourseCard__action">
-                        {course.isFallback ? "Enquire Now" : "Join Now"}
-                        <i className="fa-solid fa-arrow-right" />
-                      </span>
-                    </span>
-                  </Link>
+
+                      <div className="englishtaCourseCard__actions">
+                        <Link href={actionHref} className="englishtaCourseCard__button englishtaCourseCard__button--solid">
+                          Join Now
+                          <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+                        </Link>
+                      </div>
+                    </div>
+                  </article>
                 );
               })}
             </div>
@@ -3800,6 +3909,7 @@ const Home = () => {
       <Preloader onComplete={handlePreloaderComplete} />
       <Navbar />
       <HomeBanner isReady={isHeroReady} />
+      <LearnerStruggleSection />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeCourseCatalog) }} />
       <HomeCourseCatalog courses={courses} loading={coursesLoading} error={coursesError} />
 
