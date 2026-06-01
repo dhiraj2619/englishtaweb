@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -2270,17 +2270,10 @@ const struggleCards = [
   },
 ];
 
-const struggleStats = [
-  ["fa-solid fa-users", "85%", "Learners struggle with confidence"],
-  ["fa-solid fa-language", "72%", "Learners translate before speaking"],
-  ["fa-solid fa-face-frown", "68%", "Learners fear making mistakes"],
-  ["fa-solid fa-volume-xmark", "60%", "Learners don't get enough speaking practice"],
-];
-
 const LearnerStruggleSection = () => (
   <section className="englishtaStruggleSection" aria-labelledby="learner-struggle-title">
     <div className="container">
-      <div className="englishtaStruggleSection__head">
+      <div className="englishtaStruggleSection__head wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
         <span>The Problem</span>
         <h2 id="learner-struggle-title">
           Why Learners Struggle to <strong>Speak English</strong>
@@ -2293,50 +2286,102 @@ const LearnerStruggleSection = () => (
       </div>
 
       <div className="englishtaStruggleCards">
-        {struggleCards.map((card) => (
-          <article className="englishtaStruggleCard" key={card.number}>
+        {struggleCards.map((card, index) => (
+          <article
+            className="englishtaStruggleCard wow fadeInUp"
+            data-wow-duration="1s"
+            data-wow-delay={`${0.15 + index * 0.08}s`}
+            key={card.number}
+          >
             <div className="englishtaStruggleCard__top">
               <span>{card.number}</span>
               <img src={card.image} alt="" />
               <h3>{card.title}</h3>
             </div>
             <p>{card.text}</p>
-            <a href="/courses">
-              Read more <i className="fa-solid fa-arrow-right" />
-            </a>
+          
           </article>
         ))}
       </div>
 
-      <div className="englishtaStruggleQuote">
-        <div className="englishtaStruggleQuote__mark">“</div>
+      <div className="englishtaStruggleQuote wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.18s">
+        <div className="englishtaStruggleQuote__mark" aria-hidden="true">
+          <i className="fa-solid fa-quote-left" />
+        </div>
         <p>
           <span>Speaking English is a practical skill.</span>
           <strong>Confidence develops only through regular speaking practice, proper guidance, and supportive learning.</strong>
         </p>
         <img src="/assets/images/reachtomission.png" alt="" />
       </div>
-
-      <div className="englishtaStruggleStats">
-        {struggleStats.map(([icon, value, label]) => (
-          <div key={label}>
-            <i className={icon} />
-            <strong>{value}</strong>
-            <span>{label}</span>
-          </div>
-        ))}
-      </div>
-
-      <div className="englishtaStruggleAction">
-        <a href="/courses">
-          <i className="fa-regular fa-book-open" />
-          Read Full Blog
-          <i className="fa-solid fa-arrow-right" />
-        </a>
-      </div>
     </div>
   </section>
 );
+
+const solutionHeadlineLines = [
+  { text: "Englishta", tag: "span" },
+  { text: "Helps You To", tag: "small" },
+  { text: "Speak Better", tag: "strong" },
+  { text: "English", tag: "span" },
+];
+
+const EnglishtaSolutionSection = () => {
+  const sectionRef = useRef(null);
+  const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsTyping(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.45 }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="englishtaSolutionPin">
+      <section
+        className={`englishtaSolutionSection ${isTyping ? "is-typing" : ""}`}
+        aria-labelledby="englishta-solution-title"
+        ref={sectionRef}
+      >
+        <div className="container">
+          <div className="englishtaSolutionSection__content wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
+            <span className="englishtaSolutionSection__pill">The Solution</span>
+            <h2 id="englishta-solution-title" aria-label="Englishta helps you to speak better English">
+              {solutionHeadlineLines.map((line, index) => {
+                const Tag = line.tag;
+
+                return (
+                  <Tag
+                    className="englishtaSolutionSection__typeLine"
+                    data-line={index}
+                    data-text={line.text}
+                    key={line.text}
+                  >
+                    {line.tag === "small" && <i className="englishtaSolutionSection__sideLine" aria-hidden="true" />}
+                    <span>{line.text}</span>
+                    {line.tag === "small" && <i className="englishtaSolutionSection__sideLine" aria-hidden="true" />}
+                  </Tag>
+                );
+              })}
+            </h2>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
 
 const slugifyCourseName = (name = "") =>
   name
@@ -3910,6 +3955,7 @@ const Home = () => {
       <Navbar />
       <HomeBanner isReady={isHeroReady} />
       <LearnerStruggleSection />
+      <EnglishtaSolutionSection />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeCourseCatalog) }} />
       <HomeCourseCatalog courses={courses} loading={coursesLoading} error={coursesError} />
 
