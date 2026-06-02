@@ -16,8 +16,6 @@ const slugifyCourseName = (name = "") =>
 
 const courseModeTabs = [
   ["live", "Live Courses", "fa-solid fa-tower-broadcast"],
-  ["recorded", "Recorded Courses", "fa-regular fa-circle-play"],
-  ["audio", "Audio Course", "fa-solid fa-headphones-simple"],
   ["progress", "Track Your Progress", "fa-solid fa-chart-line"],
 ];
 
@@ -133,43 +131,57 @@ const getCourseFees = (course) => {
 function CourseCard({ course, index }) {
   const slug = slugifyCourseName(course.name);
   const fees = getCourseFees(course);
+  const detailHref = course.isFallback ? "/contact-us" : `/course/${slug}`;
+  const actionHref = detailHref;
+  const courseLanguageLabel = course.languages.map((language) => languageLabels[language] || language).join(" + ");
+  const hasFees = Boolean(fees?.discounted);
 
   return (
-    <Link
-      href={course.isFallback ? "/contact-us" : `/course/${slug}`}
-      className="englishtaCourseCard"
-    >
-      <span className="englishtaCourseCard__image">
+    <article className="englishtaCourseCard englishtaCourseCard--feature">
+      <Link href={detailHref} className="englishtaCourseCard__image englishtaCourseCard__image--feature">
         <img src={getCourseImage(course, index)} alt={course.name} />
-        <span>{courseModeDetails[course.courseMode]?.title || "Course"}</span>
-      </span>
-      <span className="englishtaCourseCard__body">
-        <span className="englishtaCourseCard__tag">
-          Language: {course.languages.map((language) => languageLabels[language] || language).join(" + ")}
-        </span>
-        <strong>{course.name}</strong>
+      </Link>
 
-        <span className="englishtaCourseCard__footer">
-          <span className="englishtaCourseCard__fees">
-            {fees ? (
+      <div className="englishtaCourseCard__body englishtaCourseCard__body--feature">
+        <div className="englishtaCourseCard__topline">
+          <span className="englishtaCourseCard__tag">Language: {courseLanguageLabel}</span>
+          <a className="englishtaCourseCard__whatsApp" href="/contact-us" aria-label="Open WhatsApp or contact">
+            <i className="fa-brands fa-whatsapp" aria-hidden="true" />
+          </a>
+        </div>
+
+        <h4>{course.name}</h4>
+
+        <div className="englishtaCourseCard__priceRow">
+          <span className="englishtaCourseCard__price">
+            {hasFees ? (
               <>
-                <span>Fees: {fees.discounted}</span>
+                <strong>Investment: {fees.discounted}</strong>
                 {fees.actual ? <del>{fees.actual}</del> : null}
               </>
             ) : (
-              "Fees: Contact Us"
+              <strong>Investment: Contact Us</strong>
             )}
           </span>
           <span className="englishtaCourseCard__students">
-            {course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "Live Batch"}
+            <i className="fa-solid fa-users" aria-hidden="true" />
+            {course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "12 Students"}
           </span>
+        </div>
+
+        <span className="englishtaCourseCard__discount">
+          <i className="fa-solid fa-tag" aria-hidden="true" />
+          Discount of 13% applied
         </span>
-        <span className="englishtaCourseCard__action">
-          {course.isFallback ? "Enquire Now" : "Join Now"}
-          <i className="fa-solid fa-arrow-right" />
-        </span>
-      </span>
-    </Link>
+
+        <div className="englishtaCourseCard__actions">
+          <Link href={actionHref} className="englishtaCourseCard__button englishtaCourseCard__button--solid">
+            {course.isFallback ? "Enquire Now" : "Join Now"}
+            <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+    </article>
   );
 }
 

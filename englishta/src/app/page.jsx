@@ -2271,9 +2271,16 @@ const struggleCards = [
 ];
 
 const LearnerStruggleSection = () => (
-  <section className="englishtaStruggleSection" aria-labelledby="learner-struggle-title">
+  <section className="englishtaStruggleSection" aria-labelledby="learner-struggle-title" data-aos="fade-up">
     <div className="container">
-      <div className="englishtaStruggleSection__head wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
+      <div
+        className="englishtaStruggleSection__head wow fadeInUp"
+        data-aos="fade-up"
+        data-aos-duration="900"
+        data-aos-delay="100"
+        data-wow-duration="1s"
+        data-wow-delay="0.1s"
+      >
         <span>The Problem</span>
         <h2 id="learner-struggle-title">
           Why Learners Struggle to <strong>Speak English</strong>
@@ -2289,8 +2296,11 @@ const LearnerStruggleSection = () => (
         {struggleCards.map((card, index) => (
           <article
             className="englishtaStruggleCard wow fadeInUp"
+            data-aos="fade-up"
+            data-aos-duration="900"
+            data-aos-delay={180 + index * 180}
             data-wow-duration="1s"
-            data-wow-delay={`${0.15 + index * 0.08}s`}
+            data-wow-delay={`${0.18 + index * 0.18}s`}
             key={card.number}
           >
             <div className="englishtaStruggleCard__top">
@@ -2304,7 +2314,14 @@ const LearnerStruggleSection = () => (
         ))}
       </div>
 
-      <div className="englishtaStruggleQuote wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.18s">
+      <div
+        className="englishtaStruggleQuote wow fadeInUp"
+        data-aos="fade-up"
+        data-aos-duration="900"
+        data-aos-delay="720"
+        data-wow-duration="1s"
+        data-wow-delay="0.72s"
+      >
         <div className="englishtaStruggleQuote__mark" aria-hidden="true">
           <i className="fa-solid fa-quote-left" />
         </div>
@@ -2393,8 +2410,6 @@ const slugifyCourseName = (name = "") =>
 
 const homeCourseModeTabs = [
   ["live", "Live Courses", "fa-solid fa-tower-broadcast"],
-  ["recorded", "Recorded Courses", "fa-regular fa-circle-play"],
-  ["audio", "Audio Course", "fa-solid fa-headphones-simple"],
   ["progress", "Track Your Progress", "fa-solid fa-chart-line"],
 ];
 
@@ -2635,7 +2650,7 @@ const HomeSuccessStoriesSection = () => {
           observer.disconnect();
         }
       },
-      { threshold: 0.35 }
+      { rootMargin: "0px 0px -20% 0px", threshold: 0.45 }
     );
 
     observer.observe(section);
@@ -2646,24 +2661,27 @@ const HomeSuccessStoriesSection = () => {
   useEffect(() => {
     if (!hasStarted) return undefined;
 
-    const duration = 1400;
-    const startedAt = performance.now();
-    let frameId = 0;
+    const duration = 2400;
+    const intervalMs = 70;
+    const startedAt = Date.now();
 
-    const tick = (now) => {
-      const progress = Math.min((now - startedAt) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
+    const timer = window.setInterval(() => {
+      const progress = Math.min((Date.now() - startedAt) / duration, 1);
 
-      setCounts(successStats.map(([, target]) => Math.round(target * eased)));
+      setCounts(
+        successStats.map(([, target]) => {
+          if (progress === 0) return 0;
 
-      if (progress < 1) {
-        frameId = requestAnimationFrame(tick);
+          return Math.max(1, Math.min(target, Math.ceil(target * progress)));
+        }),
+      );
+
+      if (progress >= 1) {
+        window.clearInterval(timer);
       }
-    };
+    }, intervalMs);
 
-    frameId = requestAnimationFrame(tick);
-
-    return () => cancelAnimationFrame(frameId);
+    return () => window.clearInterval(timer);
   }, [hasStarted]);
 
   return (
@@ -3023,6 +3041,37 @@ const DemoLectureSection = ({ demoLecture = null }) => {
     </section>
   );
 };
+
+const HomeContactStrip = () => (
+  <section className="englishtaHomeContactStrip">
+    <div className="container wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+      <div className="td_contact_box td_style_1 td_accent_bg td_radius_10">
+        <div className="td_contact_box_left">
+          <p className="td_fs_18 td_light td_white_color td_mb_4">Mail Us:</p>
+          <h3 className="td_fs_36 mb-0 td_white_color">
+            <a href="mailto:hello@englishta.com">hello@englishta.com</a>
+          </h3>
+        </div>
+        <div className="td_contact_box_or td_fs_24 td_medium td_white_bg td_white_bg td_center rounded-circle td_accent_color">
+          or
+        </div>
+        <div className="td_contact_box_right">
+          <div className="englishtaHomeContactStrip__social" aria-label="Englishta social links">
+            <a href="#" aria-label="Instagram">
+              <i className="fa-brands fa-instagram" aria-hidden="true" />
+            </a>
+            <a href="#" aria-label="YouTube">
+              <i className="fa-brands fa-youtube" aria-hidden="true" />
+            </a>
+          </div>
+          <a href="/contact-us" className="englishtaDemoVideoBlock__contactButton">
+            Talk to Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+);
 
 const LearningAnywhereSection = () => {
   return (
@@ -3944,8 +3993,6 @@ const TestimonialsShowcase = ({ testimonials = [] }) => {
 };
 
 const Home = () => {
-  const [youtubeVideos, setYoutubeVideos] = useState([]);
-  const [demoLectureVideo, setDemoLectureVideo] = useState(null);
   const [testimonials, setTestimonials] = useState([]);
   const [whatsappReviews, setWhatsappReviews] = useState([]);
   const [webinars, setWebinars] = useState([]);
@@ -3991,34 +4038,6 @@ const Home = () => {
 
   useEffect(() => {
     let isMounted = true;
-
-    fetch("/api/youtube-videos", { cache: "no-store" })
-      .then((response) => response.json())
-      .then((payload) => {
-        if (isMounted && payload.success) {
-          setYoutubeVideos((payload.data ?? []).filter((video) => video.visible !== "No"));
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setYoutubeVideos([]);
-        }
-      });
-
-    fetch("/api/demo-lecture-video", { cache: "no-store" })
-      .then((response) => response.json())
-      .then((payload) => {
-        if (isMounted && payload.success) {
-          const [firstVideo] = payload.data ?? [];
-          const embedCode = firstVideo?.youtubeEmbedCode || firstVideo?.youtubeIframe || firstVideo?.youtubeUrl;
-          setDemoLectureVideo(embedCode ? firstVideo : null);
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setDemoLectureVideo(null);
-        }
-      });
 
     fetch("/api/webinars", { cache: "no-store" })
       .then((response) => response.json())
@@ -4109,11 +4128,10 @@ const Home = () => {
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: blogTipsSectionHtml }} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeTestimonials) }} />
       <TestimonialsShowcase testimonials={testimonials} />
-      <VideoShowcase videos={youtubeVideos} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenTrainingAndVideos) }} />
 
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeDemoVideo) }} />
-      <DemoLectureSection demoLecture={demoLectureVideo} />
+      <HomeContactStrip />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(afterDemoVideo) }} />
 
 

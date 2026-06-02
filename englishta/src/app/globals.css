@@ -161,6 +161,7 @@ iframe[title*="Chat"] {
   top: -2px;
   width: 44px;
   z-index: 1;
+  display: none;
 }
 
 .englishtaStruggleCard:nth-child(2) .englishtaStruggleCard__top > span {
@@ -1572,6 +1573,41 @@ iframe[title*="Chat"] {
 .englishtaDemoVideoBlock__contactButton:hover {
   background: #fff;
   color: #150005 !important;
+  transform: translateY(-2px);
+}
+
+.englishtaHomeContactStrip .td_contact_box_right {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+}
+
+.englishtaHomeContactStrip__social {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.englishtaHomeContactStrip__social a {
+  align-items: center;
+  background: #150005;
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  color: #fff;
+  display: inline-flex;
+  font-size: 20px;
+  height: 50px;
+  justify-content: center;
+  text-decoration: none;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+  width: 50px;
+}
+
+.englishtaHomeContactStrip__social a:hover {
+  background: #fff;
+  color: #feb60c;
   transform: translateY(-2px);
 }
 
@@ -5833,7 +5869,8 @@ iframe[title*="Chat"] {
 .englishtaCourseModeTabs {
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(220px, 260px));
+  justify-content: center;
   margin: 0 auto 34px;
 }
 

@@ -24,6 +24,32 @@ const reviewTabs = [
   { key: "whatsappReviews", label: "WhatsApp Reviews" },
 ];
 
+const moduleIconNames = {
+  dashboard: "home",
+  courses: "book",
+  webinarLeads: "users",
+  courseLeads: "phone",
+  users: "user",
+  batches: "layers",
+  skillCheckTests: "clipboard",
+  reviews: "star",
+  demoLecture: "play",
+  videos: "film",
+  webinars: "monitor",
+  courseInquiryCount: "message",
+  webinarRegistrationCount: "users",
+  whatsAppReviewCount: "star",
+  demoLectureCount: "play",
+  courseEnrollmentCount: "graduate",
+  coursesCount: "book",
+  webinarsCount: "monitor",
+  usersCount: "user",
+  batchesCount: "layers",
+  skillCheckTestsCount: "clipboard",
+};
+
+const dashboardChartPoints = [18, 42, 30, 55, 37, 64, 44];
+
 const emptyForms = {
   dashboard: {},
   courses: {
@@ -398,6 +424,49 @@ export default function AdminDashboard() {
       data.skillCheckTests?.length,
     ],
   );
+
+  const recentActivities = useMemo(() => {
+    const latestCourse = data.courses?.[0];
+    const latestWebinar = data.webinars?.[0];
+    const latestUser = data.users?.[0];
+    const latestLead = data.courseLeads?.[0] ?? data.webinarLeads?.[0];
+    const latestReview = data.whatsappReviews?.[0] ?? data.testimonials?.[0];
+
+    return [
+      {
+        icon: "book",
+        title: latestCourse ? `New course "${latestCourse.name}"` : "Course catalog ready",
+        detail: latestCourse?.shortDescription ?? "Create and manage spoken English courses.",
+        time: "10:30 AM",
+      },
+      {
+        icon: "monitor",
+        title: latestWebinar ? `Webinar "${latestWebinar.title}" scheduled` : "Webinar module active",
+        detail: latestWebinar?.dateTime ? `Scheduled for ${latestWebinar.dateTime}` : "Publish live and recorded webinar sessions.",
+        time: "09:15 AM",
+      },
+      {
+        icon: "user",
+        title: latestUser ? "New user registered" : "Registered users",
+        detail: latestUser ? `${latestUser.name ?? "Student"} joined the platform` : "Student registrations will appear here.",
+        time: "08:40 AM",
+      },
+      {
+        icon: "phone",
+        title: latestLead ? "New lead received" : "Lead inbox ready",
+        detail: latestLead ? `From ${latestLead.name ?? "website contact form"}` : "Course and webinar leads are tracked automatically.",
+        time: "Yesterday",
+      },
+      {
+        icon: "star",
+        title: latestReview ? "Review received" : "Reviews module ready",
+        detail: latestReview?.studentName
+          ? `New review from ${latestReview.studentName}`
+          : "WhatsApp reviews and testimonials are grouped here.",
+        time: "Yesterday",
+      },
+    ];
+  }, [data.courses, data.webinars, data.users, data.courseLeads, data.webinarLeads, data.whatsappReviews, data.testimonials]);
 
   function updateField(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -1619,7 +1688,10 @@ export default function AdminDashboard() {
                 onClick={() => selectModule(module.key)}
                 key={module.key}
               >
-                <span>{module.label}</span>
+                <span>
+                  <AdminIcon name={moduleIconNames[module.key]} />
+                  {module.label}
+                </span>
                 <span>
                   {module.key === "reviews"
                     ? (data.testimonials?.length ?? 0) + (data.whatsappReviews?.length ?? 0)
@@ -1628,18 +1700,51 @@ export default function AdminDashboard() {
               </button>
             ))}
           </nav>
+
+          <div className="adminPremiumCard">
+            <AdminIcon name="crown" />
+            <strong>Go Premium</strong>
+            <p>Unlock analytics, automation, and sharper student insights.</p>
+            <button type="button">Upgrade Now</button>
+          </div>
         </aside>
 
         <main className="adminMain">
           <header className="adminTopbar">
             <div>
+              <span className="adminTopbar__eyebrow">Welcome back, Admin!</span>
               <h1>Admin Dashboard</h1>
               <p>Manage courses, leads, testimonials, videos, and webinars from one place.</p>
             </div>
             <div className="adminActions">
+              <Link className="adminButton adminButtonDark" href="/">
+                View Website
+                <AdminIcon name="external" />
+              </Link>
               <button
                 type="button"
-                className="adminButton"
+                className="adminButton adminButtonAlt"
+                onClick={() => {
+                  if (activeModule === "dashboard") {
+                    selectModule("courses");
+                    return;
+                  }
+                  resetForm();
+                }}
+              >
+                + Add New
+              </button>
+              <span className="adminNoticeBell">
+                <AdminIcon name="bell" />
+                <i>{stats.length}</i>
+              </span>
+              <span className="adminProfileChip">
+                <img src="/assets/images/logo/logoenglishta.png" alt="" />
+                Admin
+              </span>
+              <button
+                type="button"
+                className="adminButton adminButtonGhost"
                 onClick={async () => {
                   await fetch("/api/admin/logout", { method: "POST" });
                   window.location.href = "/admin/login";
@@ -1647,22 +1752,24 @@ export default function AdminDashboard() {
               >
                 Logout
               </button>
-              <Link className="adminButton adminButtonGhost" href="/">
-                View Website
-              </Link>
             </div>
           </header>
 
           <section className="adminStatGrid" aria-label="Dashboard counts">
             {stats.map((stat) => (
               <div className="adminStatCard" key={stat.key}>
-                <span>{stat.label}</span>
-                <strong>{stat.count}</strong>
+                <span className="adminStatCard__icon">
+                  <AdminIcon name={moduleIconNames[stat.key]} />
+                </span>
+                <div>
+                  <span>{stat.label}</span>
+                  <strong>{stat.count}</strong>
+                </div>
               </div>
             ))}
           </section>
 
-          <section className="adminPanel">
+          <section className={`adminPanel ${activeModule === "dashboard" ? "adminPanel--dashboard" : ""}`}>
             <div className="adminPanelHeader">
               <div>
                 <h2>{activeConfig.label} Management</h2>
@@ -1698,7 +1805,7 @@ export default function AdminDashboard() {
             ) : null}
 
             {activeModule === "dashboard" ? (
-              <DashboardOverview stats={stats} error={dashboardError} />
+              <DashboardOverview stats={stats} error={dashboardError} recentActivities={recentActivities} />
             ) : null}
 
             {showRecordForm ? (
@@ -2110,19 +2217,230 @@ function SkillCheckQuestionBuilder({ questions, onChange }) {
   );
 }
 
-function DashboardOverview({ stats, error }) {
+function DashboardOverview({ stats, error, recentActivities }) {
+  const compactStats = [
+    { label: "Total Enrollments", value: stats.find((stat) => stat.key === "courseEnrollmentCount")?.count ?? 0, change: "+20%" },
+    {
+      label: "Total Leads",
+      value:
+        (stats.find((stat) => stat.key === "courseInquiryCount")?.count ?? 0) +
+        (stats.find((stat) => stat.key === "webinarRegistrationCount")?.count ?? 0),
+      change: "+14%",
+    },
+    { label: "Total Students", value: stats.find((stat) => stat.key === "usersCount")?.count ?? 0, change: "+25%" },
+    { label: "Total Revenue", value: "Rs 0", change: "-0%" },
+  ];
+
+  const chartPath = dashboardChartPoints
+    .map((point, index) => `${index * 66 + 18},${84 - point}`)
+    .join(" ");
+
   return (
     <div className="adminDashboardOverview">
       {error ? <div className="adminEmpty">{error}</div> : null}
-      <div className="adminDashboardOverview__grid">
-        {stats.map((stat) => (
-          <article className="adminDashboardOverview__card" key={stat.key}>
-            <span>{stat.label}</span>
-            <strong>{stat.count}</strong>
-          </article>
-        ))}
+      <div className="adminDashboardOverview__layout">
+        <section className="adminAnalyticsCard">
+          <div className="adminAnalyticsCard__head">
+            <div>
+              <h3>Dashboard Overview</h3>
+              <p>Track weekly platform momentum at a glance.</p>
+            </div>
+            <button type="button">This Week</button>
+          </div>
+
+          <div className="adminMiniStats">
+            {compactStats.map((item) => (
+              <article key={item.label}>
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+                <small>{item.change} vs last week</small>
+              </article>
+            ))}
+          </div>
+
+          <div className="adminChart" aria-label="Weekly overview chart">
+            <svg viewBox="0 0 440 120" role="img" aria-hidden="true">
+              <defs>
+                <linearGradient id="adminChartFill" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#feb60c" stopOpacity="0.26" />
+                  <stop offset="100%" stopColor="#feb60c" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <path d={`M18 100 L ${chartPath} L 414 100 Z`} fill="url(#adminChartFill)" />
+              <polyline points={chartPath} fill="none" stroke="#feb60c" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" />
+              {dashboardChartPoints.map((point, index) => (
+                <circle cx={index * 66 + 18} cy={84 - point} r="4" fill="#feb60c" key={`${point}-${index}`} />
+              ))}
+            </svg>
+            <div className="adminChart__days">
+              {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+                <span key={day}>{day}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="adminRecentCard">
+          <div className="adminAnalyticsCard__head">
+            <div>
+              <h3>Recent Activities</h3>
+              <p>Latest movement across your platform.</p>
+            </div>
+            <button type="button">View All</button>
+          </div>
+
+          <div className="adminRecentList">
+            {recentActivities.map((activity) => (
+              <article key={`${activity.title}-${activity.time}`}>
+                <span>
+                  <AdminIcon name={activity.icon} />
+                </span>
+                <div>
+                  <strong>{activity.title}</strong>
+                  <p>{activity.detail}</p>
+                </div>
+                <time>{activity.time}</time>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <div className="adminMotivationBanner">
+        <span>
+          <AdminIcon name="trophy" />
+        </span>
+        <div>
+          <strong>Great Job! You are doing awesome.</strong>
+          <p>Keep going. Your platform is growing and making an impact.</p>
+        </div>
+        <button type="button">View Reports</button>
       </div>
     </div>
+  );
+}
+
+function AdminIcon({ name }) {
+  const icons = {
+    home: (
+      <>
+        <path d="M4 10.5 12 4l8 6.5" />
+        <path d="M6.5 10v9h11v-9" />
+        <path d="M10 19v-5h4v5" />
+      </>
+    ),
+    book: (
+      <>
+        <path d="M5 5.5c2.6-.9 4.9-.6 7 1.1v13c-2.1-1.7-4.4-2-7-1.1z" />
+        <path d="M12 6.6c2.1-1.7 4.4-2 7-1.1v13c-2.6-.9-4.9-.6-7 1.1z" />
+      </>
+    ),
+    monitor: (
+      <>
+        <rect x="4" y="5" width="16" height="11" rx="2" />
+        <path d="M9 20h6" />
+        <path d="M12 16v4" />
+      </>
+    ),
+    message: (
+      <>
+        <path d="M5 6h14v10H9l-4 4z" />
+        <path d="M9 10h6" />
+        <path d="M9 13h4" />
+      </>
+    ),
+    users: (
+      <>
+        <circle cx="9" cy="9" r="3" />
+        <circle cx="16" cy="10" r="2.5" />
+        <path d="M4 19c.8-3 2.6-4.5 5-4.5S13.2 16 14 19" />
+        <path d="M14 18.5c.6-2 1.8-3.1 3.6-3.1 1.6 0 2.9 1 3.4 3.1" />
+      </>
+    ),
+    phone: (
+      <>
+        <path d="M7 5h4l1 4-2 1.2c1 2 2.4 3.4 4.3 4.3L16 12l4 1v4c0 1.1-.8 2-2 2C10 19 5 14 5 7c0-1.2.9-2 2-2z" />
+      </>
+    ),
+    user: (
+      <>
+        <circle cx="12" cy="8" r="4" />
+        <path d="M5 20c.8-4 3.2-6 7-6s6.2 2 7 6" />
+      </>
+    ),
+    layers: (
+      <>
+        <path d="m12 4 8 4-8 4-8-4z" />
+        <path d="m4 12 8 4 8-4" />
+        <path d="m4 16 8 4 8-4" />
+      </>
+    ),
+    clipboard: (
+      <>
+        <rect x="6" y="5" width="12" height="17" rx="2" />
+        <path d="M9 5c.2-1.4 1.2-2 3-2s2.8.6 3 2v2H9z" />
+        <path d="M9 12h6" />
+        <path d="M9 16h4" />
+      </>
+    ),
+    star: <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9z" />,
+    play: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="m10 8 6 4-6 4z" />
+      </>
+    ),
+    film: (
+      <>
+        <rect x="4" y="5" width="16" height="14" rx="2" />
+        <path d="M8 5v14" />
+        <path d="M16 5v14" />
+        <path d="M4 10h4" />
+        <path d="M16 10h4" />
+        <path d="M4 15h4" />
+        <path d="M16 15h4" />
+      </>
+    ),
+    graduate: (
+      <>
+        <path d="m12 5 9 5-9 5-9-5z" />
+        <path d="M7 13v4c2.8 2 7.2 2 10 0v-4" />
+      </>
+    ),
+    crown: (
+      <>
+        <path d="m4 8 4 4 4-7 4 7 4-4-2 11H6z" />
+        <path d="M6 21h12" />
+      </>
+    ),
+    bell: (
+      <>
+        <path d="M6 17h12l-1.5-2v-4.5a4.5 4.5 0 0 0-9 0V15z" />
+        <path d="M10 20h4" />
+      </>
+    ),
+    external: (
+      <>
+        <path d="M9 5H5v14h14v-4" />
+        <path d="M13 5h6v6" />
+        <path d="m11 13 8-8" />
+      </>
+    ),
+    trophy: (
+      <>
+        <path d="M8 4h8v4c0 4-1.8 6-4 6S8 12 8 8z" />
+        <path d="M8 6H5c0 3 1.5 5 4 5" />
+        <path d="M16 6h3c0 3-1.5 5-4 5" />
+        <path d="M12 14v4" />
+        <path d="M8 20h8" />
+      </>
+    ),
+  };
+
+  return (
+    <svg className="adminIcon" viewBox="0 0 24 24" aria-hidden="true">
+      {icons[name] ?? icons.book}
+    </svg>
   );
 }
 

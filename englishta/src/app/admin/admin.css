@@ -1,7 +1,9 @@
 .adminShell {
   min-height: 100vh;
-  background: #f6f7fb;
-  color: #172033;
+  background:
+    radial-gradient(circle at 78% 0%, rgba(254, 182, 12, 0.09), transparent 34%),
+    linear-gradient(135deg, #fffaf0 0%, #fff 42%, #f8f6ef 100%);
+  color: #1b1116;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -30,17 +32,21 @@
 
 .adminLayout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 300px 1fr;
   min-height: 100vh;
 }
 
 .adminSidebar {
-  background: #111827;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(254, 182, 12, 0.14), transparent 26%),
+    linear-gradient(180deg, #220006 0%, #140004 100%);
   color: #fff;
-  padding: 24px;
+  padding: 30px 22px;
   position: sticky;
   top: 0;
   height: 100vh;
+  overflow-y: auto;
+  box-shadow: 18px 0 48px rgba(35, 0, 9, 0.16);
 }
 
 .adminBrand {
@@ -51,21 +57,26 @@
 }
 
 .adminBrand img {
-  width: 54px;
-  height: 54px;
+  width: 58px;
+  height: 58px;
   object-fit: contain;
   border-radius: 50%;
   background: #fff;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
 }
 
 .adminBrand strong {
   display: block;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 1;
 }
 
+.adminBrand strong::first-letter {
+  color: #feb60c;
+}
+
 .adminBrand span {
-  color: #aeb8c8;
+  color: rgba(255, 255, 255, 0.68);
   font-size: 13px;
 }
 
@@ -76,25 +87,41 @@
 
 .adminNav button {
   border: 0;
-  border-radius: 8px;
+  border-radius: 10px;
   background: transparent;
-  color: #d9e2f1;
+  color: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 14px;
+  padding: 13px 14px;
   text-align: left;
   font-weight: 700;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.adminNav button > span:first-child {
+  align-items: center;
+  display: inline-flex;
+  gap: 10px;
+}
+
+.adminNav button > span:last-child {
+  color: inherit;
+  font-size: 12px;
+  min-width: 22px;
+  text-align: right;
 }
 
 .adminNav button:hover,
 .adminNav button.isActive {
   background: #feb60c;
-  color: #111827;
+  color: #200006;
+  transform: translateX(2px);
 }
 
 .adminMain {
-  padding: 28px;
+  padding: 32px;
 }
 
 .adminTopbar {
@@ -106,48 +133,109 @@
 }
 
 .adminTopbar h1 {
-  font-size: 30px;
+  color: #210008;
+  font-size: clamp(30px, 3vw, 42px);
+  font-weight: 900;
   margin: 0 0 6px;
 }
 
 .adminTopbar p {
   margin: 0;
-  color: #647084;
+  color: #6d6064;
+  font-size: 14px;
+}
+
+.adminTopbar__eyebrow {
+  color: #7a6670;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 4px;
 }
 
 .adminStatGrid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  gap: 18px;
+  margin-bottom: 26px;
 }
 
 .adminStatCard,
 .adminPanel {
   background: #fff;
-  border: 1px solid #e5e9f0;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.05);
+  border: 1px solid rgba(67, 0, 16, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 18px 46px rgba(37, 0, 10, 0.06);
 }
 
 .adminStatCard {
-  padding: 18px;
+  align-items: center;
+  display: flex;
+  gap: 15px;
+  min-height: 124px;
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+.adminStatCard::after {
+  background: #feb60c;
+  border-radius: 999px;
+  bottom: 18px;
+  content: "";
+  height: 3px;
+  left: 78px;
+  position: absolute;
+  width: 32px;
+}
+
+.adminStatCard__icon {
+  align-items: center;
+  background: #fff3d2;
+  border-radius: 50%;
+  color: #feb60c;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 54px;
+  justify-content: center;
+  width: 54px;
 }
 
 .adminStatCard span {
-  color: #687588;
+  color: #6e5e64;
   display: block;
   font-size: 13px;
   margin-bottom: 8px;
 }
 
 .adminStatCard strong {
-  color: #111827;
-  font-size: 28px;
+  color: #190006;
+  display: block;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.adminStatCard > .adminStatCard__icon {
+  align-items: center;
+  color: #feb60c;
+  display: inline-flex;
+  margin-bottom: 0;
 }
 
 .adminPanel {
-  padding: 22px;
+  padding: 24px;
+}
+
+.adminPanel--dashboard {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+.adminPanel--dashboard > .adminPanelHeader {
+  display: none;
 }
 
 .adminPanelHeader {
@@ -159,7 +247,9 @@
 }
 
 .adminPanelHeader h2 {
-  font-size: 24px;
+  color: #210008;
+  font-size: 26px;
+  font-weight: 900;
   margin: 0 0 4px;
 }
 
@@ -445,27 +535,40 @@
 
 .adminButton {
   border: 0;
-  border-radius: 7px;
-  background: #111827;
+  border-radius: 10px;
+  background: #210008;
   color: #fff;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 800;
   min-height: 40px;
-  padding: 10px 14px;
+  padding: 10px 16px;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .adminButton:hover {
   background: #000;
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 .adminButtonAlt {
   background: #feb60c;
-  color: #111827;
+  color: #210008;
+  box-shadow: 0 12px 28px rgba(254, 182, 12, 0.28);
 }
 
 .adminButtonGhost {
   background: #eef2f7;
-  color: #172033;
+  color: #210008;
+}
+
+.adminButtonDark {
+  background: #210008;
+  color: #fff;
 }
 
 .adminButtonDanger {
@@ -555,6 +658,308 @@
   color: #111827;
   font-size: 28px;
   font-weight: 900;
+}
+
+.adminIcon {
+  display: inline-block;
+  fill: none;
+  height: 20px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.1;
+  width: 20px;
+}
+
+.adminPremiumCard {
+  background:
+    radial-gradient(circle at top, rgba(254, 182, 12, 0.18), transparent 34%),
+    rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(254, 182, 12, 0.32);
+  border-radius: 18px;
+  color: #fff;
+  display: grid;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 22px 18px;
+  text-align: center;
+}
+
+.adminPremiumCard .adminIcon {
+  color: #feb60c;
+  height: 30px;
+  justify-self: center;
+  width: 30px;
+}
+
+.adminPremiumCard strong {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.adminPremiumCard p {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.adminPremiumCard button {
+  background: #feb60c;
+  border: 0;
+  border-radius: 10px;
+  color: #210008;
+  cursor: pointer;
+  font-weight: 900;
+  justify-self: center;
+  min-height: 42px;
+  padding: 10px 18px;
+}
+
+.adminNoticeBell {
+  align-items: center;
+  background: #fff;
+  border: 1px solid rgba(67, 0, 16, 0.08);
+  border-radius: 50%;
+  color: #210008;
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  position: relative;
+  width: 42px;
+}
+
+.adminNoticeBell i {
+  align-items: center;
+  background: #feb60c;
+  border-radius: 50%;
+  color: #210008;
+  display: inline-flex;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 900;
+  height: 18px;
+  justify-content: center;
+  position: absolute;
+  right: -3px;
+  top: -5px;
+  width: 18px;
+}
+
+.adminProfileChip {
+  align-items: center;
+  color: #210008;
+  display: inline-flex;
+  font-weight: 800;
+  gap: 8px;
+}
+
+.adminProfileChip img {
+  background: #fff;
+  border-radius: 50%;
+  height: 34px;
+  object-fit: contain;
+  width: 34px;
+}
+
+.adminDashboardOverview__layout {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.9fr);
+}
+
+.adminAnalyticsCard,
+.adminRecentCard,
+.adminMotivationBanner {
+  background: #fff;
+  border: 1px solid rgba(67, 0, 16, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 18px 46px rgba(37, 0, 10, 0.06);
+}
+
+.adminAnalyticsCard,
+.adminRecentCard {
+  padding: 24px;
+}
+
+.adminAnalyticsCard__head {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.adminAnalyticsCard__head h3 {
+  color: #210008;
+  font-size: 20px;
+  font-weight: 900;
+  margin: 0 0 4px;
+}
+
+.adminAnalyticsCard__head p {
+  color: #75666a;
+  font-size: 13px;
+  margin: 0;
+}
+
+.adminAnalyticsCard__head button,
+.adminMotivationBanner button {
+  background: #fff;
+  border: 1px solid rgba(67, 0, 16, 0.1);
+  border-radius: 10px;
+  color: #210008;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 900;
+  min-height: 38px;
+  padding: 9px 14px;
+}
+
+.adminMiniStats {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 22px;
+}
+
+.adminMiniStats article {
+  background: #fffdf8;
+  border: 1px solid rgba(67, 0, 16, 0.08);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.adminMiniStats span {
+  color: #75666a;
+  display: block;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.adminMiniStats strong {
+  color: #210008;
+  display: block;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.adminMiniStats small {
+  color: #0a8f35;
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  margin-top: 8px;
+}
+
+.adminChart {
+  background:
+    linear-gradient(rgba(67, 0, 16, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(67, 0, 16, 0.06) 1px, transparent 1px);
+  background-size: 100% 36px, 72px 100%;
+  border-radius: 14px;
+  padding: 8px 8px 2px;
+}
+
+.adminChart svg {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.adminChart__days {
+  color: #75666a;
+  display: grid;
+  font-size: 12px;
+  font-weight: 800;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0 6px 6px;
+  text-align: center;
+}
+
+.adminRecentList {
+  display: grid;
+  gap: 16px;
+}
+
+.adminRecentList article {
+  align-items: flex-start;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 44px 1fr auto;
+}
+
+.adminRecentList article > span {
+  align-items: center;
+  background: #fff3d2;
+  border-radius: 12px;
+  color: #feb60c;
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  width: 42px;
+}
+
+.adminRecentList strong {
+  color: #210008;
+  display: block;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.adminRecentList p {
+  color: #75666a;
+  font-size: 12px;
+  line-height: 1.45;
+  margin: 3px 0 0;
+}
+
+.adminRecentList time {
+  color: #75666a;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.adminMotivationBanner {
+  align-items: center;
+  background:
+    radial-gradient(circle at 88% 0%, rgba(254, 182, 12, 0.18), transparent 28%),
+    #fff8e6;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: auto 1fr auto;
+  margin-top: 22px;
+  padding: 20px;
+}
+
+.adminMotivationBanner > span {
+  align-items: center;
+  background: #210008;
+  border-radius: 50%;
+  color: #feb60c;
+  display: inline-flex;
+  height: 54px;
+  justify-content: center;
+  width: 54px;
+}
+
+.adminMotivationBanner strong {
+  color: #210008;
+  display: block;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.adminMotivationBanner p {
+  color: #75666a;
+  font-size: 13px;
+  margin: 5px 0 0;
+}
+
+.adminMotivationBanner button {
+  background: #210008;
+  color: #fff;
 }
 
 .adminLoginShell {
@@ -659,7 +1064,12 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .adminDashboardOverview__grid {
+  .adminDashboardOverview__grid,
+  .adminDashboardOverview__layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .adminMiniStats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -677,8 +1087,19 @@
   .adminForm,
   .adminStatGrid,
   .adminSkillMeta,
-  .adminDashboardOverview__grid {
+  .adminDashboardOverview__grid,
+  .adminDashboardOverview__layout,
+  .adminMiniStats,
+  .adminMotivationBanner {
     grid-template-columns: 1fr;
+  }
+
+  .adminRecentList article {
+    grid-template-columns: 42px 1fr;
+  }
+
+  .adminRecentList time {
+    grid-column: 2;
   }
 
   .adminSkillBuilderHeader,
