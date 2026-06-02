@@ -13,6 +13,11 @@ const batchSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+    totalStudents: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   {
     timestamps: true,

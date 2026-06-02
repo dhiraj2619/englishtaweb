@@ -14,10 +14,27 @@ function normalizeStudentIds(value) {
     : [];
 }
 
+function normalizeBatchSize(value) {
+  const size = Number(value);
+  return Number.isFinite(size) && size > 0 ? Math.floor(size) : 0;
+}
+
 async function populateBatch(batch) {
-  return Batch.findById(batch._id)
+  const populatedBatch = await Batch.findById(batch._id)
     .populate("studentIds", "name email phone")
     .lean();
+
+  return withTotalStudents(populatedBatch);
+}
+
+function withTotalStudents(batch) {
+  if (!batch) return batch;
+
+  return {
+    ...batch,
+    totalStudents: Number(batch.totalStudents) || 0,
+    assignedStudentsCount: Array.isArray(batch.studentIds) ? batch.studentIds.length : 0,
+  };
 }
 
 export async function GET() {
@@ -30,7 +47,7 @@ export async function GET() {
       .sort({ createdAt: -1 })
       .lean();
 
-    return NextResponse.json({ success: true, data: batches });
+    return NextResponse.json({ success: true, data: batches.map(withTotalStudents) });
   } catch (error) {
     const status = error.status || 500;
 
@@ -49,9 +66,21 @@ export async function POST(request) {
     const body = await request.json();
     const name = String(body.name || "").trim();
     const studentIds = normalizeStudentIds(body.studentIds);
+    const totalStudents = normalizeBatchSize(body.totalStudents);
 
     if (!name) {
       return NextResponse.json({ success: false, message: "Batch name is required." }, { status: 400 });
+    }
+
+    if (!totalStudents) {
+      return NextResponse.json({ success: false, message: "Batch size is required." }, { status: 400 });
+    }
+
+    if (studentIds.length > totalStudents) {
+      return NextResponse.json(
+        { success: false, message: "Batch size cannot be smaller than assigned students." },
+        { status: 400 },
+      );
     }
 
     if (studentIds.length) {
@@ -62,7 +91,7 @@ export async function POST(request) {
       }
     }
 
-    const batch = await Batch.create({ name, studentIds });
+    const batch = await Batch.create({ name, studentIds, totalStudents });
     const populatedBatch = await populateBatch(batch);
 
     return NextResponse.json({ success: true, data: populatedBatch }, { status: 201 });

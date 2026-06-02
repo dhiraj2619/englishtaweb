@@ -8,16 +8,29 @@ const storageKey = "englishta-admin-dashboard";
 const modules = [
   { key: "dashboard", label: "Dashboard", description: "Track courses, webinars, enrollments, and inquiries." },
   { key: "courses", label: "Courses", description: "Add, edit, and delete courses." },
-  { key: "webinarLeads", label: "Webinar Leads", description: "Auto-captured webinar registrations from the website." },
-  { key: "courseLeads", label: "Course Leads", description: "Auto-captured course enquiries and demo requests from the website." },
   { key: "users", label: "Users", description: "View registered students from the website." },
-  { key: "batches", label: "Batches", description: "Create batches and assign students." },
-  { key: "skillCheckTests", label: "Skill Check Tests", description: "Create MCQ test sets for student skill checking." },
+  { key: "cms", label: "CMS", description: "Manage website content, reviews, videos, demo video, and webinars." },
+];
+
+const leadModules = [
+  { key: "courseLeads", label: "Course Leads", description: "Auto-captured course enquiries and demo requests from the website." },
+  { key: "webinarLeads", label: "Webinar Leads", description: "Auto-captured webinar registrations from the website." },
+];
+
+const courseManagementModules = [
+  { key: "courseEnrollments", label: "Course Enrolls", description: "View students enrolled in courses." },
+  { key: "batches", label: "Course Batches", description: "Create batches and assign students." },
+  { key: "skillCheckTests", label: "Test Creation", description: "Create MCQ test sets for student skill checking." },
+];
+
+const cmsModules = [
   { key: "reviews", label: "Reviews", description: "Manage testimonials and WhatsApp review screenshots." },
-  { key: "demoLecture", label: "Demo Lecture Video", description: "Manage the single demo lecture video shown on the website." },
   { key: "videos", label: "Videos", description: "Add YouTube learning and demo videos." },
+  { key: "demoLecture", label: "Demo Video", description: "Manage the single demo lecture video shown on the website." },
   { key: "webinars", label: "Webinars", description: "Manage live and recorded webinar sessions." },
 ];
+
+const allModules = [...modules, ...leadModules, ...courseManagementModules, ...cmsModules];
 
 const reviewTabs = [
   { key: "testimonials", label: "Testimonials" },
@@ -30,6 +43,10 @@ const moduleIconNames = {
   webinarLeads: "users",
   courseLeads: "phone",
   users: "user",
+  leads: "phone",
+  cms: "layers",
+  courseManagement: "graduate",
+  courseEnrollments: "graduate",
   batches: "layers",
   skillCheckTests: "clipboard",
   reviews: "star",
@@ -75,8 +92,10 @@ const emptyForms = {
     status: "New",
   },
   users: {},
+  courseEnrollments: {},
   batches: {
     name: "",
+    totalStudents: "",
     studentIds: [],
   },
   skillCheckTests: {
@@ -151,6 +170,7 @@ const starterData = {
   webinarLeads: [],
   courseLeads: [],
   users: [],
+  courseEnrollments: [],
   batches: [],
   skillCheckTests: [],
   testimonials: [
@@ -227,9 +247,22 @@ const columns = {
     ["createdAt", "Registered On"],
     ["lastLoginAt", "Last Login"],
   ],
+  courseEnrollments: [
+    ["studentName", "Student"],
+    ["email", "Email"],
+    ["phone", "Phone"],
+    ["courseName", "Course"],
+    ["courseMode", "Mode"],
+    ["joinedAt", "Joined On"],
+    ["progressPercentage", "Progress"],
+    ["completed", "Completed"],
+    ["shiftBatch", "Shift In Batch"],
+  ],
   batches: [
     ["name", "Batch Name"],
+    ["totalStudents", "Batch Size"],
     ["studentIds", "Assigned Students"],
+    ["whatsappGroup", "WhatsApp Group"],
     ["createdAt", "Created On"],
   ],
   skillCheckTests: [
@@ -322,6 +355,9 @@ function makeId(moduleKey) {
 export default function AdminDashboard() {
   const [activeModule, setActiveModule] = useState("dashboard");
   const [activeReviewTab, setActiveReviewTab] = useState("testimonials");
+  const [activeCmsTab, setActiveCmsTab] = useState("reviews");
+  const [leadsOpen, setLeadsOpen] = useState(false);
+  const [courseManagementOpen, setCourseManagementOpen] = useState(true);
   const [data, setData] = useState(loadData);
   const [form, setForm] = useState(emptyForms.dashboard);
   const [editingId, setEditingId] = useState(null);
@@ -352,8 +388,9 @@ export default function AdminDashboard() {
   const [thumbnailUploading, setThumbnailUploading] = useState(false);
   const [thumbnailUploadError, setThumbnailUploadError] = useState("");
   const [toast, setToast] = useState(null);
-  const currentModule = activeModule === "reviews" ? activeReviewTab : activeModule;
-  const activeConfig = modules.find((item) => item.key === activeModule);
+  const currentModule = activeModule === "cms" ? (activeCmsTab === "reviews" ? activeReviewTab : activeCmsTab) : activeModule;
+  const activeConfig = allModules.find((item) => item.key === activeModule) ?? modules[0];
+  const currentConfig = allModules.find((item) => item.key === (activeModule === "cms" ? activeCmsTab : activeModule)) ?? activeConfig;
   const demoLectureExists = (data.demoLecture ?? []).length > 0;
   const canCreateRecord =
     currentModule !== "demoLecture" || !demoLectureExists || Boolean(editingId);
@@ -361,8 +398,39 @@ export default function AdminDashboard() {
     currentModule !== "dashboard" &&
     currentModule !== "webinarLeads" &&
     currentModule !== "courseLeads" &&
+    currentModule !== "courseEnrollments" &&
     currentModule !== "users" &&
     canCreateRecord;
+
+  const courseEnrollments = useMemo(
+    () =>
+      (data.users ?? []).flatMap((user) =>
+        (user.joinedCourses ?? [])
+          .map((joinedCourse, index) => {
+            const course = joinedCourse.course ?? {};
+            const courseName = typeof course === "object" ? course.name : "";
+
+            if (!courseName) {
+              return null;
+            }
+
+            return {
+              _id: `${user._id ?? user.id ?? user.email}-${course._id ?? index}`,
+              userId: String(user._id ?? user.id ?? ""),
+              studentName: user.name || "Student",
+              email: user.email || "",
+              phone: user.phone || "",
+              courseName,
+              courseMode: course.courseMode || "live",
+              joinedAt: joinedCourse.joinedAt || null,
+              progressPercentage: joinedCourse.progressPercentage ?? 0,
+              completed: Boolean(joinedCourse.completed),
+            };
+          })
+          .filter(Boolean),
+      ),
+    [data.users],
+  );
 
   const stats = useMemo(
     () => [
@@ -395,7 +463,7 @@ export default function AdminDashboard() {
       {
         key: "courseEnrollmentCount",
         label: "Course Enrollments",
-        count: dashboardStats?.courseEnrollmentCount ?? 0,
+        count: courseEnrollments.length || dashboardStats?.courseEnrollmentCount || 0,
       },
       {
         key: "usersCount",
@@ -420,6 +488,7 @@ export default function AdminDashboard() {
       data.whatsappReviews?.length,
       data.demoLecture?.length,
       data.users?.length,
+      courseEnrollments.length,
       data.batches?.length,
       data.skillCheckTests?.length,
     ],
@@ -476,6 +545,32 @@ export default function AdminDashboard() {
     setToast({ type, message });
   }
 
+  function getModuleCount(moduleKey) {
+    if (moduleKey === "leads") {
+      return (data.courseLeads?.length ?? 0) + (data.webinarLeads?.length ?? 0);
+    }
+
+    if (moduleKey === "cms") {
+      return (
+        (data.testimonials?.length ?? 0) +
+        (data.whatsappReviews?.length ?? 0) +
+        (data.videos?.length ?? 0) +
+        (data.demoLecture?.length ?? 0) +
+        (data.webinars?.length ?? 0)
+      );
+    }
+
+    if (moduleKey === "reviews") {
+      return (data.testimonials?.length ?? 0) + (data.whatsappReviews?.length ?? 0);
+    }
+
+    if (moduleKey === "courseEnrollments") {
+      return courseEnrollments.length;
+    }
+
+    return data[moduleKey]?.length ?? 0;
+  }
+
   function getNewRecordLabel() {
     if (currentModule === "videos") return "New YouTube Video";
     if (currentModule === "whatsappReviews") return "New WhatsApp Review";
@@ -484,12 +579,19 @@ export default function AdminDashboard() {
     if (currentModule === "skillCheckTests") return "New Skill Test";
     if (currentModule === "testimonials") return "New Testimonial";
 
-    return `New ${activeConfig.label.slice(0, -1)}`;
+    return `New ${currentConfig.label.slice(0, -1)}`;
   }
 
   function selectModule(moduleKey) {
     setActiveModule(moduleKey);
-    if (moduleKey === "reviews") {
+    if (courseManagementModules.some((module) => module.key === moduleKey)) {
+      setCourseManagementOpen(true);
+    }
+    if (leadModules.some((module) => module.key === moduleKey)) {
+      setLeadsOpen(true);
+    }
+    if (moduleKey === "cms") {
+      setActiveCmsTab("reviews");
       setActiveReviewTab("testimonials");
       setForm(emptyForms.testimonials);
     } else {
@@ -507,6 +609,24 @@ export default function AdminDashboard() {
     setUsersError("");
     setBatchesError("");
     setSkillCheckTestsError("");
+  }
+
+  function selectCmsTab(tabKey) {
+    setActiveModule("cms");
+    setActiveCmsTab(tabKey);
+    if (tabKey === "reviews") {
+      setActiveReviewTab("testimonials");
+      setForm(emptyForms.testimonials);
+    } else {
+      setForm(emptyForms[tabKey]);
+    }
+    setEditingId(null);
+    setThumbnailUploadError("");
+    setVideosError("");
+    setTestimonialsError("");
+    setWhatsappReviewsError("");
+    setDemoLectureError("");
+    setWebinarsError("");
   }
 
   function selectReviewTab(tabKey) {
@@ -898,6 +1018,69 @@ export default function AdminDashboard() {
     }
   }
 
+  async function shiftEnrollmentToBatch(enrollment, batchId) {
+    const selectedBatch = (data.batches ?? []).find((batch) => String(batch._id ?? batch.id) === String(batchId));
+
+    if (!selectedBatch) {
+      showToast("error", "Please select a batch first.");
+      return;
+    }
+
+    if (!enrollment.userId) {
+      showToast("error", "Student id is missing for this enrollment.");
+      return;
+    }
+
+    const existingStudentIds = (selectedBatch.studentIds ?? []).map((student) => String(student._id ?? student.id ?? student));
+
+    if (existingStudentIds.includes(String(enrollment.userId))) {
+      showToast("error", `${enrollment.studentName} is already in ${selectedBatch.name}.`);
+      return;
+    }
+
+    const batchSize = Number(selectedBatch.totalStudents) || 0;
+
+    if (batchSize > 0 && existingStudentIds.length >= batchSize) {
+      showToast("error", `${selectedBatch.name} batch is full.`);
+      return;
+    }
+
+    try {
+      setBatchesError("");
+
+      const response = await fetch(`/api/batches/${selectedBatch._id ?? selectedBatch.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: selectedBatch.name,
+          totalStudents: selectedBatch.totalStudents,
+          studentIds: [...existingStudentIds, enrollment.userId],
+        }),
+      });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to shift student into batch.");
+      }
+
+      setData((current) => ({
+        ...current,
+        batches: (current.batches ?? []).map((batch) =>
+          String(batch._id ?? batch.id) === String(selectedBatch._id ?? selectedBatch.id) ? payload.data : batch,
+        ),
+      }));
+
+      await fetchBatches();
+      showToast("success", `${enrollment.studentName} shifted to ${selectedBatch.name}.`);
+    } catch (error) {
+      const message = error.message || "Failed to shift student into batch.";
+      setBatchesError(message);
+      showToast("error", message);
+    }
+  }
+
   async function saveItem(event) {
     event.preventDefault();
     const moduleKey = currentModule;
@@ -1215,6 +1398,12 @@ export default function AdminDashboard() {
           throw new Error("Batch name is required.");
         }
 
+        const batchSize = Number(form.totalStudents);
+
+        if (!Number.isFinite(batchSize) || batchSize <= 0) {
+          throw new Error("Batch size is required.");
+        }
+
         const response = await fetch(editingId ? `/api/batches/${editingId}` : "/api/batches", {
           method: editingId ? "PUT" : "POST",
           headers: {
@@ -1222,6 +1411,7 @@ export default function AdminDashboard() {
           },
           body: JSON.stringify({
             name: form.name,
+            totalStudents: batchSize,
             studentIds: Array.isArray(form.studentIds) ? form.studentIds : [],
           }),
         });
@@ -1681,7 +1871,7 @@ export default function AdminDashboard() {
           </div>
 
           <nav className="adminNav" aria-label="Admin modules">
-            {modules.map((module) => (
+            {modules.filter((module) => ["dashboard", "courses"].includes(module.key)).map((module) => (
               <button
                 type="button"
                 className={module.key === activeModule ? "isActive" : ""}
@@ -1692,10 +1882,79 @@ export default function AdminDashboard() {
                   <AdminIcon name={moduleIconNames[module.key]} />
                   {module.label}
                 </span>
+              </button>
+            ))}
+
+            <div className="adminNavGroup">
+              <button
+                type="button"
+                className={courseManagementModules.some((module) => module.key === activeModule) ? "isActive" : ""}
+                onClick={() => setCourseManagementOpen((current) => !current)}
+              >
                 <span>
-                  {module.key === "reviews"
-                    ? (data.testimonials?.length ?? 0) + (data.whatsappReviews?.length ?? 0)
-                    : data[module.key]?.length ?? 0}
+                  <AdminIcon name={moduleIconNames.courseManagement} />
+                  Course Management
+                </span>
+                <span className={courseManagementOpen ? "adminNavChevron isOpen" : "adminNavChevron"}>⌄</span>
+              </button>
+
+              <div className={courseManagementOpen ? "adminNavSubmenu isOpen" : "adminNavSubmenu"}>
+                {courseManagementModules.map((module) => (
+                  <button
+                    type="button"
+                    className={module.key === activeModule ? "isActive" : ""}
+                    onClick={() => selectModule(module.key)}
+                    key={module.key}
+                  >
+                    <span>
+                      <AdminIcon name={moduleIconNames[module.key]} />
+                      {module.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="adminNavGroup">
+              <button
+                type="button"
+                className={leadModules.some((module) => module.key === activeModule) ? "isActive" : ""}
+                onClick={() => setLeadsOpen((current) => !current)}
+              >
+                <span>
+                  <AdminIcon name={moduleIconNames.leads} />
+                  Leads
+                </span>
+                <span className={leadsOpen ? "adminNavChevron isOpen" : "adminNavChevron"}>v</span>
+              </button>
+
+              <div className={leadsOpen ? "adminNavSubmenu isOpen" : "adminNavSubmenu"}>
+                {leadModules.map((module) => (
+                  <button
+                    type="button"
+                    className={module.key === activeModule ? "isActive" : ""}
+                    onClick={() => selectModule(module.key)}
+                    key={module.key}
+                  >
+                    <span>
+                      <AdminIcon name={moduleIconNames[module.key]} />
+                      {module.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {modules.filter((module) => ["users", "cms"].includes(module.key)).map((module) => (
+              <button
+                type="button"
+                className={module.key === activeModule ? "isActive" : ""}
+                onClick={() => selectModule(module.key)}
+                key={module.key}
+              >
+                <span>
+                  <AdminIcon name={moduleIconNames[module.key]} />
+                  {module.label}
                 </span>
               </button>
             ))}
@@ -1772,12 +2031,13 @@ export default function AdminDashboard() {
           <section className={`adminPanel ${activeModule === "dashboard" ? "adminPanel--dashboard" : ""}`}>
             <div className="adminPanelHeader">
               <div>
-                <h2>{activeConfig.label} Management</h2>
-                <p>{activeConfig.description}</p>
+                <h2>{currentConfig.label} Management</h2>
+                <p>{currentConfig.description}</p>
               </div>
               {currentModule !== "dashboard" &&
               currentModule !== "webinarLeads" &&
               currentModule !== "courseLeads" &&
+              currentModule !== "courseEnrollments" &&
               currentModule !== "users" &&
               (currentModule !== "demoLecture" || !demoLectureExists || editingId) ? (
                 <button type="button" className="adminButton adminButtonAlt" onClick={resetForm}>
@@ -1786,7 +2046,24 @@ export default function AdminDashboard() {
               ) : null}
             </div>
 
-            {activeModule === "reviews" ? (
+            {activeModule === "cms" ? (
+              <div className="adminSubTabs" role="tablist" aria-label="CMS sections">
+                {cmsModules.map((tab) => (
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeCmsTab === tab.key}
+                    className={activeCmsTab === tab.key ? "isActive" : ""}
+                    onClick={() => selectCmsTab(tab.key)}
+                    key={tab.key}
+                  >
+                    <span>{tab.label}</span>
+                  </button>
+                ))}
+              </div>
+            ) : null}
+
+            {activeModule === "cms" && activeCmsTab === "reviews" ? (
               <div className="adminSubTabs" role="tablist" aria-label="Review sections">
                 {reviewTabs.map((tab) => (
                   <button
@@ -1836,6 +2113,7 @@ export default function AdminDashboard() {
             {currentModule === "webinars" && webinarsError ? <div className="adminEmpty">{webinarsError}</div> : null}
             {currentModule === "webinarLeads" && webinarLeadsError ? <div className="adminEmpty">{webinarLeadsError}</div> : null}
             {currentModule === "courseLeads" && courseLeadsError ? <div className="adminEmpty">{courseLeadsError}</div> : null}
+            {currentModule === "courseEnrollments" && usersError ? <div className="adminEmpty">{usersError}</div> : null}
             {currentModule === "users" && usersError ? <div className="adminEmpty">{usersError}</div> : null}
             {currentModule === "batches" && batchesError ? <div className="adminEmpty">{batchesError}</div> : null}
             {currentModule === "skillCheckTests" && skillCheckTestsError ? (
@@ -1845,9 +2123,11 @@ export default function AdminDashboard() {
             {activeModule !== "dashboard" ? (
               <AdminTable
                 moduleKey={currentModule}
-                items={data[currentModule] ?? []}
+                items={currentModule === "courseEnrollments" ? courseEnrollments : data[currentModule] ?? []}
                 onEdit={editItem}
                 onDelete={deleteItem}
+                batches={data.batches ?? []}
+                onShiftToBatch={shiftEnrollmentToBatch}
                 loading={
                   (currentModule === "courses" && coursesLoading) ||
                   (currentModule === "videos" && videosLoading) ||
@@ -1857,6 +2137,7 @@ export default function AdminDashboard() {
                   (currentModule === "webinars" && webinarsLoading) ||
                   (currentModule === "webinarLeads" && webinarLeadsLoading) ||
                   (currentModule === "courseLeads" && courseLeadsLoading) ||
+                  (currentModule === "courseEnrollments" && usersLoading) ||
                   (currentModule === "users" && usersLoading) ||
                   (currentModule === "batches" && batchesLoading) ||
                   (currentModule === "skillCheckTests" && skillCheckTestsLoading)
@@ -1903,7 +2184,7 @@ function AdminForm({
     users: [],
     batches: [
       ["name", "Batch Name", "input", "adminFull"],
-      ["studentIds", "Assign Students", "studentSelector", "adminFull"],
+      ["totalStudents", "Batch Size", "number", "adminFull"],
     ],
     skillCheckTests: [
       ["setCode", "Test Set", "select", ["A", "B", "C", "D"]],
@@ -2514,15 +2795,44 @@ function RichTextEditor({ id, value, onChange }) {
   );
 }
 
-function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
-  const showActions = !["webinarLeads", "courseLeads", "users"].includes(moduleKey);
+function AdminTable({ moduleKey, items, onEdit, onDelete, batches = [], onShiftToBatch, loading }) {
+  const showActions = !["webinarLeads", "courseLeads", "users", "courseEnrollments"].includes(moduleKey);
+  const [selectedBatchByEnrollment, setSelectedBatchByEnrollment] = useState({});
+
+  function openBatchWhatsAppGroup(batch) {
+    const students = Array.isArray(batch.studentIds) ? batch.studentIds : [];
+    const studentLines = students
+      .map((student, index) => {
+        if (typeof student !== "object") return `${index + 1}. ${student}`;
+
+        const name = student.name || student.email || `Student ${index + 1}`;
+        const phone = student.phone ? ` - ${student.phone}` : "";
+        return `${index + 1}. ${name}${phone}`;
+      })
+      .join("\n");
+
+    const message = [
+      `Create WhatsApp group for batch: ${batch.name || "Batch"}`,
+      "",
+      "Students to add:",
+      studentLines || "No students assigned yet.",
+    ].join("\n");
+
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+  }
 
   if (loading) {
     return <div className="adminEmpty">Loading records...</div>;
   }
 
   if (!items.length) {
-    return <div className="adminEmpty">No records yet. Add the first one above.</div>;
+    return (
+      <div className="adminEmpty">
+        {moduleKey === "courseEnrollments"
+          ? "No enrolled students yet. Enrollments will appear here once students join a course."
+          : "No records yet. Add the first one above."}
+      </div>
+    );
   }
 
   return (
@@ -2570,8 +2880,42 @@ function AdminTable({ moduleKey, items, onEdit, onDelete, loading }) {
                     ) : (
                       "-"
                     )
+                  ) : key === "whatsappGroup" ? (
+                    <button type="button" className="adminButton adminButtonWhatsApp" onClick={() => openBatchWhatsAppGroup(item)}>
+                      Create WhatsApp Group
+                    </button>
+                  ) : key === "shiftBatch" ? (
+                    <div className="adminShiftBatch">
+                      <select
+                        value={selectedBatchByEnrollment[item._id ?? item.id] ?? ""}
+                        onChange={(event) =>
+                          setSelectedBatchByEnrollment((current) => ({
+                            ...current,
+                            [item._id ?? item.id]: event.target.value,
+                          }))
+                        }
+                      >
+                        <option value="">Select batch</option>
+                        {batches.map((batch) => (
+                          <option value={batch._id ?? batch.id} key={batch._id ?? batch.id}>
+                            {batch.name}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        type="button"
+                        className="adminButton adminButtonAlt"
+                        onClick={() => onShiftToBatch?.(item, selectedBatchByEnrollment[item._id ?? item.id])}
+                      >
+                        Shift
+                      </button>
+                    </div>
                   ) : key === "questions" ? (
                     Array.isArray(item.questions) ? `${item.questions.length} Questions` : "0 Questions"
+                  ) : key === "totalStudents" ? (
+                    item.totalStudents ?? (Array.isArray(item.studentIds) ? item.studentIds.length : 0)
+                  ) : key === "progressPercentage" ? (
+                    `${item[key] ?? 0}%`
                   ) : key === "timeLimitMinutes" ? (
                     item[key] ? `${item[key]} min` : "-"
                   ) : ["createdAt", "lastLoginAt", "dateTime"].includes(key) ? (

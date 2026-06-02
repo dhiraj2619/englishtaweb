@@ -80,6 +80,36 @@ const scoreHistorySchema = new mongoose.Schema(
   { _id: false },
 );
 
+const weeklyTestAttemptSchema = new mongoose.Schema(
+  {
+    weekLabel: {
+      type: String,
+      default: "",
+    },
+    weekStartDate: {
+      type: Date,
+      default: null,
+    },
+    weekEndDate: {
+      type: Date,
+      default: null,
+    },
+    attemptedCount: {
+      type: Number,
+      default: 0,
+    },
+    assignedCount: {
+      type: Number,
+      default: 0,
+    },
+    averageScore: {
+      type: Number,
+      default: 0,
+    },
+  },
+  { _id: false },
+);
+
 const recentTestHistorySchema = new mongoose.Schema(
   {
     date: {
@@ -106,6 +136,144 @@ const recentTestHistorySchema = new mongoose.Schema(
       type: String,
       enum: ["Excellent", "Good", "Average", "Improving"],
       default: "Average",
+    },
+  },
+  { _id: false },
+);
+
+const testStatisticsSchema = new mongoose.Schema(
+  {
+    weeklyTestsAttempted: {
+      type: Number,
+      default: 0,
+    },
+    totalTestsAssigned: {
+      type: Number,
+      default: 0,
+    },
+    totalTestsAttempted: {
+      type: Number,
+      default: 0,
+    },
+    highestScore: {
+      type: Number,
+      default: 0,
+    },
+    lowestScore: {
+      type: Number,
+      default: 0,
+    },
+    improvementPercentage: {
+      type: Number,
+      default: 0,
+    },
+    performanceTrend: {
+      type: String,
+      enum: ["", "improving", "stable", "declining"],
+      default: "",
+    },
+  },
+  { _id: false },
+);
+
+const adminRemarkSchema = new mongoose.Schema(
+  {
+    remark: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    category: {
+      type: String,
+      enum: ["general", "attendance", "performance", "discipline", "offer"],
+      default: "general",
+    },
+    createdBy: {
+      type: String,
+      trim: true,
+      default: "Admin",
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: true },
+);
+
+const specialCourseOfferSchema = new mongoose.Schema(
+  {
+    eligible: {
+      type: Boolean,
+      default: false,
+    },
+    reason: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    scoreThreshold: {
+      type: Number,
+      default: 90,
+    },
+    offeredCourse: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      default: null,
+    },
+    offerTitle: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    offerValidTill: {
+      type: Date,
+      default: null,
+    },
+  },
+  { _id: false },
+);
+
+const courseProgressSchema = new mongoose.Schema(
+  {
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      default: null,
+    },
+    batch: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Batch",
+      default: null,
+    },
+    progressPercentage: {
+      type: Number,
+      default: 0,
+    },
+    completedLessons: {
+      type: Number,
+      default: 0,
+    },
+    totalLessons: {
+      type: Number,
+      default: 0,
+    },
+    sessionsAttended: {
+      type: Number,
+      default: 0,
+    },
+    sessionsMissed: {
+      type: Number,
+      default: 0,
+    },
+    lastSessionAt: {
+      type: Date,
+      default: null,
+    },
+    status: {
+      type: String,
+      enum: ["not-started", "in-progress", "completed", "paused"],
+      default: "not-started",
     },
   },
   { _id: false },
@@ -288,6 +456,10 @@ const userSchema = new mongoose.Schema(
       type: weeklyChallengeSchema,
       default: () => ({}),
     },
+    weeklyTestAttempts: {
+      type: [weeklyTestAttemptSchema],
+      default: [],
+    },
     dailySpeakingTask: {
       type: speakingTaskSchema,
       default: () => ({}),
@@ -304,6 +476,46 @@ const userSchema = new mongoose.Schema(
     recentTestHistory: {
       type: [recentTestHistorySchema],
       default: [],
+    },
+    testStatistics: {
+      type: testStatisticsSchema,
+      default: () => ({}),
+    },
+    courseProgress: {
+      type: [courseProgressSchema],
+      default: [],
+    },
+    adminRemarks: {
+      type: [adminRemarkSchema],
+      default: [],
+    },
+    attendanceStatus: {
+      type: String,
+      enum: ["regular", "irregular", "defaulter"],
+      default: "regular",
+      index: true,
+    },
+    isDefaulter: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+    defaulterReason: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    lastAttendedSessionAt: {
+      type: Date,
+      default: null,
+    },
+    missedSessionsCount: {
+      type: Number,
+      default: 0,
+    },
+    specialCourseOffer: {
+      type: specialCourseOfferSchema,
+      default: () => ({}),
     },
     isActive: {
       type: Boolean,

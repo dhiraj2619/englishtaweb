@@ -81,6 +81,26 @@ const parsePriceAmount = (price) => {
   return Number.isFinite(amount) ? amount : 0;
 };
 
+const loadRazorpayCheckout = () =>
+  new Promise((resolve, reject) => {
+    if (typeof window === "undefined") {
+      reject(new Error("Payment can only be started in the browser."));
+      return;
+    }
+
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => reject(new Error("Unable to load Razorpay checkout."));
+    document.body.appendChild(script);
+  });
+
 const CourseDetailPage = () => {
   const { slug } = useParams();
   const [courses, setCourses] = useState([]);
@@ -307,28 +327,68 @@ const CourseDetailPage = () => {
     setEnrollFeedback({ type: "", message: "" });
 
     try {
-      const response = await fetch("/api/courses/enroll", {
+      await loadRazorpayCheckout();
+
+      const orderResponse = await fetch("/api/payments/razorpay/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ courseId: course._id }),
       });
-      const payload = await response.json();
+      const orderPayload = await orderResponse.json();
 
-      if (!response.ok || !payload.success) {
-        throw new Error(payload.message || "Unable to enroll in this course.");
+      if (!orderResponse.ok || !orderPayload.success) {
+        throw new Error(orderPayload.message || "Unable to start payment.");
       }
 
-      setCurrentUser(payload.user || currentUser);
+      const paymentResult = await new Promise((resolve, reject) => {
+        const razorpay = new window.Razorpay({
+          key: orderPayload.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+          amount: orderPayload.order.amount,
+          currency: orderPayload.order.currency,
+          name: "Englishta",
+          description: course.name,
+          order_id: orderPayload.order.id,
+          prefill: {
+            name: orderPayload.user?.name || currentUser?.name || "",
+            email: orderPayload.user?.email || currentUser?.email || "",
+            contact: orderPayload.user?.phone || currentUser?.phone || "",
+          },
+          theme: {
+            color: "#feb60c",
+          },
+          handler: (response) => resolve(response),
+          modal: {
+            ondismiss: () => reject(new Error("Payment was cancelled.")),
+          },
+        });
+
+        razorpay.open();
+      });
+
+      const verifyResponse = await fetch("/api/payments/razorpay/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(paymentResult),
+      });
+      const verifyPayload = await verifyResponse.json();
+
+      if (!verifyResponse.ok || !verifyPayload.success) {
+        throw new Error(verifyPayload.message || "Payment verification failed.");
+      }
+
+      setCurrentUser(verifyPayload.user || currentUser);
       setEnrollFeedback({
         type: "success",
-        message: payload.message || "You are enrolled in this course.",
+        message: verifyPayload.message || "Payment successful. You are enrolled in this course.",
       });
     } catch (enrollError) {
       setEnrollFeedback({
         type: "error",
-        message: enrollError.message || "Unable to enroll in this course.",
+        message: enrollError.message || "Unable to complete payment.",
       });
     } finally {
       setIsEnrolling(false);
@@ -666,13 +726,13 @@ const CourseDetailPage = () => {
                   type="button"
                   className="englishtaCourseEnrollModal__reserve"
                   onClick={handleCourseEnrollment}
-                  disabled={isEnrolling || isCurrentUserEnrolled}
+                  disabled={isEnrolling}
                 >
                   <i className="fa-solid fa-lock" />
                   {isEnrolling
-                    ? "Enrolling..."
+                    ? "Opening Payment..."
                     : isCurrentUserEnrolled
-                      ? "Already Enrolled"
+                      ? `Pay \u20b9${advanceBookingAmount} & Confirm Payment`
                       : `Pay ₹${advanceBookingAmount} & Reserve Seat`}
                 </button>
 

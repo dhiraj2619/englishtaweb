@@ -4,7 +4,7 @@
     radial-gradient(circle at 78% 0%, rgba(254, 182, 12, 0.09), transparent 34%),
     linear-gradient(135deg, #fffaf0 0%, #fff 42%, #f8f6ef 100%);
   color: #1b1116;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Nunito", Arial, sans-serif;
 }
 
 .adminToast {
@@ -17,7 +17,7 @@
   box-shadow: 0 18px 42px rgba(17, 24, 39, 0.18);
   color: #fff;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.4;
   padding: 14px 16px;
 }
@@ -85,6 +85,64 @@
   gap: 8px;
 }
 
+.adminNavGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.adminNavSubmenu {
+  border-left: 1px solid rgba(254, 182, 12, 0.28);
+  display: grid;
+  gap: 7px;
+  margin-left: 18px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding-left: 10px;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: max-height 0.28s ease, opacity 0.24s ease, transform 0.24s ease;
+}
+
+.adminNavSubmenu.isOpen {
+  max-height: 260px;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.adminNavSubmenu button {
+  border-radius: 9px;
+  font-size: 13px;
+  padding-block: 10px;
+}
+
+.adminNavChevron {
+  display: inline-block;
+  font-size: 0;
+  height: 18px;
+  line-height: 1;
+  position: relative;
+  transition: transform 0.24s ease;
+  width: 18px;
+}
+
+.adminNavChevron::before {
+  border-bottom: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  content: "";
+  height: 8px;
+  left: 4px;
+  position: absolute;
+  top: 3px;
+  transform: rotate(45deg);
+  width: 8px;
+}
+
+.adminNavChevron.isOpen {
+  transform: rotate(180deg);
+}
+
 .adminNav button {
   border: 0;
   border-radius: 10px;
@@ -108,15 +166,19 @@
 
 .adminNav button > span:last-child {
   color: inherit;
-  font-size: 12px;
-  min-width: 22px;
+  min-width: 18px;
   text-align: right;
 }
 
-.adminNav button:hover,
+.adminNav button:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #feb60c;
+  transform: translateX(2px);
+}
+
 .adminNav button.isActive {
-  background: #feb60c;
-  color: #200006;
+  background: transparent;
+  color: #feb60c;
   transform: translateX(2px);
 }
 
@@ -135,7 +197,7 @@
 .adminTopbar h1 {
   color: #210008;
   font-size: clamp(30px, 3vw, 42px);
-  font-weight: 900;
+  font-weight: 700;
   margin: 0 0 6px;
 }
 
@@ -149,7 +211,7 @@
   color: #7a6670;
   display: inline-flex;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 4px;
 }
 
@@ -212,7 +274,7 @@
   color: #190006;
   display: block;
   font-size: 30px;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1;
 }
 
@@ -249,7 +311,7 @@
 .adminPanelHeader h2 {
   color: #210008;
   font-size: 26px;
-  font-weight: 900;
+  font-weight: 700;
   margin: 0 0 4px;
 }
 
@@ -523,7 +585,7 @@
 .adminSkillOption span {
   color: #647084;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .adminActions {
@@ -542,7 +604,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-weight: 800;
+  font-weight: 700;
   min-height: 40px;
   padding: 10px 16px;
   text-decoration: none;
@@ -575,6 +637,38 @@
   background: #dc2626;
 }
 
+.adminButtonWhatsApp {
+  background: #18a558;
+  color: #fff;
+  min-height: 36px;
+  padding: 8px 12px;
+}
+
+.adminButtonWhatsApp:hover {
+  background: #128343;
+}
+
+.adminShiftBatch {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  min-width: 240px;
+}
+
+.adminShiftBatch select {
+  border: 1px solid #d9deea;
+  border-radius: 8px;
+  font: inherit;
+  min-height: 38px;
+  padding: 8px 10px;
+  width: 150px;
+}
+
+.adminShiftBatch .adminButton {
+  min-height: 38px;
+  padding: 8px 12px;
+}
+
 .adminTableWrap {
   overflow-x: auto;
 }
@@ -605,7 +699,7 @@
   background: #fff4d6;
   color: #7a4d00;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   padding: 5px 9px;
   white-space: nowrap;
 }
@@ -623,7 +717,7 @@
   color: #172033;
   display: inline-flex;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   padding: 5px 8px;
 }
 
@@ -657,7 +751,7 @@
   display: block;
   color: #111827;
   font-size: 28px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .adminIcon {
@@ -694,7 +788,7 @@
 
 .adminPremiumCard strong {
   font-size: 18px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .adminPremiumCard p {
@@ -710,7 +804,7 @@
   border-radius: 10px;
   color: #210008;
   cursor: pointer;
-  font-weight: 900;
+  font-weight: 700;
   justify-self: center;
   min-height: 42px;
   padding: 10px 18px;
@@ -737,7 +831,7 @@
   display: inline-flex;
   font-size: 11px;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
   height: 18px;
   justify-content: center;
   position: absolute;
@@ -750,7 +844,7 @@
   align-items: center;
   color: #210008;
   display: inline-flex;
-  font-weight: 800;
+  font-weight: 700;
   gap: 8px;
 }
 
@@ -793,7 +887,7 @@
 .adminAnalyticsCard__head h3 {
   color: #210008;
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 700;
   margin: 0 0 4px;
 }
 
@@ -811,7 +905,7 @@
   color: #210008;
   cursor: pointer;
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 700;
   min-height: 38px;
   padding: 9px 14px;
 }
@@ -841,14 +935,14 @@
   color: #210008;
   display: block;
   font-size: 22px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .adminMiniStats small {
   color: #0a8f35;
   display: block;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   margin-top: 8px;
 }
 
@@ -871,7 +965,7 @@
   color: #75666a;
   display: grid;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   grid-template-columns: repeat(7, 1fr);
   padding: 0 6px 6px;
   text-align: center;
@@ -904,7 +998,7 @@
   color: #210008;
   display: block;
   font-size: 14px;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.35;
 }
 
@@ -948,7 +1042,7 @@
   color: #210008;
   display: block;
   font-size: 16px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .adminMotivationBanner p {
@@ -986,7 +1080,7 @@
   margin: 0 0 8px;
   color: #f0a500;
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
@@ -1014,7 +1108,7 @@
 .adminLoginForm label span {
   color: #1f2937;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .adminLoginForm input {
