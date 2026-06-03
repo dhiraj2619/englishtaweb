@@ -20,8 +20,17 @@ iframe[title*="Chat"] {
 /* Home learner struggle section */
 .englishtaStruggleSection {
   background:
-    radial-gradient(circle at top left, rgba(254, 182, 12, 0.26) 0 70px, rgba(254, 182, 12, 0.1) 71px 150px, transparent 151px),
-    radial-gradient(circle at bottom right, rgba(254, 182, 12, 0.16) 0 110px, transparent 111px),
+    radial-gradient(
+      circle at top left,
+      rgba(254, 182, 12, 0.26) 0 70px,
+      rgba(254, 182, 12, 0.1) 71px 150px,
+      transparent 151px
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(254, 182, 12, 0.16) 0 110px,
+      transparent 111px
+    ),
     #fffaf0;
   overflow: hidden;
   padding: 84px 0 78px;
@@ -288,12 +297,14 @@ iframe[title*="Chat"] {
     justify-self: center;
     max-width: 360px;
   }
-
 }
 
 @media (max-width: 760px) {
   .englishtaStruggleSection {
     padding: 58px 0;
+  }
+  .englishtaAboutActions {
+    justify-content: center;
   }
 
   .englishtaStruggleCards,
@@ -324,8 +335,16 @@ iframe[title*="Chat"] {
 
 .englishtaSolutionSection {
   background:
-    radial-gradient(circle at 50% 8%, rgba(254, 182, 12, 0.08), transparent 34%),
-    radial-gradient(circle at 16% 20%, rgba(255, 255, 255, 0.05), transparent 22%),
+    radial-gradient(
+      circle at 50% 8%,
+      rgba(254, 182, 12, 0.08),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 16% 20%,
+      rgba(255, 255, 255, 0.05),
+      transparent 22%
+    ),
     linear-gradient(135deg, #160006 0%, #25000c 48%, #100003 100%);
   min-height: 100vh;
   overflow: hidden;
@@ -458,17 +477,23 @@ iframe[title*="Chat"] {
   animation: englishtaTypeReveal 1s steps(12, end) forwards;
 }
 
-.englishtaSolutionSection.is-typing .englishtaSolutionSection__typeLine[data-line="1"] > span {
+.englishtaSolutionSection.is-typing
+  .englishtaSolutionSection__typeLine[data-line="1"]
+  > span {
   animation-delay: 0.62s;
   animation-duration: 0.8s;
 }
 
-.englishtaSolutionSection.is-typing .englishtaSolutionSection__typeLine[data-line="2"] > span {
+.englishtaSolutionSection.is-typing
+  .englishtaSolutionSection__typeLine[data-line="2"]
+  > span {
   animation-delay: 1.18s;
   animation-duration: 1.08s;
 }
 
-.englishtaSolutionSection.is-typing .englishtaSolutionSection__typeLine[data-line="3"] > span {
+.englishtaSolutionSection.is-typing
+  .englishtaSolutionSection__typeLine[data-line="3"]
+  > span {
   animation-delay: 2s;
   animation-duration: 0.86s;
 }
@@ -484,25 +509,35 @@ iframe[title*="Chat"] {
   width: 0.05em;
 }
 
-.englishtaSolutionSection.is-typing .englishtaSolutionSection__typeLine > span::after {
+.englishtaSolutionSection.is-typing
+  .englishtaSolutionSection__typeLine
+  > span::after {
   animation: englishtaCaretBlink 0.6s steps(1, end) infinite;
   opacity: 1;
 }
 
-.englishtaSolutionSection.is-typing .englishtaSolutionSection__typeLine[data-line="0"] > span::after {
+.englishtaSolutionSection.is-typing
+  .englishtaSolutionSection__typeLine[data-line="0"]
+  > span::after {
   animation-delay: 0s;
   animation-duration: 0.6s;
 }
 
-.englishtaSolutionSection.is-typing .englishtaSolutionSection__typeLine[data-line="1"] > span::after {
+.englishtaSolutionSection.is-typing
+  .englishtaSolutionSection__typeLine[data-line="1"]
+  > span::after {
   animation-delay: 0.62s;
 }
 
-.englishtaSolutionSection.is-typing .englishtaSolutionSection__typeLine[data-line="2"] > span::after {
+.englishtaSolutionSection.is-typing
+  .englishtaSolutionSection__typeLine[data-line="2"]
+  > span::after {
   animation-delay: 1.18s;
 }
 
-.englishtaSolutionSection.is-typing .englishtaSolutionSection__typeLine[data-line="3"] > span::after {
+.englishtaSolutionSection.is-typing
+  .englishtaSolutionSection__typeLine[data-line="3"]
+  > span::after {
   animation-delay: 2s;
 }
 
@@ -3514,11 +3549,13 @@ iframe[title*="Chat"] {
 }
 
 .englishtaHeroShade--ready .englishtaHeroShade__proof {
-  animation: englishtaHeroRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.06s forwards;
+  animation: englishtaHeroRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.06s
+    forwards;
 }
 
 .englishtaHeroShade--ready .englishtaHeroShade__headline {
-  animation: englishtaHeadlineDrop 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.28s forwards;
+  animation: englishtaHeadlineDrop 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.28s
+    forwards;
 }
 
 .englishtaHeroShade h1 span {
@@ -3540,7 +3577,8 @@ iframe[title*="Chat"] {
 }
 
 .englishtaHeroShade--ready .englishtaHeroShade__tagline {
-  animation: englishtaHeroRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.98s forwards;
+  animation: englishtaHeroRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.98s
+    forwards;
 }
 
 .englishtaHeroShade__actions {
@@ -3552,7 +3590,8 @@ iframe[title*="Chat"] {
 }
 
 .englishtaHeroShade--ready .englishtaHeroShade__actions {
-  animation: englishtaHeroRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) 1.34s forwards;
+  animation: englishtaHeroRise 0.72s cubic-bezier(0.16, 1, 0.3, 1) 1.34s
+    forwards;
 }
 
 .englishtaHeroShade__cta {
@@ -3592,11 +3631,13 @@ iframe[title*="Chat"] {
 }
 
 .englishtaHeroShade--ready .englishtaHeroShade__cta--primary {
-  animation: englishtaHeroRise 0.64s cubic-bezier(0.16, 1, 0.3, 1) 1.45s forwards;
+  animation: englishtaHeroRise 0.64s cubic-bezier(0.16, 1, 0.3, 1) 1.45s
+    forwards;
 }
 
 .englishtaHeroShade--ready .englishtaHeroShade__cta--secondary {
-  animation: englishtaHeroRise 0.64s cubic-bezier(0.16, 1, 0.3, 1) 1.67s forwards;
+  animation: englishtaHeroRise 0.64s cubic-bezier(0.16, 1, 0.3, 1) 1.67s
+    forwards;
 }
 
 .englishtaHeroShade__cta:hover {
@@ -4900,10 +4941,25 @@ iframe[title*="Chat"] {
   .englishtaTrainingAreas {
     padding: 76px 0 92px;
   }
-
+  .englishtaStruggleSection__head h2 {
+    font-size: 28px;
+    line-height: 0.99;
+  }
+  .englishtaStruggleSection__head p {
+    font-size: 16px;
+    line-height: 1.45;
+  }
+  .englishtaStruggleCard h3 {
+    font-size: 19px;
+  }
   .englishtaTrainingAreas::before,
   .englishtaTrainingAreas::after {
     display: none;
+  }
+  .englishtaSolutionSection h2 {
+    font-size: clamp(49px, 5.5vw, 90px);
+    font-weight: 800;
+    line-height: 1.2;
   }
 
   .englishtaTrainingAreas__header h2 {
@@ -5121,14 +5177,16 @@ iframe[title*="Chat"] {
 }
 
 .englishtaCourseCard__image--feature::after {
-  background: linear-gradient(180deg, rgba(15, 11, 18, 0.08) 0%, rgba(15, 11, 18, 0.2) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(15, 11, 18, 0.08) 0%,
+    rgba(15, 11, 18, 0.2) 100%
+  );
   content: "";
   inset: 0;
   pointer-events: none;
   position: absolute;
 }
-
-
 
 .englishtaCourseCard__badge {
   background: #feb60c !important;
@@ -5194,7 +5252,7 @@ iframe[title*="Chat"] {
   color: #101010;
   font-size: 20px;
   font-weight: 700;
-  font-family:Nunito,sans-serif;
+  font-family: Nunito, sans-serif;
   line-height: 1.12;
   margin: 0;
 }
@@ -5316,9 +5374,8 @@ iframe[title*="Chat"] {
   color: #1d1200;
   font-weight: 700;
   gap: 10px;
-  padding: 7px 18px ;
+  padding: 7px 18px;
   min-height: 20px;
-
 }
 
 .englishtaCourseCard__button:hover {
@@ -5531,8 +5588,16 @@ iframe[title*="Chat"] {
 
 .englishtaSuccessStories__panel {
   background:
-    radial-gradient(circle at 100% 100%, rgba(254, 182, 12, 0.24), transparent 17%),
-    radial-gradient(circle at 8% 14%, rgba(255, 255, 255, 0.08), transparent 28%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(254, 182, 12, 0.24),
+      transparent 17%
+    ),
+    radial-gradient(
+      circle at 8% 14%,
+      rgba(255, 255, 255, 0.08),
+      transparent 28%
+    ),
     linear-gradient(135deg, #160006 0%, #3b0014 48%, #160006 100%);
   border-radius: 18px;
   box-shadow: 0 24px 60px rgba(22, 0, 6, 0.18);
@@ -5547,8 +5612,12 @@ iframe[title*="Chat"] {
 }
 
 .englishtaSuccessStories__panel::after {
-  background:
-    repeating-radial-gradient(ellipse at bottom right, transparent 0 18px, rgba(254, 182, 12, 0.16) 19px 20px, transparent 21px 34px);
+  background: repeating-radial-gradient(
+    ellipse at bottom right,
+    transparent 0 18px,
+    rgba(254, 182, 12, 0.16) 19px 20px,
+    transparent 21px 34px
+  );
   bottom: -90px;
   content: "";
   height: 240px;
@@ -7985,7 +8054,11 @@ iframe[title*="Chat"] {
 .englishtaAboutProfile__focus {
   align-content: start;
   background:
-    radial-gradient(circle at 100% 0%, rgba(254, 182, 12, 0.22), transparent 34%),
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(254, 182, 12, 0.22),
+      transparent 34%
+    ),
     #160006;
   color: #fff;
   display: grid;
@@ -10080,7 +10153,22 @@ iframe[title*="Chat"] {
   }
 
   .englishtaCourseCard__image--feature {
-    min-height: 300px;
+    min-height: 200px;
+  }
+  .englishtaCourseCard__body {
+    padding: 18px;
+  }
+  .englishtaCourseCard__body--feature h4 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.12;
+  }
+  .englishtaCourseCard__price strong {
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .englishtaCourseCard__priceRow {
+    grid-template-columns: 1fr 1fr !important;
   }
 
   .englishtaCourseCard__perks {
@@ -10088,7 +10176,7 @@ iframe[title*="Chat"] {
   }
 
   .englishtaCourseCard__priceRow {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .englishtaCourseCard__students {
@@ -10369,7 +10457,7 @@ iframe[title*="Chat"] {
     width: 50px;
   }
   .td_fs_48 {
-    font-size: 28px !important;
+    font-size: 24px !important;
   }
 
   .englishtaHeroShade__feature strong {
@@ -10851,6 +10939,12 @@ textarea {
 
   .td_preloader_video {
     height: 40vh;
+  }
+  .englishtaCourseModeTabs button {
+    padding: 7px 18px;
+    font-family: Nunito, sans-serif;
+    font-size: 10.1px;
+    font-weight: 700;
   }
 }
 
@@ -27500,7 +27594,11 @@ body {
 
 .englishtaJoinedCoursesHero {
   background:
-    radial-gradient(circle at 78% 8%, rgba(254, 182, 12, 0.28), transparent 28%),
+    radial-gradient(
+      circle at 78% 8%,
+      rgba(254, 182, 12, 0.28),
+      transparent 28%
+    ),
     linear-gradient(135deg, #160006, #211006);
   color: #fff;
   padding: 150px 0 82px;
@@ -27783,7 +27881,11 @@ body {
 
 .englishtaPolicyHero {
   background:
-    radial-gradient(circle at 76% 12%, rgba(254, 182, 12, 0.24), transparent 30%),
+    radial-gradient(
+      circle at 76% 12%,
+      rgba(254, 182, 12, 0.24),
+      transparent 30%
+    ),
     linear-gradient(135deg, #160006, #211006);
   color: #fff;
   padding: 150px 0 76px;
@@ -28185,4 +28287,46 @@ body {
     margin-left: 0;
     margin-top: 10px;
   }
+}
+
+@media (max-width: 500px) {
+  .td_preloader_video {
+    height: 24vh;
+  }
+  .englishtaHelpsSection p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .englishtaHelpsSection h2 {
+    font-size: clamp(30px, 1vw, 51px);
+    font-weight: 700;
+    line-height: 1.05;
+  }
+  .englishtaHelpsSection li {
+    padding: 16px 22px;
+    font-family: Nunito, sans-serif;
+    font-size: 14px;
+  }
+  .englishtaHelpsSection__link {
+    min-width: 242px;
+    min-height: 50px;
+    margin: 16px auto 0;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      box-shadow 0.2s,
+      color 0.2s,
+      transform 0.2s;
+    display: inline-flex;
+    position: relative;
+    box-shadow: 8px 8px #160006ad;
+  }
+  .englishtaWhatsAppReviews__grid {
+    grid-template-columns: 1fr 1fr !important;
+    max-width: 374px !important;
+}
+.td_footer_text_widget.td_fs_18 img{
+  height: 130px !important;
+}
 }

@@ -91,7 +91,7 @@ const rawPageHtml = `
                
               </div>
             </div>
-            <div className="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
+            <div className="col-lg-6 wow fadeInUp text-center text-lg-start" data-wow-duration="1s" data-wow-delay="0.3s">
               <div className="td_section_heading td_style_1 td_mb_30">
                 
                 <h2 className="td_section_title td_fs_48 mb-0">Online English Teaching Platform for Spoken English and Confidence</h2>
