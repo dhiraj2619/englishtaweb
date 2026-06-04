@@ -2212,8 +2212,8 @@ const HomeBanner = ({ isReady = false }) => {
     >
       <div className="englishtaHeroShade__content wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
         <p className="englishtaHeroShade__proof">Trusted by 10,000+ learners</p>
-        <h1 className="englishtaHeroShade__headline">
-          From &apos;I Understand English&apos; to &apos;I Can Speak English.&apos;
+        <h1 className="englishtaHeroShade__headline my-5">
+          <span className="fs-4">FROM</span>  &apos;I Understand English&apos; <span className="fs-4">TO</span>   &apos;I Can Speak English.&apos;
         </h1>
         <p className="englishtaHeroShade__tagline">
           Confidence-focused English communication courses for learners who hesitate while speaking.
@@ -2221,14 +2221,14 @@ const HomeBanner = ({ isReady = false }) => {
         <div className="englishtaHeroShade__actions">
           <button
             type="button"
-            className="englishtaHeroShade__cta englishtaHeroShade__cta--primary"
+            className="englishtaHeroShade__cta englishtaHeroShade__cta--primary mt-4"
             onClick={handleStartJourney}
           >
             Start Your Journey
           </button>
-          <a href="/webinar" className="englishtaHeroShade__cta englishtaHeroShade__cta--secondary">
+          {/* <a href="/webinar" className="englishtaHeroShade__cta englishtaHeroShade__cta--secondary">
             Join upcoming webinar
-          </a>
+          </a> */}
         </div>
       </div>
 
@@ -2281,7 +2281,7 @@ const LearnerStruggleSection = () => (
         data-wow-duration="1s"
         data-wow-delay="0.1s"
       >
-        <span>The Problem</span>
+        <span> Problem</span>
         <h2 id="learner-struggle-title">
           Why Learners Struggle to <strong>Speak English</strong>
         </h2>
@@ -2309,7 +2309,7 @@ const LearnerStruggleSection = () => (
               <h3>{card.title}</h3>
             </div>
             <p>{card.text}</p>
-          
+
           </article>
         ))}
       </div>
@@ -2374,7 +2374,7 @@ const EnglishtaSolutionSection = () => {
       >
         <div className="container">
           <div className="englishtaSolutionSection__content wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
-            <span className="englishtaSolutionSection__pill">The Solution</span>
+            <span className="englishtaSolutionSection__pill">Solution</span>
             <h2 id="englishta-solution-title" aria-label="Englishta helps you to speak better English">
               {solutionHeadlineLines.map((line, index) => {
                 const Tag = line.tag;
@@ -2575,7 +2575,7 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                   <article className="englishtaCourseCard englishtaCourseCard--feature" key={course._id ?? slug}>
                     <div className="englishtaCourseCard__image englishtaCourseCard__image--feature">
                       <img src={courseImage} alt={course.name} />
-                    
+
                     </div>
 
                     <div className="englishtaCourseCard__body englishtaCourseCard__body--feature">
@@ -4116,8 +4116,9 @@ const Home = () => {
       <EnglishtaSolutionSection />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeCourseCatalog) }} />
       <HomeSuccessStoriesSection />
+       <HowEnglishtaHelpsSection />
       <HomeCourseCatalog courses={courses} loading={coursesLoading} error={coursesError} />
-      <HowEnglishtaHelpsSection />
+     
 
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenCourseCatalogAndAnywhere) }} />
       <HomeWebinarSection webinars={webinars} />

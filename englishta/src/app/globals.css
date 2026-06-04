@@ -3533,9 +3533,9 @@ iframe[title*="Chat"] {
 
 .englishtaHeroShade h1 {
   color: #fff;
-  font-family: Nunito, sans-serif;
+  font-family: var(--heading-font);
   font-size: clamp(48px, 5vw, 74px);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0;
   line-height: 1.12;
   margin: 0 0 34px;
