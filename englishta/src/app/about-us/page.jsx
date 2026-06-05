@@ -64,14 +64,7 @@ const faqs = [
   ["How can I join a batch?", "You can book a free demo class and our team will help you choose the right batch."],
 ];
 
-const whyEnglishtaFeatures = [
-  ["fa-solid fa-comments", "Interaction", "Students do not sit silently - they talk, respond, and engage throughout the session."],
-  ["fa-solid fa-microphone-lines", "Speaking Practice", "Every class includes real speaking activities, not just theory."],
-  ["fa-solid fa-bolt", "Confidence Building", "Learners slowly remove fear and start speaking without hesitation."],
-  ["fa-regular fa-face-smile", "Humour & Enjoyment", "Light humour makes learning stress-free and enjoyable."],
-  ["fa-solid fa-hands-holding-circle", "Comfort Zone Learning", "No pressure, no fear - learners feel safe to try and improve."],
-  ["fa-solid fa-people-arrows", "Participation", "Every student gets a chance to speak - not just observe."],
-];
+
 
 const whyEnglishtaPoints = [
   "Speak Naturally",
@@ -274,61 +267,7 @@ const AboutUsPage = () => {
           </div>
         </section>
 
-        <section className="englishtaWhyChoose" id="whychooseenglishta">
-          <div className="container">
-            <div className="englishtaWhyChoose__intro wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.1s">
-              {/* <p className="englishtaAboutEyebrow">Why Englishta?</p> */}
-              <h2>
-                Why <span>Englishta?</span>
-              </h2>
-              <p>
-                At Englishta, learning English is not just about studying rules - it is about experiencing the
-                language.
-              </p>
-              <p>
-                Your class becomes a place where learners do not just listen. They speak, interact, enjoy, and
-                grow in confidence.
-              </p>
-            </div>
-
-            <div className="englishtaWhyChoose__features" aria-label="What makes Englishta different">
-              {whyEnglishtaFeatures.map(([icon, title, text], index) => (
-                <article
-                  className="wow fadeInUp"
-                  data-aos="fade-up"
-                  data-wow-duration="1s"
-                  data-wow-delay={`${0.12 + index * 0.05}s`}
-                  key={title}
-                >
-                  <i className={icon} aria-hidden="true" />
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </article>
-              ))}
-            </div>
-
-            <div className="englishtaWhyChoose__result wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.15s">
-              <div>
-                <p className="englishtaAboutEyebrow">The Real Result</p>
-                <h3>Learning Feels Alive</h3>
-                <p>
-                  At Englishta, learners do not remember just what was taught. They remember the experience of
-                  learning. Because when learning feels alive, English becomes natural.
-                </p>
-              </div>
-              <ul>
-                {whyEnglishtaPoints.map((point) => (
-                  <li key={point}><i className="fa-solid fa-check" aria-hidden="true" />{point}</li>
-                ))}
-              </ul>
-            </div>
-
-            <blockquote className="englishtaWhyChoose__quote wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.18s">
-              <p>You do not just learn English at Englishta - you start living it with confidence.</p>
-              <strong>Simple teaching that finally makes English understandable.</strong>
-            </blockquote>
-          </div>
-        </section>
+      
 
         <section className="englishtaAboutFaq">
           <div className="container">

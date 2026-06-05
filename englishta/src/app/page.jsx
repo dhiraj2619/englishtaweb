@@ -93,7 +93,7 @@ const rawPageHtml = `
             </div>
             <div className="col-lg-6 wow fadeInUp text-center text-lg-start" data-wow-duration="1s" data-wow-delay="0.3s">
               <div className="td_section_heading td_style_1 td_mb_30">
-                
+                <p className="englishtaAboutEyebrow">What is Englishta?</p>
                 <h2 className="td_section_title td_fs_48 mb-0">Online English Teaching Platform for Spoken English and Confidence</h2>
                 <p className="td_section_subtitle td_fs_18 mb-0">Englishta is a trusted online English speaking platform helping students, job seekers, and working professionals improve spoken English, interview communication, pronunciation, vocabulary, and daily fluency through practical online and guided learning sessions.</p>
               </div>
@@ -1339,7 +1339,7 @@ const rawPageHtml = `
           <div className="td_features_content td_white_bg td_radius_10 wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
             <div className="td_section_heading td_style_1">
               <p className="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">CAMPUS</p>
-              <h2 className="td_section_title td_fs_48 mb-0">Learn English From Anywhere</h2>
+              <h2 className="td_section_title td_fs_48 mb-0">The Solution is</h2>
             </div>
             <div className="td_height_50 td_height_lg_50"></div>
             <ul className="td_feature_list td_mp_0">
@@ -2155,6 +2155,20 @@ const getDemoLectureEmbedSrc = (embedCode = "") => {
 const cleanLegacyHomeHtml = (html = "") =>
   html.replace(/_*ENGLISHTA_[A-Z_]+_*/g, "");
 
+const HOME_PRELOADER_SESSION_KEY = "englishtaHomePreloaderPlayed";
+
+const shouldPlayHomePreloader = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  try {
+    return window.sessionStorage.getItem(HOME_PRELOADER_SESSION_KEY) !== "true";
+  } catch {
+    return false;
+  }
+};
+
 const Preloader = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
   const handleComplete = useCallback(() => {
@@ -2210,25 +2224,58 @@ const HomeBanner = ({ isReady = false }) => {
       className={isReady ? "englishtaHeroShade englishtaHeroShade--ready" : "englishtaHeroShade"}
       aria-label="Online English speaking course"
     >
-      <div className="englishtaHeroShade__content wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
-        <p className="englishtaHeroShade__proof">Trusted by 10,000+ learners</p>
-        <h1 className="englishtaHeroShade__headline my-5">
-          <span className="fs-4">FROM</span>  &apos;I Understand English&apos; <span className="fs-4">TO</span>   &apos;I Can Speak English.&apos;
-        </h1>
-        <p className="englishtaHeroShade__tagline">
-          Confidence-focused English communication courses for learners who hesitate while speaking.
-        </p>
-        <div className="englishtaHeroShade__actions">
-          <button
-            type="button"
-            className="englishtaHeroShade__cta englishtaHeroShade__cta--primary mt-4"
-            onClick={handleStartJourney}
-          >
-            Start Your Journey
-          </button>
-          {/* <a href="/webinar" className="englishtaHeroShade__cta englishtaHeroShade__cta--secondary">
-            Join upcoming webinar
-          </a> */}
+      <div className="englishtaHeroShade__inner">
+        <div className="englishtaHeroShade__content wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
+          <p className="englishtaHeroShade__proof">
+            <i className="fa-solid fa-star" aria-hidden="true" />
+            Trusted by 10,000+ learners
+          </p>
+          <h1 className="englishtaHeroShade__headline">
+            From &apos;I <strong>Understand</strong> English&apos;
+            <span>to &apos;I Can <strong>Speak</strong> English.&apos;</span>
+          </h1>
+          <p className="englishtaHeroShade__tagline">
+            Confidence-focused English communication courses for learners who hesitate while speaking.
+          </p>
+          <div className="englishtaHeroShade__actions">
+            <button
+              type="button"
+              className="englishtaHeroShade__cta englishtaHeroShade__cta--primary"
+              onClick={handleStartJourney}
+            >
+              Start Your Journey
+              <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+            </button>
+            <a href="/courses" className="englishtaHeroShade__cta englishtaHeroShade__cta--secondary">
+              Explore Courses
+            </a>
+            <div className="englishtaHeroShade__learners" aria-label="Learner community">
+              <img src="/assets/images/profilesinhero.png" alt="Englishta learners" />
+              <p>Join 10,000+ confident learners</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="englishtaHeroShade__batchBoard">
+          <div className="englishtaHeroShade__connector" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          {[
+            ["fa-solid fa-user", "Beginner Batch", "Build your basics"],
+            ["fa-solid fa-chart-line", "Intermediate Batch", "Improve your fluency"],
+            ["fa-solid fa-rocket", "Advanced Batch", "Speak with confidence"],
+          ].map(([icon, title, text]) => (
+            <a href="/courses" className="englishtaHeroShade__batchCard" key={title}>
+              <i className={icon} aria-hidden="true" />
+              <span>
+                <strong>{title}</strong>
+                <small>{text}</small>
+              </span>
+              <i className="fa-solid fa-chevron-right" aria-hidden="true" />
+            </a>
+          ))}
         </div>
       </div>
 
@@ -2687,87 +2734,118 @@ const HomeSuccessStoriesSection = () => {
   return (
     <section className="englishtaSuccessStories" aria-label="Englishta learner success numbers" ref={sectionRef}>
       <div className="container">
-        <div className="englishtaSuccessStories__panel wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.1s">
-          <div className="englishtaSuccessStories__intro">
-            <h2>
-              Thousands Of <span>Learners,</span> Countless Success Stories
-            </h2>
-            <p>Join a growing community of English learners achieving real results every day.</p>
+        <div className="englishtaSuccessStories__scene">
+          <div className="englishtaSuccessStories__mascotWrap wow fadeInLeft" data-aos="fade-right" data-wow-duration="1s" data-wow-delay="0.05s">
+            <img
+              src="/assets/images/tukohappycounters.png"
+              alt="Happy Englishta mascot"
+              className="englishtaSuccessStories__mascot"
+            />
+            <span className="englishtaSuccessStories__connector" aria-hidden="true" />
           </div>
+          <div className="englishtaSuccessStories__panel wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.1s">
+            <div className="englishtaSuccessStories__intro">
+              <h2>
+                Thousands Of <span>Learners,</span> Countless Success Stories
+              </h2>
+              <p>Join a growing community of English learners achieving real results every day.</p>
+            </div>
 
-          <div className="englishtaSuccessStories__stats">
-            {successStats.map(([icon, value, suffix, label], index) => (
-              <article
-                className="wow fadeInUp"
-                data-aos="fade-up"
-                data-wow-duration="1s"
-                data-wow-delay={`${0.15 + index * 0.06}s`}
-                key={label}
-              >
-                <span className="englishtaSuccessStories__icon">
-                  <i className={icon} aria-hidden="true" />
-                  <span className="englishtaSuccessStories__orbit" aria-hidden="true">
-                    <span />
-                    <span />
+            <div className="englishtaSuccessStories__stats">
+              {successStats.map(([icon, value, suffix, label], index) => (
+                <article
+                  className="wow fadeInUp"
+                  data-aos="fade-up"
+                  data-wow-duration="1s"
+                  data-wow-delay={`${0.15 + index * 0.06}s`}
+                  key={label}
+                >
+                  <span className="englishtaSuccessStories__icon">
+                    <i className={icon} aria-hidden="true" />
+                    <span className="englishtaSuccessStories__orbit" aria-hidden="true">
+                      <span />
+                      <span />
+                    </span>
                   </span>
-                </span>
-                <strong>
-                  {counts[index].toLocaleString("en-IN")}
-                  {hasStarted ? suffix : ""}
-                </strong>
-                <p>{label}</p>
-              </article>
-            ))}
+                  <strong>
+                    {counts[index].toLocaleString("en-IN")}
+                    {hasStarted ? suffix : ""}
+                  </strong>
+                  <p>{label}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 };
+const whyEnglishtaFeatures = [
+  ["fa-solid fa-comments", "Interaction", "Students do not sit silently - they talk, respond, and engage throughout the session."],
+  ["fa-solid fa-microphone-lines", "Speaking Practice", "Every class includes real speaking activities, not just theory."],
+  ["fa-solid fa-bolt", "Confidence Building", "Learners slowly remove fear and start speaking without hesitation."],
+  ["fa-regular fa-face-smile", "Humour & Enjoyment", "Light humour makes learning stress-free and enjoyable."],
+  ["fa-solid fa-hands-holding-circle", "Comfort Zone Learning", "No pressure, no fear - learners feel safe to try and improve."],
+  ["fa-solid fa-people-arrows", "Participation", "Every student gets a chance to speak - not just observe."],
+];
 
 const HowEnglishtaHelpsSection = () => (
-  <section className="englishtaHelpsSection" aria-labelledby="englishta-helps-title">
-    <div className="container">
-      <div
-        className="englishtaHelpsSection__copy wow fadeInUp"
-        data-aos="fade-up"
-        data-wow-duration="1s"
-        data-wow-delay="0.1s"
-      >
-        <p className="englishtaHelpsSection__eyebrow">Why Englishta?</p>
-        <h2 id="englishta-helps-title">
-          How Englishta <span>Helps You</span>
-        </h2>
-        <p>
-          At Englishta, we understand the real problems learners face because we have guided thousands
-          of students from the same background.
-        </p>
-        <p>Our approach focuses on:</p>
-        <ul data-aos="fade-up">
-          <li>Practical speaking practice</li>
-          <li>Confidence building</li>
-          <li>Simple and natural English</li>
-          <li>Friendly learning atmosphere</li>
-          <li>Real-life communication skills</li>
-        </ul>
-        <p>
-          We do not believe in making learners afraid of grammar. We believe in helping learners speak
-          comfortably, clearly, and confidently.
-        </p>
-        <p>
-          No matter whether you are a beginner, a student, a job seeker, an employee, or someone who lost
-          confidence in English earlier, Englishta is here to guide you step by step.
-        </p>
-        <p>
-          You can improve your English. You can speak confidently. And Englishta will help you achieve it.
-        </p>
-        <Link href="/about-us#whychooseenglishta" className="englishtaHelpsSection__link" data-aos="fade-up">
-          Why Choose Englishta
-          <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-        </Link>
-      </div>
-    </div>
-  </section>
+   <section className="englishtaWhyChoose" id="whychooseenglishta">
+          <div className="container">
+            <div className="englishtaWhyChoose__intro wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.1s">
+              {/* <p className="englishtaAboutEyebrow">Why Englishta?</p> */}
+              <h2>
+                Why <span>Englishta?</span>
+              </h2>
+              <p>
+                At Englishta, learning English is not just about studying rules - it is about experiencing the
+                language.
+              </p>
+              <p>
+                Your class becomes a place where learners do not just listen. They speak, interact, enjoy, and
+                grow in confidence.
+              </p>
+            </div>
+
+            <div className="englishtaWhyChoose__features" aria-label="What makes Englishta different">
+              {whyEnglishtaFeatures.map(([icon, title, text], index) => (
+                <article
+                  className="wow fadeInUp"
+                  data-aos="fade-up"
+                  data-wow-duration="1s"
+                  data-wow-delay={`${0.12 + index * 0.05}s`}
+                  key={title}
+                >
+                  <i className={icon} aria-hidden="true" />
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </article>
+              ))}
+            </div>
+
+            {/* <div className="englishtaWhyChoose__result wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.15s">
+              <div>
+                <p className="englishtaAboutEyebrow">The Real Result</p>
+                <h3>Learning Feels Alive</h3>
+                <p>
+                  At Englishta, learners do not remember just what was taught. They remember the experience of
+                  learning. Because when learning feels alive, English becomes natural.
+                </p>
+              </div>
+              <ul>
+                {whyEnglishtaPoints.map((point) => (
+                  <li key={point}><i className="fa-solid fa-check" aria-hidden="true" />{point}</li>
+                ))}
+              </ul>
+            </div>
+
+            <blockquote className="englishtaWhyChoose__quote wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.18s">
+              <p>You do not just learn English at Englishta - you start living it with confidence.</p>
+              <strong>Simple teaching that finally makes English understandable.</strong>
+            </blockquote> */}
+          </div>
+        </section>
 );
 
 const videoCards = [
@@ -3082,8 +3160,8 @@ const LearningAnywhereSection = () => {
       <div className="container">
         <div className="englishtaAnywhereSection__heading">
           <h2>
-            Learn English
-            <span>From Anywhere</span>
+             The Solution is
+            <span>Englishta</span>
           </h2>
           <p>
             Live classes, speaking practice, and expert feedback to help you
@@ -3119,6 +3197,12 @@ const LearningAnywhereSection = () => {
               </article>
             ))}
           </div>
+        </div>
+        <div className="englishtaAnywhereSection__action wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+          <a href="/courses" className="englishtaAnywhereSection__button">
+            Join Course Now
+            <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+          </a>
         </div>
       </div>
     </section>
@@ -3999,8 +4083,15 @@ const Home = () => {
   const [courses, setCourses] = useState([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
   const [coursesError, setCoursesError] = useState("");
-  const [isHeroReady, setIsHeroReady] = useState(false);
+  const [shouldShowPreloader, setShouldShowPreloader] = useState(shouldPlayHomePreloader);
+  const [isHeroReady, setIsHeroReady] = useState(() => !shouldPlayHomePreloader());
   const handlePreloaderComplete = useCallback(() => {
+    try {
+      window.sessionStorage.setItem(HOME_PRELOADER_SESSION_KEY, "true");
+    } catch {
+      // Keep navigation smooth even if sessionStorage is unavailable.
+    }
+    setShouldShowPreloader(false);
     setIsHeroReady(true);
   }, []);
   const {
@@ -4109,11 +4200,12 @@ const Home = () => {
 
   return (
     <>
-      <Preloader onComplete={handlePreloaderComplete} />
+      {shouldShowPreloader ? <Preloader onComplete={handlePreloaderComplete} /> : null}
       <Navbar />
       <HomeBanner isReady={isHeroReady} />
       <LearnerStruggleSection />
-      <EnglishtaSolutionSection />
+      {/* <EnglishtaSolutionSection /> */}
+         <LearningAnywhereSection />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeCourseCatalog) }} />
       <HomeSuccessStoriesSection />
        <HowEnglishtaHelpsSection />
@@ -4123,7 +4215,7 @@ const Home = () => {
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenCourseCatalogAndAnywhere) }} />
       <HomeWebinarSection webinars={webinars} />
       {/* <MobileAppPromo /> */}
-      <LearningAnywhereSection />
+   
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenAnywhereAndTraining) }} />
       <WhatsAppReviewsShowcase reviews={whatsappReviews} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: blogTipsSectionHtml }} />

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -193,6 +193,13 @@ const CoursesPageContent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [diagnostics, setDiagnostics] = useState(null);
+  const handleTestSkills = useCallback(() => {
+    window.dispatchEvent(
+      new CustomEvent("englishta:protected-navigation", {
+        detail: { href: "/student-profile" },
+      }),
+    );
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -294,15 +301,30 @@ const CoursesPageContent = () => {
       <main className="englishtaCoursesPage englishtaCoursesPage--catalog">
         <section className="englishtaCoursesHero">
           <div className="container">
-            <p>English Speaking Courses</p>
-            <h1>
-              Choose the Right English Course for Your Confidence
-            </h1>
-            <div className="englishtaCoursesHero__stats" aria-label="Course highlights">
-              <span>Live Online Sessions</span>
-              <span>Marathi + Hindi + English</span>
-              <span>Expert Tutor Feedback</span>
+            <div className="englishtaCoursesHero__copy">
+              <p>English Speaking Courses</p>
+              <h1>
+                Choose the Right English Course for Your Confidence
+              </h1>
+              <div className="englishtaCoursesHero__stats" aria-label="Course highlights">
+                <span>Live Online Sessions</span>
+                <span>Marathi + Hindi + English</span>
+                <span>Expert Tutor Feedback</span>
+              </div>
             </div>
+
+            <aside className="englishtaCoursesHero__skillCard wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
+              <span className="englishtaCoursesHero__skillIcon">
+                <i className="fa-solid fa-bullseye" aria-hidden="true" />
+              </span>
+              <p>Find Your Level</p>
+              <h2>Not sure which batch is right for you?</h2>
+              <span>Take a quick skill check and continue your learning journey with the right path.</span>
+              <button type="button" onClick={handleTestSkills}>
+                Test Your Skills
+                <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+              </button>
+            </aside>
           </div>
         </section>
 
