@@ -10197,12 +10197,11 @@ iframe[title*="Chat"] {
   }
 
   .englishtaSuccessStories__mascotWrap {
-    margin: 0 auto -10px;
-    max-width: 190px;
+    display: none;
   }
 
   .englishtaSuccessStories__mascot {
-    width: 180px;
+    display: none;
   }
 
   .englishtaSuccessStories__connector {
@@ -29066,7 +29065,7 @@ body {
 
   .englishtaHeroShade h1,
   .englishtaHeroShade__headline {
-    font-size: clamp(34px, 11vw, 48px);
+    font-size: clamp(34px, 7vw, 29px) !important;
     line-height: 1.12;
   }
 
