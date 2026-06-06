@@ -2557,8 +2557,20 @@ const getHomeCourseFees = (course) => {
     discounted: discountedPrice ? normalizeHomeCoursePrice(discountedPrice) : normalizeHomeCoursePrice(actualPrice),
   };
 };
+
+const getHomeJoinedCourseId = (joinedCourse) =>
+  joinedCourse?.course?._id || joinedCourse?.course || joinedCourse?._id || "";
+
+const isHomeUserEnrolledInCourse = (user, course) => {
+  if (!user || !course?._id || !Array.isArray(user.joinedCourses)) return false;
+
+  return user.joinedCourses.some((joinedCourse) => String(getHomeJoinedCourseId(joinedCourse)) === String(course._id));
+};
+
 const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
   const [activeMode, setActiveMode] = useState("live");
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const visibleCourses = useMemo(() => courses.filter((course) => course.visible !== "No"), [courses]);
   const activeCourses = useMemo(() => {
     const adminCourses = visibleCourses.filter((course) => course.courseMode === activeMode);
@@ -2569,6 +2581,37 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
 
     return adminCourses.length ? adminCourses : getHomeFallbackCourses();
   }, [activeMode, visibleCourses]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/auth/me", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) return null;
+        const payload = await response.json();
+        return payload?.user || null;
+      })
+      .then((user) => {
+        if (isMounted) {
+          setCurrentUser(user);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setCurrentUser(null);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsAuthLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section className="englishtaCourseCatalog englishtaHomeCourseCatalog" id="home-courses">
       <div className="container">
@@ -2620,7 +2663,13 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                 const slug = slugifyCourseName(course.name);
                 const fees = getHomeCourseFees(course);
                 const detailHref = course.isFallback ? "/contact-us" : `/course/${slug}`;
-                const actionHref = course.isFallback ? "/contact-us" : `/course/${slug}`;
+                const isEnrolled = isHomeUserEnrolledInCourse(currentUser, course);
+                const actionHref = isEnrolled ? "/my-progress" : detailHref;
+                const actionLabel = isAuthLoading
+                  ? "Checking..."
+                  : isEnrolled
+                    ? "View Progress"
+                    : "Join Now";
                 const courseLanguageLabel = course.languages.map((language) => homeLanguageLabels[language] || language).join(" + ");
                 const courseImage = getHomeCourseImage(course, index);
                 const hasFees = Boolean(fees?.discounted);
@@ -2666,7 +2715,7 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
 
                       <div className="englishtaCourseCard__actions">
                         <Link href={actionHref} className="englishtaCourseCard__button englishtaCourseCard__button--solid">
-                          Join Now
+                          {actionLabel}
                           <i className="fa-solid fa-arrow-right" aria-hidden="true" />
                         </Link>
                       </div>

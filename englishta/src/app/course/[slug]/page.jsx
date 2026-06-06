@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -103,6 +103,7 @@ const loadRazorpayCheckout = () =>
 
 const CourseDetailPage = () => {
   const { slug } = useParams();
+  const router = useRouter();
   const [courses, setCourses] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
@@ -114,6 +115,13 @@ const CourseDetailPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEnrolling, setIsEnrolling] = useState(false);
   const [enrollFeedback, setEnrollFeedback] = useState({ type: "", message: "" });
+  const [successModalContent, setSuccessModalContent] = useState({
+    eyebrow: "Course Lead Submitted",
+    title: "Thank you for your response",
+    message: "We have received your request and will contact you soon.",
+    actionLabel: "Close",
+    actionHref: "",
+  });
   const [submitError, setSubmitError] = useState("");
   const [form, setForm] = useState({
     firstName: "",
@@ -241,6 +249,11 @@ const CourseDetailPage = () => {
   function openEnrollModal() {
     if (isAuthLoading) return;
 
+    if (isCurrentUserEnrolled) {
+      router.push("/my-progress");
+      return;
+    }
+
     if (!isAuthLoading && !currentUser) {
       window.dispatchEvent(
         new CustomEvent("englishta:protected-navigation", {
@@ -286,6 +299,13 @@ const CourseDetailPage = () => {
       }
 
       closeJoinModal();
+      setSuccessModalContent({
+        eyebrow: "Course Lead Submitted",
+        title: "Thank you for your response",
+        message: "We have received your request and will contact you soon.",
+        actionLabel: "Close",
+        actionHref: "",
+      });
       setIsSuccessModalOpen(true);
       setForm({
         firstName: "",
@@ -381,10 +401,19 @@ const CourseDetailPage = () => {
       }
 
       setCurrentUser(verifyPayload.user || currentUser);
+      setIsEnrollModalOpen(false);
       setEnrollFeedback({
         type: "success",
         message: verifyPayload.message || "Payment successful. You are enrolled in this course.",
       });
+      setSuccessModalContent({
+        eyebrow: "Payment Successful",
+        title: "Your course seat is confirmed",
+        message: verifyPayload.message || "Payment successful. You are enrolled in this course.",
+        actionLabel: "Go to Dashboard",
+        actionHref: "/joined-courses",
+      });
+      setIsSuccessModalOpen(true);
     } catch (enrollError) {
       setEnrollFeedback({
         type: "error",
@@ -433,7 +462,11 @@ const CourseDetailPage = () => {
                   <h1>{course.name}</h1>
                   <span>{course.shortDescription}</span>
                   <div className="englishtaCourseDetailHero__actions">
-                    {course.allowBooking === "Yes" ? (
+                    {isCurrentUserEnrolled ? (
+                      <Link href="/my-progress" className="englishtaCourseDetailHero__primary">
+                        View Progress
+                      </Link>
+                    ) : course.allowBooking === "Yes" ? (
                       <button type="button" className="englishtaCourseDetailHero__primary" onClick={openJoinModal}>
                         Join Course
                       </button>
@@ -511,22 +544,34 @@ const CourseDetailPage = () => {
 
                 <aside className="englishtaCourseDetailCard wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.25s">
                   <h3>Ready to start?</h3>
-                  <p>Tell us your goal and we will suggest the right English practice plan.</p>
-                  <button
-                    type="button"
-                    className="englishtaCourseDetailCard__primary"
-                    onClick={openEnrollModal}
-                    disabled={isAuthLoading}
-                  >
-                    Enroll Now
-                  </button>
-                  <button
-                    type="button"
-                    className="englishtaCourseDetailCard__outline"
-                    onClick={openJoinModal}
-                  >
-                    Enquire Now
-                  </button>
+                  <p>
+                    {isCurrentUserEnrolled
+                      ? "Continue your learning journey and track your improvement."
+                      : "Tell us your goal and we will suggest the right English practice plan."}
+                  </p>
+                  {isCurrentUserEnrolled ? (
+                    <Link href="/my-progress" className="englishtaCourseDetailCard__primary">
+                      View Progress
+                    </Link>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        className="englishtaCourseDetailCard__primary"
+                        onClick={openEnrollModal}
+                        disabled={isAuthLoading}
+                      >
+                        Enroll Now
+                      </button>
+                      <button
+                        type="button"
+                        className="englishtaCourseDetailCard__outline"
+                        onClick={openJoinModal}
+                      >
+                        Enquire Now
+                      </button>
+                    </>
+                  )}
                   <span>Flexible online batches available</span>
                 </aside>
               </div>
@@ -758,16 +803,23 @@ const CourseDetailPage = () => {
               <i className="fa-solid fa-check" />
             </div>
             <div className="englishtaWebinarModal__head englishtaWebinarModal__head--success">
-              <p>Course Lead Submitted</p>
-              <h2 id="course-success-title">Thank you for your response</h2>
+              <p>{successModalContent.eyebrow}</p>
+              <h2 id="course-success-title">{successModalContent.title}</h2>
             </div>
             <p className="englishtaWebinarModal__successText">
-              We have received your request and will contact you soon.
+              {successModalContent.message}
             </p>
-            <button type="button" className="englishtaWebinarModal__submit" onClick={closeSuccessModal}>
-              Close
-              <i className="fa-solid fa-arrow-right" />
-            </button>
+            {successModalContent.actionHref ? (
+              <Link href={successModalContent.actionHref} className="englishtaWebinarModal__submit" onClick={closeSuccessModal}>
+                {successModalContent.actionLabel}
+                <i className="fa-solid fa-arrow-right" />
+              </Link>
+            ) : (
+              <button type="button" className="englishtaWebinarModal__submit" onClick={closeSuccessModal}>
+                {successModalContent.actionLabel}
+                <i className="fa-solid fa-arrow-right" />
+              </button>
+            )}
           </div>
         </div>
       ) : null}

@@ -128,11 +128,29 @@ const getCourseFees = (course) => {
     discounted: discountedPrice ? normalizePrice(discountedPrice) : normalizePrice(actualPrice),
   };
 };
-function CourseCard({ course, index }) {
+
+const getJoinedCourseId = (joinedCourse) =>
+  joinedCourse?.course?._id || joinedCourse?.course || joinedCourse?._id || "";
+
+const isUserEnrolledInCourse = (user, course) => {
+  if (!user || !course?._id || !Array.isArray(user.joinedCourses)) return false;
+
+  return user.joinedCourses.some((joinedCourse) => String(getJoinedCourseId(joinedCourse)) === String(course._id));
+};
+
+function CourseCard({ course, index, currentUser, isAuthLoading }) {
   const slug = slugifyCourseName(course.name);
   const fees = getCourseFees(course);
   const detailHref = course.isFallback ? "/contact-us" : `/course/${slug}`;
-  const actionHref = detailHref;
+  const isEnrolled = isUserEnrolledInCourse(currentUser, course);
+  const actionHref = isEnrolled ? "/my-progress" : detailHref;
+  const actionLabel = isAuthLoading
+    ? "Checking..."
+    : isEnrolled
+      ? "View Progress"
+      : course.isFallback
+        ? "Enquire Now"
+        : "Join Now";
   const courseLanguageLabel = course.languages.map((language) => languageLabels[language] || language).join(" + ");
   const hasFees = Boolean(fees?.discounted);
 
@@ -176,7 +194,7 @@ function CourseCard({ course, index }) {
 
         <div className="englishtaCourseCard__actions">
           <Link href={actionHref} className="englishtaCourseCard__button englishtaCourseCard__button--solid">
-            {course.isFallback ? "Enquire Now" : "Join Now"}
+            {actionLabel}
             <i className="fa-solid fa-arrow-right" aria-hidden="true" />
           </Link>
         </div>
@@ -191,6 +209,8 @@ const CoursesPageContent = () => {
   const [courses, setCourses] = useState([]);
   const [activeMode, setActiveMode] = useState("live");
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [error, setError] = useState("");
   const [diagnostics, setDiagnostics] = useState(null);
   const handleTestSkills = useCallback(() => {
@@ -253,6 +273,36 @@ const CoursesPageContent = () => {
       .finally(() => {
         if (isMounted) {
           setLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/auth/me", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) return null;
+        const payload = await response.json();
+        return payload?.user || null;
+      })
+      .then((user) => {
+        if (isMounted) {
+          setCurrentUser(user);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setCurrentUser(null);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsAuthLoading(false);
         }
       });
 
@@ -368,7 +418,13 @@ const CoursesPageContent = () => {
                 <h2>Best Match For You</h2>
                 <div className="englishtaCoursesGrid">
                   {recommendedCourses.map((course, index) => (
-                    <CourseCard course={course} index={index} key={`recommended-${course._id ?? course.name}`} />
+                    <CourseCard
+                      course={course}
+                      index={index}
+                      currentUser={currentUser}
+                      isAuthLoading={isAuthLoading}
+                      key={`recommended-${course._id ?? course.name}`}
+                    />
                   ))}
                 </div>
               </div>
@@ -433,7 +489,13 @@ const CoursesPageContent = () => {
 
                 <div className="englishtaCoursesGrid">
                   {activeCourses.map((course, index) => (
-                    <CourseCard course={course} index={index} key={course._id ?? slugifyCourseName(course.name)} />
+                    <CourseCard
+                      course={course}
+                      index={index}
+                      currentUser={currentUser}
+                      isAuthLoading={isAuthLoading}
+                      key={course._id ?? slugifyCourseName(course.name)}
+                    />
                   ))}
                 </div>
               </>
@@ -478,4 +540,3 @@ const CoursesPage = () => (
 );
 
 export default CoursesPage;
-
