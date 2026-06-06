@@ -116,6 +116,7 @@ export default function Navbar() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [navbarAuthSlot, setNavbarAuthSlot] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [isAuthChecking, setIsAuthChecking] = useState(true);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [authStep, setAuthStep] = useState(1);
   const [authEmail, setAuthEmail] = useState("");
@@ -194,12 +195,26 @@ export default function Navbar() {
       })
       .catch(() => {
         setCurrentUser(null);
+      })
+      .finally(() => {
+        setIsAuthChecking(false);
       });
   }, []);
 
   useEffect(() => {
     const handleProtectedNavigation = (event) => {
       const redirectTo = event.detail?.href || "/student-profile";
+
+      if (isAuthChecking) {
+        window.setTimeout(() => {
+          window.dispatchEvent(
+            new CustomEvent("englishta:protected-navigation", {
+              detail: { href: redirectTo },
+            }),
+          );
+        }, 120);
+        return;
+      }
 
       if (currentUser) {
         window.location.assign(redirectTo);
@@ -214,7 +229,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("englishta:protected-navigation", handleProtectedNavigation);
     };
-  }, [currentUser]);
+  }, [currentUser, isAuthChecking]);
 
   useEffect(() => {
     if (!isAuthModalOpen) return undefined;
@@ -534,6 +549,14 @@ export default function Navbar() {
           setIsProfileMenuOpen(false);
         });
     };
+
+    if (isAuthChecking) {
+      return (
+        <div className="englishtaNavbarAuthSkeleton" aria-label="Checking login status">
+          <span />
+        </div>
+      );
+    }
 
     if (currentUser) {
       const userInitial = (currentUser.name || currentUser.email || "S").trim().charAt(0).toUpperCase();

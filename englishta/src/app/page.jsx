@@ -2158,16 +2158,26 @@ const cleanLegacyHomeHtml = (html = "") =>
 const HOME_PRELOADER_SESSION_KEY = "englishtaHomePreloaderPlayed";
 
 const shouldPlayHomePreloader = () => {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
   try {
     return window.sessionStorage.getItem(HOME_PRELOADER_SESSION_KEY) !== "true";
   } catch {
     return false;
   }
 };
+
+const getInitialHomePreloaderStatus = () => {
+  if (typeof window === "undefined") {
+    return "checking";
+  }
+
+  if (window.__englishtaHomePreloaderChecked) {
+    return shouldPlayHomePreloader() ? "checking" : "done";
+  }
+
+  return "checking";
+};
+
+const PreloaderShell = () => <div className="td_preloader td_preloader--shell" aria-hidden="true" />;
 
 const Preloader = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -2225,7 +2235,7 @@ const HomeBanner = ({ isReady = false }) => {
       aria-label="Online English speaking course"
     >
       <div className="englishtaHeroShade__inner">
-        <div className="englishtaHeroShade__content wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
+        <div className="englishtaHeroShade__content wow fadeInUp mt-5 mt-sm-0" data-wow-duration="1s" data-wow-delay="0.15s">
           <p className="englishtaHeroShade__proof">
             <i className="fa-solid fa-star" aria-hidden="true" />
             Trusted by 10,000+ learners
@@ -2246,9 +2256,6 @@ const HomeBanner = ({ isReady = false }) => {
               Start Your Journey
               <i className="fa-solid fa-arrow-right" aria-hidden="true" />
             </button>
-            <a href="/courses" className="englishtaHeroShade__cta englishtaHeroShade__cta--secondary">
-              Explore Courses
-            </a>
             <div className="englishtaHeroShade__learners" aria-label="Learner community">
               <img src="/assets/images/profilesinhero.png" alt="Englishta learners" />
               <p>Join 10,000+ confident learners</p>
@@ -2263,9 +2270,9 @@ const HomeBanner = ({ isReady = false }) => {
             <span />
           </div>
           {[
-            ["fa-solid fa-user", "Beginner Batch", "Build your basics"],
-            ["fa-solid fa-chart-line", "Intermediate Batch", "Improve your fluency"],
-            ["fa-solid fa-rocket", "Advanced Batch", "Speak with confidence"],
+            ["fa-solid fa-user", "Promise Course", "For Beginners"],
+            ["fa-solid fa-chart-line", "Fluency Course", "For Advanced"],
+            ["fa-solid fa-briefcase", "Ace Course", "For Interview"],
           ].map(([icon, title, text]) => (
             <a href="/courses" className="englishtaHeroShade__batchCard" key={title}>
               <i className={icon} aria-hidden="true" />
@@ -3215,6 +3222,7 @@ const WhatsAppReviewsShowcase = ({ reviews = [] }) => {
   const totalPages = Math.max(1, Math.ceil(visibleReviews.length / reviewsPerPage));
   const [activePage, setActivePage] = useState(0);
   const [focusedReview, setFocusedReview] = useState(null);
+  const [reviewCursor, setReviewCursor] = useState({ visible: false, x: 0, y: 0 });
 
   if (!visibleReviews.length) {
     return null;
@@ -3233,6 +3241,18 @@ const WhatsAppReviewsShowcase = ({ reviews = [] }) => {
 
   function goToNextPage() {
     setActivePage((current) => (Math.min(current, totalPages - 1) + 1) % totalPages);
+  }
+
+  function showReviewCursor(event) {
+    setReviewCursor({ visible: true, x: event.clientX, y: event.clientY });
+  }
+
+  function moveReviewCursor(event) {
+    setReviewCursor((current) => ({ ...current, visible: true, x: event.clientX, y: event.clientY }));
+  }
+
+  function hideReviewCursor() {
+    setReviewCursor((current) => ({ ...current, visible: false }));
   }
 
   return (
@@ -3278,13 +3298,27 @@ const WhatsAppReviewsShowcase = ({ reviews = [] }) => {
                 <button
                   type="button"
                   className="englishtaWhatsAppReviews__imageButton"
-                  onClick={() => setFocusedReview(item)}
+                  onClick={() => {
+                    hideReviewCursor();
+                    setFocusedReview(item);
+                  }}
+                  onMouseEnter={showReviewCursor}
+                  onMouseMove={moveReviewCursor}
+                  onMouseLeave={hideReviewCursor}
                   aria-label="Open WhatsApp learner review"
                 >
                   <img src={item.image} alt="WhatsApp learner review" />
                 </button>
               </article>
             ))}
+          </div>
+
+          <div
+            className={`englishtaWhatsAppReviews__cursor${reviewCursor.visible ? " isVisible" : ""}`}
+            style={{ left: reviewCursor.x, top: reviewCursor.y }}
+            aria-hidden="true"
+          >
+            Click
           </div>
 
           <div className="englishtaWhatsAppReviews__footer wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.35s">
@@ -4083,16 +4117,16 @@ const Home = () => {
   const [courses, setCourses] = useState([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
   const [coursesError, setCoursesError] = useState("");
-  const [shouldShowPreloader, setShouldShowPreloader] = useState(shouldPlayHomePreloader);
-  const [isHeroReady, setIsHeroReady] = useState(() => !shouldPlayHomePreloader());
+  const [preloaderStatus, setPreloaderStatus] = useState(getInitialHomePreloaderStatus);
+  const isHeroReady = preloaderStatus === "done";
   const handlePreloaderComplete = useCallback(() => {
     try {
       window.sessionStorage.setItem(HOME_PRELOADER_SESSION_KEY, "true");
     } catch {
       // Keep navigation smooth even if sessionStorage is unavailable.
     }
-    setShouldShowPreloader(false);
-    setIsHeroReady(true);
+    window.__englishtaHomePreloaderChecked = true;
+    setPreloaderStatus("done");
   }, []);
   const {
     beforeCourseCatalog,
@@ -4126,6 +4160,19 @@ const Home = () => {
       afterDemoVideo: afterDemo,
     };
   }, []);
+
+  useEffect(() => {
+    if (preloaderStatus !== "checking") {
+      return undefined;
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      window.__englishtaHomePreloaderChecked = true;
+      setPreloaderStatus(shouldPlayHomePreloader() ? "playing" : "done");
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [preloaderStatus]);
 
   useEffect(() => {
     let isMounted = true;
@@ -4198,9 +4245,16 @@ const Home = () => {
     };
   }, []);
 
+  if (preloaderStatus === "checking") {
+    return <PreloaderShell />;
+  }
+
+  if (preloaderStatus === "playing") {
+    return <Preloader onComplete={handlePreloaderComplete} />;
+  }
+
   return (
     <>
-      {shouldShowPreloader ? <Preloader onComplete={handlePreloaderComplete} /> : null}
       <Navbar />
       <HomeBanner isReady={isHeroReady} />
       <LearnerStruggleSection />
