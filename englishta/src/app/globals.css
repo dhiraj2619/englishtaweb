@@ -27,312 +27,186 @@ iframe[title*="Chat"] {
   transform: translateY(-40px) !important;
 }
 
-/* Home learner struggle section */
-.englishtaStruggleSection {
-  background:
-    radial-gradient(
-      circle at top left,
-      rgba(254, 182, 12, 0.26) 0 70px,
-      rgba(254, 182, 12, 0.1) 71px 150px,
-      transparent 151px
-    ),
-    radial-gradient(
-      circle at bottom right,
-      rgba(254, 182, 12, 0.16) 0 110px,
-      transparent 111px
-    ),
-    #fffaf0;
+/* Home goal section */
+.englishtaGoalSection {
+  background: #fff;
   overflow: hidden;
-  padding: 84px 0 78px;
+  padding: 70px 0 78px;
   position: relative;
 }
 
-.englishtaStruggleSection::before,
-.englishtaStruggleSection::after {
-  background-image: radial-gradient(#f4c46f 3px, transparent 4px);
-  background-size: 28px 28px;
-  content: "";
-  height: 130px;
-  opacity: 0.75;
-  position: absolute;
-  width: 130px;
+.englishtaGoalSection .container {
+  max-width: 1240px;
 }
 
-.englishtaStruggleSection::before {
-  left: 42px;
-  top: 180px;
-}
-
-.englishtaStruggleSection::after {
-  right: 64px;
-  top: 70px;
-}
-
-.englishtaStruggleSection .container {
-  max-width: 1220px;
-  position: relative;
-  z-index: 1;
-}
-
-.englishtaStruggleSection__head {
-  margin: 0 auto 48px;
-  max-width: 760px;
+.englishtaGoalSection__head {
+  margin: 0 auto 36px;
+  max-width: 660px;
   text-align: center;
 }
 
-.englishtaStruggleSection__head > span {
-  background: linear-gradient(90deg, #fff4d2, #ffd98a);
-  border-radius: 999px;
-  color: #160006;
+.englishtaGoalSection__head > span {
+  align-items: center;
+  color: #8b5500;
   display: inline-flex;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 900;
+  gap: 16px;
   letter-spacing: 0.04em;
-  margin-bottom: 14px;
-  padding: 8px 26px;
-  position: relative;
+  margin-bottom: 18px;
   text-transform: uppercase;
 }
 
-.englishtaStruggleSection__head > span::before,
-.englishtaStruggleSection__head > span::after {
-  color: #feb60c;
-  content: "-";
-  font-size: 28px;
-  position: absolute;
-  top: 0;
-}
-
-.englishtaStruggleSection__head > span::before {
-  left: -30px;
-}
-
-.englishtaStruggleSection__head > span::after {
-  right: -30px;
-}
-
-.englishtaStruggleSection__head h2 {
-  color: #160006;
-  font-family: Nunito, sans-serif;
-  font-size: 48px;
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 0.96;
-  margin: 0 0 18px;
-}
-
-.englishtaStruggleSection__head h2 strong {
-  color: #f2a900;
-  display: block;
-}
-
-.englishtaStruggleSection__head p {
-  color: #4c4240;
-  font-size: 19px;
-  line-height: 1.45;
-  margin: 0;
-}
-
-.englishtaStruggleSection__head b {
-  color: #9b5d00;
-  font-weight: 900;
-}
-
-.englishtaStruggleCards {
-  display: grid;
-  gap: 22px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-bottom: 24px;
-}
-
-.englishtaStruggleCard {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(180, 114, 0, 0.14);
-  border-radius: 14px;
-  box-shadow: 0 18px 40px rgba(79, 50, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  min-height: 300px;
-  padding: 20px 22px 18px;
-}
-
-.englishtaStruggleCard__top {
-  align-items: center;
-  display: grid;
-  gap: 18px;
-  grid-template-columns: 150px minmax(0, 1fr);
-  margin-bottom: 14px;
-  position: relative;
-}
-
-.englishtaStruggleCard__top > span {
-  align-items: center;
-  background: #feb60c;
-  border-radius: 8px;
-  color: #fff;
-  display: inline-flex;
-  font-size: 20px;
-  font-weight: 900;
-  height: 44px;
-  justify-content: center;
-  left: -4px;
-  position: absolute;
-  top: -2px;
-  width: 44px;
-  z-index: 1;
-  display: none;
-}
-
-.englishtaStruggleCard:nth-child(2) .englishtaStruggleCard__top > span {
-  background: #9b6109;
-}
-
-.englishtaStruggleCard img {
-  background: #fff8e9;
-  border-radius: 10px;
-  height: 140px;
-  object-fit: contain;
-  padding: 6px;
-  width: 150px;
-}
-
-.englishtaStruggleCard h3 {
-  color: #160006;
-  font-family: Nunito, sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.25;
-  margin: 0;
-}
-
-.englishtaStruggleCard h3::after {
-  background: #feb60c;
+.englishtaGoalSection__head > span::before,
+.englishtaGoalSection__head > span::after {
+  background: #d49112;
+  border-radius: 999px;
+  box-shadow: 40px 0 0 #d49112;
   content: "";
-  display: block;
-  height: 3px;
-  margin-top: 14px;
+  height: 2px;
   width: 46px;
 }
 
-.englishtaStruggleCard p {
-  color: #21191a;
-  font-size: 16px;
-  line-height: 1.45;
-  margin: 0 0 18px;
+.englishtaGoalSection__head > span::before {
+  box-shadow: 40px 0 0 #d49112;
 }
 
-.englishtaStruggleCard a {
-  align-items: center;
-  color: #f0a500;
-  display: inline-flex;
-  font-size: 17px;
+.englishtaGoalSection__head > span::after {
+  box-shadow: -40px 0 0 #d49112;
+}
+
+.englishtaGoalSection__head h2 {
+  color: #22202b;
+  font-family: Nunito, sans-serif;
+  font-size: clamp(38px, 5vw, 56px);
   font-weight: 900;
-  gap: 10px;
-  margin-top: auto;
-  text-decoration: none;
-}
-
-.englishtaStruggleQuote {
-  align-items: center;
-  background: rgba(255, 250, 240, 0.86);
-  border: 1px solid rgba(254, 182, 12, 0.42);
-  border-radius: 14px;
-  display: grid;
-  gap: 28px;
-  grid-template-columns: 170px minmax(0, 1fr) 320px;
-  margin-bottom: 16px;
-  min-height: 120px;
-  overflow: hidden;
-  padding: 20px 34px;
-}
-
-.englishtaStruggleQuote__mark {
-  align-items: center;
-  background: #fff;
-  border: 1px dashed rgba(155, 97, 9, 0.4);
-  border-radius: 50%;
-  color: #feb60c;
-  display: inline-flex;
-  height: 118px;
-  justify-content: center;
+  letter-spacing: 0;
   line-height: 1;
-  width: 118px;
+  margin: 0 0 16px;
 }
 
-.englishtaStruggleQuote__mark i {
-  font-size: 46px;
+.englishtaGoalSection__head h2 strong {
+  color: #d49112;
+  font-weight: 900;
 }
 
-.englishtaStruggleQuote p {
+.englishtaGoalSection__head p {
+  color: #4f4a4e;
+  font-size: 17px;
+  line-height: 1.45;
   margin: 0;
 }
 
-.englishtaStruggleQuote span,
-.englishtaStruggleQuote strong {
-  display: block;
+.englishtaGoalCards {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
-.englishtaStruggleQuote span {
-  color: #342a2d;
-  font-size: 20px;
-  margin-bottom: 4px;
+.englishtaGoalCard {
+  align-items: center;
+  background: #4c0014;
+  border: 1px solid rgba(255, 214, 100, 0.22);
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(32, 0, 10, 0.08);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 360px;
+  overflow: hidden;
+  padding: 30px 24px 28px;
+  position: relative;
+  text-align: center;
 }
 
-.englishtaStruggleQuote strong {
-  color: #342a2d;
+.englishtaGoalCard__icon {
+  align-items: center;
+  background: transparent;
+  border: 1px solid rgba(255, 192, 48, 0.22);
+  border-radius: 50%;
+  color: #ffd45d;
+  display: inline-flex;
+  height: 82px;
+  justify-content: center;
+  margin-bottom: 20px;
+  width: 82px;
+}
+
+.englishtaGoalCard__icon i {
+  font-size: 34px;
+}
+
+.englishtaGoalCard h3 {
+  color: #fff;
   font-family: Nunito, sans-serif;
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 19px;
+  font-weight: 900;
   line-height: 1.25;
+  margin: 0;
+  min-height: 48px;
 }
 
-.englishtaStruggleQuote img {
-  align-self: end;
-  height: 125px;
-  object-fit: contain;
+.englishtaGoalCard__line {
+  background: #d49112;
+  border-radius: 999px;
+  display: block;
+  height: 2px;
+  margin: 16px 0;
+  width: 52px;
+}
+
+.englishtaGoalCard p {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14.5px;
+  line-height: 1.55;
+  margin: 0 0 24px;
+}
+
+.englishtaGoalCard a {
+  align-items: center;
+  border: 1px solid #d49112;
+  border-radius: 999px;
+  color: #e7a51d;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 900;
+  gap: 18px;
+  justify-content: center;
+  margin-top: auto;
+  min-height: 48px;
+  padding: 0 26px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
   width: 100%;
 }
 
-@media (max-width: 1100px) {
-  .englishtaStruggleCards {
-    grid-template-columns: 1fr 1fr;
-  }
+.englishtaGoalCard a:hover {
+  background: #d49112;
+  color: #2b000c;
+  transform: translateY(-2px);
+}
 
-  .englishtaStruggleQuote {
-    grid-template-columns: 120px minmax(0, 1fr);
-  }
-
-  .englishtaStruggleQuote img {
-    grid-column: 1 / -1;
-    justify-self: center;
-    max-width: 360px;
+@media (max-width: 1180px) {
+  .englishtaGoalCards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 760px) {
-  .englishtaStruggleSection {
-    padding: 58px 0;
+  .englishtaGoalSection {
+    padding: 54px 0;
   }
+
   .englishtaAboutActions {
     justify-content: center;
   }
 
-  .englishtaStruggleCards,
-  .englishtaStruggleQuote {
+  .englishtaGoalCards {
     grid-template-columns: 1fr;
   }
 
-  .englishtaStruggleCard__top {
-    grid-template-columns: 1fr;
-  }
-
-  .englishtaStruggleCard img {
-    width: 100%;
-  }
-
-  .englishtaStruggleQuote__mark {
-    height: 92px;
-    width: 92px;
+  .englishtaGoalCard {
+    min-height: 340px;
   }
 }
 
@@ -5064,17 +4938,6 @@ iframe[title*="Chat"] {
 @media (max-width: 767px) {
   .englishtaTrainingAreas {
     padding: 76px 0 92px;
-  }
-  .englishtaStruggleSection__head h2 {
-    font-size: 28px;
-    line-height: 0.99;
-  }
-  .englishtaStruggleSection__head p {
-    font-size: 16px;
-    line-height: 1.45;
-  }
-  .englishtaStruggleCard h3 {
-    font-size: 19px;
   }
   .englishtaTrainingAreas::before,
   .englishtaTrainingAreas::after {
@@ -29173,9 +29036,6 @@ body {
   .englishtaHeroShade__inner {
     gap: 26px;
     padding: 56px 20px 46px;
-  }
-  .englishtaStruggleQuote strong {
-    font-size: 18px;
   }
   .englishtaSuccessStories__stats p:after {
     display: none;

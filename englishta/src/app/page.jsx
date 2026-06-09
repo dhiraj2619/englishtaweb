@@ -2303,87 +2303,89 @@ const HomeBanner = ({ isReady = false }) => {
   );
 };
 
-const struggleCards = [
+const goalCards = [
   {
     number: "01",
-    image: "/assets/images/char1.png",
-    title: "You know some English but cannot speak confidently?",
-    text: "Many people can understand English while reading or listening, but when they try to speak, they become blank, nervous, or hesitant...",
+    href: "/courses",
+    icon: "fa-solid fa-book-open",
+    title: "Learn from Beginning",
+    text: "Start your English journey from scratch and build strong foundations.",
   },
   {
     number: "02",
-    image: "/assets/images/char2.png",
-    title: "Do you translate from Marathi or Hindi before speaking?",
-    text: "Many learners first think in Marathi or Hindi and then try to convert every sentence into English. Because of this, speaking becomes slow...",
+    href: "/course/fluency-start-with-isafe-move-into-drive",
+    icon: "fa-solid fa-chart-column",
+    title: "Improve My Fluency",
+    text: "Enhance your speaking skills and communicate with confidence.",
   },
   {
     number: "03",
-    image: "/assets/images/char3.png",
-    title: "Do you fear making mistakes?",
-    text: "Many people think: What if I speak wrong English? What if people laugh at me? What if my grammar is incorrect?...",
+    href: "/course/interview-done-with-drive-move-into-ace",
+    icon: "fa-solid fa-briefcase",
+    title: "Crack Interview",
+    text: "Prepare effectively and ace your job interviews with ease.",
+  },
+  {
+    number: "04",
+    href: "/course/promise-a-communication-transformation-framework",
+    icon: "fa-regular fa-user",
+    title: "One to One Guidance",
+    text: "Get personalized attention and guidance from expert mentors.",
+  },
+  {
+    number: "05",
+    href: "/course/grammar-discover-the-core-of-grammar",
+    icon: "fa-solid fa-shield-halved",
+    title: "Master Grammar for Communication",
+    text: "Strengthen your grammar and use English naturally in real-life conversations.",
   },
 ];
 
 const LearnerStruggleSection = () => (
-  <section className="englishtaStruggleSection" aria-labelledby="learner-struggle-title" data-aos="fade-up">
+  <section className="englishtaGoalSection" aria-labelledby="learner-goal-title" data-aos="fade-up">
     <div className="container">
       <div
-        className="englishtaStruggleSection__head wow fadeInUp"
+        className="englishtaGoalSection__head wow fadeInUp"
         data-aos="fade-up"
         data-aos-duration="900"
         data-aos-delay="100"
         data-wow-duration="1s"
         data-wow-delay="0.1s"
       >
-        <span> Problem</span>
-        <h2 id="learner-struggle-title">
-          Why Learners Struggle to <strong>Speak English</strong>
+        <span>Your Goal</span>
+        <h2 id="learner-goal-title">
+          What is <strong>Your Goal?</strong>
         </h2>
         <p>
-          Many learners study English for years, yet they still hesitate while speaking.
-          The problem is not a lack of intelligence or effort. In most cases, learners simply
-          <b> never get the right method, the right practice, or the right environment.</b>
+          Choose your goal and we&apos;ll help you create
+          <br />
+          a personalized learning journey.
         </p>
       </div>
 
-      <div className="englishtaStruggleCards">
-        {struggleCards.map((card, index) => (
+      <div className="englishtaGoalCards">
+        {goalCards.map((card, index) => (
           <article
-            className="englishtaStruggleCard wow fadeInUp"
+            className="englishtaGoalCard wow fadeInUp"
             data-aos="fade-up"
             data-aos-duration="900"
             data-aos-delay={180 + index * 180}
             data-wow-duration="1s"
             data-wow-delay={`${0.18 + index * 0.18}s`}
-            key={card.number}
+            key={card.title}
           >
-            <div className="englishtaStruggleCard__top">
-              <span>{card.number}</span>
-              <img src={card.image} alt="" />
-              <h3>{card.title}</h3>
+            <div className="englishtaGoalCard__icon" aria-hidden="true">
+              <i className={card.icon} />
             </div>
+            <h3>{card.title}</h3>
+            <span className="englishtaGoalCard__line" aria-hidden="true" />
             <p>{card.text}</p>
-
+            <a href={card.href} aria-label={`Get started with ${card.title}`}>
+              <span>Get Started</span>
+              <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+            </a>
           </article>
         ))}
-      </div>
-
-      <div
-        className="englishtaStruggleQuote wow fadeInUp"
-        data-aos="fade-up"
-        data-aos-duration="900"
-        data-aos-delay="720"
-        data-wow-duration="1s"
-        data-wow-delay="0.72s"
-      >
-        <div className="englishtaStruggleQuote__mark" aria-hidden="true">
-          <i className="fa-solid fa-quote-left" />
-        </div>
-        <p>
-          <span>Speaking English is a practical skill.</span>
-          <strong>Confidence develops only through regular speaking practice, proper guidance, and supportive learning.</strong>
-        </p>
-        <img src="/assets/images/reachtomission.png" alt="" />
       </div>
     </div>
   </section>
@@ -3306,7 +3308,7 @@ const WhatsAppReviewsShowcase = ({ reviews = [] }) => {
 
   return (
     <>
-      <section className="englishtaTrainingAreas">
+      <section className="englishtaTrainingAreas mt-5">
         <div className="container">
           <div className="englishtaTrainingAreas__header wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.15s">
             <p className="englishtaTrainingAreas__eyebrow">
@@ -4309,9 +4311,11 @@ const Home = () => {
       <LearnerStruggleSection />
       {/* <EnglishtaSolutionSection /> */}
          <LearningAnywhereSection />
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeCourseCatalog) }} />
-      <HomeSuccessStoriesSection />
-       <HowEnglishtaHelpsSection />
+      {/* <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeCourseCatalog) }} /> */}
+      <WhatsAppReviewsShowcase reviews={whatsappReviews} />
+      {/* <HomeSuccessStoriesSection /> */}
+       {/* <HowEnglishtaHelpsSection /> */}
+       
       <HomeCourseCatalog courses={courses} loading={coursesLoading} error={coursesError} />
      
 
@@ -4320,7 +4324,7 @@ const Home = () => {
       {/* <MobileAppPromo /> */}
    
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenAnywhereAndTraining) }} />
-      <WhatsAppReviewsShowcase reviews={whatsappReviews} />
+     
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: blogTipsSectionHtml }} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeTestimonials) }} />
       <TestimonialsShowcase testimonials={testimonials} />
