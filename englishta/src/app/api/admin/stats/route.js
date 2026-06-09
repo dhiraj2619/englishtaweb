@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { requireAdminAccess } from "@/lib/adminAuth";
 import connectToDatabase from "@/lib/mongodb";
+import Blog from "@/models/Blog";
 import Course from "@/models/Course";
 import CourseLead from "@/models/CourseLead";
 import Webinar from "@/models/Webinar";
@@ -22,6 +23,7 @@ export async function GET() {
       courseInquiryCount,
       webinarRegistrationCount,
       whatsAppReviewCount,
+      blogsCount,
       courses,
     ] = await Promise.all([
       Course.countDocuments(),
@@ -29,6 +31,7 @@ export async function GET() {
       CourseLead.countDocuments(),
       WebinarRegistration.countDocuments(),
       WhatsAppReview.countDocuments(),
+      Blog.countDocuments(),
       Course.find({}, { studentsEnrolled: 1 }).lean(),
     ]);
 
@@ -42,6 +45,7 @@ export async function GET() {
         courseInquiryCount,
         webinarRegistrationCount,
         whatsAppReviewCount,
+        blogsCount,
         courseEnrollmentCount,
       },
     });

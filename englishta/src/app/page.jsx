@@ -2111,7 +2111,6 @@ const normalizeInjectedHtml = (html) =>
 const normalizedPageHtml = normalizeInjectedHtml(rawPageHtml);
 const blogTipsSectionPattern =
   /<section>\s*<div class="td_height_112 td_height_lg_75"><\/div>\s*<div class="container">\s*<div class="td_section_heading td_style_1 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0\.2s">\s*<p class="td_section_subtitle_up td_fs_18 td_semibold td_spacing_1 td_mb_10 text-uppercase td_accent_color">BLOG & TIPS<\/p>\s*<h2 class="td_section_title td_fs_48 mb-0">English Speaking Tips <br>From Englishta<\/h2>[\s\S]*?<\/section>/;
-const blogTipsSectionHtml = normalizedPageHtml.match(blogTipsSectionPattern)?.[0] ?? "";
 
 const pageHtml = normalizedPageHtml
   .replace(
@@ -2150,6 +2149,27 @@ const pageHtml = normalizedPageHtml
 const getDemoLectureEmbedSrc = (embedCode = "") => {
   const srcMatch = embedCode.match(/\ssrc=["']([^"']+)["']/i);
   return srcMatch?.[1] || "";
+};
+
+const stripHtml = (value = "") => value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+
+const formatBlogDate = (dateValue) => {
+  if (!dateValue) return "Latest";
+
+  try {
+    return new Intl.DateTimeFormat("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }).format(new Date(dateValue));
+  } catch {
+    return "Latest";
+  }
+};
+
+const getBlogReadTime = (blog) => {
+  const words = stripHtml(`${blog.shortDescription || ""} ${blog.content || ""}`).split(" ").filter(Boolean).length;
+  return `${Math.max(1, Math.ceil(words / 180))} min read`;
 };
 
 const cleanLegacyHomeHtml = (html = "") =>
@@ -4161,10 +4181,77 @@ const TestimonialsShowcase = ({ testimonials = [] }) => {
   );
 };
 
+const HomeBlogsSection = ({ blogs = [], loading = false }) => {
+  const visibleBlogs = blogs.filter((blog) => blog.visible !== "No").slice(0, 3);
+
+  if (!loading && visibleBlogs.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="englishtaHomeBlogs">
+      <div className="container">
+        <div className="englishtaHomeBlogs__heading">
+          <p>Blog & Tips</p>
+          <h2>
+            English Speaking Tips <span>From Englishta</span>
+          </h2>
+        </div>
+
+        {loading ? (
+          <div className="englishtaHomeBlogs__grid" aria-label="Loading blogs">
+            {[0, 1, 2].map((item) => (
+              <article className="englishtaHomeBlogs__skeleton" key={item}>
+                <span />
+                <i />
+                <i />
+                <strong />
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="englishtaHomeBlogs__grid">
+            {visibleBlogs.map((blog, index) => (
+              <article className="englishtaHomeBlogCard" key={blog._id ?? blog.slug ?? index}>
+                <Link href={`/blog/${blog.slug}`} className="englishtaHomeBlogCard__image">
+                  <img src={blog.thumbnail} alt={blog.title} />
+                  <span>{formatBlogDate(blog.createdAt)}</span>
+                </Link>
+                <div className="englishtaHomeBlogCard__content">
+                  <div className="englishtaHomeBlogCard__meta">
+                    <span>
+                      <i className="fa-regular fa-clock" aria-hidden="true" />
+                      {getBlogReadTime(blog)}
+                    </span>
+                    <span>
+                      <i className="fa-regular fa-file-lines" aria-hidden="true" />
+                      Guide
+                    </span>
+                  </div>
+                  <h3>
+                    <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
+                  </h3>
+                  <p>{blog.shortDescription}</p>
+                  <Link href={`/blog/${blog.slug}`} className="englishtaHomeBlogCard__link">
+                    Read More
+                    <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
 const Home = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [whatsappReviews, setWhatsappReviews] = useState([]);
   const [webinars, setWebinars] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [blogsLoading, setBlogsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
   const [coursesError, setCoursesError] = useState("");
@@ -4291,6 +4378,24 @@ const Home = () => {
         }
       });
 
+    fetch("/api/blogs", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((payload) => {
+        if (isMounted && payload.success) {
+          setBlogs((payload.data ?? []).filter((item) => item.visible !== "No" && item.thumbnail));
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setBlogs([]);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setBlogsLoading(false);
+        }
+      });
+
     return () => {
       isMounted = false;
     };
@@ -4325,7 +4430,7 @@ const Home = () => {
    
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenAnywhereAndTraining) }} />
      
-      <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: blogTipsSectionHtml }} />
+      <HomeBlogsSection blogs={blogs} loading={blogsLoading} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeTestimonials) }} />
       <TestimonialsShowcase testimonials={testimonials} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenTrainingAndVideos) }} />

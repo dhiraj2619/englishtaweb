@@ -28,6 +28,7 @@ const cmsModules = [
   { key: "videos", label: "Videos", description: "Add YouTube learning and demo videos." },
   { key: "demoLecture", label: "Demo Video", description: "Manage the single demo lecture video shown on the website." },
   { key: "webinars", label: "Webinars", description: "Manage live and recorded webinar sessions." },
+  { key: "blogs", label: "Blogs", description: "Publish blog posts with SEO fields and banner thumbnails." },
 ];
 
 const allModules = [...modules, ...leadModules, ...courseManagementModules, ...cmsModules];
@@ -53,10 +54,12 @@ const moduleIconNames = {
   demoLecture: "play",
   videos: "film",
   webinars: "monitor",
+  blogs: "message",
   courseInquiryCount: "message",
   webinarRegistrationCount: "users",
   whatsAppReviewCount: "star",
   demoLectureCount: "play",
+  blogsCount: "message",
   courseEnrollmentCount: "graduate",
   coursesCount: "book",
   webinarsCount: "monitor",
@@ -144,6 +147,16 @@ const emptyForms = {
     link: "",
     description: "",
   },
+  blogs: {
+    title: "",
+    thumbnail: "",
+    shortDescription: "",
+    content: "",
+    metaTitle: "",
+    metaDescription: "",
+    keywords: "",
+    visible: "Yes",
+  },
 };
 
 const starterData = {
@@ -206,6 +219,7 @@ const starterData = {
       registrationsCount: 0,
     },
   ],
+  blogs: [],
 };
 
 const columns = {
@@ -302,6 +316,14 @@ const columns = {
     ["link", "Link"],
     ["registrationsCount", "Registered Users"],
   ],
+  blogs: [
+    ["title", "Title"],
+    ["thumbnail", "Banner"],
+    ["shortDescription", "Short Description"],
+    ["metaTitle", "Meta Title"],
+    ["visible", "Visible"],
+    ["createdAt", "Created On"],
+  ],
 };
 
 const languageLabels = {
@@ -373,6 +395,8 @@ export default function AdminDashboard() {
   const [demoLectureError, setDemoLectureError] = useState("");
   const [webinarsLoading, setWebinarsLoading] = useState(false);
   const [webinarsError, setWebinarsError] = useState("");
+  const [blogsLoading, setBlogsLoading] = useState(false);
+  const [blogsError, setBlogsError] = useState("");
   const [webinarLeadsLoading, setWebinarLeadsLoading] = useState(false);
   const [webinarLeadsError, setWebinarLeadsError] = useState("");
   const [courseLeadsLoading, setCourseLeadsLoading] = useState(false);
@@ -456,6 +480,11 @@ export default function AdminDashboard() {
         count: dashboardStats?.whatsAppReviewCount ?? data.whatsappReviews?.length ?? 0,
       },
       {
+        key: "blogsCount",
+        label: "Blogs",
+        count: dashboardStats?.blogsCount ?? data.blogs?.length ?? 0,
+      },
+      {
         key: "demoLectureCount",
         label: "Demo Lecture",
         count: data.demoLecture?.length ?? 0,
@@ -486,6 +515,7 @@ export default function AdminDashboard() {
       data.courses?.length,
       data.webinars?.length,
       data.whatsappReviews?.length,
+      data.blogs?.length,
       data.demoLecture?.length,
       data.users?.length,
       courseEnrollments.length,
@@ -556,7 +586,8 @@ export default function AdminDashboard() {
         (data.whatsappReviews?.length ?? 0) +
         (data.videos?.length ?? 0) +
         (data.demoLecture?.length ?? 0) +
-        (data.webinars?.length ?? 0)
+        (data.webinars?.length ?? 0) +
+        (data.blogs?.length ?? 0)
       );
     }
 
@@ -575,6 +606,7 @@ export default function AdminDashboard() {
     if (currentModule === "videos") return "New YouTube Video";
     if (currentModule === "whatsappReviews") return "New WhatsApp Review";
     if (currentModule === "demoLecture") return "New Demo Lecture Video";
+    if (currentModule === "blogs") return "New Blog";
     if (currentModule === "batches") return "New Batch";
     if (currentModule === "skillCheckTests") return "New Skill Test";
     if (currentModule === "testimonials") return "New Testimonial";
@@ -604,6 +636,7 @@ export default function AdminDashboard() {
     setWhatsappReviewsError("");
     setDemoLectureError("");
     setWebinarsError("");
+    setBlogsError("");
     setWebinarLeadsError("");
     setCourseLeadsError("");
     setUsersError("");
@@ -627,6 +660,7 @@ export default function AdminDashboard() {
     setWhatsappReviewsError("");
     setDemoLectureError("");
     setWebinarsError("");
+    setBlogsError("");
   }
 
   function selectReviewTab(tabKey) {
@@ -639,6 +673,7 @@ export default function AdminDashboard() {
     setWhatsappReviewsError("");
     setDemoLectureError("");
     setWebinarsError("");
+    setBlogsError("");
     setWebinarLeadsError("");
     setCourseLeadsError("");
     setUsersError("");
@@ -781,6 +816,29 @@ export default function AdminDashboard() {
       setWebinarsError(error.message || "Failed to load webinars.");
     } finally {
       setWebinarsLoading(false);
+    }
+  }
+
+  async function fetchBlogs() {
+    setBlogsLoading(true);
+    setBlogsError("");
+
+    try {
+      const response = await fetch("/api/blogs", { cache: "no-store" });
+      const payload = await response.json();
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.message || "Failed to load blogs.");
+      }
+
+      setData((current) => ({
+        ...current,
+        blogs: payload.data ?? [],
+      }));
+    } catch (error) {
+      setBlogsError(error.message || "Failed to load blogs.");
+    } finally {
+      setBlogsLoading(false);
     }
   }
 
@@ -934,6 +992,7 @@ export default function AdminDashboard() {
       fetchWhatsappReviews();
       fetchDemoLecture();
       fetchWebinars();
+      fetchBlogs();
       fetchWebinarLeads();
       fetchCourseLeads();
       fetchUsers();
@@ -991,6 +1050,8 @@ export default function AdminDashboard() {
       const uploadEndpoint =
         moduleKey === "webinars"
           ? "/api/uploads/webinar-thumbnail"
+          : moduleKey === "blogs"
+            ? "/api/uploads/blog-thumbnail"
           : moduleKey === "whatsappReviews"
             ? "/api/uploads/whatsapp-review"
             : moduleKey === "demoLecture"
@@ -1387,6 +1448,57 @@ export default function AdminDashboard() {
       return;
     }
 
+    if (moduleKey === "blogs") {
+      const blogTitle = form.title?.trim() || "Blog";
+      const actionLabel = editingId ? "updated" : "added";
+
+      try {
+        setBlogsError("");
+
+        if (!form.thumbnail) {
+          throw new Error("Please upload a blog banner first.");
+        }
+
+        if (!form.title?.trim() || !form.shortDescription?.trim() || !form.content?.trim()) {
+          throw new Error("Title, short description, and full blog content are required.");
+        }
+
+        const response = await fetch(editingId ? `/api/blogs/${editingId}` : "/api/blogs", {
+          method: editingId ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to save blog.");
+        }
+
+        setData((current) => {
+          const list = current.blogs ?? [];
+
+          return {
+            ...current,
+            blogs: editingId
+              ? list.map((item) => ((item._id ?? item.id) === editingId ? payload.data : item))
+              : [payload.data, ...list],
+          };
+        });
+
+        resetForm();
+        await fetchBlogs();
+        showToast("success", `Blog ${blogTitle} ${actionLabel} success`);
+      } catch (error) {
+        const message = error.message || "Failed to save blog.";
+        setBlogsError(message);
+        showToast("error", `Blog ${blogTitle} ${actionLabel} failed: ${message}`);
+      }
+
+      return;
+    }
+
     if (moduleKey === "batches") {
       const batchName = form.name?.trim() || "Batch";
       const actionLabel = editingId ? "updated" : "added";
@@ -1767,6 +1879,45 @@ export default function AdminDashboard() {
       return;
     }
 
+    if (moduleKey === "blogs") {
+      const confirmed = window.confirm("Delete this blog?");
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        setBlogsError("");
+
+        const response = await fetch(`/api/blogs/${id}`, {
+          method: "DELETE",
+        });
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+          throw new Error(payload.message || "Failed to delete blog.");
+        }
+
+        setData((current) => ({
+          ...current,
+          blogs: current.blogs.filter((item) => (item._id ?? item.id) !== id),
+        }));
+
+        if (editingId === id) {
+          resetForm();
+        }
+
+        await fetchBlogs();
+        showToast("success", "Blog deleted success");
+      } catch (error) {
+        const message = error.message || "Failed to delete blog.";
+        setBlogsError(message);
+        showToast("error", `Blog delete failed: ${message}`);
+      }
+
+      return;
+    }
+
     if (moduleKey === "batches") {
       const confirmed = window.confirm("Delete this batch?");
 
@@ -2111,6 +2262,7 @@ export default function AdminDashboard() {
             ) : null}
             {currentModule === "demoLecture" && demoLectureError ? <div className="adminEmpty">{demoLectureError}</div> : null}
             {currentModule === "webinars" && webinarsError ? <div className="adminEmpty">{webinarsError}</div> : null}
+            {currentModule === "blogs" && blogsError ? <div className="adminEmpty">{blogsError}</div> : null}
             {currentModule === "webinarLeads" && webinarLeadsError ? <div className="adminEmpty">{webinarLeadsError}</div> : null}
             {currentModule === "courseLeads" && courseLeadsError ? <div className="adminEmpty">{courseLeadsError}</div> : null}
             {currentModule === "courseEnrollments" && usersError ? <div className="adminEmpty">{usersError}</div> : null}
@@ -2135,6 +2287,7 @@ export default function AdminDashboard() {
                   (currentModule === "whatsappReviews" && whatsappReviewsLoading) ||
                   (currentModule === "demoLecture" && demoLectureLoading) ||
                   (currentModule === "webinars" && webinarsLoading) ||
+                  (currentModule === "blogs" && blogsLoading) ||
                   (currentModule === "webinarLeads" && webinarLeadsLoading) ||
                   (currentModule === "courseLeads" && courseLeadsLoading) ||
                   (currentModule === "courseEnrollments" && usersLoading) ||
@@ -2220,15 +2373,30 @@ function AdminForm({
       ["link", "Webinar / Recording Link", "input"],
       ["description", "Details", "textarea", "adminFull"],
     ],
+    blogs: [
+      ["title", "Blog Title", "input"],
+      ["visible", "Display on Website", "select", ["Yes", "No"]],
+      ["shortDescription", "Short Description", "textarea", "adminFull"],
+      ["content", "Full Blog Content", "richtext", "adminFull"],
+      ["metaTitle", "Meta Title", "input", "adminFull"],
+      ["metaDescription", "Meta Description", "textarea", "adminFull"],
+      ["keywords", "Keywords", "textarea", "adminFull"],
+    ],
   };
 
   return (
     <form className="adminForm" onSubmit={onSubmit}>
-      {moduleKey === "courses" || moduleKey === "webinars" || moduleKey === "whatsappReviews" || moduleKey === "demoLecture" ? (
+      {moduleKey === "courses" ||
+      moduleKey === "webinars" ||
+      moduleKey === "blogs" ||
+      moduleKey === "whatsappReviews" ||
+      moduleKey === "demoLecture" ? (
         <div className="adminField adminFull">
           <label htmlFor="thumbnailFile">
             {moduleKey === "webinars"
               ? "Webinar Thumbnail"
+              : moduleKey === "blogs"
+                ? "Blog Banner"
               : moduleKey === "whatsappReviews"
                 ? "WhatsApp Review Image"
                 : moduleKey === "demoLecture"
@@ -2250,6 +2418,8 @@ function AdminForm({
                 alt={`${
                   moduleKey === "webinars"
                     ? "Webinar"
+                    : moduleKey === "blogs"
+                      ? "Blog banner"
                     : moduleKey === "whatsappReviews"
                       ? "WhatsApp review"
                       : moduleKey === "demoLecture"
