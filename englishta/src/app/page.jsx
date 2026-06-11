@@ -2326,7 +2326,7 @@ const HomeBanner = ({ isReady = false }) => {
 const goalCards = [
   {
     number: "01",
-    href: "/courses",
+    href: "/course/promise-a-communication-transformation-framework",
     icon: "fa-solid fa-book-open",
     title: "Learn from Beginning",
     text: "Start your English journey from scratch and build strong foundations.",
@@ -2566,6 +2566,31 @@ const normalizeHomeCoursePrice = (price) => {
   return `\u20b9${normalizedPrice}`;
 };
 
+const parseHomeCoursePriceAmount = (price) => {
+  const amount = Number(String(price || "").replace(/[^\d.]/g, ""));
+  return Number.isFinite(amount) ? amount : 0;
+};
+
+const loadHomeRazorpayCheckout = () =>
+  new Promise((resolve, reject) => {
+    if (typeof window === "undefined") {
+      reject(new Error("Payment can only be started in the browser."));
+      return;
+    }
+
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => reject(new Error("Unable to load Razorpay checkout."));
+    document.body.appendChild(script);
+  });
+
 const getHomeCourseFees = (course) => {
   const discountedPrice = course.discountedPrice || course.price;
   const actualPrice = course.actualPrice;
@@ -2580,6 +2605,10 @@ const getHomeCourseFees = (course) => {
   };
 };
 
+const getHomeCourseDuration = (course) => stripHtml(course.timeline || course.duration || "").trim();
+
+const getHomePurchaseRedirect = (courseId) => `/?purchaseCourse=${encodeURIComponent(courseId)}`;
+
 const getHomeJoinedCourseId = (joinedCourse) =>
   joinedCourse?.course?._id || joinedCourse?.course || joinedCourse?._id || "";
 
@@ -2593,9 +2622,22 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
   const [activeMode, setActiveMode] = useState("live");
   const [currentUser, setCurrentUser] = useState(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [selectedPurchaseCourse, setSelectedPurchaseCourse] = useState(null);
+  const [isEnrolling, setIsEnrolling] = useState(false);
+  const [enrollFeedback, setEnrollFeedback] = useState({ type: "", message: "" });
+  const [successModalContent, setSuccessModalContent] = useState({
+    eyebrow: "Payment Successful",
+    title: "Your course seat is confirmed",
+    message: "Payment successful. You are enrolled in this course.",
+    actionLabel: "Go to Dashboard",
+    actionHref: "/joined-courses",
+  });
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const visibleCourses = useMemo(() => courses.filter((course) => course.visible !== "No"), [courses]);
   const activeCourses = useMemo(() => {
-    const adminCourses = visibleCourses.filter((course) => course.courseMode === activeMode);
+    const adminCourses = visibleCourses
+      .filter((course) => course.courseMode === activeMode)
+      .reverse();
 
     if (activeMode !== "live") {
       return adminCourses;
@@ -2634,7 +2676,171 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (loading || isAuthLoading || selectedPurchaseCourse) return undefined;
+
+    const params = new URLSearchParams(window.location.search);
+    const requestedCourseId = params.get("purchaseCourse");
+
+    if (!requestedCourseId) return undefined;
+
+    const requestedCourse = visibleCourses.find((course) => String(course._id) === String(requestedCourseId));
+
+    if (!requestedCourse) return undefined;
+
+    if (!currentUser) {
+      window.dispatchEvent(
+        new CustomEvent("englishta:protected-navigation", {
+          detail: { href: getHomePurchaseRedirect(requestedCourseId) },
+        }),
+      );
+      return undefined;
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      setSelectedPurchaseCourse(requestedCourse);
+      setEnrollFeedback({ type: "", message: "" });
+      window.history.replaceState({}, "", window.location.pathname);
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [currentUser, isAuthLoading, loading, selectedPurchaseCourse, visibleCourses]);
+
+  const closePurchaseModal = () => {
+    setSelectedPurchaseCourse(null);
+    setEnrollFeedback({ type: "", message: "" });
+  };
+
+  const closeCourseSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+  };
+
+  const openPurchaseModal = (course) => {
+    if (isAuthLoading || !course?._id) return;
+
+    if (isHomeUserEnrolledInCourse(currentUser, course)) {
+      window.location.assign("/my-progress");
+      return;
+    }
+
+    if (!currentUser) {
+      window.dispatchEvent(
+        new CustomEvent("englishta:protected-navigation", {
+          detail: { href: getHomePurchaseRedirect(course._id) },
+        }),
+      );
+      return;
+    }
+
+    setSelectedPurchaseCourse(course);
+    setEnrollFeedback({ type: "", message: "" });
+  };
+
+  const handleHomeCourseEnrollment = async () => {
+    const course = selectedPurchaseCourse;
+
+    if (!course?._id) {
+      setEnrollFeedback({ type: "error", message: "Course is not ready yet." });
+      return;
+    }
+
+    if (!currentUser) {
+      closePurchaseModal();
+      window.dispatchEvent(
+        new CustomEvent("englishta:protected-navigation", {
+          detail: { href: getHomePurchaseRedirect(course._id) },
+        }),
+      );
+      return;
+    }
+
+    setIsEnrolling(true);
+    setEnrollFeedback({ type: "", message: "" });
+
+    try {
+      await loadHomeRazorpayCheckout();
+
+      const orderResponse = await fetch("/api/payments/razorpay/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ courseId: course._id }),
+      });
+      const orderPayload = await orderResponse.json();
+
+      if (!orderResponse.ok || !orderPayload.success) {
+        throw new Error(orderPayload.message || "Unable to start payment.");
+      }
+
+      const paymentResult = await new Promise((resolve, reject) => {
+        const razorpay = new window.Razorpay({
+          key: orderPayload.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+          amount: orderPayload.order.amount,
+          currency: orderPayload.order.currency,
+          name: "Englishta",
+          description: course.name,
+          order_id: orderPayload.order.id,
+          prefill: {
+            name: orderPayload.user?.name || currentUser?.name || "",
+            email: orderPayload.user?.email || currentUser?.email || "",
+            contact: orderPayload.user?.phone || currentUser?.phone || "",
+          },
+          theme: {
+            color: "#feb60c",
+          },
+          handler: (response) => resolve(response),
+          modal: {
+            ondismiss: () => reject(new Error("Payment was cancelled.")),
+          },
+        });
+
+        razorpay.open();
+      });
+
+      const verifyResponse = await fetch("/api/payments/razorpay/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(paymentResult),
+      });
+      const verifyPayload = await verifyResponse.json();
+
+      if (!verifyResponse.ok || !verifyPayload.success) {
+        throw new Error(verifyPayload.message || "Payment verification failed.");
+      }
+
+      setCurrentUser(verifyPayload.user || currentUser);
+      closePurchaseModal();
+      setSuccessModalContent({
+        eyebrow: "Payment Successful",
+        title: "Your course seat is confirmed",
+        message: verifyPayload.message || "Payment successful. You are enrolled in this course.",
+        actionLabel: "Go to Dashboard",
+        actionHref: "/joined-courses",
+      });
+      setIsSuccessModalOpen(true);
+    } catch (enrollError) {
+      setEnrollFeedback({
+        type: "error",
+        message: enrollError.message || "Unable to complete payment.",
+      });
+    } finally {
+      setIsEnrolling(false);
+    }
+  };
+
+  const purchaseCourseFeeAmount = parseHomeCoursePriceAmount(
+    selectedPurchaseCourse?.discountedPrice || selectedPurchaseCourse?.price,
+  );
+  const purchaseAdvanceAmount = 999;
+  const purchaseRemainingAmount =
+    purchaseCourseFeeAmount > purchaseAdvanceAmount ? purchaseCourseFeeAmount - purchaseAdvanceAmount : 0;
+  const purchaseDuration = getHomeCourseDuration(selectedPurchaseCourse || {}) || "3 Months";
+
   return (
+    <>
     <section className="englishtaCourseCatalog englishtaHomeCourseCatalog" id="home-courses">
       <div className="container">
         <div className="englishtaCourseCatalog__head wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
@@ -2686,7 +2892,6 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                 const fees = getHomeCourseFees(course);
                 const detailHref = course.isFallback ? "/contact-us" : `/course/${slug}`;
                 const isEnrolled = isHomeUserEnrolledInCourse(currentUser, course);
-                const actionHref = isEnrolled ? "/my-progress" : detailHref;
                 const actionLabel = isAuthLoading
                   ? "Checking..."
                   : isEnrolled
@@ -2695,6 +2900,7 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                 const courseLanguageLabel = course.languages.map((language) => homeLanguageLabels[language] || language).join(" + ");
                 const courseImage = getHomeCourseImage(course, index);
                 const hasFees = Boolean(fees?.discounted);
+                const courseDuration = getHomeCourseDuration(course);
 
                 return (
                   <article className="englishtaCourseCard englishtaCourseCard--feature" key={course._id ?? slug}>
@@ -2713,6 +2919,13 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
 
                       <h4>{course.name}</h4>
 
+                      {courseDuration ? (
+                        <span className="englishtaCourseCard__duration">
+                          <i className="fa-regular fa-clock" aria-hidden="true" />
+                          Duration: {courseDuration}
+                        </span>
+                      ) : null}
+
                       <div className="englishtaCourseCard__priceRow">
                         <span className="englishtaCourseCard__price">
                           {hasFees ? (
@@ -2730,14 +2943,18 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                         </span>
                       </div>
 
-                      <span className="englishtaCourseCard__discount">
-                        <i className="fa-solid fa-tag" aria-hidden="true" />
-                        Discount of 13% applied
-                      </span>
-
                       <div className="englishtaCourseCard__actions">
-                        <Link href={actionHref} className="englishtaCourseCard__button englishtaCourseCard__button--solid">
+                        <button
+                          type="button"
+                          className="englishtaCourseCard__button englishtaCourseCard__button--solid"
+                          onClick={() => openPurchaseModal(course)}
+                          disabled={isAuthLoading}
+                        >
                           {actionLabel}
+                          <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+                        </button>
+                        <Link href={detailHref} className="englishtaCourseCard__button englishtaCourseCard__button--outline">
+                          Explore
                           <i className="fa-solid fa-arrow-right" aria-hidden="true" />
                         </Link>
                       </div>
@@ -2750,6 +2967,135 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
         ) : null}
       </div>
     </section>
+    {selectedPurchaseCourse ? (
+      <div className="englishtaWebinarModal" onClick={closePurchaseModal}>
+        <div
+          className="englishtaWebinarModal__dialog englishtaCourseEnrollModal"
+          onClick={(event) => event.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="home-course-enroll-title"
+        >
+          <button type="button" className="englishtaWebinarModal__close" onClick={closePurchaseModal}>
+            <i className="fa-solid fa-xmark" />
+          </button>
+
+          <div className="englishtaCourseEnrollModal__layout">
+            <section className="englishtaCourseEnrollModal__summary">
+              <h2 id="home-course-enroll-title">Join This Course</h2>
+              <p>
+                Start your English speaking journey today.
+                <strong> Secure your seat by paying the advance amount online.</strong>
+              </p>
+
+              <div className="englishtaCourseEnrollModal__details">
+                <article>
+                  <span><i className="fa-solid fa-book-open" /></span>
+                  <div>
+                    <strong>Course Name</strong>
+                    <p>{selectedPurchaseCourse.name}</p>
+                  </div>
+                </article>
+                <article>
+                  <span><i className="fa-regular fa-calendar-days" /></span>
+                  <div>
+                    <strong>Duration</strong>
+                    <p>{purchaseDuration}</p>
+                  </div>
+                </article>
+                <article>
+                  <span><i className="fa-solid fa-users" /></span>
+                  <div>
+                    <strong>Batch</strong>
+                    <p>Flexible Online Batch</p>
+                  </div>
+                </article>
+              </div>
+
+              <div className="englishtaCourseEnrollModal__benefits">
+                <span><i className="fa-solid fa-circle-check" />Reserve your seat instantly</span>
+                <span><i className="fa-solid fa-circle-check" />Personal guidance call</span>
+                <span><i className="fa-solid fa-circle-check" />Batch preference support</span>
+                <span><i className="fa-solid fa-circle-check" />Flexible payment options</span>
+              </div>
+            </section>
+
+            <section className="englishtaCourseEnrollModal__payment">
+              <h3>Payment Details</h3>
+              <div className="englishtaCourseEnrollModal__amountCard">
+                <span>Advance Booking Amount</span>
+                <strong>₹{purchaseAdvanceAmount}</strong>
+                <hr />
+                <span>Remaining Amount</span>
+                <p>
+                  {purchaseRemainingAmount ? `₹${purchaseRemainingAmount}` : "Pay after counsellor confirmation"}
+                </p>
+              </div>
+
+              <p className="englishtaCourseEnrollModal__secure">
+                <i className="fa-solid fa-lock" />
+                Secure &amp; Safe Payment
+              </p>
+
+              {enrollFeedback.message ? (
+                <p className={`englishtaCourseEnrollModal__feedback ${enrollFeedback.type}`}>
+                  {enrollFeedback.message}
+                </p>
+              ) : null}
+
+              <button
+                type="button"
+                className="englishtaCourseEnrollModal__reserve"
+                onClick={handleHomeCourseEnrollment}
+                disabled={isEnrolling}
+              >
+                <i className="fa-solid fa-lock" />
+                {isEnrolling ? "Opening Payment..." : `Pay ₹${purchaseAdvanceAmount} & Reserve Seat`}
+              </button>
+
+              <small>Your seat will be reserved after successful payment.</small>
+            </section>
+          </div>
+        </div>
+      </div>
+    ) : null}
+    {isSuccessModalOpen ? (
+      <div className="englishtaWebinarModal" onClick={closeCourseSuccessModal}>
+        <div
+          className="englishtaWebinarModal__dialog englishtaWebinarModal__dialog--success"
+          onClick={(event) => event.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="home-course-success-title"
+        >
+          <button type="button" className="englishtaWebinarModal__close" onClick={closeCourseSuccessModal}>
+            <i className="fa-solid fa-xmark" />
+          </button>
+          <div className="englishtaWebinarModal__successIcon">
+            <i className="fa-solid fa-check" />
+          </div>
+          <div className="englishtaWebinarModal__head englishtaWebinarModal__head--success">
+            <p>{successModalContent.eyebrow}</p>
+            <h2 id="home-course-success-title">{successModalContent.title}</h2>
+          </div>
+          <p className="englishtaWebinarModal__successText">
+            {successModalContent.message}
+          </p>
+          {successModalContent.actionHref ? (
+            <Link href={successModalContent.actionHref} className="englishtaWebinarModal__submit">
+              {successModalContent.actionLabel}
+              <i className="fa-solid fa-arrow-right" />
+            </Link>
+          ) : (
+            <button type="button" className="englishtaWebinarModal__submit" onClick={closeCourseSuccessModal}>
+              Close
+              <i className="fa-solid fa-arrow-right" />
+            </button>
+          )}
+        </div>
+      </div>
+    ) : null}
+    </>
   );
 };
 
@@ -3238,7 +3584,7 @@ const LearningAnywhereSection = () => {
       <div className="container">
         <div className="englishtaAnywhereSection__heading">
           <h2>
-             The Solution is
+              The
             <span>Englishta</span>
           </h2>
           <p>

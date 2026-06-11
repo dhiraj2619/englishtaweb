@@ -561,6 +561,28 @@ iframe[title*="Chat"] {
   }
 }
 
+@media (max-width: 1399px) {
+  .englishtaHomeCourseCatalog .container {
+    max-width: 1240px;
+  }
+
+  .englishtaHomeCourseCatalog .englishtaCoursesGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 991px) {
+  .englishtaHomeCourseCatalog .englishtaCoursesGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .englishtaHomeCourseCatalog .englishtaCoursesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .englishtaSolutionPin {
   background: #160006;
   min-height: 175vh;
@@ -5727,6 +5749,30 @@ iframe[title*="Chat"] {
   padding-top: 14px;
 }
 
+.englishtaCourseCard__duration {
+  align-items: center;
+  background: #fff7df;
+  border: 1px solid rgba(240, 168, 0, 0.22);
+  border-radius: 999px;
+  color: #6d4600;
+  display: inline-flex;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.25;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 8px 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.englishtaCourseCard__duration i {
+  color: #d49112;
+  flex: 0 0 auto;
+}
+
 .englishtaCourseCard__price {
   align-items: center;
   background: #2b120b;
@@ -5795,16 +5841,21 @@ iframe[title*="Chat"] {
 
 .englishtaCourseCard__actions {
   display: grid;
-  gap: 14px;
+  gap: 12px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .englishtaCourseCard__button {
   align-items: center;
-  border-radius: 12px;
+  border-radius: 6px;
   display: inline-flex;
+  font-family: Nunito, sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  gap: 8px;
   justify-content: center;
-  min-height: 42px;
+  min-height: 46px;
+  padding: 10px 14px;
   text-decoration: none;
   transition:
     transform 0.2s ease,
@@ -5818,25 +5869,16 @@ iframe[title*="Chat"] {
 }
 
 .englishtaCourseCard__button--outline {
-  border: 1px solid #c9b8ff;
-  color: #5c48f0;
-  font-weight: 900;
-  border-radius: 999px;
-  min-height: 50px;
+  background: #fff;
+  border: 1px solid #2b120b;
+  color: #2b120b;
 }
 
 .englishtaCourseCard__button--solid {
   background: #ffbf1f;
   border: 1px solid #1f1400;
-  border-radius: 999px;
-  font-family: Nunito, sans-serif;
-  font-size: 14px;
   box-shadow: 6px 6px 0 rgba(36, 22, 0, 0.75);
   color: #1d1200;
-  font-weight: 700;
-  gap: 10px;
-  padding: 7px 18px;
-  min-height: 20px;
 }
 
 .englishtaCourseCard__button:hover {
@@ -6038,7 +6080,30 @@ iframe[title*="Chat"] {
   padding: 27px 0 92px;
 }
 
+.englishtaHomeCourseCatalog .container {
+  max-width: 1660px;
+}
+
+.englishtaHomeCourseCatalog .englishtaCoursesGrid {
+  gap: 26px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.englishtaHomeCourseCatalog .englishtaCourseCard__image--feature {
+  height: 205px;
+}
+
+.englishtaHomeCourseCatalog .englishtaCourseCard__body--feature {
+  padding: 18px 20px 20px;
+}
+
+.englishtaHomeCourseCatalog .englishtaCourseCard h4 {
+  font-size: 18px;
+  line-height: 24px;
+}
+
 .englishtaSuccessStories {
+  
   background: #fff;
   padding: 42px 0 34px;
 }
@@ -29516,4 +29581,34 @@ body {
   letter-spacing: 0;
   line-height: 1.2;
   margin: 0 0 12px;
+}
+
+.englishtaHomeCourseCatalog .container {
+  max-width: 1660px;
+}
+
+.englishtaHomeCourseCatalog .englishtaCoursesGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1399px) {
+  .englishtaHomeCourseCatalog .container {
+    max-width: 1240px;
+  }
+
+  .englishtaHomeCourseCatalog .englishtaCoursesGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 991px) {
+  .englishtaHomeCourseCatalog .englishtaCoursesGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .englishtaHomeCourseCatalog .englishtaCoursesGrid {
+    grid-template-columns: 1fr;
+  }
 }
