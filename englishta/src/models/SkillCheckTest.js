@@ -15,19 +15,27 @@ const skillCheckQuestionSchema = new mongoose.Schema(
     options: {
       type: [String],
       validate: {
-        validator: (value) => Array.isArray(value) && value.filter(Boolean).length >= 2,
-        message: "At least two options are required.",
+        validator: (value) => Array.isArray(value) && value.filter(Boolean).length === 3,
+        message: "Exactly three options are required.",
       },
+    },
+    optionScores: {
+      type: [Number],
+      validate: {
+        validator: (value) => Array.isArray(value) && value.length === 3 && value.every((score) => [1, 2, 3].includes(Number(score))),
+        message: "Each option must have a score from 1 to 3.",
+      },
+      default: [1, 2, 3],
     },
     correctOptionIndex: {
       type: Number,
       min: 0,
-      required: true,
+      default: 2,
     },
     marks: {
       type: Number,
       min: 1,
-      default: 1,
+      default: 3,
     },
   },
   { _id: true },

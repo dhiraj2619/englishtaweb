@@ -280,7 +280,8 @@ export default function SkillAssessmentPage() {
                 key={optionIndex}
               >
                 <span>{String.fromCharCode(65 + optionIndex)}</span>
-                {option}
+                <strong className="englishtaSkillTest__optionText">{option}</strong>
+                <small>({currentQuestion.optionScores?.[optionIndex] ?? optionIndex + 1})</small>
               </button>
             ))}
           </div>

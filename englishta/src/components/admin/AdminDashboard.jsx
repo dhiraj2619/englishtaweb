@@ -106,17 +106,13 @@ const emptyForms = {
     title: "",
     description: "",
     timeLimitMinutes: "15",
-    passingScore: "5",
+    passingScore: "0",
     visible: "Yes",
-    questions: [
-      {
-        question: "",
-        category: "vocabulary",
-        options: ["", "", "", ""],
-        correctOptionIndex: 0,
-        marks: "1",
-      },
-    ],
+    questions: Array.from({ length: 5 }, () => ({
+      question: "",
+      options: ["", "", ""],
+      optionScores: [1, 2, 3],
+    })),
   },
   testimonials: {
     studentName: "",
@@ -1569,8 +1565,25 @@ export default function AdminDashboard() {
 
         const questions = Array.isArray(form.questions) ? form.questions : [];
 
-        if (!questions.length) {
-          throw new Error("Please add at least one question.");
+        if (questions.length !== 5) {
+          throw new Error("Please add exactly 5 questions. Each set is out of 15 marks.");
+        }
+
+        const invalidQuestionIndex = questions.findIndex((question) => {
+          const options = Array.isArray(question.options) ? question.options : [];
+          const optionScores = Array.isArray(question.optionScores) ? question.optionScores : [];
+
+          return (
+            !question.question?.trim() ||
+            options.length !== 3 ||
+            options.some((option) => !String(option || "").trim()) ||
+            optionScores.length !== 3 ||
+            optionScores.some((score) => ![1, 2, 3].includes(Number(score)))
+          );
+        });
+
+        if (invalidQuestionIndex >= 0) {
+          throw new Error(`Please complete question ${invalidQuestionIndex + 1} with 3 options and scores from 1 to 3.`);
         }
 
         const response = await fetch(editingId ? `/api/skill-check-tests/${editingId}` : "/api/skill-check-tests", {
@@ -2343,7 +2356,6 @@ function AdminForm({
       ["setCode", "Test Set", "select", ["A", "B", "C", "D"]],
       ["title", "Test Title", "input"],
       ["timeLimitMinutes", "Time Limit (Minutes)", "number"],
-      ["passingScore", "Passing Score", "number"],
       ["visible", "Display for Students", "select", ["Yes", "No"]],
       ["description", "Test Description", "textarea", "adminFull"],
     ],
@@ -2541,15 +2553,20 @@ function AdminForm({
 function createEmptySkillQuestion() {
   return {
     question: "",
-    category: "vocabulary",
-    options: ["", "", "", ""],
-    correctOptionIndex: 0,
-    marks: "1",
+    options: ["", "", ""],
+    optionScores: [1, 2, 3],
   };
 }
 
 function SkillCheckQuestionBuilder({ questions, onChange }) {
-  const normalizedQuestions = questions.length ? questions : [createEmptySkillQuestion()];
+  const normalizedQuestions = (questions.length ? questions : Array.from({ length: 5 }, createEmptySkillQuestion)).map((question) => ({
+    ...question,
+    options: Array.isArray(question.options) && question.options.length ? question.options.slice(0, 3) : ["", "", ""],
+    optionScores:
+      Array.isArray(question.optionScores) && question.optionScores.length
+        ? question.optionScores.slice(0, 3).map((score, index) => Number(score) || index + 1)
+        : [1, 2, 3],
+  }));
 
   function updateQuestion(index, field, value) {
     const nextQuestions = normalizedQuestions.map((question, questionIndex) =>
@@ -2564,7 +2581,7 @@ function SkillCheckQuestionBuilder({ questions, onChange }) {
         return question;
       }
 
-      const options = Array.isArray(question.options) ? [...question.options] : ["", "", "", ""];
+      const options = Array.isArray(question.options) ? [...question.options] : ["", "", ""];
       options[optionIndex] = value;
 
       return { ...question, options };
@@ -2573,7 +2590,26 @@ function SkillCheckQuestionBuilder({ questions, onChange }) {
     onChange(nextQuestions);
   }
 
+  function updateOptionScore(questionIndex, optionIndex, value) {
+    const nextQuestions = normalizedQuestions.map((question, currentQuestionIndex) => {
+      if (currentQuestionIndex !== questionIndex) {
+        return question;
+      }
+
+      const optionScores = Array.isArray(question.optionScores) ? [...question.optionScores] : [1, 2, 3];
+      optionScores[optionIndex] = Number(value);
+
+      return { ...question, optionScores };
+    });
+
+    onChange(nextQuestions);
+  }
+
   function addQuestion() {
+    if (normalizedQuestions.length >= 5) {
+      return;
+    }
+
     onChange([...normalizedQuestions, createEmptySkillQuestion()]);
   }
 
@@ -2587,21 +2623,30 @@ function SkillCheckQuestionBuilder({ questions, onChange }) {
       <div className="adminSkillBuilderHeader">
         <div>
           <h3>MCQ Questions</h3>
-          <p>Add options and choose the correct answer for auto-checking.</p>
+          <p>Create exactly 5 questions. Each question has 3 options scored 1, 2, and 3. Total set score is 15.</p>
         </div>
-        <button type="button" className="adminButton adminButtonAlt" onClick={addQuestion}>
+        <button type="button" className="adminButton adminButtonAlt" onClick={addQuestion} disabled={normalizedQuestions.length >= 5}>
           Add Question
         </button>
       </div>
 
       {normalizedQuestions.map((question, questionIndex) => {
-        const options = Array.isArray(question.options) && question.options.length ? question.options : ["", "", "", ""];
+        const options = Array.isArray(question.options) && question.options.length ? question.options.slice(0, 3) : ["", "", ""];
+        const optionScores =
+          Array.isArray(question.optionScores) && question.optionScores.length
+            ? question.optionScores.slice(0, 3)
+            : [1, 2, 3];
 
         return (
           <div className="adminSkillQuestion" key={question._id ?? questionIndex}>
             <div className="adminSkillQuestionTop">
               <strong>Question {questionIndex + 1}</strong>
-              <button type="button" className="adminButton adminButtonDanger" onClick={() => removeQuestion(questionIndex)}>
+              <button
+                type="button"
+                className="adminButton adminButtonDanger"
+                onClick={() => removeQuestion(questionIndex)}
+                disabled={normalizedQuestions.length <= 5}
+              >
                 Remove
               </button>
             </div>
@@ -2615,48 +2660,26 @@ function SkillCheckQuestionBuilder({ questions, onChange }) {
               />
             </div>
 
-            <div className="adminSkillMeta">
-              <div className="adminField">
-                <label htmlFor={`skill-category-${questionIndex}`}>Category</label>
-                <select
-                  id={`skill-category-${questionIndex}`}
-                  value={question.category ?? "vocabulary"}
-                  onChange={(event) => updateQuestion(questionIndex, "category", event.target.value)}
-                >
-                  <option value="speaking">Speaking Assessment</option>
-                  <option value="vocabulary">Vocabulary Test</option>
-                  <option value="confidence">Confidence Check</option>
-                  <option value="grammar">Grammar</option>
-                </select>
-              </div>
-
-              <div className="adminField">
-                <label htmlFor={`skill-marks-${questionIndex}`}>Marks</label>
-                <input
-                  id={`skill-marks-${questionIndex}`}
-                  type="number"
-                  min="1"
-                  value={question.marks ?? "1"}
-                  onChange={(event) => updateQuestion(questionIndex, "marks", event.target.value)}
-                />
-              </div>
-            </div>
 
             <div className="adminSkillOptions">
               {options.map((option, optionIndex) => (
                 <label className="adminSkillOption" key={optionIndex}>
-                  <input
-                    type="radio"
-                    name={`correct-option-${questionIndex}`}
-                    checked={Number(question.correctOptionIndex ?? 0) === optionIndex}
-                    onChange={() => updateQuestion(questionIndex, "correctOptionIndex", optionIndex)}
-                  />
                   <span>Option {optionIndex + 1}</span>
                   <input
+                    className="adminSkillOptionText"
                     type="text"
                     value={option}
                     onChange={(event) => updateOption(questionIndex, optionIndex, event.target.value)}
                     placeholder={`Enter option ${optionIndex + 1}`}
+                  />
+                  <input
+                    className="adminSkillOptionScore"
+                    type="number"
+                    min="1"
+                    max="3"
+                    value={optionScores[optionIndex] ?? optionIndex + 1}
+                    onChange={(event) => updateOptionScore(questionIndex, optionIndex, event.target.value)}
+                    aria-label={`Marks for option ${optionIndex + 1}`}
                   />
                 </label>
               ))}

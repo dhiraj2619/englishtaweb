@@ -20,7 +20,12 @@ function sanitizeTest(test) {
       question: question.question,
       category: question.category,
       options: question.options,
-      marks: question.marks || 1,
+      optionScores: Array.isArray(question.optionScores) && question.optionScores.length
+        ? question.optionScores
+        : question.options.map((_option, index) => index + 1),
+      marks: Math.max(...(Array.isArray(question.optionScores) && question.optionScores.length
+        ? question.optionScores
+        : question.options.map((_option, index) => index + 1))),
     })),
   };
 }

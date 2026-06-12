@@ -9,13 +9,7 @@ import User from "@/models/User";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function getResultLevel(score, totalMarks) {
-  const percentage = totalMarks > 0 ? (score / totalMarks) * 100 : 0;
-
-  if (percentage >= 75) return "advanced";
-  if (percentage >= 45) return "intermediate";
-  return "beginner";
-}
+function getRecommendationType(score) {`r`n  return score < 10 ? "promise" : "fluency";`r`n}`r`n`r`nfunction getResultLevel(score) {`r`n  return getRecommendationType(score) === "promise" ? "beginner" : "intermediate";`r`n}
 
 function getResultLabel(score, totalMarks) {
   const percentage = totalMarks > 0 ? (score / totalMarks) * 100 : 0;
@@ -80,9 +74,14 @@ export async function POST(request) {
     const checkedAnswers = test.questions.map((question) => {
       const questionId = String(question._id);
       const selectedOptionIndex = answerMap.get(questionId);
-      const marks = Number(question.marks || 1);
-      const correct = Number(selectedOptionIndex) === Number(question.correctOptionIndex);
-      const marksAwarded = correct ? marks : 0;
+      const optionScores =
+        Array.isArray(question.optionScores) && question.optionScores.length
+          ? question.optionScores.map(Number)
+          : (question.options || []).map((_option, index) => index + 1);
+      const marks = optionScores.length ? Math.max(...optionScores) : Number(question.marks || 1);
+      const selectedScore = optionScores[Number(selectedOptionIndex)] || 0;
+      const marksAwarded = Number.isFinite(selectedScore) ? selectedScore : 0;
+      const correct = marksAwarded === marks;
 
       totalMarks += marks;
       score += marksAwarded;
@@ -99,7 +98,7 @@ export async function POST(request) {
       };
     });
 
-    const resultLevel = getResultLevel(score, totalMarks);
+    const resultLevel = getResultLevel(score);
     const percentageScore = totalMarks > 0 ? Math.round((score / totalMarks) * 100) : 0;
 
     await SkillCheckAttempt.create({
@@ -123,6 +122,7 @@ export async function POST(request) {
     user.vocabularyScore = categoryScores.vocabulary;
     user.confidenceScore = categoryScores.confidence;
     user.englishLevel = resultLevel;
+    user.recommendationGenerated = true;
     user.totalTestsCompleted = (user.totalTestsCompleted || 0) + 1;
     user.averageScore = percentageScore;
     user.overallProgress = Math.max(user.overallProgress || 0, percentageScore);
