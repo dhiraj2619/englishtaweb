@@ -2290,18 +2290,18 @@ const HomeBanner = ({ isReady = false }) => {
             <span />
           </div>
           {[
-            ["fa-solid fa-user", "Promise Course", "For Beginners"],
-            ["fa-solid fa-chart-line", "Fluency Course", "For Advanced"],
-            ["fa-solid fa-briefcase", "Ace Course", "For Interview"],
-          ].map(([icon, title, text]) => (
-            <a href="/courses" className="englishtaHeroShade__batchCard" key={title}>
+            ["fa-solid fa-user", "Promise Course", "For Beginners", "/course/promise"],
+            ["fa-solid fa-chart-line", "Fluency Course", "For Advanced", "/course/fluency"],
+            ["fa-solid fa-briefcase", "Ace Course", "For Interview", "/course/ace"],
+          ].map(([icon, title, text, href]) => (
+            <Link href={href} className="englishtaHeroShade__batchCard" key={title}>
               <i className={icon} aria-hidden="true" />
               <span>
                 <strong>{title}</strong>
                 <small>{text}</small>
               </span>
               <i className="fa-solid fa-chevron-right" aria-hidden="true" />
-            </a>
+            </Link>
           ))}
         </div>
       </div>
@@ -2326,21 +2326,21 @@ const HomeBanner = ({ isReady = false }) => {
 const goalCards = [
   {
     number: "01",
-    href: "/course/promise-a-communication-transformation-framework",
+    href: "/course/promise",
     icon: "fa-solid fa-book-open",
     title: "Learn from Beginning",
     text: "Start your English journey from scratch and build strong foundations.",
   },
   {
     number: "02",
-    href: "/course/fluency-start-with-isafe-move-into-drive",
+    href: "/course/fluency",
     icon: "fa-solid fa-chart-column",
     title: "Improve My Fluency",
     text: "Enhance your speaking skills and communicate with confidence.",
   },
   {
     number: "03",
-    href: "/course/interview-done-with-drive-move-into-ace",
+    href: "/course/ace",
     icon: "fa-solid fa-briefcase",
     title: "Crack Interview",
     text: "Prepare effectively and ace your job interviews with ease.",
@@ -2354,7 +2354,7 @@ const goalCards = [
   },
   {
     number: "05",
-    href: "/course/grammar-discover-the-core-of-grammar",
+    href: "/course/grammar",
     icon: "fa-solid fa-shield-halved",
     title: "Master Grammar for Communication",
     text: "Strengthen your grammar and use English naturally in real-life conversations.",
@@ -2841,264 +2841,264 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
 
   return (
     <>
-    <section className="englishtaCourseCatalog englishtaHomeCourseCatalog" id="home-courses">
-      <div className="container">
-        <div className="englishtaCourseCatalog__head wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
-          <p>Popular Courses</p>
-          <h1>Choose Your <span>Course</span></h1>
-          <span aria-hidden="true" />
-        </div>
-
-        <div className="englishtaCourseModeTabs" role="tablist" aria-label="Course modes">
-          {homeCourseModeTabs.map(([value, label, icon]) => (
-            <button
-              type="button"
-              className={activeMode === value ? "isActive" : ""}
-              onClick={() => setActiveMode(value)}
-              role="tab"
-              aria-selected={activeMode === value}
-              key={value}
-            >
-              <i className={icon} />
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {loading ? (
-          <div className="englishtaCoursesGrid">
-            {[1, 2, 3, 4].map((item) => (
-              <div className="englishtaCourseCard englishtaCourseCard--loading" key={item}>
-                <span />
-                <strong />
-                <p />
-                <div />
-              </div>
-            ))}
+      <section className="englishtaCourseCatalog englishtaHomeCourseCatalog" id="home-courses">
+        <div className="container">
+          <div className="englishtaCourseCatalog__head wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
+            <p>Popular Courses</p>
+            <h1>Choose Your <span>Course</span></h1>
+            <span aria-hidden="true" />
           </div>
-        ) : null}
 
-        {!loading && error ? <div className="englishtaCoursesNotice">{error}</div> : null}
-
-        {!loading && !error ? (
-          <>
-            {activeCourses.length === 0 ? (
-              <div className="englishtaCoursesNotice">Coming soon</div>
-            ) : null}
-
-            <div className="englishtaCoursesGrid">
-              {activeCourses.map((course, index) => {
-                const slug = slugifyCourseName(course.name);
-                const fees = getHomeCourseFees(course);
-                const detailHref = course.isFallback ? "/contact-us" : `/course/${slug}`;
-                const isEnrolled = isHomeUserEnrolledInCourse(currentUser, course);
-                const actionLabel = isAuthLoading
-                  ? "Checking..."
-                  : isEnrolled
-                    ? "View Progress"
-                    : "Join Now";
-                const courseLanguageLabel = course.languages.map((language) => homeLanguageLabels[language] || language).join(" + ");
-                const courseImage = getHomeCourseImage(course, index);
-                const hasFees = Boolean(fees?.discounted);
-                const courseDuration = getHomeCourseDuration(course);
-
-                return (
-                  <article className="englishtaCourseCard englishtaCourseCard--feature" key={course._id ?? slug}>
-                    <div className="englishtaCourseCard__image englishtaCourseCard__image--feature">
-                      <img src={courseImage} alt={course.name} />
-
-                    </div>
-
-                    <div className="englishtaCourseCard__body englishtaCourseCard__body--feature">
-                      <div className="englishtaCourseCard__topline">
-                        <span className="englishtaCourseCard__tag">Language: {courseLanguageLabel}</span>
-                        <a className="englishtaCourseCard__whatsApp" href="/contact-us" aria-label="Open WhatsApp or contact">
-                          <i className="fa-brands fa-whatsapp" aria-hidden="true" />
-                        </a>
-                      </div>
-
-                      <h4>{course.name}</h4>
-
-                      {course.shortDescription ? (
-                        <p className="englishtaCourseCard__description">{course.shortDescription}</p>
-                      ) : null}
-
-                      {courseDuration ? (
-                        <span className="englishtaCourseCard__duration">
-                          <i className="fa-regular fa-clock" aria-hidden="true" />
-                          Duration: {courseDuration}
-                        </span>
-                      ) : null}
-
-                      <div className="englishtaCourseCard__priceRow">
-                        <span className="englishtaCourseCard__price">
-                          {hasFees ? (
-                            <>
-                              <strong>{fees.discounted}</strong>
-                              {fees.actual ? <del>{fees.actual}</del> : null}
-                            </>
-                          ) : (
-                            <strong>Contact Us</strong>
-                          )}
-                        </span>
-                        <span className="englishtaCourseCard__students">
-                          <i className="fa-solid fa-users" aria-hidden="true" />
-                          {course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "12 Students"}
-                        </span>
-                      </div>
-
-                      <div className="englishtaCourseCard__actions">
-                        <Link href={detailHref} className="englishtaCourseCard__button englishtaCourseCard__button--outline">
-                          Explore
-                          <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-                        </Link>
-                        <button
-                          type="button"
-                          className="englishtaCourseCard__button englishtaCourseCard__button--solid"
-                          onClick={() => openPurchaseModal(course)}
-                          disabled={isAuthLoading}
-                        >
-                          {actionLabel}
-                          <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-                        </button>
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </>
-        ) : null}
-      </div>
-    </section>
-    {selectedPurchaseCourse ? (
-      <div className="englishtaWebinarModal" onClick={closePurchaseModal}>
-        <div
-          className="englishtaWebinarModal__dialog englishtaCourseEnrollModal"
-          onClick={(event) => event.stopPropagation()}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="home-course-enroll-title"
-        >
-          <button type="button" className="englishtaWebinarModal__close" onClick={closePurchaseModal}>
-            <i className="fa-solid fa-xmark" />
-          </button>
-
-          <div className="englishtaCourseEnrollModal__layout">
-            <section className="englishtaCourseEnrollModal__summary">
-              <h2 id="home-course-enroll-title">Join This Course</h2>
-              <p>
-                Start your English speaking journey today.
-                <strong> Secure your seat by paying the advance amount online.</strong>
-              </p>
-
-              <div className="englishtaCourseEnrollModal__details">
-                <article>
-                  <span><i className="fa-solid fa-book-open" /></span>
-                  <div>
-                    <strong>Course Name</strong>
-                    <p>{selectedPurchaseCourse.name}</p>
-                  </div>
-                </article>
-                <article>
-                  <span><i className="fa-regular fa-calendar-days" /></span>
-                  <div>
-                    <strong>Duration</strong>
-                    <p>{purchaseDuration}</p>
-                  </div>
-                </article>
-                <article>
-                  <span><i className="fa-solid fa-users" /></span>
-                  <div>
-                    <strong>Batch</strong>
-                    <p>Flexible Online Batch</p>
-                  </div>
-                </article>
-              </div>
-
-              <div className="englishtaCourseEnrollModal__benefits">
-                <span><i className="fa-solid fa-circle-check" />Reserve your seat instantly</span>
-                <span><i className="fa-solid fa-circle-check" />Personal guidance call</span>
-                <span><i className="fa-solid fa-circle-check" />Batch preference support</span>
-                <span><i className="fa-solid fa-circle-check" />Flexible payment options</span>
-              </div>
-            </section>
-
-            <section className="englishtaCourseEnrollModal__payment">
-              <h3>Payment Details</h3>
-              <div className="englishtaCourseEnrollModal__amountCard">
-                <span>Advance Booking Amount</span>
-                <strong>₹{purchaseAdvanceAmount}</strong>
-                <hr />
-                <span>Remaining Amount</span>
-                <p>
-                  {purchaseRemainingAmount ? `₹${purchaseRemainingAmount}` : "Pay after counsellor confirmation"}
-                </p>
-              </div>
-
-              <p className="englishtaCourseEnrollModal__secure">
-                <i className="fa-solid fa-lock" />
-                Secure &amp; Safe Payment
-              </p>
-
-              {enrollFeedback.message ? (
-                <p className={`englishtaCourseEnrollModal__feedback ${enrollFeedback.type}`}>
-                  {enrollFeedback.message}
-                </p>
-              ) : null}
-
+          <div className="englishtaCourseModeTabs" role="tablist" aria-label="Course modes">
+            {homeCourseModeTabs.map(([value, label, icon]) => (
               <button
                 type="button"
-                className="englishtaCourseEnrollModal__reserve"
-                onClick={handleHomeCourseEnrollment}
-                disabled={isEnrolling}
+                className={activeMode === value ? "isActive" : ""}
+                onClick={() => setActiveMode(value)}
+                role="tab"
+                aria-selected={activeMode === value}
+                key={value}
               >
-                <i className="fa-solid fa-lock" />
-                {isEnrolling ? "Opening Payment..." : `Pay ₹${purchaseAdvanceAmount} & Reserve Seat`}
+                <i className={icon} />
+                {label}
               </button>
+            ))}
+          </div>
 
-              <small>Your seat will be reserved after successful payment.</small>
-            </section>
-          </div>
+          {loading ? (
+            <div className="englishtaCoursesGrid">
+              {[1, 2, 3, 4].map((item) => (
+                <div className="englishtaCourseCard englishtaCourseCard--loading" key={item}>
+                  <span />
+                  <strong />
+                  <p />
+                  <div />
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {!loading && error ? <div className="englishtaCoursesNotice">{error}</div> : null}
+
+          {!loading && !error ? (
+            <>
+              {activeCourses.length === 0 ? (
+                <div className="englishtaCoursesNotice">Coming soon</div>
+              ) : null}
+
+              <div className="englishtaCoursesGrid">
+                {activeCourses.map((course, index) => {
+                  const slug = slugifyCourseName(course.name);
+                  const fees = getHomeCourseFees(course);
+                  const detailHref = course.isFallback ? "/contact-us" : `/course/${slug}`;
+                  const isEnrolled = isHomeUserEnrolledInCourse(currentUser, course);
+                  const actionLabel = isAuthLoading
+                    ? "Checking..."
+                    : isEnrolled
+                      ? "View Progress"
+                      : "Join Now";
+                  const courseLanguageLabel = course.languages.map((language) => homeLanguageLabels[language] || language).join(" + ");
+                  const courseImage = getHomeCourseImage(course, index);
+                  const hasFees = Boolean(fees?.discounted);
+                  const courseDuration = getHomeCourseDuration(course);
+
+                  return (
+                    <article className="englishtaCourseCard englishtaCourseCard--feature" key={course._id ?? slug}>
+                      <div className="englishtaCourseCard__image englishtaCourseCard__image--feature">
+                        <img src={courseImage} alt={course.name} />
+
+                      </div>
+
+                      <div className="englishtaCourseCard__body englishtaCourseCard__body--feature">
+                        <div className="englishtaCourseCard__topline">
+                          <span className="englishtaCourseCard__tag">Language: {courseLanguageLabel}</span>
+                          <a className="englishtaCourseCard__whatsApp" href="/contact-us" aria-label="Open WhatsApp or contact">
+                            <i className="fa-brands fa-whatsapp" aria-hidden="true" />
+                          </a>
+                        </div>
+
+                        <h4>{course.name}</h4>
+
+                        {course.shortDescription ? (
+                          <p className="englishtaCourseCard__description">{course.shortDescription}</p>
+                        ) : null}
+
+                        {courseDuration ? (
+                          <span className="englishtaCourseCard__duration">
+                            <i className="fa-regular fa-clock" aria-hidden="true" />
+                            Duration: {courseDuration}
+                          </span>
+                        ) : null}
+
+                        <div className="englishtaCourseCard__priceRow">
+                          <span className="englishtaCourseCard__price">
+                            {hasFees ? (
+                              <>
+                                <strong>{fees.discounted}</strong>
+                                {fees.actual ? <del>{fees.actual}</del> : null}
+                              </>
+                            ) : (
+                              <strong>Contact Us</strong>
+                            )}
+                          </span>
+                          <span className="englishtaCourseCard__students">
+                            <i className="fa-solid fa-users" aria-hidden="true" />
+                            {course.studentsEnrolled ? `${course.studentsEnrolled} Students` : "12 Students"}
+                          </span>
+                        </div>
+
+                        <div className="englishtaCourseCard__actions">
+                          <Link href={detailHref} className="englishtaCourseCard__button englishtaCourseCard__button--outline">
+                            Explore
+                            <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+                          </Link>
+                          <button
+                            type="button"
+                            className="englishtaCourseCard__button englishtaCourseCard__button--solid"
+                            onClick={() => openPurchaseModal(course)}
+                            disabled={isAuthLoading}
+                          >
+                            {actionLabel}
+                            <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </>
+          ) : null}
         </div>
-      </div>
-    ) : null}
-    {isSuccessModalOpen ? (
-      <div className="englishtaWebinarModal" onClick={closeCourseSuccessModal}>
-        <div
-          className="englishtaWebinarModal__dialog englishtaWebinarModal__dialog--success"
-          onClick={(event) => event.stopPropagation()}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="home-course-success-title"
-        >
-          <button type="button" className="englishtaWebinarModal__close" onClick={closeCourseSuccessModal}>
-            <i className="fa-solid fa-xmark" />
-          </button>
-          <div className="englishtaWebinarModal__successIcon">
-            <i className="fa-solid fa-check" />
-          </div>
-          <div className="englishtaWebinarModal__head englishtaWebinarModal__head--success">
-            <p>{successModalContent.eyebrow}</p>
-            <h2 id="home-course-success-title">{successModalContent.title}</h2>
-          </div>
-          <p className="englishtaWebinarModal__successText">
-            {successModalContent.message}
-          </p>
-          {successModalContent.actionHref ? (
-            <Link href={successModalContent.actionHref} className="englishtaWebinarModal__submit">
-              {successModalContent.actionLabel}
-              <i className="fa-solid fa-arrow-right" />
-            </Link>
-          ) : (
-            <button type="button" className="englishtaWebinarModal__submit" onClick={closeCourseSuccessModal}>
-              Close
-              <i className="fa-solid fa-arrow-right" />
+      </section>
+      {selectedPurchaseCourse ? (
+        <div className="englishtaWebinarModal" onClick={closePurchaseModal}>
+          <div
+            className="englishtaWebinarModal__dialog englishtaCourseEnrollModal"
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="home-course-enroll-title"
+          >
+            <button type="button" className="englishtaWebinarModal__close" onClick={closePurchaseModal}>
+              <i className="fa-solid fa-xmark" />
             </button>
-          )}
+
+            <div className="englishtaCourseEnrollModal__layout">
+              <section className="englishtaCourseEnrollModal__summary">
+                <h2 id="home-course-enroll-title">Join This Course</h2>
+                <p>
+                  Start your English speaking journey today.
+                  <strong> Secure your seat by paying the advance amount online.</strong>
+                </p>
+
+                <div className="englishtaCourseEnrollModal__details">
+                  <article>
+                    <span><i className="fa-solid fa-book-open" /></span>
+                    <div>
+                      <strong>Course Name</strong>
+                      <p>{selectedPurchaseCourse.name}</p>
+                    </div>
+                  </article>
+                  <article>
+                    <span><i className="fa-regular fa-calendar-days" /></span>
+                    <div>
+                      <strong>Duration</strong>
+                      <p>{purchaseDuration}</p>
+                    </div>
+                  </article>
+                  <article>
+                    <span><i className="fa-solid fa-users" /></span>
+                    <div>
+                      <strong>Batch</strong>
+                      <p>Flexible Online Batch</p>
+                    </div>
+                  </article>
+                </div>
+
+                <div className="englishtaCourseEnrollModal__benefits">
+                  <span><i className="fa-solid fa-circle-check" />Reserve your seat instantly</span>
+                  <span><i className="fa-solid fa-circle-check" />Personal guidance call</span>
+                  <span><i className="fa-solid fa-circle-check" />Batch preference support</span>
+                  <span><i className="fa-solid fa-circle-check" />Flexible payment options</span>
+                </div>
+              </section>
+
+              <section className="englishtaCourseEnrollModal__payment">
+                <h3>Payment Details</h3>
+                <div className="englishtaCourseEnrollModal__amountCard">
+                  <span>Advance Booking Amount</span>
+                  <strong>₹{purchaseAdvanceAmount}</strong>
+                  <hr />
+                  <span>Remaining Amount</span>
+                  <p>
+                    {purchaseRemainingAmount ? `₹${purchaseRemainingAmount}` : "Pay after counsellor confirmation"}
+                  </p>
+                </div>
+
+                <p className="englishtaCourseEnrollModal__secure">
+                  <i className="fa-solid fa-lock" />
+                  Secure &amp; Safe Payment
+                </p>
+
+                {enrollFeedback.message ? (
+                  <p className={`englishtaCourseEnrollModal__feedback ${enrollFeedback.type}`}>
+                    {enrollFeedback.message}
+                  </p>
+                ) : null}
+
+                <button
+                  type="button"
+                  className="englishtaCourseEnrollModal__reserve"
+                  onClick={handleHomeCourseEnrollment}
+                  disabled={isEnrolling}
+                >
+                  <i className="fa-solid fa-lock" />
+                  {isEnrolling ? "Opening Payment..." : `Pay ₹${purchaseAdvanceAmount} & Reserve Seat`}
+                </button>
+
+                <small>Your seat will be reserved after successful payment.</small>
+              </section>
+            </div>
+          </div>
         </div>
-      </div>
-    ) : null}
+      ) : null}
+      {isSuccessModalOpen ? (
+        <div className="englishtaWebinarModal" onClick={closeCourseSuccessModal}>
+          <div
+            className="englishtaWebinarModal__dialog englishtaWebinarModal__dialog--success"
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="home-course-success-title"
+          >
+            <button type="button" className="englishtaWebinarModal__close" onClick={closeCourseSuccessModal}>
+              <i className="fa-solid fa-xmark" />
+            </button>
+            <div className="englishtaWebinarModal__successIcon">
+              <i className="fa-solid fa-check" />
+            </div>
+            <div className="englishtaWebinarModal__head englishtaWebinarModal__head--success">
+              <p>{successModalContent.eyebrow}</p>
+              <h2 id="home-course-success-title">{successModalContent.title}</h2>
+            </div>
+            <p className="englishtaWebinarModal__successText">
+              {successModalContent.message}
+            </p>
+            {successModalContent.actionHref ? (
+              <Link href={successModalContent.actionHref} className="englishtaWebinarModal__submit">
+                {successModalContent.actionLabel}
+                <i className="fa-solid fa-arrow-right" />
+              </Link>
+            ) : (
+              <button type="button" className="englishtaWebinarModal__submit" onClick={closeCourseSuccessModal}>
+                Close
+                <i className="fa-solid fa-arrow-right" />
+              </button>
+            )}
+          </div>
+        </div>
+      ) : null}
     </>
   );
 };
@@ -3219,40 +3219,40 @@ const whyEnglishtaFeatures = [
 ];
 
 const HowEnglishtaHelpsSection = () => (
-   <section className="englishtaWhyChoose" id="whychooseenglishta">
-          <div className="container">
-            <div className="englishtaWhyChoose__intro wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.1s">
-              {/* <p className="englishtaAboutEyebrow">Why Englishta?</p> */}
-              <h2>
-                Why <span>Englishta?</span>
-              </h2>
-              <p>
-                At Englishta, learning English is not just about studying rules - it is about experiencing the
-                language.
-              </p>
-              <p>
-                Your class becomes a place where learners do not just listen. They speak, interact, enjoy, and
-                grow in confidence.
-              </p>
-            </div>
+  <section className="englishtaWhyChoose" id="whychooseenglishta">
+    <div className="container">
+      <div className="englishtaWhyChoose__intro wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.1s">
+        {/* <p className="englishtaAboutEyebrow">Why Englishta?</p> */}
+        <h2>
+          Why <span>Englishta?</span>
+        </h2>
+        <p>
+          At Englishta, learning English is not just about studying rules - it is about experiencing the
+          language.
+        </p>
+        <p>
+          Your class becomes a place where learners do not just listen. They speak, interact, enjoy, and
+          grow in confidence.
+        </p>
+      </div>
 
-            <div className="englishtaWhyChoose__features" aria-label="What makes Englishta different">
-              {whyEnglishtaFeatures.map(([icon, title, text], index) => (
-                <article
-                  className="wow fadeInUp"
-                  data-aos="fade-up"
-                  data-wow-duration="1s"
-                  data-wow-delay={`${0.12 + index * 0.05}s`}
-                  key={title}
-                >
-                  <i className={icon} aria-hidden="true" />
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </article>
-              ))}
-            </div>
+      <div className="englishtaWhyChoose__features" aria-label="What makes Englishta different">
+        {whyEnglishtaFeatures.map(([icon, title, text], index) => (
+          <article
+            className="wow fadeInUp"
+            data-aos="fade-up"
+            data-wow-duration="1s"
+            data-wow-delay={`${0.12 + index * 0.05}s`}
+            key={title}
+          >
+            <i className={icon} aria-hidden="true" />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
 
-            {/* <div className="englishtaWhyChoose__result wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.15s">
+      {/* <div className="englishtaWhyChoose__result wow fadeInUp" data-aos="fade-up" data-wow-duration="1s" data-wow-delay="0.15s">
               <div>
                 <p className="englishtaAboutEyebrow">The Real Result</p>
                 <h3>Learning Feels Alive</h3>
@@ -3272,8 +3272,8 @@ const HowEnglishtaHelpsSection = () => (
               <p>You do not just learn English at Englishta - you start living it with confidence.</p>
               <strong>Simple teaching that finally makes English understandable.</strong>
             </blockquote> */}
-          </div>
-        </section>
+    </div>
+  </section>
 );
 
 const videoCards = [
@@ -3588,7 +3588,7 @@ const LearningAnywhereSection = () => {
       <div className="container">
         <div className="englishtaAnywhereSection__heading">
           <h2>
-              The
+            The
             <span>Englishta</span>
           </h2>
           <p>
@@ -4765,21 +4765,21 @@ const Home = () => {
       <HomeBanner isReady={isHeroReady} />
       <LearnerStruggleSection />
       {/* <EnglishtaSolutionSection /> */}
-         <LearningAnywhereSection />
+      <LearningAnywhereSection />
       {/* <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeCourseCatalog) }} /> */}
       <WhatsAppReviewsShowcase reviews={whatsappReviews} />
       {/* <HomeSuccessStoriesSection /> */}
-       {/* <HowEnglishtaHelpsSection /> */}
-       
+      {/* <HowEnglishtaHelpsSection /> */}
+
       <HomeCourseCatalog courses={courses} loading={coursesLoading} error={coursesError} />
-     
+
 
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenCourseCatalogAndAnywhere) }} />
       <HomeWebinarSection webinars={webinars} />
       {/* <MobileAppPromo /> */}
-   
+
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(betweenAnywhereAndTraining) }} />
-     
+
       <HomeBlogsSection blogs={blogs} loading={blogsLoading} />
       <div className="legacyHomeContent" dangerouslySetInnerHTML={{ __html: cleanLegacyHomeHtml(beforeTestimonials) }} />
       <TestimonialsShowcase testimonials={testimonials} />

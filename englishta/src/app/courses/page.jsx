@@ -332,7 +332,9 @@ const CoursesPageContent = () => {
   );
 
   const activeCourses = useMemo(() => {
-    const adminCourses = visibleCourses.filter((course) => course.courseMode === activeMode);
+    const adminCourses = visibleCourses
+      .filter((course) => course.courseMode === activeMode)
+      .reverse();
 
     if (activeMode !== "live") {
       return adminCourses;
