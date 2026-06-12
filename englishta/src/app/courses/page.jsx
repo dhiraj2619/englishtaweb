@@ -129,6 +129,10 @@ const getCourseFees = (course) => {
   };
 };
 
+const stripCourseHtml = (value = "") => value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+
+const getCourseDuration = (course) => stripCourseHtml(course.timeline || course.duration || "").trim();
+
 const getJoinedCourseId = (joinedCourse) =>
   joinedCourse?.course?._id || joinedCourse?.course || joinedCourse?._id || "";
 
@@ -153,6 +157,7 @@ function CourseCard({ course, index, currentUser, isAuthLoading }) {
         : "Join Now";
   const courseLanguageLabel = course.languages.map((language) => languageLabels[language] || language).join(" + ");
   const hasFees = Boolean(fees?.discounted);
+  const courseDuration = getCourseDuration(course);
 
   return (
     <article className="englishtaCourseCard englishtaCourseCard--feature">
@@ -170,15 +175,26 @@ function CourseCard({ course, index, currentUser, isAuthLoading }) {
 
         <h4>{course.name}</h4>
 
+        {course.shortDescription ? (
+          <p className="englishtaCourseCard__description">{course.shortDescription}</p>
+        ) : null}
+
+        {courseDuration ? (
+          <span className="englishtaCourseCard__duration">
+            <i className="fa-regular fa-clock" aria-hidden="true" />
+            Duration: {courseDuration}
+          </span>
+        ) : null}
+
         <div className="englishtaCourseCard__priceRow">
           <span className="englishtaCourseCard__price">
             {hasFees ? (
               <>
-                <strong>Investment: {fees.discounted}</strong>
+                <strong>{fees.discounted}</strong>
                 {fees.actual ? <del>{fees.actual}</del> : null}
               </>
             ) : (
-              <strong>Investment: Contact Us</strong>
+              <strong>Contact Us</strong>
             )}
           </span>
           <span className="englishtaCourseCard__students">
@@ -187,12 +203,11 @@ function CourseCard({ course, index, currentUser, isAuthLoading }) {
           </span>
         </div>
 
-        <span className="englishtaCourseCard__discount">
-          <i className="fa-solid fa-tag" aria-hidden="true" />
-          Discount of 13% applied
-        </span>
-
         <div className="englishtaCourseCard__actions">
+          <Link href={detailHref} className="englishtaCourseCard__button englishtaCourseCard__button--outline">
+            Explore
+            <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+          </Link>
           <Link href={actionHref} className="englishtaCourseCard__button englishtaCourseCard__button--solid">
             {actionLabel}
             <i className="fa-solid fa-arrow-right" aria-hidden="true" />

@@ -5740,6 +5740,19 @@ iframe[title*="Chat"] {
   margin: 0;
 }
 
+.englishtaCourseCard__description {
+  display: -webkit-box;
+  margin: -2px 0 0;
+  overflow: hidden;
+  color: #5f5964;
+  font-family: Nunito, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.42;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 .englishtaCourseCard__priceRow {
   align-items: center;
   border-top: 1px solid rgba(15, 15, 15, 0.08);
@@ -5775,25 +5788,25 @@ iframe[title*="Chat"] {
 
 .englishtaCourseCard__price {
   align-items: center;
-  background: #2b120b;
-  border-radius: 999px;
-  color: #fff !important;
+  background: transparent;
+  border-radius: 0;
+  color: #231c20 !important;
   display: inline-flex;
-  gap: 8px;
+  gap: 10px;
   min-height: 38px;
-  padding: 8px 14px;
+  padding: 0;
 }
 
 .englishtaCourseCard__price strong {
-  color: #fff !important;
-  font-size: 13px;
-  font-weight: 900;
+  color: #231c20 !important;
+  font-size: 18px;
+  font-weight: 800;
 }
 
 .englishtaCourseCard__price del {
-  color: rgba(255, 255, 255, 0.58);
-  font-size: 12px;
-  font-weight: 800;
+  color: rgba(35, 28, 32, 0.58);
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .englishtaCourseCard__students {
@@ -6103,7 +6116,6 @@ iframe[title*="Chat"] {
 }
 
 .englishtaSuccessStories {
-  
   background: #fff;
   padding: 42px 0 34px;
 }

@@ -2347,7 +2347,7 @@ const goalCards = [
   },
   {
     number: "04",
-    href: "/course/promise-a-communication-transformation-framework",
+    href: "/course/focus",
     icon: "fa-regular fa-user",
     title: "One to One Guidance",
     text: "Get personalized attention and guidance from expert mentors.",
@@ -2919,6 +2919,10 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
 
                       <h4>{course.name}</h4>
 
+                      {course.shortDescription ? (
+                        <p className="englishtaCourseCard__description">{course.shortDescription}</p>
+                      ) : null}
+
                       {courseDuration ? (
                         <span className="englishtaCourseCard__duration">
                           <i className="fa-regular fa-clock" aria-hidden="true" />
@@ -2930,11 +2934,11 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                         <span className="englishtaCourseCard__price">
                           {hasFees ? (
                             <>
-                              <strong>Investment: {fees.discounted}</strong>
+                              <strong>{fees.discounted}</strong>
                               {fees.actual ? <del>{fees.actual}</del> : null}
                             </>
                           ) : (
-                            <strong>Investment: Contact Us</strong>
+                            <strong>Contact Us</strong>
                           )}
                         </span>
                         <span className="englishtaCourseCard__students">
@@ -2944,6 +2948,10 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                       </div>
 
                       <div className="englishtaCourseCard__actions">
+                        <Link href={detailHref} className="englishtaCourseCard__button englishtaCourseCard__button--outline">
+                          Explore
+                          <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+                        </Link>
                         <button
                           type="button"
                           className="englishtaCourseCard__button englishtaCourseCard__button--solid"
@@ -2953,10 +2961,6 @@ const HomeCourseCatalog = ({ courses = [], loading = false, error = "" }) => {
                           {actionLabel}
                           <i className="fa-solid fa-arrow-right" aria-hidden="true" />
                         </button>
-                        <Link href={detailHref} className="englishtaCourseCard__button englishtaCourseCard__button--outline">
-                          Explore
-                          <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-                        </Link>
                       </div>
                     </div>
                   </article>
