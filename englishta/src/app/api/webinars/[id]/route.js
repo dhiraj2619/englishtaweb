@@ -7,6 +7,11 @@ import Webinar from "@/models/Webinar";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+async function resolveWebinarId(params) {
+  const resolvedParams = params ? await params : {};
+  return String(resolvedParams.id || "").trim();
+}
+
 function validateWebinarPayload(payload) {
   if (!payload.title?.trim()) return "Title is required.";
   if (!payload.thumbnail?.trim()) return "Thumbnail is required.";
@@ -19,7 +24,8 @@ function validateWebinarPayload(payload) {
 export async function GET(_request, { params }) {
   try {
     await connectToDatabase();
-    const webinar = await Webinar.findById(params.id).lean();
+    const webinarId = await resolveWebinarId(params);
+    const webinar = webinarId ? await Webinar.findById(webinarId).lean() : null;
 
     if (!webinar) {
       return NextResponse.json({ success: false, message: "Webinar not found." }, { status: 404 });
@@ -36,7 +42,8 @@ export async function PUT(request, { params }) {
     await requireAdminAccess();
     await connectToDatabase();
     const body = await request.json();
-    const existingWebinar = await Webinar.findById(params.id).lean();
+    const webinarId = await resolveWebinarId(params);
+    const existingWebinar = webinarId ? await Webinar.findById(webinarId).lean() : null;
 
     if (!existingWebinar) {
       return NextResponse.json({ success: false, message: "Webinar not found." }, { status: 404 });
@@ -58,7 +65,7 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ success: false, message: errorMessage }, { status: 400 });
     }
 
-    const webinar = await Webinar.findByIdAndUpdate(params.id, payload, { new: true, runValidators: true }).lean();
+    const webinar = await Webinar.findByIdAndUpdate(webinarId, payload, { new: true, runValidators: true }).lean();
 
     return NextResponse.json({ success: true, data: webinar });
   } catch (error) {
@@ -71,7 +78,8 @@ export async function DELETE(_request, { params }) {
   try {
     await requireAdminAccess();
     await connectToDatabase();
-    const webinar = await Webinar.findByIdAndDelete(params.id).lean();
+    const webinarId = await resolveWebinarId(params);
+    const webinar = webinarId ? await Webinar.findByIdAndDelete(webinarId).lean() : null;
 
     if (!webinar) {
       return NextResponse.json({ success: false, message: "Webinar not found." }, { status: 404 });
