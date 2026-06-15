@@ -36,17 +36,29 @@ export async function PUT(request, { params }) {
     await requireAdminAccess();
     await connectToDatabase();
     const body = await request.json();
-    const errorMessage = validateWebinarPayload(body);
+    const existingWebinar = await Webinar.findById(params.id).lean();
+
+    if (!existingWebinar) {
+      return NextResponse.json({ success: false, message: "Webinar not found." }, { status: 404 });
+    }
+
+    const payload = {
+      ...body,
+      title: String(body.title || "").trim(),
+      thumbnail: String(body.thumbnail || existingWebinar.thumbnail || "").trim(),
+      type: body.type === "Recorded" ? "Recorded" : "Live",
+      dateTime: String(body.dateTime || "").trim(),
+      link: String(body.link || "").trim(),
+      description: String(body.description || "").trim(),
+    };
+
+    const errorMessage = validateWebinarPayload(payload);
 
     if (errorMessage) {
       return NextResponse.json({ success: false, message: errorMessage }, { status: 400 });
     }
 
-    const webinar = await Webinar.findByIdAndUpdate(params.id, body, { new: true, runValidators: true }).lean();
-
-    if (!webinar) {
-      return NextResponse.json({ success: false, message: "Webinar not found." }, { status: 404 });
-    }
+    const webinar = await Webinar.findByIdAndUpdate(params.id, payload, { new: true, runValidators: true }).lean();
 
     return NextResponse.json({ success: true, data: webinar });
   } catch (error) {

@@ -1406,7 +1406,10 @@ export default function AdminDashboard() {
       try {
         setWebinarsError("");
 
-        if (!form.thumbnail) {
+        const existingWebinar = (data.webinars ?? []).find((item) => (item._id ?? item.id) === editingId);
+        const thumbnail = form.thumbnail || existingWebinar?.thumbnail || "";
+
+        if (!thumbnail) {
           throw new Error("Please upload a webinar thumbnail first.");
         }
 
@@ -1415,7 +1418,10 @@ export default function AdminDashboard() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(form),
+          body: JSON.stringify({
+            ...form,
+            thumbnail,
+          }),
         });
         const payload = await response.json();
 

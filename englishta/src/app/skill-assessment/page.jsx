@@ -143,6 +143,7 @@ export default function SkillAssessmentPage() {
         throw new Error(payload.message || "Unable to submit skill test.");
       }
 
+      window.sessionStorage.setItem("englishta:skill-test-just-completed", "true");
       setResult(payload.data);
       if (document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});

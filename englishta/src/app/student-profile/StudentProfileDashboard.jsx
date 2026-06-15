@@ -14,7 +14,7 @@ const learningSteps = [
     id: "personal",
     badge: "1",
     accent: "green",
-    title: "Personal Details",
+    title: "Tell About Yourself",
     description: "Tell us about yourself and your learning goals.",
     bullets: ["Basic Information", "Learning Goals", "Daily Practice Time"],
     ctaIcon: "fa-solid fa-check",
@@ -160,6 +160,7 @@ export default function StudentProfileDashboard() {
   const [isSavingPersonal, setIsSavingPersonal] = useState(false);
   const [personalError, setPersonalError] = useState("");
   const [personalForm, setPersonalForm] = useState(createPersonalForm(null));
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -189,17 +190,49 @@ export default function StudentProfileDashboard() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!toast) return undefined;
+
+    const timerId = window.setTimeout(() => {
+      setToast(null);
+    }, 3500);
+
+    return () => window.clearTimeout(timerId);
+  }, [toast]);
+
   const profileState = useMemo(() => getCompletionState(currentUser), [currentUser]);
   const personalState = useMemo(() => getPersonalCompletion(currentUser), [currentUser]);
+  const skillTestComplete = Boolean(currentUser?.skillTestCompleted);
+  const skillStepUnlocked = personalState.complete;
+  const courseStepUnlocked = skillTestComplete;
 
-  const displayName = currentUser?.name || "Dhiraj";
-  const displayEmail = currentUser?.email || "dhiraj@example.com";
+  useEffect(() => {
+    const justLoadedSkillToast =
+      typeof window !== "undefined" &&
+      window.sessionStorage.getItem("englishta:skill-test-just-completed") === "true";
+
+    if (justLoadedSkillToast) {
+      const timerId = window.setTimeout(() => {
+        window.sessionStorage.removeItem("englishta:skill-test-just-completed");
+        setToast({
+          type: "success",
+          message: "Step 3 is now enabled. You can view your suitable course.",
+        });
+      }, 0);
+
+      return () => window.clearTimeout(timerId);
+    }
+  }, []);
+
+  const displayName = currentUser?.name?.trim() || "";
+  const displayEmail = currentUser?.email || "";
   const displayPhone = currentUser?.phone || "Add your phone number";
   const displayLocation = [currentUser?.city, currentUser?.state].filter(Boolean).join(", ") || "Add your city";
   const displayGoal = formatLearningGoal(currentUser?.learningGoal);
   const initial = (displayName || displayEmail || "S").trim().charAt(0).toUpperCase();
   const isSkillTestCompleted = Boolean(currentUser?.skillTestCompleted);
   const suitableCourseHref = getSuitableCourseHref(currentUser);
+  const welcomeText = displayName ? `, ${displayName}` : "";
 
   const openPersonalModal = () => {
     setPersonalForm(createPersonalForm(currentUser));
@@ -236,6 +269,10 @@ export default function StudentProfileDashboard() {
       setCurrentUser(payload.user || null);
       setPersonalForm(createPersonalForm(payload.user));
       setIsPersonalModalOpen(false);
+      setToast({
+        type: "success",
+        message: "Step 2 is now enabled. You can take the skill test now.",
+      });
     } catch (error) {
       setPersonalError(error.message || "Unable to save your profile.");
     } finally {
@@ -313,7 +350,7 @@ export default function StudentProfileDashboard() {
             <div className="englishtaStudentProfile__heroContent">
               <p className="englishtaStudentProfile__eyebrow">Student Profile</p>
               <h1>
-                Welcome back, <span>{displayName}!</span>
+                Welcome back{welcomeText ? <span>{welcomeText}!</span> : "!"}
               </h1>
               <p className="englishtaStudentProfile__heroText">
                 Complete your profile to get personalized learning recommendations and track your progress better.
@@ -377,10 +414,43 @@ export default function StudentProfileDashboard() {
 
           <div className="englishtaStudentProfile__steps">
             {learningSteps.map((step) => {
+              const isPersonalStep = step.id === "personal";
+              const isSkillsStep = step.id === "skills";
+              const isStepUnlocked =
+                isPersonalStep || (isSkillsStep ? skillStepUnlocked : courseStepUnlocked);
+              const isStepCompleted =
+                isPersonalStep ? personalState.complete : isSkillsStep ? isSkillTestCompleted : isSkillTestCompleted;
+              const stepStatusLabel = isPersonalStep
+                ? personalState.complete
+                  ? "Completed"
+                  : "Pending"
+                : isSkillsStep
+                  ? !skillStepUnlocked
+                    ? "Locked"
+                    : isSkillTestCompleted
+                      ? "Completed"
+                      : "Pending"
+                  : !courseStepUnlocked
+                    ? "Locked"
+                    : "Unlocked";
+              const stepButtonLabel = isPersonalStep
+                ? personalState.complete
+                  ? "Completed"
+                  : "Complete Now"
+                : isSkillsStep
+                  ? !skillStepUnlocked
+                    ? "Complete Tell About Yourself First"
+                    : isSkillTestCompleted
+                      ? "Completed"
+                      : "Test English Skills"
+                : !courseStepUnlocked
+                    ? "Complete Test First"
+                    : "Get Suitable Course";
+
               if (step.id === "personal") {
                 return (
                   <article
-                    className={`englishtaStudentProfile__step englishtaStudentProfile__step--${step.accent}`}
+                    className={`englishtaStudentProfile__step englishtaStudentProfile__step--${step.accent}${isStepUnlocked ? " englishtaStudentProfile__step--active" : " englishtaStudentProfile__step--locked"}${isStepCompleted ? " englishtaStudentProfile__step--completed" : ""}`}
                     key={step.id}
                   >
                     <div className="englishtaStudentProfile__stepTop">
@@ -422,7 +492,7 @@ export default function StudentProfileDashboard() {
 
               return (
                 <article
-                  className={`englishtaStudentProfile__step englishtaStudentProfile__step--${step.accent}`}
+                  className={`englishtaStudentProfile__step englishtaStudentProfile__step--${step.accent}${isStepUnlocked ? " englishtaStudentProfile__step--active" : " englishtaStudentProfile__step--locked"}${isStepCompleted ? " englishtaStudentProfile__step--completed" : ""}`}
                   key={step.id}
                 >
                   <div className="englishtaStudentProfile__stepTop">
@@ -430,15 +500,15 @@ export default function StudentProfileDashboard() {
                       {step.badge}
                     </span>
                     <span className={`englishtaStudentProfile__stepStatus englishtaStudentProfile__stepStatus--${
-                      step.id === "skills" && isSkillTestCompleted ? "complete" : step.accent
+                      stepStatusLabel === "Completed"
+                        ? "complete"
+                        : stepStatusLabel === "Pending"
+                          ? "pending"
+                          : stepStatusLabel === "Unlocked"
+                            ? "complete"
+                            : "locked"
                     }`}>
-                      {step.id === "skills" && isSkillTestCompleted
-                        ? "Completed"
-                        : step.id === "skills"
-                          ? "In Progress"
-                          : isSkillTestCompleted
-                            ? "Unlocked"
-                            : "Pending"}
+                      {stepStatusLabel}
                     </span>
                   </div>
 
@@ -473,20 +543,28 @@ export default function StudentProfileDashboard() {
                       >
                         Completed <i className="fa-solid fa-check" aria-hidden="true" />
                       </button>
-                    ) : (
+                    ) : skillStepUnlocked ? (
                       <Link
                         href={step.ctaHref}
                         className={`englishtaStudentProfile__stepButton englishtaStudentProfile__stepButton--${step.accent}`}
                       >
-                        {step.cta} <i className={step.ctaIcon} aria-hidden="true" />
+                        {stepButtonLabel} <i className={step.ctaIcon} aria-hidden="true" />
                       </Link>
+                    ) : (
+                      <button
+                        className={`englishtaStudentProfile__stepButton englishtaStudentProfile__stepButton--${step.accent}`}
+                        type="button"
+                        disabled
+                      >
+                        {stepButtonLabel} <i className={step.ctaIcon} aria-hidden="true" />
+                      </button>
                     )
-                  ) : isSkillTestCompleted ? (
+                  ) : courseStepUnlocked ? (
                     <Link
                       href={suitableCourseHref}
                       className={`englishtaStudentProfile__stepButton englishtaStudentProfile__stepButton--${step.accent}`}
                     >
-                      Get Suitable Course <i className={step.ctaIcon} aria-hidden="true" />
+                      {stepButtonLabel} <i className={step.ctaIcon} aria-hidden="true" />
                     </Link>
                   ) : (
                     <button
@@ -494,7 +572,7 @@ export default function StudentProfileDashboard() {
                       type="button"
                       disabled
                     >
-                      Get Suitable Course <i className={step.ctaIcon} aria-hidden="true" />
+                      {stepButtonLabel} <i className={step.ctaIcon} aria-hidden="true" />
                     </button>
                   )}
                 </article>
@@ -532,6 +610,12 @@ export default function StudentProfileDashboard() {
           </div>
         </section>
       </div>
+
+      {toast ? (
+        <div className={`englishtaStudentProfile__toast englishtaStudentProfile__toast--${toast.type}`} role="status" aria-live="polite">
+          {toast.message}
+        </div>
+      ) : null}
 
       {isLoading ? (
         <div className="englishtaStudentProfile__loading" aria-live="polite">

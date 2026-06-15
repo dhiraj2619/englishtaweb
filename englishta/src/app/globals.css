@@ -2659,6 +2659,23 @@ iframe[title*="Chat"] {
   flex-direction: column;
   min-height: 100%;
   padding: 20px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.englishtaStudentProfile__step--active,
+.englishtaStudentProfile__step--completed {
+  border: 2px solid #feb60c;
+  box-shadow: 0 18px 45px rgba(254, 182, 12, 0.16);
+}
+
+.englishtaStudentProfile__step--locked {
+  background: #fff;
+  border-color: rgba(21, 0, 5, 0.08);
+  box-shadow: 0 12px 34px rgba(21, 0, 5, 0.04);
+  opacity: 0.9;
 }
 
 .englishtaStudentProfile__stepTop {
@@ -2827,6 +2844,39 @@ iframe[title*="Chat"] {
   cursor: default;
   opacity: 0.72;
   pointer-events: none;
+}
+
+.englishtaStudentProfile__toast {
+  animation: englishtaToastIn 0.22s ease-out both;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(21, 0, 5, 0.2);
+  font-family: Nunito, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  left: 50%;
+  max-width: min(92vw, 520px);
+  padding: 14px 18px;
+  position: fixed;
+  top: 22px;
+  transform: translateX(-50%);
+  z-index: 10001;
+}
+
+.englishtaStudentProfile__toast--success {
+  background: linear-gradient(135deg, #fff7d8 0%, #fff0b5 100%);
+  border: 1px solid rgba(254, 182, 12, 0.35);
+  color: #8a5600;
+}
+
+@keyframes englishtaToastIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .englishtaStudentProfile__banner {

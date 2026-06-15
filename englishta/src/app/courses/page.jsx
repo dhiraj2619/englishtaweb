@@ -340,6 +340,7 @@ const CoursesPageContent = () => {
 
   const normalizedRecommendedLevel = recommendedLevel === "advanced" ? "intermediate" : recommendedLevel;
   const recommendation = recommendationCopy[normalizedRecommendedLevel] || null;
+  const hideSkillCheckCard = Boolean(currentUser?.skillTestCompleted);
 
   const recommendedCourses = useMemo(() => {
     if (!recommendation) return [];
@@ -376,18 +377,20 @@ const CoursesPageContent = () => {
               </div>
             </div>
 
-            <aside className="englishtaCoursesHero__skillCard wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
-              <span className="englishtaCoursesHero__skillIcon">
-                <i className="fa-solid fa-bullseye" aria-hidden="true" />
-              </span>
-              <p>Find Your Level</p>
-              <h2>Not sure which batch is right for you?</h2>
-              <span>Take a quick skill check and continue your learning journey with the right path.</span>
-              <button type="button" onClick={handleTestSkills}>
-                Test Your Skills
-                <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-              </button>
-            </aside>
+            {!hideSkillCheckCard ? (
+              <aside className="englishtaCoursesHero__skillCard wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
+                <span className="englishtaCoursesHero__skillIcon">
+                  <i className="fa-solid fa-bullseye" aria-hidden="true" />
+                </span>
+                <p>Find Your Level</p>
+                <h2>Not sure which batch is right for you?</h2>
+                <span>Take a quick skill check and continue your learning journey with the right path.</span>
+                <button type="button" onClick={handleTestSkills}>
+                  Test Your Skills
+                  <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+                </button>
+              </aside>
+            ) : null}
           </div>
         </section>
 
