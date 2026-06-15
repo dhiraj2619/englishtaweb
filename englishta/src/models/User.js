@@ -355,7 +355,7 @@ const userSchema = new mongoose.Schema(
     },
     englishLevel: {
       type: String,
-      enum: ["", "beginner", "intermediate", "advanced"],
+      enum: ["", "beginner", "intermediate"],
       default: "",
     },
     learningGoal: {

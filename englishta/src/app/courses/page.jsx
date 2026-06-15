@@ -50,19 +50,14 @@ const languageLabels = {
 
 const recommendationCopy = {
   beginner: {
-    title: "Recommended for your score: Beginners - Promise Batch",
-    text: "Start with confidence, basic grammar, vocabulary, and guided speaking practice.",
+    title: "Recommended for your score: Promise Batch",
+    text: "Start with basic confidence, guided practice, and simple speaking support.",
     keywords: ["beginner", "promise", "basic"],
   },
   intermediate: {
-    title: "Recommended for your score: Advanced Confidence Batch",
-    text: "Build stronger fluency, sentence flow, and confidence in real conversations.",
-    keywords: ["advanced", "confidence", "speaker", "expression"],
-  },
-  advanced: {
-    title: "Recommended for your score: Interview or One On One Batch",
-    text: "Sharpen professional communication, interviews, expression, and personal fluency.",
-    keywords: ["interview", "one on one", "super", "professional"],
+    title: "Recommended for your score: Fluency Batch",
+    text: "Build stronger fluency, sentence flow, and real conversation confidence.",
+    keywords: ["fluency", "confidence", "speaker", "expression"],
   },
 };
 
@@ -343,7 +338,8 @@ const CoursesPageContent = () => {
     return adminCourses.length ? adminCourses : getFallbackCourses();
   }, [activeMode, visibleCourses]);
 
-  const recommendation = recommendationCopy[recommendedLevel] || null;
+  const normalizedRecommendedLevel = recommendedLevel === "advanced" ? "intermediate" : recommendedLevel;
+  const recommendation = recommendationCopy[normalizedRecommendedLevel] || null;
 
   const recommendedCourses = useMemo(() => {
     if (!recommendation) return [];

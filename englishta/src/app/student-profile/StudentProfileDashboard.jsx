@@ -149,7 +149,7 @@ function createPersonalForm(user) {
 }
 
 function getSuitableCourseHref(user) {
-  const level = user?.englishLevel || "beginner";
+  const level = user?.englishLevel === "intermediate" ? "intermediate" : "beginner";
   return `/courses?recommended=${encodeURIComponent(level)}`;
 }
 

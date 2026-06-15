@@ -13,10 +13,8 @@ function getPercentageScore(score, totalMarks) {
   return totalMarks > 0 ? Math.round((score / totalMarks) * 100) : 0;
 }
 
-function getResultLevel(percentageScore) {
-  if (percentageScore >= 85) return "advanced";
-  if (percentageScore >= 60) return "intermediate";
-  return "beginner";
+function getResultLevel(score) {
+  return score <= 10 ? "beginner" : "intermediate";
 }
 
 function getResultLabel(percentageScore) {
@@ -95,7 +93,7 @@ export async function POST(request) {
     });
 
     const percentageScore = getPercentageScore(score, totalMarks);
-    const resultLevel = getResultLevel(percentageScore);
+    const resultLevel = getResultLevel(score);
     const resultLabel = getResultLabel(percentageScore);
 
     await SkillCheckAttempt.create({

@@ -28875,31 +28875,44 @@ body {
   display: block;
 }
 
+.englishtaSkillTest__resultBadge {
+  align-items: center;
+  background: linear-gradient(135deg, #fff1c7 0%, #ffe08a 100%);
+  border-radius: 999px;
+  color: #8a5600;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 900;
+  justify-content: center;
+  letter-spacing: 0.08em;
+  margin: 8px auto 18px;
+  padding: 10px 18px;
+  text-transform: uppercase;
+}
+
 .englishtaSkillTest__score strong {
   color: #feb60c;
-  font-size: 60px;
+  font-size: 52px;
   font-weight: 900;
+  line-height: 1;
 }
 
 .englishtaSkillTest__score span {
   color: #665b64;
   font-weight: 800;
+  margin-top: 6px;
 }
 
-.englishtaSkillTest__breakdown {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin: 24px 0;
+.englishtaSkillTest__summary {
+  color: #4d4040;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 12px 0 26px;
+  text-align: center;
 }
 
-.englishtaSkillTest__breakdown span {
-  background: #fff4d6;
-  border-radius: 999px;
-  color: #7a4d00;
-  font-weight: 900;
-  padding: 8px 12px;
+.englishtaSkillTest__result .englishtaSkillTest__primary {
+  min-width: 168px;
 }
 
 @media (max-width: 700px) {

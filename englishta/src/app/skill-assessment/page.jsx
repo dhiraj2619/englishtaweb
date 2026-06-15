@@ -194,15 +194,14 @@ export default function SkillAssessmentPage() {
         <section className="englishtaSkillTest__result">
           <p>Assessment Completed</p>
           <h1>Your English level is {result.resultLevel}</h1>
+          <div className="englishtaSkillTest__resultBadge">{result.resultLabel}</div>
           <div className="englishtaSkillTest__score">
             <strong>
-              {result.percentageScore}%
+              {result.score}/{result.totalMarks}
             </strong>
-            <span>
-              {result.score}/{result.totalMarks} correct-weighted score
-            </span>
+            <span>Correct-weighted score</span>
           </div>
-          <p className="englishtaSkillTest__summary">{result.resultLabel} performance based on selected answers only.</p>
+          <p className="englishtaSkillTest__summary">Performance based on selected answers only.</p>
           <Link href="/student-profile" className="englishtaSkillTest__primary">
             Continue
           </Link>
@@ -278,7 +277,6 @@ export default function SkillAssessmentPage() {
               >
                 <span>{String.fromCharCode(65 + optionIndex)}</span>
                 <strong className="englishtaSkillTest__optionText">{option}</strong>
-                <small>({currentQuestion.optionScores?.[optionIndex] ?? optionIndex + 1})</small>
               </button>
             ))}
           </div>

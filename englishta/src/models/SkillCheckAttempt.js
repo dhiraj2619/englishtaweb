@@ -63,7 +63,7 @@ const skillCheckAttemptSchema = new mongoose.Schema(
     },
     resultLevel: {
       type: String,
-      enum: ["beginner", "intermediate", "advanced"],
+      enum: ["beginner", "intermediate"],
       default: "beginner",
     },
     warningCount: {
