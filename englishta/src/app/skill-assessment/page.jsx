@@ -196,16 +196,13 @@ export default function SkillAssessmentPage() {
           <h1>Your English level is {result.resultLevel}</h1>
           <div className="englishtaSkillTest__score">
             <strong>
-              {result.score}/{result.totalMarks}
+              {result.percentageScore}%
             </strong>
-            <span>Total Score</span>
+            <span>
+              {result.score}/{result.totalMarks} correct-weighted score
+            </span>
           </div>
-          <div className="englishtaSkillTest__breakdown">
-            <span>Speaking: {result.speakingScore}</span>
-            <span>Vocabulary: {result.vocabularyScore}</span>
-            <span>Confidence: {result.confidenceScore}</span>
-            <span>Grammar: {result.grammarScore}</span>
-          </div>
+          <p className="englishtaSkillTest__summary">{result.resultLabel} performance based on selected answers only.</p>
           <Link href="/student-profile" className="englishtaSkillTest__primary">
             Continue
           </Link>

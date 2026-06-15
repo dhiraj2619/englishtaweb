@@ -9,14 +9,20 @@ import User from "@/models/User";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function getRecommendationType(score) {`r`n  return score < 10 ? "promise" : "fluency";`r`n}`r`n`r`nfunction getResultLevel(score) {`r`n  return getRecommendationType(score) === "promise" ? "beginner" : "intermediate";`r`n}
+function getPercentageScore(score, totalMarks) {
+  return totalMarks > 0 ? Math.round((score / totalMarks) * 100) : 0;
+}
 
-function getResultLabel(score, totalMarks) {
-  const percentage = totalMarks > 0 ? (score / totalMarks) * 100 : 0;
+function getResultLevel(percentageScore) {
+  if (percentageScore >= 85) return "advanced";
+  if (percentageScore >= 60) return "intermediate";
+  return "beginner";
+}
 
-  if (percentage >= 85) return "Excellent";
-  if (percentage >= 70) return "Good";
-  if (percentage >= 50) return "Average";
+function getResultLabel(percentageScore) {
+  if (percentageScore >= 85) return "Excellent";
+  if (percentageScore >= 70) return "Good";
+  if (percentageScore >= 50) return "Average";
   return "Improving";
 }
 
@@ -62,12 +68,6 @@ export async function POST(request) {
     }
 
     const answerMap = new Map(answers.map((answer) => [answer.questionId, answer.selectedOptionIndex]));
-    const categoryScores = {
-      speaking: 0,
-      vocabulary: 0,
-      confidence: 0,
-      grammar: 0,
-    };
     let score = 0;
     let totalMarks = 0;
 
@@ -86,10 +86,6 @@ export async function POST(request) {
       totalMarks += marks;
       score += marksAwarded;
 
-      if (categoryScores[question.category] !== undefined) {
-        categoryScores[question.category] += marksAwarded;
-      }
-
       return {
         questionId: question._id,
         selectedOptionIndex: Number.isFinite(selectedOptionIndex) ? selectedOptionIndex : -1,
@@ -98,8 +94,9 @@ export async function POST(request) {
       };
     });
 
-    const resultLevel = getResultLevel(score);
-    const percentageScore = totalMarks > 0 ? Math.round((score / totalMarks) * 100) : 0;
+    const percentageScore = getPercentageScore(score, totalMarks);
+    const resultLevel = getResultLevel(percentageScore);
+    const resultLabel = getResultLabel(percentageScore);
 
     await SkillCheckAttempt.create({
       userId: user._id,
@@ -107,10 +104,10 @@ export async function POST(request) {
       answers: checkedAnswers,
       score,
       totalMarks,
-      speakingScore: categoryScores.speaking,
-      vocabularyScore: categoryScores.vocabulary,
-      confidenceScore: categoryScores.confidence,
-      grammarScore: categoryScores.grammar,
+      speakingScore: percentageScore,
+      vocabularyScore: percentageScore,
+      confidenceScore: percentageScore,
+      grammarScore: percentageScore,
       resultLevel,
       warningCount,
       completedAt: new Date(),
@@ -118,19 +115,19 @@ export async function POST(request) {
 
     user.skillTestCompleted = true;
     user.skillTestScore = score;
-    user.speakingScore = categoryScores.speaking;
-    user.vocabularyScore = categoryScores.vocabulary;
-    user.confidenceScore = categoryScores.confidence;
+    user.speakingScore = percentageScore;
+    user.vocabularyScore = percentageScore;
+    user.confidenceScore = percentageScore;
     user.englishLevel = resultLevel;
     user.recommendationGenerated = true;
     user.totalTestsCompleted = (user.totalTestsCompleted || 0) + 1;
     user.averageScore = percentageScore;
     user.overallProgress = Math.max(user.overallProgress || 0, percentageScore);
     user.skillProgress = {
-      speakingConfidence: Math.max(user.skillProgress?.speakingConfidence || 0, Math.min(100, categoryScores.speaking * 20 || percentageScore)),
-      vocabulary: Math.max(user.skillProgress?.vocabulary || 0, Math.min(100, categoryScores.vocabulary * 20 || percentageScore)),
-      grammar: Math.max(user.skillProgress?.grammar || 0, Math.min(100, categoryScores.grammar * 20 || percentageScore)),
-      communication: Math.max(user.skillProgress?.communication || 0, Math.min(100, categoryScores.confidence * 20 || percentageScore)),
+      speakingConfidence: Math.max(user.skillProgress?.speakingConfidence || 0, percentageScore),
+      vocabulary: Math.max(user.skillProgress?.vocabulary || 0, percentageScore),
+      grammar: Math.max(user.skillProgress?.grammar || 0, percentageScore),
+      communication: Math.max(user.skillProgress?.communication || 0, percentageScore),
     };
     user.weeklyChallenge = {
       ...(user.weeklyChallenge?.toObject?.() || user.weeklyChallenge || {}),
@@ -147,7 +144,7 @@ export async function POST(request) {
         type: "Skill Check",
         score,
         totalScore: totalMarks,
-        result: getResultLabel(score, totalMarks),
+        result: resultLabel,
       },
       ...(Array.isArray(user.recentTestHistory) ? user.recentTestHistory.slice(0, 3) : []),
     ];
@@ -158,10 +155,8 @@ export async function POST(request) {
       data: {
         score,
         totalMarks,
-        speakingScore: categoryScores.speaking,
-        vocabularyScore: categoryScores.vocabulary,
-        confidenceScore: categoryScores.confidence,
-        grammarScore: categoryScores.grammar,
+        percentageScore,
+        resultLabel,
         resultLevel,
       },
       user: sanitizeUser(user),
