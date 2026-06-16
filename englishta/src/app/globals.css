@@ -20689,6 +20689,13 @@ html .ui-button.ui-state-disabled:active {
     display: none;
   }
 }
+.englishtaBlogDetail__content h2, .englishtaBlogDetail__content h3, .englishtaBlogDetail__content h4 {
+    color: #211827;
+    margin: 34px 0 14px;
+    font-weight: 800;
+    line-height: 1.25;
+    font-size:22px;
+}
 .td_newsletter.td_style_1.td_type_1 .td_newsletter_img_2 {
   left: 64%;
 }
