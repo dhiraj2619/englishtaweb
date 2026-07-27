@@ -1703,7 +1703,7 @@ const rawPageHtml = `
         <div className="td_contact_box td_style_1 td_accent_bg td_radius_10">
           <div className="td_contact_box_left">
             <p className="td_fs_18 td_light td_white_color td_mb_4">Get In Touch:</p>
-            <h3 className="td_fs_36 mb-0 td_white_color"><a href="mailto:hello@englishta.com">hello@englishta.com</a></h3>
+            <h3 className="td_fs_36 mb-0 td_white_color"><a href="mailto:speak@englishta4u.com">speak@englishta4u.com</a></h3>
           </div>
         </div>
       </div>
@@ -3531,7 +3531,7 @@ const DemoLectureSection = ({ demoLecture = null }) => {
           <div className="td_contact_box_left">
             <p className="td_fs_18 td_light td_white_color td_mb_4">Mail Us:</p>
             <h3 className="td_fs_36 mb-0 td_white_color">
-              <a href="mailto:hello@englishta.com">hello@englishta.com</a>
+              <a href="mailto:speak@englishta4u.com">speak@englishta4u.com</a>
             </h3>
           </div>
           <div className="td_contact_box_or td_fs_24 td_medium td_white_bg td_white_bg td_center rounded-circle td_accent_color">
@@ -3555,7 +3555,7 @@ const HomeContactStrip = () => (
         <div className="td_contact_box_left">
           <p className="td_fs_18 td_light td_white_color td_mb_4">Mail Us:</p>
           <h3 className="td_fs_36 mb-0 td_white_color">
-            <a href="mailto:hello@englishta.com">hello@englishta.com</a>
+            <a href="mailto:speak@englishta4u.com">speak@englishta4u.com</a>
           </h3>
         </div>
         <div className="td_contact_box_or td_fs_24 td_medium td_white_bg td_white_bg td_center rounded-circle td_accent_color">

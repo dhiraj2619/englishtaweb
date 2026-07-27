@@ -71,7 +71,7 @@ const navbarHtml = `<header class="td_site_header td_style_1 td_type_3 td_sticky
           <ul class="td_side_header_contact_info td_mp_0">
             <li>
               <i class="fa-solid fa-envelope"></i>             
-              <span><a href="mailto:hello@englishta.com">hello@englishta.com</a></span>
+              <span><a href="mailto:speak@englishta4u.com">speak@englishta4u.com</a></span>
             </li>
           </ul>
         </div>

@@ -13,7 +13,7 @@ const ContactUs = () => {
     message: "",
   });
   const [feedback, setFeedback] = useState({ type: "", message: "" });
-  const gmailAddress = "hello@englishta.com";
+  const gmailAddress = "speak@englishta4u.com";
 
   function updateField(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -70,7 +70,7 @@ const ContactUs = () => {
                   <i className="fa-solid fa-envelope" />
                   <div>
                     <h2>Email Us</h2>
-                    <a href="mailto:hello@englishta.com">hello@englishta.com</a>
+                    <a href="mailto:speak@englishta4u.com">speak@englishta4u.com</a>
                   </div>
                 </div>
                 <div className="englishta-contact-note">
